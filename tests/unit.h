@@ -5,5 +5,6 @@
 
 extern SUITE(basic_id_suite);
 extern SUITE(header_suite);
+extern SUITE(operator_id_suite);
 
 #endif
