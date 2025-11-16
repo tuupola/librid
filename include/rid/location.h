@@ -150,4 +150,7 @@ __attribute__((__packed__)) rid_location {
     uint8_t reserved_3;
 } rid_location_t;
 
+rid_error_t rid_set_track_direction(rid_location_t *location, uint16_t degrees);
+uint16_t rid_get_track_direction(const rid_location_t *location);
+
 #endif

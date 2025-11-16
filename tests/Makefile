@@ -6,10 +6,11 @@ LDFLAGS = -lm
 SRC_DIR = ../src
 SRC = $(SRC_DIR)/header.c \
       $(SRC_DIR)/basic_id.c \
-      $(SRC_DIR)/operator_id.c
+      $(SRC_DIR)/operator_id.c \
+      $(SRC_DIR)/location.c
 
 # Test files
-TEST_SRC = unit.c header.c basic_id.c operator_id.c
+TEST_SRC = unit.c header.c basic_id.c operator_id.c location.c
 
 # Object files
 OBJ = $(SRC:.c=.o)
