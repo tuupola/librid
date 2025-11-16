@@ -8,6 +8,7 @@ typedef enum {
     RID_ERROR_NULL_POINTER = -1,
     RID_ERROR_BUFFER_TOO_SMALL = -2,
     RID_ERROR_BUFFER_TOO_LARGE = -3,
+    RID_ERROR_INVALID_CHARACTER = -4,
 } rid_error_t;
 
 typedef struct

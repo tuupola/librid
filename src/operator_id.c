@@ -52,6 +52,13 @@ rid_set_operator_id(rid_operator_id_t *message, const char *operator_id)
         return RID_ERROR_BUFFER_TOO_LARGE;
     }
 
+    /* Must be ASCII only */
+    for (size_t i = 0; i < size; i++) {
+        if ((unsigned char)operator_id[i] > 127) {
+            return RID_ERROR_INVALID_CHARACTER;
+        }
+    }
+
     memset(message->operator_id, 0, 20);
     memcpy(message->operator_id, operator_id, size);
 

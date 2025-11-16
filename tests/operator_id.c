@@ -52,7 +52,29 @@ TEST test_set_and_get_operator_id(void) {
     PASS();
 }
 
+TEST test_set_operator_id_must_be_ascii(void) {
+    rid_operator_id_t message;
+    rid_error_t status;
+
+    memset(&message, 0, sizeof(message));
+
+    /* Test with non-ASCII character (UTF-8 encoded) */
+    status = rid_set_operator_id(&message, "TEST\xC3\xA4");
+    ASSERT_EQ(RID_ERROR_INVALID_CHARACTER, status);
+
+    /* Test with character > 127 */
+    status = rid_set_operator_id(&message, "TEST\xFF");
+    ASSERT_EQ(RID_ERROR_INVALID_CHARACTER, status);
+
+    /* Test valid ASCII */
+    status = rid_set_operator_id(&message, "BRAWND0");
+    ASSERT_EQ(RID_SUCCESS, status);
+
+    PASS();
+}
+
 SUITE(operator_id_suite) {
     RUN_TEST(test_set_and_get_operator_id_type);
     RUN_TEST(test_set_and_get_operator_id);
+    RUN_TEST(test_set_operator_id_must_be_ascii);
 }
