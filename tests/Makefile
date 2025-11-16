@@ -1,29 +1,39 @@
-# CFLAGS += -Wall -Wextra -pedantic -Werror
-# CFLAGS += -Wall -Wextra -pedantic
-# CFLAGS += -Wmissing-declarations -g
-# CFLAGS += -Wmissing-prototypes
-# CFLAGS += -Wstrict-prototypes
-CFLAGS += -I../include
-
+CC = gcc
+CFLAGS = -Wall -Wextra -std=c99 -I../include -I.
 LDFLAGS = -lm
 
-PROGRAMS = unit
+# Source files
+SRC_DIR = ../src
+SRC = $(SRC_DIR)/basic_id.c \
+      $(SRC_DIR)/message.c
 
-all: ${PROGRAMS}
+# Test files
+TEST_SRC = unit.c basic_id.c
 
-unit: unit.o ../src/message.o ../src/basic_id.o ../src/location.o ../src/operator_id.o
+# Object files
+OBJ = $(SRC:.c=.o)
+TEST_OBJ = $(TEST_SRC:.c=.o)
 
-test: unit
-	./unit
+# Target executable
+TARGET = test_runner
 
+all: $(TARGET)
+
+$(TARGET): $(OBJ) $(TEST_OBJ)
+	$(CC) $(CFLAGS) -o $@ $^ $(LDFLAGS)
+
+# Compile source files
+$(SRC_DIR)/%.o: $(SRC_DIR)/%.c
+	$(CC) $(CFLAGS) -c $< -o $@
+
+# Compile test files
 %.o: %.c
-	${CC} -c -o $@ ${CFLAGS} $<
+	$(CC) $(CFLAGS) -c $< -o $@
 
-%: %.o
-	${CC} -o $@ ${LDFLAGS} $^
-
-*.o: Makefile
-*.o: greatest.h
 clean:
-	rm -f ${PROGRAMS} ${PROGRAMSPP} *.o *.core ../src/*.o
+	rm -f $(OBJ) $(TEST_OBJ) $(TARGET)
 
+test: $(TARGET)
+	./$(TARGET)
+
+.PHONY: all clean test
