@@ -11,6 +11,7 @@ main(int argc, char **argv) {
     RUN_SUITE(basic_id_suite);
     RUN_SUITE(operator_id_suite);
     RUN_SUITE(location_suite);
+    RUN_SUITE(self_id_suite);
 
     GREATEST_MAIN_END();
 }
