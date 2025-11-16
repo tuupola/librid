@@ -2,7 +2,7 @@
 #include <stdint.h>
 #include <stddef.h>
 
-#include "rid/message.h"
+#include "rid/header.h"
 #include "rid/basic_id.h"
 
 rid_basic_id_type_t
