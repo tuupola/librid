@@ -4,11 +4,11 @@ LDFLAGS = -lm
 
 # Source files
 SRC_DIR = ../src
-SRC = $(SRC_DIR)/basic_id.c \
-      $(SRC_DIR)/message.c
+SRC = $(SRC_DIR)/header.c \
+      $(SRC_DIR)/basic_id.c
 
 # Test files
-TEST_SRC = unit.c basic_id.c
+TEST_SRC = unit.c header.c basic_id.c
 
 # Object files
 OBJ = $(SRC:.c=.o)

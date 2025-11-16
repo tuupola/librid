@@ -4,5 +4,6 @@
 #include "greatest.h"
 
 extern SUITE(basic_id_suite);
+extern SUITE(header_suite);
 
 #endif

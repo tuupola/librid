@@ -1,7 +1,7 @@
 #include <string.h>
 
 #include "greatest.h"
-#include "rid/message.h"
+#include "rid/header.h"
 #include "rid/basic_id.h"
 
 TEST test_set_and_get_basic_id_type(void) {
