@@ -4,7 +4,8 @@
 #include "rid/header.h"
 #include "rid/basic_id.h"
 
-TEST test_set_and_get_basic_id_type(void) {
+TEST
+test_set_and_get_basic_id_type(void) {
     rid_basic_id_type_t types[] = {
         RID_ID_TYPE_NONE,
         RID_ID_TYPE_SERIAL_NUMBER,
@@ -28,7 +29,8 @@ TEST test_set_and_get_basic_id_type(void) {
     PASS();
 }
 
-TEST test_set_and_get_uas_id(void) {
+TEST
+test_set_and_get_uas_id(void) {
     const char *test_ids[] = {
         "ABC123",
         "12345678901234567890",

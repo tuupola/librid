@@ -4,7 +4,8 @@
 #include "rid/header.h"
 #include "rid/operator_id.h"
 
-TEST test_set_and_get_operator_id_type(void) {
+TEST
+test_set_and_get_operator_id_type(void) {
     rid_operator_id_type_t types[] = {
         RID_ID_TYPE_OPERATOR_ID
     };
@@ -24,7 +25,8 @@ TEST test_set_and_get_operator_id_type(void) {
     PASS();
 }
 
-TEST test_set_and_get_operator_id(void) {
+TEST
+test_set_and_get_operator_id(void) {
     const char *test_ids[] = {
         "ABC123",
         "12345678901234567890",
@@ -52,7 +54,8 @@ TEST test_set_and_get_operator_id(void) {
     PASS();
 }
 
-TEST test_set_operator_id_must_be_ascii(void) {
+TEST
+test_set_operator_id_must_be_ascii(void) {
     rid_operator_id_t message;
     rid_error_t status;
 

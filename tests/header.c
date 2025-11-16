@@ -3,7 +3,8 @@
 #include "greatest.h"
 #include "rid/header.h"
 
-TEST test_get_message_type(void) {
+TEST
+test_get_message_type(void) {
     rid_message_type_t types[] = {
         RID_MESSAGE_TYPE_BASIC_ID,
         RID_MESSAGE_TYPE_LOCATION,
@@ -28,7 +29,8 @@ TEST test_get_message_type(void) {
     PASS();
 }
 
-TEST test_get_protocol_version(void) {
+TEST
+test_get_protocol_version(void) {
     rid_protocol_version_t versions[] = {
         VERSION_0,
         VERSION_1,

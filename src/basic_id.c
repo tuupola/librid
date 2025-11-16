@@ -6,14 +6,12 @@
 #include "rid/basic_id.h"
 
 rid_basic_id_type_t
-rid_get_basic_id_type(const rid_basic_id_t *message)
-{
+rid_get_basic_id_type(const rid_basic_id_t *message) {
     return (rid_basic_id_type_t)message->id_type;
 }
 
 rid_ua_type_t
-rid_get_ua_type(const rid_basic_id_t *message)
-{
+rid_get_ua_type(const rid_basic_id_t *message) {
     return (rid_ua_type_t)message->ua_type;
 }
 
