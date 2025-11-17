@@ -2,11 +2,14 @@
 #define _RID_LOCATION_H
 
 #include <stdint.h>
+#include <float.h>
 
 #include "rid/header.h"
 
 #define RID_TRACK_DIRECTION_UNKNOWN 361
 #define RID_TRACK_DIRECTION_UNKNOWN_ENCODED 255
+
+#define RID_SPEED_INVALID FLT_MAX
 
 typedef enum rid_ew_direction {
     RID_EW_DIRECTION_EAST,

@@ -63,6 +63,13 @@ rid_set_speed(rid_location_t *location, float speed_ms) {
         return RID_ERROR_OUT_OF_RANGE;
     }
 
+    /* Invalid or unknown speed */
+    if (speed_ms == RID_SPEED_INVALID) {
+        location->speed = 255;
+        location->speed_multiplier = 1;
+        return RID_SUCCESS;
+    }
+
     /* ASTM F3411-22 Table 7
      *
      * If Value <= 255*0.25
@@ -92,6 +99,11 @@ rid_set_speed(rid_location_t *location, float speed_ms) {
 
 float
 rid_get_speed(const rid_location_t *location) {
+
+    /* Invalid or unknown speed */
+    if (location->speed == 255 && location->speed_multiplier == 1) {
+        return RID_SPEED_INVALID;
+    }
 
     if (location->speed_multiplier == 0) {
         /* Slow ie. 0 to 63.75 m/s */
