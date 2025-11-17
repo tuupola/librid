@@ -52,3 +52,53 @@ rid_get_track_direction(const rid_location_t *location) {
         return (uint16_t)(location->track_direction + 180);
     }
 }
+
+rid_error_t
+rid_set_speed(rid_location_t *location, float speed_ms) {
+    if (location == NULL) {
+        return RID_ERROR_NULL_POINTER;
+    }
+
+    /* Cannot have negative speed */
+    if (speed_ms < 0.0f) {
+        return RID_ERROR_OUT_OF_RANGE;
+    }
+
+    /* ASTM F3411-22 Table 7
+     *
+     * If Value <= 255*0.25
+     *   EncodedValue = Value/0.25
+     *   Set Multiplier Flag to 0
+     * else if Value > 255*0.25 and Value < 254.25
+     *   EncodedValue = (Value - (255*0.25))/0.75
+     *   Set Multiplier Flag to 1
+     * else (Value >= 254.25 m/s)
+     *   EncodedValue = 254
+     *   Set Multiplier Flag to 1
+     */
+
+    if (speed_ms <= 255.0f * 0.25f) {
+        location->speed = (uint8_t)roundf(speed_ms / 0.25f);
+        location->speed_multiplier = 0;
+    } else if (speed_ms < 254.25f) {
+        location->speed = (uint8_t)roundf((speed_ms - (255.0f * 0.25f)) / 0.75f);
+        location->speed_multiplier = 1;
+    } else {
+        location->speed = 254;
+        location->speed_multiplier = 1;
+    }
+
+    return RID_SUCCESS;
+}
+
+float
+rid_get_speed(const rid_location_t *location) {
+
+    if (location->speed_multiplier == 0) {
+        /* Slow ie. 0 to 63.75 m/s */
+        return (float)location->speed * 0.25f;
+    } else {
+        /* Fast ie. 63.76 to 254.25 m/s */
+        return ((float)location->speed * 0.75f) + (255.0f * 0.25f);
+    }
+}
