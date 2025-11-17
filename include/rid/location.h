@@ -10,6 +10,8 @@
 #define RID_TRACK_DIRECTION_UNKNOWN_ENCODED 255
 
 #define RID_SPEED_INVALID FLT_MAX
+#define RID_VERTICAL_SPEED_INVALID FLT_MAX
+#define RID_VERTICAL_SPEED_INVALID_ENCODED 63
 
 typedef enum rid_ew_direction {
     RID_EW_DIRECTION_EAST,
@@ -158,5 +160,8 @@ uint16_t rid_get_track_direction(const rid_location_t *location);
 
 rid_error_t rid_set_speed(rid_location_t *location, float speed_ms);
 float rid_get_speed(const rid_location_t *location);
+
+rid_error_t rid_set_vertical_speed(rid_location_t *location, float speed_ms);
+float rid_get_vertical_speed(const rid_location_t *location);
 
 #endif

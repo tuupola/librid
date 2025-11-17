@@ -113,3 +113,40 @@ rid_get_speed(const rid_location_t *location) {
         return ((float)location->speed * 0.75f) + (255.0f * 0.25f);
     }
 }
+
+rid_error_t
+rid_set_vertical_speed(rid_location_t *location, float speed_ms) {
+    if (location == NULL) {
+        return RID_ERROR_NULL_POINTER;
+    }
+
+    /* Invalid or unknown speed */
+    if (speed_ms == RID_VERTICAL_SPEED_INVALID) {
+        location->vertical_speed = RID_VERTICAL_SPEED_INVALID_ENCODED;
+        return RID_SUCCESS;
+    }
+
+    /* ASTM F3411-22 Table 7 */
+
+    if (speed_ms > 62.0f || speed_ms < -62.0f) {
+        return RID_ERROR_OUT_OF_RANGE;
+    }
+
+    if (speed_ms >= 0.0f) {
+        location->vertical_speed = (int8_t)((speed_ms / 0.5f) + 0.5f);
+    } else {
+        location->vertical_speed = (int8_t)((speed_ms / 0.5f) - 0.5f);
+    }
+
+    return RID_SUCCESS;
+}
+
+float
+rid_get_vertical_speed(const rid_location_t *location) {
+
+    if (location->vertical_speed == RID_VERTICAL_SPEED_INVALID_ENCODED) {
+        return RID_VERTICAL_SPEED_INVALID;
+    }
+
+    return (float)location->vertical_speed * 0.5f;
+}

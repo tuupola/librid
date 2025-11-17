@@ -168,6 +168,58 @@ test_invalid_speed(void) {
     PASS();
 }
 
+TEST
+test_set_and_get_vertical_speed(void) {
+    rid_location_t location;
+
+    float test_speeds[] = {0.0f, 7.5f, 30.0f, 62.0f, -7.5f, -30.0f, -62.0f};
+
+    for (size_t i = 0; i < sizeof(test_speeds) / sizeof(test_speeds[0]); i++) {
+        memset(&location, 0, sizeof(location));
+
+        rid_error_t status = rid_set_vertical_speed(&location, test_speeds[i]);
+        ASSERT_EQ(RID_SUCCESS, status);
+
+        float result = rid_get_vertical_speed(&location);
+        ASSERT_EQ(test_speeds[i], result);
+    }
+
+    PASS();
+}
+
+TEST
+test_vertical_speed_out_of_range(void) {
+    rid_location_t location;
+    memset(&location, 0, sizeof(location));
+
+    /* Test speed > 62 m/s */
+    rid_error_t status = rid_set_vertical_speed(&location, 70.0f);
+    ASSERT_EQ(RID_ERROR_OUT_OF_RANGE, status);
+
+    /* Test speed < -62 m/s */
+    status = rid_set_vertical_speed(&location, -70.0f);
+    ASSERT_EQ(RID_ERROR_OUT_OF_RANGE, status);
+
+    PASS();
+}
+
+TEST
+test_vertical_speed_invalid(void) {
+    rid_location_t location;
+    memset(&location, 0, sizeof(location));
+
+    /* Test invalid or unknown speed */
+    rid_error_t status = rid_set_vertical_speed(&location, RID_VERTICAL_SPEED_INVALID);
+    ASSERT_EQ(RID_SUCCESS, status);
+    ASSERT_EQ(RID_VERTICAL_SPEED_INVALID_ENCODED, location.vertical_speed);
+
+    /* Should decode back to RID_VERTICAL_SPEED_INVALID */
+    float result = rid_get_vertical_speed(&location);
+    ASSERT_EQ(RID_VERTICAL_SPEED_INVALID, result);
+
+    PASS();
+}
+
 SUITE(location_suite) {
     RUN_TEST(test_set_and_get_track_direction);
     RUN_TEST(test_track_direction_unknown);
@@ -178,4 +230,7 @@ SUITE(location_suite) {
     RUN_TEST(test_maximum_speed);
     RUN_TEST(test_negative_speed);
     RUN_TEST(test_invalid_speed);
+    RUN_TEST(test_set_and_get_vertical_speed);
+    RUN_TEST(test_vertical_speed_out_of_range);
+    RUN_TEST(test_vertical_speed_invalid);
 }
