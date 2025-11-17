@@ -220,6 +220,82 @@ test_vertical_speed_invalid(void) {
     PASS();
 }
 
+TEST
+test_set_and_get_latitude(void) {
+    rid_location_t location;
+
+    double test_latitudes[] = {0.0, 45.5, 60.123456, -45.5, -90.0, 90.0};
+
+    for (size_t i = 0; i < sizeof(test_latitudes) / sizeof(test_latitudes[0]); i++) {
+        memset(&location, 0, sizeof(location));
+
+        rid_error_t status = rid_set_latitude(&location, test_latitudes[i]);
+        ASSERT_EQ(RID_SUCCESS, status);
+
+        double result = rid_get_latitude(&location);
+
+        /* 7 decimal digits precision (about 11mm) */
+        double diff = result > test_latitudes[i] ? result - test_latitudes[i] : test_latitudes[i] - result;
+        ASSERT(diff < 0.00000006);
+    }
+
+    PASS();
+}
+
+TEST
+test_set_and_get_longitude(void) {
+    rid_location_t location;
+
+    double test_longitudes[] = {0.0, 90.5, 120.987654, -90.5, -180.0, 180.0};
+
+    for (size_t i = 0; i < sizeof(test_longitudes) / sizeof(test_longitudes[0]); i++) {
+        memset(&location, 0, sizeof(location));
+
+        rid_error_t status = rid_set_longitude(&location, test_longitudes[i]);
+        ASSERT_EQ(RID_SUCCESS, status);
+
+        double result = rid_get_longitude(&location);
+
+        /* 7 decimal digits precision (about 11mm) */
+        double diff = result > test_longitudes[i] ? result - test_longitudes[i] : test_longitudes[i] - result;
+        ASSERT(diff < 0.00000006);
+    }
+
+    PASS();
+}
+
+TEST
+test_latitude_out_of_range(void) {
+    rid_location_t location;
+    memset(&location, 0, sizeof(location));
+
+    /* Test > 90 degrees */
+    rid_error_t status = rid_set_latitude(&location, 95.0);
+    ASSERT_EQ(RID_ERROR_OUT_OF_RANGE, status);
+
+    /* Test < -90 degrees */
+    status = rid_set_latitude(&location, -95.0);
+    ASSERT_EQ(RID_ERROR_OUT_OF_RANGE, status);
+
+    PASS();
+}
+
+TEST
+test_longitude_out_of_range(void) {
+    rid_location_t location;
+    memset(&location, 0, sizeof(location));
+
+    /* Test > 180 degrees */
+    rid_error_t status = rid_set_longitude(&location, 185.0);
+    ASSERT_EQ(RID_ERROR_OUT_OF_RANGE, status);
+
+    /* Test < -180 degrees */
+    status = rid_set_longitude(&location, -185.0);
+    ASSERT_EQ(RID_ERROR_OUT_OF_RANGE, status);
+
+    PASS();
+}
+
 SUITE(location_suite) {
     RUN_TEST(test_set_and_get_track_direction);
     RUN_TEST(test_track_direction_unknown);
@@ -233,4 +309,8 @@ SUITE(location_suite) {
     RUN_TEST(test_set_and_get_vertical_speed);
     RUN_TEST(test_vertical_speed_out_of_range);
     RUN_TEST(test_vertical_speed_invalid);
+    RUN_TEST(test_set_and_get_latitude);
+    RUN_TEST(test_set_and_get_longitude);
+    RUN_TEST(test_latitude_out_of_range);
+    RUN_TEST(test_longitude_out_of_range);
 }

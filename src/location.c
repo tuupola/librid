@@ -150,3 +150,65 @@ rid_get_vertical_speed(const rid_location_t *location) {
 
     return (float)location->vertical_speed * 0.5f;
 }
+
+rid_error_t
+rid_set_latitude(rid_location_t *location, double degrees) {
+    if (location == NULL) {
+        return RID_ERROR_NULL_POINTER;
+    }
+
+    /* ASTM F3411-22 Table 7
+     * Encoded = value * 10^7
+     * -90 to +90 degrees
+     * Invalid or unknown: 0.0
+     */
+
+    if (degrees > 90.0 || degrees < -90.0) {
+        return RID_ERROR_OUT_OF_RANGE;
+    }
+
+    /* Encode with rounding */
+    if (degrees >= 0.0) {
+        location->latitude = (int32_t)((degrees * 10000000.0) + 0.5);
+    } else {
+        location->latitude = (int32_t)((degrees * 10000000.0) - 0.5);
+    }
+
+    return RID_SUCCESS;
+}
+
+double
+rid_get_latitude(const rid_location_t *location) {
+    return (double)location->latitude / 10000000.0;
+}
+
+rid_error_t
+rid_set_longitude(rid_location_t *location, double degrees) {
+    if (location == NULL) {
+        return RID_ERROR_NULL_POINTER;
+    }
+
+    /* ASTM F3411-22 Table 7
+     * Encoded = value * 10^7
+     * -180 to +180 degrees
+     * Invalid or unknown: 0.0
+     */
+
+    if (degrees > 180.0 || degrees < -180.0) {
+        return RID_ERROR_OUT_OF_RANGE;
+    }
+
+    /* Encode with rounding */
+    if (degrees >= 0.0) {
+        location->longitude = (int32_t)((degrees * 10000000.0) + 0.5);
+    } else {
+        location->longitude = (int32_t)((degrees * 10000000.0) - 0.5);
+    }
+
+    return RID_SUCCESS;
+}
+
+double
+rid_get_longitude(const rid_location_t *location) {
+    return (double)location->longitude / 10000000.0;
+}

@@ -164,4 +164,10 @@ float rid_get_speed(const rid_location_t *location);
 rid_error_t rid_set_vertical_speed(rid_location_t *location, float speed_ms);
 float rid_get_vertical_speed(const rid_location_t *location);
 
+rid_error_t rid_set_latitude(rid_location_t *location, double degrees);
+double rid_get_latitude(const rid_location_t *location);
+
+rid_error_t rid_set_longitude(rid_location_t *location, double degrees);
+double rid_get_longitude(const rid_location_t *location);
+
 #endif
