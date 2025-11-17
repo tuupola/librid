@@ -1,6 +1,6 @@
 CC = gcc
 CFLAGS = -Wall -Wextra -std=c99 -I../include -I.
-LDFLAGS = -lm
+LDFLAGS =
 
 # Source files
 SRC_DIR = ../src

@@ -1,4 +1,3 @@
-#include <math.h>
 #include <stddef.h>
 #include <stdint.h>
 
@@ -78,10 +77,10 @@ rid_set_speed(rid_location_t *location, float speed_ms) {
      */
 
     if (speed_ms <= 255.0f * 0.25f) {
-        location->speed = (uint8_t)roundf(speed_ms / 0.25f);
+        location->speed = (uint8_t)((speed_ms / 0.25f) + 0.5f);
         location->speed_multiplier = 0;
     } else if (speed_ms < 254.25f) {
-        location->speed = (uint8_t)roundf((speed_ms - (255.0f * 0.25f)) / 0.75f);
+        location->speed = (uint8_t)(((speed_ms - (255.0f * 0.25f)) / 0.75f) + 0.5f);
         location->speed_multiplier = 1;
     } else {
         location->speed = 254;
