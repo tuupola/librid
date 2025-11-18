@@ -469,7 +469,64 @@ test_operational_status_out_of_range(void) {
     PASS();
 }
 
+TEST
+test_location_init(void) {
+    rid_location_t location;
+
+    rid_error_t status = rid_location_init(NULL);
+    ASSERT_EQ(RID_ERROR_NULL_POINTER, status);
+
+    status = rid_location_init(&location);
+    ASSERT_EQ(RID_SUCCESS, status);
+
+    /* Verify header fields */
+    ASSERT_EQ(VERSION_2, location.protocol_version);
+    ASSERT_EQ(RID_MESSAGE_TYPE_LOCATION, location.message_type);
+
+    /* Verify default flags */
+    ASSERT_EQ(1, location.speed_multiplier);
+    ASSERT_EQ(RID_EW_DIRECTION_EAST, location.ew_direction);
+    ASSERT_EQ(RID_HEIGHT_TYPE_ABOVE_TAKEOFF, location.height_type);
+    ASSERT_EQ(RID_OPERATIONAL_STATUS_UNDECLARED, location.operational_status);
+
+    /* Verify track direction is unknown */
+    uint16_t track = rid_get_track_direction(&location);
+    ASSERT_EQ(RID_TRACK_DIRECTION_UNKNOWN, track);
+
+    /* Verify speed is invalid */
+    float speed = rid_get_speed(&location);
+    ASSERT_EQ(RID_SPEED_INVALID, speed);
+
+    /* Verify vertical speed is invalid */
+    float vspeed = rid_get_vertical_speed(&location);
+    ASSERT_EQ(RID_VERTICAL_SPEED_INVALID, vspeed);
+
+    /* Verify latitude and longitude are 0 */
+    double lat = rid_get_latitude(&location);
+    double lon = rid_get_longitude(&location);
+    ASSERT_EQ(0.0, lat);
+    ASSERT_EQ(0.0, lon);
+
+    /* Verify height fields are 0 ie -1000m */
+    float height = rid_get_height(&location);
+    ASSERT_EQ(-1000.0f, height);
+
+    /* TODO: pressure and geodetic altitude */
+
+    /* TODO: horizontal, vertical, speed and timestamp accuracy */
+
+    /* TODO: timestamp */
+
+    /* Verify reserved fields are 0 */
+    ASSERT_EQ(0, location.reserved_1);
+    ASSERT_EQ(0, location.reserved_2);
+    ASSERT_EQ(0, location.reserved_3);
+
+    PASS();
+}
+
 SUITE(location_suite) {
+    RUN_TEST(test_location_init);
     RUN_TEST(test_set_and_get_track_direction);
     RUN_TEST(test_track_direction_unknown);
     RUN_TEST(test_track_direction_out_of_range);

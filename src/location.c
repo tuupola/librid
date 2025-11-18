@@ -1,8 +1,32 @@
 #include <stddef.h>
 #include <stdint.h>
+#include <string.h>
 
 #include "rid/header.h"
 #include "rid/location.h"
+
+rid_error_t
+rid_location_init(rid_location_t *location) {
+    if (location == NULL) {
+        return RID_ERROR_NULL_POINTER;
+    }
+
+    /* ASTM F3411-22 Table 7 */
+    memset(location, 0, sizeof(rid_location_t));
+
+    location->protocol_version = VERSION_2;
+    location->message_type = RID_MESSAGE_TYPE_LOCATION;
+
+    location->track_direction = RID_TRACK_DIRECTION_UNKNOWN_ENCODED;
+    location->ew_direction = RID_EW_DIRECTION_EAST;
+
+    location->speed = 255;
+    location->speed_multiplier = 1;
+
+    location->vertical_speed = RID_VERTICAL_SPEED_INVALID_ENCODED;
+
+    return RID_SUCCESS;
+}
 
 rid_error_t
 rid_set_track_direction(rid_location_t *location, uint16_t degrees) {
