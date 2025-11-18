@@ -353,6 +353,46 @@ test_height_invalid(void) {
     PASS();
 }
 
+TEST
+test_set_and_get_height_type(void) {
+    rid_location_t location;
+    memset(&location, 0, sizeof(location));
+
+    /* Test RID_HEIGHT_TYPE_ABOVE_TAKEOFF */
+    rid_error_t status = rid_set_height_type(&location, RID_HEIGHT_TYPE_ABOVE_TAKEOFF);
+    ASSERT_EQ(RID_SUCCESS, status);
+    ASSERT_EQ(0, location.height_type);
+
+    rid_height_type_t result = rid_get_height_type(&location);
+    ASSERT_EQ(RID_HEIGHT_TYPE_ABOVE_TAKEOFF, result);
+
+    /* Test RID_HEIGHT_TYPE_AGL */
+    memset(&location, 0, sizeof(location));
+    status = rid_set_height_type(&location, RID_HEIGHT_TYPE_AGL);
+    ASSERT_EQ(RID_SUCCESS, status);
+    ASSERT_EQ(1, location.height_type);
+
+    result = rid_get_height_type(&location);
+    ASSERT_EQ(RID_HEIGHT_TYPE_AGL, result);
+
+    PASS();
+}
+
+TEST
+test_height_type_out_of_range(void) {
+    rid_location_t location;
+    memset(&location, 0, sizeof(location));
+
+    /* Test invalid enum value */
+    rid_error_t status = rid_set_height_type(&location, (rid_height_type_t)2);
+    ASSERT_EQ(RID_ERROR_OUT_OF_RANGE, status);
+
+    status = rid_set_height_type(&location, (rid_height_type_t)255);
+    ASSERT_EQ(RID_ERROR_OUT_OF_RANGE, status);
+
+    PASS();
+}
+
 SUITE(location_suite) {
     RUN_TEST(test_set_and_get_track_direction);
     RUN_TEST(test_track_direction_unknown);
@@ -373,4 +413,6 @@ SUITE(location_suite) {
     RUN_TEST(test_set_and_get_height);
     RUN_TEST(test_height_out_of_range);
     RUN_TEST(test_height_invalid);
+    RUN_TEST(test_set_and_get_height_type);
+    RUN_TEST(test_height_type_out_of_range);
 }
