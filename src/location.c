@@ -304,6 +304,39 @@ rid_get_pressure_altitude(const rid_location_t *location) {
 }
 
 rid_error_t
+rid_set_geodetic_altitude(rid_location_t *location, float altitude_m) {
+    if (location == NULL) {
+        return RID_ERROR_NULL_POINTER;
+    }
+
+    /* Invalid or unknown altitude */
+    if (altitude_m == RID_GEODETIC_ALTITUDE_INVALID) {
+        location->geodetic_altitude = RID_GEODETIC_ALTITUDE_INVALID_ENCODED;
+        return RID_SUCCESS;
+    }
+
+    /* ASTM F3411-22 Table 7
+     * Encoded = (value + 1000) / 0.5
+     * -1000 to 31767 meters
+     * Invalid or unknown: -1000
+     */
+
+    if (altitude_m < -1000.0f || altitude_m > 31767.0f) {
+        return RID_ERROR_OUT_OF_RANGE;
+    }
+
+    /* Encode with rounding */
+    location->geodetic_altitude = (uint16_t)(((altitude_m + 1000.0f) / 0.5f) + 0.5f);
+
+    return RID_SUCCESS;
+}
+
+float
+rid_get_geodetic_altitude(const rid_location_t *location) {
+    return ((float)location->geodetic_altitude * 0.5f) - 1000.0f;
+}
+
+rid_error_t
 rid_set_height_type(rid_location_t *location, rid_height_type_t type) {
     if (location == NULL) {
         return RID_ERROR_NULL_POINTER;
