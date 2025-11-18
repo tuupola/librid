@@ -20,7 +20,7 @@ rid_location_init(rid_location_t *location) {
     location->track_direction = RID_TRACK_DIRECTION_UNKNOWN_ENCODED;
     location->ew_direction = RID_EW_DIRECTION_EAST;
 
-    location->speed = 255;
+    location->speed = RID_SPEED_INVALID_ENCODED;
     location->speed_multiplier = 1;
 
     location->vertical_speed = RID_VERTICAL_SPEED_INVALID_ENCODED;
