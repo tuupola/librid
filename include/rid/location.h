@@ -18,6 +18,9 @@
 #define RID_HEIGHT_INVALID FLT_MAX
 #define RID_HEIGHT_INVALID_ENCODED 0
 
+#define RID_PRESSURE_ALTITUDE_INVALID FLT_MAX
+#define RID_PRESSURE_ALTITUDE_INVALID_ENCODED 0
+
 typedef enum rid_ew_direction {
     RID_EW_DIRECTION_EAST,
     RID_EW_DIRECTION_WEST,
@@ -179,6 +182,9 @@ double rid_get_longitude(const rid_location_t *location);
 
 rid_error_t rid_set_height(rid_location_t *location, float height_m);
 float rid_get_height(const rid_location_t *location);
+
+rid_error_t rid_set_pressure_altitude(rid_location_t *location, float altitude_m);
+float rid_get_pressure_altitude(const rid_location_t *location);
 
 rid_error_t rid_set_height_type(rid_location_t *location, rid_height_type_t type);
 rid_height_type_t rid_get_height_type(const rid_location_t *location);
