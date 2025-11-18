@@ -393,6 +393,82 @@ test_height_type_out_of_range(void) {
     PASS();
 }
 
+TEST
+test_set_and_gte_operational_status(void) {
+    rid_location_t location;
+    memset(&location, 0, sizeof(location));
+
+    /* Test RID_OPERATIONAL_STATUS_UNDECLARED */
+    rid_error_t status = rid_set_operational_status(&location, RID_OPERATIONAL_STATUS_UNDECLARED);
+    ASSERT_EQ(RID_SUCCESS, status);
+    ASSERT_EQ(0, location.operational_status);
+
+    rid_operational_status_t result = rid_get_operational_status(&location);
+    ASSERT_EQ(RID_OPERATIONAL_STATUS_UNDECLARED, result);
+
+    /* Test RID_OPERATIONAL_STATUS_GROUND */
+    memset(&location, 0, sizeof(location));
+    status = rid_set_operational_status(&location, RID_OPERATIONAL_STATUS_GROUND);
+    ASSERT_EQ(RID_SUCCESS, status);
+    ASSERT_EQ(1, location.operational_status);
+
+    result = rid_get_operational_status(&location);
+    ASSERT_EQ(RID_OPERATIONAL_STATUS_GROUND, result);
+
+    /* Test RID_OPERATIONAL_STATUS_AIRBORNE */
+    memset(&location, 0, sizeof(location));
+    status = rid_set_operational_status(&location, RID_OPERATIONAL_STATUS_AIRBORNE);
+    ASSERT_EQ(RID_SUCCESS, status);
+    ASSERT_EQ(2, location.operational_status);
+
+    result = rid_get_operational_status(&location);
+    ASSERT_EQ(RID_OPERATIONAL_STATUS_AIRBORNE, result);
+
+    /* Test RID_OPERATIONAL_STATUS_EMERGENCY */
+    memset(&location, 0, sizeof(location));
+    status = rid_set_operational_status(&location, RID_OPERATIONAL_STATUS_EMERGENCY);
+    ASSERT_EQ(RID_SUCCESS, status);
+    ASSERT_EQ(3, location.operational_status);
+
+    result = rid_get_operational_status(&location);
+    ASSERT_EQ(RID_OPERATIONAL_STATUS_EMERGENCY, result);
+
+    /* Test RID_OPERATIONAL_STATUS_REMOTE_ID_SYSTEM_FAILURE */
+    memset(&location, 0, sizeof(location));
+    status = rid_set_operational_status(&location, RID_OPERATIONAL_STATUS_REMOTE_ID_SYSTEM_FAILURE);
+    ASSERT_EQ(RID_SUCCESS, status);
+    ASSERT_EQ(4, location.operational_status);
+
+    result = rid_get_operational_status(&location);
+    ASSERT_EQ(RID_OPERATIONAL_STATUS_REMOTE_ID_SYSTEM_FAILURE, result);
+
+    /* Test RID_OPERATIONAL_STATUS_RESERVED_15  */
+    memset(&location, 0, sizeof(location));
+    status = rid_set_operational_status(&location, RID_OPERATIONAL_STATUS_RESERVED_15);
+    ASSERT_EQ(RID_SUCCESS, status);
+    ASSERT_EQ(15, location.operational_status);
+
+    result = rid_get_operational_status(&location);
+    ASSERT_EQ(RID_OPERATIONAL_STATUS_RESERVED_15, result);
+
+    PASS();
+}
+
+TEST
+test_operational_status_out_of_range(void) {
+    rid_location_t location;
+    memset(&location, 0, sizeof(location));
+
+    /* Test value > 15 */
+    rid_error_t status = rid_set_operational_status(&location, (rid_operational_status_t)16);
+    ASSERT_EQ(RID_ERROR_OUT_OF_RANGE, status);
+
+    status = rid_set_operational_status(&location, (rid_operational_status_t)255);
+    ASSERT_EQ(RID_ERROR_OUT_OF_RANGE, status);
+
+    PASS();
+}
+
 SUITE(location_suite) {
     RUN_TEST(test_set_and_get_track_direction);
     RUN_TEST(test_track_direction_unknown);
@@ -415,4 +491,6 @@ SUITE(location_suite) {
     RUN_TEST(test_height_invalid);
     RUN_TEST(test_set_and_get_height_type);
     RUN_TEST(test_height_type_out_of_range);
+    RUN_TEST(test_set_and_gte_operational_status);
+    RUN_TEST(test_operational_status_out_of_range);
 }

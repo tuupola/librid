@@ -245,3 +245,43 @@ float
 rid_get_height(const rid_location_t *location) {
     return ((float)location->height * 0.5f) - 1000.0f;
 }
+
+rid_error_t
+rid_set_height_type(rid_location_t *location, rid_height_type_t type) {
+    if (location == NULL) {
+        return RID_ERROR_NULL_POINTER;
+    }
+
+    if (type != RID_HEIGHT_TYPE_ABOVE_TAKEOFF && type != RID_HEIGHT_TYPE_AGL) {
+        return RID_ERROR_OUT_OF_RANGE;
+    }
+
+    location->height_type = (uint8_t)type;
+
+    return RID_SUCCESS;
+}
+
+rid_height_type_t
+rid_get_height_type(const rid_location_t *location) {
+    return (rid_height_type_t)location->height_type;
+}
+
+rid_error_t
+rid_set_operational_status(rid_location_t *location, rid_operational_status_t status) {
+    if (location == NULL) {
+        return RID_ERROR_NULL_POINTER;
+    }
+
+    if (status > RID_OPERATIONAL_STATUS_RESERVED_15) {
+        return RID_ERROR_OUT_OF_RANGE;
+    }
+
+    location->operational_status = (uint8_t)status;
+
+    return RID_SUCCESS;
+}
+
+rid_operational_status_t
+rid_get_operational_status(const rid_location_t *location) {
+    return (rid_operational_status_t)location->operational_status;
+}

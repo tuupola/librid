@@ -176,4 +176,10 @@ double rid_get_longitude(const rid_location_t *location);
 rid_error_t rid_set_height(rid_location_t *location, float height_m);
 float rid_get_height(const rid_location_t *location);
 
+rid_error_t rid_set_height_type(rid_location_t *location, rid_height_type_t type);
+rid_height_type_t rid_get_height_type(const rid_location_t *location);
+
+rid_error_t rid_set_operational_status(rid_location_t *location, rid_operational_status_t status);
+rid_operational_status_t rid_get_operational_status(const rid_location_t *location);
+
 #endif
