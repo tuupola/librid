@@ -68,7 +68,7 @@ test_set_and_get_speed_slow(void) {
 
         float result = rid_get_speed(&location);
 
-        /* Slow speed has 0.25 m/s steps  */
+        /*  0.25 m/s resolution  */
         ASSERT_IN_RANGE(test_speeds[i] - 0.13f, result, test_speeds[i] + 0.13f);
     }
 
@@ -91,7 +91,7 @@ test_set_and_get_speed_fast(void) {
 
         float result = rid_get_speed(&location);
 
-        /* Fast speed has 0.75 m/s steps  */
+        /* 0.75 m/s resolution  */
         ASSERT_IN_RANGE(test_speeds[i] - 0.38f, result, test_speeds[i] + 0.38f);
     }
 
@@ -296,6 +296,63 @@ test_longitude_out_of_range(void) {
     PASS();
 }
 
+TEST
+test_set_and_get_height(void) {
+    rid_location_t location;
+
+    float test_heights[] = {0.0f, 10.5f, 100.0f, 500.0f, -100.0f, -500.0f, -1000.0f, 31767.0f};
+
+    for (size_t i = 0; i < sizeof(test_heights) / sizeof(test_heights[0]); i++) {
+        memset(&location, 0, sizeof(location));
+
+        rid_error_t status = rid_set_height(&location, test_heights[i]);
+        ASSERT_EQ(RID_SUCCESS, status);
+
+        float result = rid_get_height(&location);
+
+        /* 0.5 meter resolution */
+        float diff = result > test_heights[i] ? result - test_heights[i] : test_heights[i] - result;
+        ASSERT(diff < 0.26f);
+    }
+
+    PASS();
+}
+
+TEST
+test_height_out_of_range(void) {
+    rid_location_t location;
+    memset(&location, 0, sizeof(location));
+
+    /* Test > 31767 meters */
+    rid_error_t status = rid_set_height(&location, 32000.0f);
+    ASSERT_EQ(RID_ERROR_OUT_OF_RANGE, status);
+
+    /* Test < -1000 meters */
+    status = rid_set_height(&location, -1001.0f);
+    ASSERT_EQ(RID_ERROR_OUT_OF_RANGE, status);
+
+    PASS();
+}
+
+TEST
+test_height_invalid(void) {
+    rid_location_t location;
+    memset(&location, 0, sizeof(location));
+
+    /* Test invalid or unknown height */
+    rid_error_t status = rid_set_height(&location, RID_HEIGHT_INVALID);
+    ASSERT_EQ(RID_SUCCESS, status);
+    ASSERT_EQ(RID_HEIGHT_INVALID_ENCODED, location.height);
+
+    /* Invalid also means -1000m */
+    float result = rid_get_height(&location);
+    // TODO: How to handle this?
+    // ASSERT_EQ(RID_HEIGHT_INVALID, result);
+    ASSERT_EQ(-1000.0f, result);
+
+    PASS();
+}
+
 SUITE(location_suite) {
     RUN_TEST(test_set_and_get_track_direction);
     RUN_TEST(test_track_direction_unknown);
@@ -313,4 +370,7 @@ SUITE(location_suite) {
     RUN_TEST(test_set_and_get_longitude);
     RUN_TEST(test_latitude_out_of_range);
     RUN_TEST(test_longitude_out_of_range);
+    RUN_TEST(test_set_and_get_height);
+    RUN_TEST(test_height_out_of_range);
+    RUN_TEST(test_height_invalid);
 }

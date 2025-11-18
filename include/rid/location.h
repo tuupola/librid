@@ -13,6 +13,9 @@
 #define RID_VERTICAL_SPEED_INVALID FLT_MAX
 #define RID_VERTICAL_SPEED_INVALID_ENCODED 63
 
+#define RID_HEIGHT_INVALID FLT_MAX
+#define RID_HEIGHT_INVALID_ENCODED 0
+
 typedef enum rid_ew_direction {
     RID_EW_DIRECTION_EAST,
     RID_EW_DIRECTION_WEST,
@@ -169,5 +172,8 @@ double rid_get_latitude(const rid_location_t *location);
 
 rid_error_t rid_set_longitude(rid_location_t *location, double degrees);
 double rid_get_longitude(const rid_location_t *location);
+
+rid_error_t rid_set_height(rid_location_t *location, float height_m);
+float rid_get_height(const rid_location_t *location);
 
 #endif

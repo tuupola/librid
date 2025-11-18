@@ -212,3 +212,36 @@ double
 rid_get_longitude(const rid_location_t *location) {
     return (double)location->longitude / 10000000.0;
 }
+
+rid_error_t
+rid_set_height(rid_location_t *location, float height_m) {
+    if (location == NULL) {
+        return RID_ERROR_NULL_POINTER;
+    }
+
+    /* Invalid or unknown height */
+    if (height_m == RID_HEIGHT_INVALID) {
+        location->height = RID_HEIGHT_INVALID_ENCODED;
+        return RID_SUCCESS;
+    }
+
+    /* ASTM F3411-22 Table 7
+     * Encoded = (value + 1000) / 0.5
+     * -1000 to 31767 meters
+     * Invalid or unknown: -1000
+     */
+
+    if (height_m < -1000.0f || height_m > 31767.0f) {
+        return RID_ERROR_OUT_OF_RANGE;
+    }
+
+    /* Encode with rounding */
+    location->height = (uint16_t)(((height_m + 1000.0f) / 0.5f) + 0.5f);
+
+    return RID_SUCCESS;
+}
+
+float
+rid_get_height(const rid_location_t *location) {
+    return ((float)location->height * 0.5f) - 1000.0f;
+}
