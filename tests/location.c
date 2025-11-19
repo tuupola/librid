@@ -580,6 +580,82 @@ test_operational_status_out_of_range(void) {
 }
 
 TEST
+test_set_and_get_speed_accuracy(void) {
+    rid_location_t location;
+    memset(&location, 0, sizeof(location));
+
+    /* Test RID_SPEED_ACCURACY_UNKNOWN */
+    rid_error_t status = rid_set_speed_accuracy(&location, RID_SPEED_ACCURACY_UNKNOWN);
+    ASSERT_EQ(RID_SUCCESS, status);
+    ASSERT_EQ(0, location.speed_accuracy);
+
+    rid_speed_accuracy_t result = rid_get_speed_accuracy(&location);
+    ASSERT_EQ(RID_SPEED_ACCURACY_UNKNOWN, result);
+
+    /* Test RID_SPEED_ACCURACY_10MS */
+    memset(&location, 0, sizeof(location));
+    status = rid_set_speed_accuracy(&location, RID_SPEED_ACCURACY_10MS);
+    ASSERT_EQ(RID_SUCCESS, status);
+    ASSERT_EQ(1, location.speed_accuracy);
+
+    result = rid_get_speed_accuracy(&location);
+    ASSERT_EQ(RID_SPEED_ACCURACY_10MS, result);
+
+    /* Test RID_SPEED_ACCURACY_3MS */
+    memset(&location, 0, sizeof(location));
+    status = rid_set_speed_accuracy(&location, RID_SPEED_ACCURACY_3MS);
+    ASSERT_EQ(RID_SUCCESS, status);
+    ASSERT_EQ(2, location.speed_accuracy);
+
+    result = rid_get_speed_accuracy(&location);
+    ASSERT_EQ(RID_SPEED_ACCURACY_3MS, result);
+
+    /* Test RID_SPEED_ACCURACY_1MS */
+    memset(&location, 0, sizeof(location));
+    status = rid_set_speed_accuracy(&location, RID_SPEED_ACCURACY_1MS);
+    ASSERT_EQ(RID_SUCCESS, status);
+    ASSERT_EQ(3, location.speed_accuracy);
+
+    result = rid_get_speed_accuracy(&location);
+    ASSERT_EQ(RID_SPEED_ACCURACY_1MS, result);
+
+    /* Test RID_SPEED_ACCURACY_03MS */
+    memset(&location, 0, sizeof(location));
+    status = rid_set_speed_accuracy(&location, RID_SPEED_ACCURACY_03MS);
+    ASSERT_EQ(RID_SUCCESS, status);
+    ASSERT_EQ(4, location.speed_accuracy);
+
+    result = rid_get_speed_accuracy(&location);
+    ASSERT_EQ(RID_SPEED_ACCURACY_03MS, result);
+
+    /* Test RID_SPEED_ACCURACY_RESERVED_15 */
+    memset(&location, 0, sizeof(location));
+    status = rid_set_speed_accuracy(&location, RID_SPEED_ACCURACY_RESERVED_15);
+    ASSERT_EQ(RID_SUCCESS, status);
+    ASSERT_EQ(15, location.speed_accuracy);
+
+    result = rid_get_speed_accuracy(&location);
+    ASSERT_EQ(RID_SPEED_ACCURACY_RESERVED_15, result);
+
+    PASS();
+}
+
+TEST
+test_speed_accuracy_out_of_range(void) {
+    rid_location_t location;
+    memset(&location, 0, sizeof(location));
+
+    /* Test value > 15 */
+    rid_error_t status = rid_set_speed_accuracy(&location, (rid_speed_accuracy_t)16);
+    ASSERT_EQ(RID_ERROR_OUT_OF_RANGE, status);
+
+    status = rid_set_speed_accuracy(&location, (rid_speed_accuracy_t)255);
+    ASSERT_EQ(RID_ERROR_OUT_OF_RANGE, status);
+
+    PASS();
+}
+
+TEST
 test_location_init(void) {
     rid_location_t location;
 
@@ -668,4 +744,6 @@ SUITE(location_suite) {
     RUN_TEST(test_height_type_out_of_range);
     RUN_TEST(test_set_and_gte_operational_status);
     RUN_TEST(test_operational_status_out_of_range);
+    RUN_TEST(test_set_and_get_speed_accuracy);
+    RUN_TEST(test_speed_accuracy_out_of_range);
 }
