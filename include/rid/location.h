@@ -204,4 +204,7 @@ rid_speed_accuracy_t rid_get_speed_accuracy(const rid_location_t *location);
 rid_error_t rid_set_horizontal_accuracy(rid_location_t *location, rid_horizontal_accuracy_t accuracy);
 rid_horizontal_accuracy_t rid_get_horizontal_accuracy(const rid_location_t *location);
 
+rid_error_t rid_set_vertical_accuracy(rid_location_t *location, rid_vertical_accuracy_t accuracy);
+rid_vertical_accuracy_t rid_get_vertical_accuracy(const rid_location_t *location);
+
 #endif

@@ -732,6 +732,100 @@ test_horizontal_accuracy_out_of_range(void) {
 }
 
 TEST
+test_set_and_get_vertical_accuracy(void) {
+    rid_location_t location;
+    memset(&location, 0, sizeof(location));
+
+    /* Test RID_VERTICAL_ACCURACY_UNKNOWN */
+    rid_error_t status = rid_set_vertical_accuracy(&location, RID_VERTICAL_ACCURACY_UNKNOWN);
+    ASSERT_EQ(RID_SUCCESS, status);
+    ASSERT_EQ(0, location.vertical_accuracy);
+
+    rid_vertical_accuracy_t result = rid_get_vertical_accuracy(&location);
+    ASSERT_EQ(RID_VERTICAL_ACCURACY_UNKNOWN, result);
+
+    /* Test RID_VERTICAL_ACCURACY_150M */
+    memset(&location, 0, sizeof(location));
+    status = rid_set_vertical_accuracy(&location, RID_VERTICAL_ACCURACY_150M);
+    ASSERT_EQ(RID_SUCCESS, status);
+    ASSERT_EQ(1, location.vertical_accuracy);
+
+    result = rid_get_vertical_accuracy(&location);
+    ASSERT_EQ(RID_VERTICAL_ACCURACY_150M, result);
+
+    /* Test RID_VERTICAL_ACCURACY_45M */
+    memset(&location, 0, sizeof(location));
+    status = rid_set_vertical_accuracy(&location, RID_VERTICAL_ACCURACY_45M);
+    ASSERT_EQ(RID_SUCCESS, status);
+    ASSERT_EQ(2, location.vertical_accuracy);
+
+    result = rid_get_vertical_accuracy(&location);
+    ASSERT_EQ(RID_VERTICAL_ACCURACY_45M, result);
+
+    /* Test RID_VERTICAL_ACCURACY_25M */
+    memset(&location, 0, sizeof(location));
+    status = rid_set_vertical_accuracy(&location, RID_VERTICAL_ACCURACY_25M);
+    ASSERT_EQ(RID_SUCCESS, status);
+    ASSERT_EQ(3, location.vertical_accuracy);
+
+    result = rid_get_vertical_accuracy(&location);
+    ASSERT_EQ(RID_VERTICAL_ACCURACY_25M, result);
+
+    /* Test RID_VERTICAL_ACCURACY_10M */
+    memset(&location, 0, sizeof(location));
+    status = rid_set_vertical_accuracy(&location, RID_VERTICAL_ACCURACY_10M);
+    ASSERT_EQ(RID_SUCCESS, status);
+    ASSERT_EQ(4, location.vertical_accuracy);
+
+    result = rid_get_vertical_accuracy(&location);
+    ASSERT_EQ(RID_VERTICAL_ACCURACY_10M, result);
+
+    /* Test RID_VERTICAL_ACCURACY_3M */
+    memset(&location, 0, sizeof(location));
+    status = rid_set_vertical_accuracy(&location, RID_VERTICAL_ACCURACY_3M);
+    ASSERT_EQ(RID_SUCCESS, status);
+    ASSERT_EQ(5, location.vertical_accuracy);
+
+    result = rid_get_vertical_accuracy(&location);
+    ASSERT_EQ(RID_VERTICAL_ACCURACY_3M, result);
+
+    /* Test RID_VERTICAL_ACCURACY_1M */
+    memset(&location, 0, sizeof(location));
+    status = rid_set_vertical_accuracy(&location, RID_VERTICAL_ACCURACY_1M);
+    ASSERT_EQ(RID_SUCCESS, status);
+    ASSERT_EQ(6, location.vertical_accuracy);
+
+    result = rid_get_vertical_accuracy(&location);
+    ASSERT_EQ(RID_VERTICAL_ACCURACY_1M, result);
+
+    /* Test RID_VERTICAL_ACCURACY_RESERVED_15 */
+    memset(&location, 0, sizeof(location));
+    status = rid_set_vertical_accuracy(&location, RID_VERTICAL_ACCURACY_RESERVED_15);
+    ASSERT_EQ(RID_SUCCESS, status);
+    ASSERT_EQ(15, location.vertical_accuracy);
+
+    result = rid_get_vertical_accuracy(&location);
+    ASSERT_EQ(RID_VERTICAL_ACCURACY_RESERVED_15, result);
+
+    PASS();
+}
+
+TEST
+test_vertical_accuracy_out_of_range(void) {
+    rid_location_t location;
+    memset(&location, 0, sizeof(location));
+
+    /* Test value > 15 */
+    rid_error_t status = rid_set_vertical_accuracy(&location, (rid_vertical_accuracy_t)16);
+    ASSERT_EQ(RID_ERROR_OUT_OF_RANGE, status);
+
+    status = rid_set_vertical_accuracy(&location, (rid_vertical_accuracy_t)255);
+    ASSERT_EQ(RID_ERROR_OUT_OF_RANGE, status);
+
+    PASS();
+}
+
+TEST
 test_location_init(void) {
     rid_location_t location;
 
@@ -824,4 +918,6 @@ SUITE(location_suite) {
     RUN_TEST(test_speed_accuracy_out_of_range);
     RUN_TEST(test_set_and_get_horizontal_accuracy);
     RUN_TEST(test_horizontal_accuracy_out_of_range);
+    RUN_TEST(test_set_and_get_vertical_accuracy);
+    RUN_TEST(test_vertical_accuracy_out_of_range);
 }
