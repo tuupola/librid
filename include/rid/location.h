@@ -201,4 +201,7 @@ rid_operational_status_t rid_get_operational_status(const rid_location_t *locati
 rid_error_t rid_set_speed_accuracy(rid_location_t *location, rid_speed_accuracy_t accuracy);
 rid_speed_accuracy_t rid_get_speed_accuracy(const rid_location_t *location);
 
+rid_error_t rid_set_horizontal_accuracy(rid_location_t *location, rid_horizontal_accuracy_t accuracy);
+rid_horizontal_accuracy_t rid_get_horizontal_accuracy(const rid_location_t *location);
+
 #endif

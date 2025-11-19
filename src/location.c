@@ -395,3 +395,23 @@ rid_speed_accuracy_t
 rid_get_speed_accuracy(const rid_location_t *location) {
     return (rid_speed_accuracy_t)location->speed_accuracy;
 }
+
+rid_error_t
+rid_set_horizontal_accuracy(rid_location_t *location, rid_horizontal_accuracy_t accuracy) {
+    if (location == NULL) {
+        return RID_ERROR_NULL_POINTER;
+    }
+
+    if (accuracy > RID_HORIZONTAL_ACCURACY_RESERVED_15) {
+        return RID_ERROR_OUT_OF_RANGE;
+    }
+
+    location->horizontal_accuracy = (uint8_t)accuracy;
+
+    return RID_SUCCESS;
+}
+
+rid_horizontal_accuracy_t
+rid_get_horizontal_accuracy(const rid_location_t *location) {
+    return (rid_horizontal_accuracy_t)location->horizontal_accuracy;
+}
