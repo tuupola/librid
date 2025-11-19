@@ -1,8 +1,15 @@
 on: [push]
 jobs:
-  ls:
+  test:
     runs-on: docker
     steps:
       - uses: actions/checkout@v3
-      - run: |
-          ls ${{ github.workspace }}
+      - name: Install dependencies
+        run: |
+          apt-get update
+          apt-get install -y gcc make
+      - name: Run unit tests
+        run: |
+          cd tests
+          make clean
+          make test
