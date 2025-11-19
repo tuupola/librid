@@ -156,7 +156,7 @@ __attribute__((__packed__)) rid_location {
     uint8_t vertical_accuracy: 4;
 
     uint8_t speed_accuracy: 4;
-    uint8_t baro_accuracy: 4;
+    uint8_t baro_altitude_accuracy: 4;
 
     /* Little-endian */
     uint16_t timestamp;
@@ -206,5 +206,8 @@ rid_horizontal_accuracy_t rid_get_horizontal_accuracy(const rid_location_t *loca
 
 rid_error_t rid_set_vertical_accuracy(rid_location_t *location, rid_vertical_accuracy_t accuracy);
 rid_vertical_accuracy_t rid_get_vertical_accuracy(const rid_location_t *location);
+
+rid_error_t rid_set_baro_altitude_accuracy(rid_location_t *location, rid_vertical_accuracy_t accuracy);
+rid_vertical_accuracy_t rid_get_baro_altitude_accuracy(const rid_location_t *location);
 
 #endif
