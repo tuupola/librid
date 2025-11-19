@@ -1,0 +1,8 @@
+on: [push]
+jobs:
+  ls:
+    runs-on: docker
+    steps:
+      - uses: actions/checkout@v3
+      - run: |
+          ls ${{ github.workspace }}
