@@ -5,6 +5,20 @@
 #include "rid/header.h"
 #include "rid/basic_id.h"
 
+rid_error_t
+rid_basic_id_init(rid_basic_id_t *message) {
+    if (message == NULL) {
+        return RID_ERROR_NULL_POINTER;
+    }
+
+    memset(message, 0, sizeof(rid_basic_id_t));
+
+    message->protocol_version = VERSION_2;
+    message->message_type = RID_MESSAGE_TYPE_BASIC_ID;
+
+    return RID_SUCCESS;
+}
+
 rid_basic_id_type_t
 rid_get_basic_id_type(const rid_basic_id_t *message) {
     return (rid_basic_id_type_t)message->id_type;

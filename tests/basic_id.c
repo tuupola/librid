@@ -5,6 +5,37 @@
 #include "rid/basic_id.h"
 
 TEST
+test_basic_id_init(void) {
+    rid_basic_id_t message;
+
+    rid_error_t status = rid_basic_id_init(NULL);
+    ASSERT_EQ(RID_ERROR_NULL_POINTER, status);
+
+    status = rid_basic_id_init(&message);
+    ASSERT_EQ(RID_SUCCESS, status);
+
+    /* Verify header fields */
+    ASSERT_EQ(VERSION_2, message.protocol_version);
+    ASSERT_EQ(RID_MESSAGE_TYPE_BASIC_ID, message.message_type);
+
+    /* Verify other fields are zeroed */
+    ASSERT_EQ(RID_ID_TYPE_NONE, message.id_type);
+    ASSERT_EQ(RID_UA_TYPE_NONE, message.ua_type);
+
+    /* Verify uas_id is zeroed */
+    for (size_t i = 0; i < sizeof(message.uas_id); i++) {
+        ASSERT_EQ(0, message.uas_id[i]);
+    }
+
+    /* Verify reserved fields are zeroed */
+    for (size_t i = 0; i < sizeof(message.reserved); i++) {
+        ASSERT_EQ(0, message.reserved[i]);
+    }
+
+    PASS();
+}
+
+TEST
 test_set_and_get_basic_id_type(void) {
     rid_basic_id_type_t types[] = {
         RID_ID_TYPE_NONE,
@@ -59,6 +90,7 @@ test_set_and_get_uas_id(void) {
 }
 
 SUITE(basic_id_suite) {
+    RUN_TEST(test_basic_id_init);
     RUN_TEST(test_set_and_get_basic_id_type);
     RUN_TEST(test_set_and_get_uas_id);
 }

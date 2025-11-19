@@ -40,11 +40,15 @@ typedef enum rid_ua_type {
     RID_UA_TYPE_OTHER,
 } rid_ua_type_t;
 
-rid_basic_id_type_t rid_get_basic_id_type(const rid_basic_id_t *message);
+rid_error_t rid_basic_id_init(rid_basic_id_t *message);
+
 rid_error_t rid_set_basic_id_type(rid_basic_id_t *message, rid_basic_id_type_t type);
-rid_ua_type_t rid_get_ua_type(const rid_basic_id_t *message);
+rid_basic_id_type_t rid_get_basic_id_type(const rid_basic_id_t *message);
+
 rid_error_t rid_set_ua_type(rid_basic_id_t *message, rid_ua_type_t type);
-rid_error_t rid_get_uas_id(const rid_basic_id_t *message, char *buffer, size_t buffer_size);
+rid_ua_type_t rid_get_ua_type(const rid_basic_id_t *message);
+
 rid_error_t rid_set_uas_id(rid_basic_id_t *message, const char *uas_id);
+rid_error_t rid_get_uas_id(const rid_basic_id_t *message, char *buffer, size_t buffer_size);
 
 #endif
