@@ -493,3 +493,23 @@ rid_set_timestamp_from_unixtime(rid_location_t *location, uint32_t unixtime) {
 
     return rid_set_timestamp(location, deciseconds);
 }
+
+rid_error_t
+rid_set_timestamp_accuracy(rid_location_t *location, rid_timestamp_accuracy_t accuracy) {
+    if (location == NULL) {
+        return RID_ERROR_NULL_POINTER;
+    }
+
+    if (accuracy > RID_TIMESTAMP_ACCURACY_1_5S) {
+        return RID_ERROR_OUT_OF_RANGE;
+    }
+
+    location->timestamp_accuracy = (uint8_t)accuracy;
+
+    return RID_SUCCESS;
+}
+
+rid_timestamp_accuracy_t
+rid_get_timestamp_accuracy(const rid_location_t *location) {
+    return (rid_timestamp_accuracy_t)location->timestamp_accuracy;
+}

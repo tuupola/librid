@@ -1003,6 +1003,73 @@ test_set_timestamp_from_unixtime(void) {
 }
 
 TEST
+test_set_and_get_timestamp_accuracy(void) {
+    rid_location_t location;
+    memset(&location, 0, sizeof(location));
+
+    /* Test RID_TIMESTAMP_ACCURACY_UNKNOWN */
+    rid_error_t status = rid_set_timestamp_accuracy(&location, RID_TIMESTAMP_ACCURACY_UNKNOWN);
+    ASSERT_EQ(RID_SUCCESS, status);
+    ASSERT_EQ(0, location.timestamp_accuracy);
+
+    rid_timestamp_accuracy_t result = rid_get_timestamp_accuracy(&location);
+    ASSERT_EQ(RID_TIMESTAMP_ACCURACY_UNKNOWN, result);
+
+    /* Test RID_TIMESTAMP_ACCURACY_0_1S */
+    memset(&location, 0, sizeof(location));
+    status = rid_set_timestamp_accuracy(&location, RID_TIMESTAMP_ACCURACY_0_1S);
+    ASSERT_EQ(RID_SUCCESS, status);
+    ASSERT_EQ(1, location.timestamp_accuracy);
+
+    result = rid_get_timestamp_accuracy(&location);
+    ASSERT_EQ(RID_TIMESTAMP_ACCURACY_0_1S, result);
+
+    /* Test RID_TIMESTAMP_ACCURACY_0_5S */
+    memset(&location, 0, sizeof(location));
+    status = rid_set_timestamp_accuracy(&location, RID_TIMESTAMP_ACCURACY_0_5S);
+    ASSERT_EQ(RID_SUCCESS, status);
+    ASSERT_EQ(5, location.timestamp_accuracy);
+
+    result = rid_get_timestamp_accuracy(&location);
+    ASSERT_EQ(RID_TIMESTAMP_ACCURACY_0_5S, result);
+
+    /* Test RID_TIMESTAMP_ACCURACY_1_0S */
+    memset(&location, 0, sizeof(location));
+    status = rid_set_timestamp_accuracy(&location, RID_TIMESTAMP_ACCURACY_1_0S);
+    ASSERT_EQ(RID_SUCCESS, status);
+    ASSERT_EQ(10, location.timestamp_accuracy);
+
+    result = rid_get_timestamp_accuracy(&location);
+    ASSERT_EQ(RID_TIMESTAMP_ACCURACY_1_0S, result);
+
+    /* Test RID_TIMESTAMP_ACCURACY_1_5S */
+    memset(&location, 0, sizeof(location));
+    status = rid_set_timestamp_accuracy(&location, RID_TIMESTAMP_ACCURACY_1_5S);
+    ASSERT_EQ(RID_SUCCESS, status);
+    ASSERT_EQ(15, location.timestamp_accuracy);
+
+    result = rid_get_timestamp_accuracy(&location);
+    ASSERT_EQ(RID_TIMESTAMP_ACCURACY_1_5S, result);
+
+    PASS();
+}
+
+TEST
+test_timestamp_accuracy_out_of_range(void) {
+    rid_location_t location;
+    memset(&location, 0, sizeof(location));
+
+    /* Test value > 15 */
+    rid_error_t status = rid_set_timestamp_accuracy(&location, (rid_timestamp_accuracy_t)16);
+    ASSERT_EQ(RID_ERROR_OUT_OF_RANGE, status);
+
+    status = rid_set_timestamp_accuracy(&location, (rid_timestamp_accuracy_t)255);
+    ASSERT_EQ(RID_ERROR_OUT_OF_RANGE, status);
+
+    PASS();
+}
+
+TEST
 test_location_init(void) {
     rid_location_t location;
 
@@ -1103,4 +1170,6 @@ SUITE(location_suite) {
     RUN_TEST(test_timestamp_invalid);
     RUN_TEST(test_timestamp_out_of_range);
     RUN_TEST(test_set_timestamp_from_unixtime);
+    RUN_TEST(test_set_and_get_timestamp_accuracy);
+    RUN_TEST(test_timestamp_accuracy_out_of_range);
 }

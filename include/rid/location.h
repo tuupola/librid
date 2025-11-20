@@ -218,4 +218,7 @@ uint16_t rid_get_timestamp(const rid_location_t *location);
 
 rid_error_t rid_set_timestamp_from_unixtime(rid_location_t *location, uint32_t unixtime);
 
+rid_error_t rid_set_timestamp_accuracy(rid_location_t *location, rid_timestamp_accuracy_t accuracy);
+rid_timestamp_accuracy_t rid_get_timestamp_accuracy(const rid_location_t *location);
+
 #endif
