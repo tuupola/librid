@@ -171,6 +171,12 @@ __attribute__((__packed__)) rid_location {
 
 rid_error_t rid_location_init(rid_location_t *location);
 
+rid_error_t rid_set_height_type(rid_location_t *location, rid_height_type_t type);
+rid_height_type_t rid_get_height_type(const rid_location_t *location);
+
+rid_error_t rid_set_operational_status(rid_location_t *location, rid_operational_status_t status);
+rid_operational_status_t rid_get_operational_status(const rid_location_t *location);
+
 rid_error_t rid_set_track_direction(rid_location_t *location, uint16_t degrees);
 uint16_t rid_get_track_direction(const rid_location_t *location);
 
@@ -186,29 +192,23 @@ double rid_get_latitude(const rid_location_t *location);
 rid_error_t rid_set_longitude(rid_location_t *location, double degrees);
 double rid_get_longitude(const rid_location_t *location);
 
-rid_error_t rid_set_height(rid_location_t *location, float height_m);
-float rid_get_height(const rid_location_t *location);
-
 rid_error_t rid_set_pressure_altitude(rid_location_t *location, float altitude_m);
 float rid_get_pressure_altitude(const rid_location_t *location);
 
 rid_error_t rid_set_geodetic_altitude(rid_location_t *location, float altitude_m);
 float rid_get_geodetic_altitude(const rid_location_t *location);
 
-rid_error_t rid_set_height_type(rid_location_t *location, rid_height_type_t type);
-rid_height_type_t rid_get_height_type(const rid_location_t *location);
-
-rid_error_t rid_set_operational_status(rid_location_t *location, rid_operational_status_t status);
-rid_operational_status_t rid_get_operational_status(const rid_location_t *location);
-
-rid_error_t rid_set_speed_accuracy(rid_location_t *location, rid_speed_accuracy_t accuracy);
-rid_speed_accuracy_t rid_get_speed_accuracy(const rid_location_t *location);
+rid_error_t rid_set_height(rid_location_t *location, float height_m);
+float rid_get_height(const rid_location_t *location);
 
 rid_error_t rid_set_horizontal_accuracy(rid_location_t *location, rid_horizontal_accuracy_t accuracy);
 rid_horizontal_accuracy_t rid_get_horizontal_accuracy(const rid_location_t *location);
 
 rid_error_t rid_set_vertical_accuracy(rid_location_t *location, rid_vertical_accuracy_t accuracy);
 rid_vertical_accuracy_t rid_get_vertical_accuracy(const rid_location_t *location);
+
+rid_error_t rid_set_speed_accuracy(rid_location_t *location, rid_speed_accuracy_t accuracy);
+rid_speed_accuracy_t rid_get_speed_accuracy(const rid_location_t *location);
 
 rid_error_t rid_set_baro_altitude_accuracy(rid_location_t *location, rid_vertical_accuracy_t accuracy);
 rid_vertical_accuracy_t rid_get_baro_altitude_accuracy(const rid_location_t *location);
