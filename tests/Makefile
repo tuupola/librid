@@ -8,10 +8,11 @@ SRC = $(SRC_DIR)/header.c \
       $(SRC_DIR)/basic_id.c \
       $(SRC_DIR)/operator_id.c \
       $(SRC_DIR)/location.c \
-      $(SRC_DIR)/self_id.c
+      $(SRC_DIR)/self_id.c \
+      $(SRC_DIR)/system.c
 
 # Test files
-TEST_SRC = unit.c header.c basic_id.c operator_id.c location.c self_id.c
+TEST_SRC = unit.c header.c basic_id.c operator_id.c location.c self_id.c system.c
 
 # Object files
 OBJ = $(SRC:.c=.o)

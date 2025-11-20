@@ -8,5 +8,6 @@ extern SUITE(header_suite);
 extern SUITE(operator_id_suite);
 extern SUITE(location_suite);
 extern SUITE(self_id_suite);
+extern SUITE(system_suite);
 
 #endif

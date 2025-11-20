@@ -65,4 +65,7 @@ typedef enum rid_ua_classification_class {
     /* 8-15: Reserved */
 } rid_ua_classification_class_t;
 
+rid_error_t rid_set_operator_location_type(rid_system_t *system, rid_operator_location_type_t type);
+rid_operator_location_type_t rid_get_operator_location_type(const rid_system_t *system);
+
 #endif
