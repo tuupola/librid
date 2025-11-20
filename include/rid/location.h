@@ -24,6 +24,9 @@
 #define RID_GEODETIC_ALTITUDE_INVALID FLT_MAX
 #define RID_GEODETIC_ALTITUDE_INVALID_ENCODED 0
 
+#define RID_TIMESTAMP_INVALID 0xFFFF
+#define RID_TIMESTAMP_MAX 36000
+
 typedef enum rid_ew_direction {
     RID_EW_DIRECTION_EAST,
     RID_EW_DIRECTION_WEST,
@@ -209,5 +212,10 @@ rid_vertical_accuracy_t rid_get_vertical_accuracy(const rid_location_t *location
 
 rid_error_t rid_set_baro_altitude_accuracy(rid_location_t *location, rid_vertical_accuracy_t accuracy);
 rid_vertical_accuracy_t rid_get_baro_altitude_accuracy(const rid_location_t *location);
+
+rid_error_t rid_set_timestamp(rid_location_t *location, uint16_t deciseconds);
+uint16_t rid_get_timestamp(const rid_location_t *location);
+
+rid_error_t rid_set_timestamp_from_unixtime(rid_location_t *location, uint32_t unixtime);
 
 #endif

@@ -920,6 +920,89 @@ test_baro_altitude_accuracy_out_of_range(void) {
 }
 
 TEST
+test_set_and_get_timestamp(void) {
+    rid_location_t location;
+
+    /* Test valid timestamps */
+    uint16_t test_timestamps[] = {0, 100, 1800, 18000, 36000};
+
+    for (size_t i = 0; i < sizeof(test_timestamps) / sizeof(test_timestamps[0]); i++) {
+        memset(&location, 0, sizeof(location));
+
+        rid_error_t status = rid_set_timestamp(&location, test_timestamps[i]);
+        ASSERT_EQ(RID_SUCCESS, status);
+
+        uint16_t result = rid_get_timestamp(&location);
+        ASSERT_EQ(test_timestamps[i], result);
+    }
+
+    PASS();
+}
+
+TEST
+test_timestamp_invalid(void) {
+    rid_location_t location;
+    memset(&location, 0, sizeof(location));
+
+    rid_error_t status = rid_set_timestamp(&location, RID_TIMESTAMP_INVALID);
+    ASSERT_EQ(RID_SUCCESS, status);
+    ASSERT_EQ(RID_TIMESTAMP_INVALID, location.timestamp);
+
+    uint16_t result = rid_get_timestamp(&location);
+    ASSERT_EQ(RID_TIMESTAMP_INVALID, result);
+
+    PASS();
+}
+
+TEST
+test_timestamp_out_of_range(void) {
+    rid_location_t location;
+    memset(&location, 0, sizeof(location));
+
+    /* Test value > 36000 */
+    rid_error_t status = rid_set_timestamp(&location, 36001);
+    ASSERT_EQ(RID_ERROR_OUT_OF_RANGE, status);
+
+    status = rid_set_timestamp(&location, 50000);
+    ASSERT_EQ(RID_ERROR_OUT_OF_RANGE, status);
+
+    PASS();
+}
+
+TEST
+test_set_timestamp_from_unixtime(void) {
+    rid_location_t location;
+    memset(&location, 0, sizeof(location));
+
+    /* Test start of hour (unixtime % 3600 = 0) */
+    rid_error_t status = rid_set_timestamp_from_unixtime(&location, 3600);
+    ASSERT_EQ(RID_SUCCESS, status);
+    ASSERT_EQ(0, location.timestamp);
+
+    /* Test 800 seconds into hour (800 * 10 = 8000 tenths) */
+    memset(&location, 0, sizeof(location));
+    status = rid_set_timestamp_from_unixtime(&location, 1700000000);
+    ASSERT_EQ(RID_SUCCESS, status);
+    /* 1700000000 % 3600 = 800, 800 * 10 = 8000 */
+    ASSERT_EQ(8000, location.timestamp);
+
+    /* Test 1800 seconds into hour (1800 * 10 = 18000 tenths) */
+    memset(&location, 0, sizeof(location));
+    status = rid_set_timestamp_from_unixtime(&location, 5400);
+    ASSERT_EQ(RID_SUCCESS, status);
+    /* 5400 % 3600 = 1800, 1800 * 10 = 18000 */
+    ASSERT_EQ(18000, location.timestamp);
+
+    /* Test 3599 seconds into hour (3599 * 10 = 35990 tenths) */
+    memset(&location, 0, sizeof(location));
+    status = rid_set_timestamp_from_unixtime(&location, 3599);
+    ASSERT_EQ(RID_SUCCESS, status);
+    ASSERT_EQ(35990, location.timestamp);
+
+    PASS();
+}
+
+TEST
 test_location_init(void) {
     rid_location_t location;
 
@@ -1016,4 +1099,8 @@ SUITE(location_suite) {
     RUN_TEST(test_vertical_accuracy_out_of_range);
     RUN_TEST(test_set_and_get_baro_altitude_accuracy);
     RUN_TEST(test_baro_altitude_accuracy_out_of_range);
+    RUN_TEST(test_set_and_get_timestamp);
+    RUN_TEST(test_timestamp_invalid);
+    RUN_TEST(test_timestamp_out_of_range);
+    RUN_TEST(test_set_timestamp_from_unixtime);
 }

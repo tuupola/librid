@@ -455,3 +455,41 @@ rid_vertical_accuracy_t
 rid_get_baro_altitude_accuracy(const rid_location_t *location) {
     return (rid_vertical_accuracy_t)location->baro_altitude_accuracy;
 }
+
+rid_error_t
+rid_set_timestamp(rid_location_t *location, uint16_t deciseconds) {
+    if (location == NULL) {
+        return RID_ERROR_NULL_POINTER;
+    }
+
+    /* Invalid or unknown timestamp */
+    if (deciseconds == RID_TIMESTAMP_INVALID) {
+        location->timestamp = RID_TIMESTAMP_INVALID;
+        return RID_SUCCESS;
+    }
+
+    if (deciseconds > RID_TIMESTAMP_MAX) {
+        return RID_ERROR_OUT_OF_RANGE;
+    }
+
+    location->timestamp = deciseconds;
+
+    return RID_SUCCESS;
+}
+
+uint16_t
+rid_get_timestamp(const rid_location_t *location) {
+    return location->timestamp;
+}
+
+rid_error_t
+rid_set_timestamp_from_unixtime(rid_location_t *location, uint32_t unixtime) {
+    if (location == NULL) {
+        return RID_ERROR_NULL_POINTER;
+    }
+
+    /* Deciseconds since start of current hour */
+    uint16_t deciseconds = (uint16_t)((unixtime % 3600) * 10);
+
+    return rid_set_timestamp(location, deciseconds);
+}
