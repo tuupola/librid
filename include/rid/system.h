@@ -43,7 +43,7 @@ typedef enum rid_classification_type {
     RID_CLASSIFICATION_TYPE_UNDECLARED,
     RID_CLASSIFICATION_TYPE_EUROPEAN_UNION,
     RID_CLASSIFICATION_TYPE_MAX = 7,
-    /* 2-7: Reserved */
+    /* 2-7: reserved */
 } rid_classification_type_t;
 
 typedef enum rid_ua_classification_category {
@@ -51,7 +51,8 @@ typedef enum rid_ua_classification_category {
     RID_UA_CLASSIFICATION_CATEGORY_OPEN,
     RID_UA_CLASSIFICATION_CATEGORY_SPECIFIC,
     RID_UA_CLASSIFICATION_CATEGORY_CERTIFIED,
-    /* 4-15: Reserved */
+    RID_UA_CLASSIFICATION_CATEGORY_MAX = 15,
+    /* 4-15: reserved */
 } rid_ua_classification_category_t;
 
 typedef enum rid_ua_classification_class {
@@ -63,7 +64,7 @@ typedef enum rid_ua_classification_class {
     RID_UA_CLASSIFICATION_CLASS_4,
     RID_UA_CLASSIFICATION_CLASS_5,
     RID_UA_CLASSIFICATION_CLASS_6,
-    /* 8-15: Reserved */
+    /* 8-15: reserved */
 } rid_ua_classification_class_t;
 
 rid_error_t rid_set_operator_location_type(rid_system_t *system, rid_operator_location_type_t type);
@@ -71,5 +72,8 @@ rid_operator_location_type_t rid_get_operator_location_type(const rid_system_t *
 
 rid_error_t rid_set_classification_type(rid_system_t *system, rid_classification_type_t type);
 rid_classification_type_t rid_get_classification_type(const rid_system_t *system);
+
+rid_error_t rid_set_ua_classification_category(rid_system_t *system, rid_ua_classification_category_t category);
+rid_ua_classification_category_t rid_get_ua_classification_category(const rid_system_t *system);
 
 #endif

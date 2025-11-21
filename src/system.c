@@ -44,3 +44,23 @@ rid_classification_type_t
 rid_get_classification_type(const rid_system_t *system) {
     return (rid_classification_type_t)system->classification_type;
 }
+
+rid_error_t
+rid_set_ua_classification_category(rid_system_t *system, rid_ua_classification_category_t category) {
+    if (system == NULL) {
+        return RID_ERROR_NULL_POINTER;
+    }
+
+    if (category > RID_UA_CLASSIFICATION_CATEGORY_MAX) {
+        return RID_ERROR_OUT_OF_RANGE;
+    }
+
+    system->ua_classification_category = (uint8_t)category;
+
+    return RID_SUCCESS;
+}
+
+rid_ua_classification_category_t
+rid_get_ua_classification_category(const rid_system_t *system) {
+    return (rid_ua_classification_category_t)system->ua_classification_category;
+}
