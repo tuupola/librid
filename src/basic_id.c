@@ -19,16 +19,6 @@ rid_basic_id_init(rid_basic_id_t *message) {
     return RID_SUCCESS;
 }
 
-rid_basic_id_type_t
-rid_get_basic_id_type(const rid_basic_id_t *message) {
-    return (rid_basic_id_type_t)message->id_type;
-}
-
-rid_ua_type_t
-rid_get_ua_type(const rid_basic_id_t *message) {
-    return (rid_ua_type_t)message->ua_type;
-}
-
 rid_error_t
 rid_set_basic_id_type(rid_basic_id_t *message, rid_basic_id_type_t type) {
     if (message == NULL) {
@@ -42,6 +32,11 @@ rid_set_basic_id_type(rid_basic_id_t *message, rid_basic_id_type_t type) {
     message->id_type = type;
 
     return RID_SUCCESS;
+}
+
+rid_basic_id_type_t
+rid_get_basic_id_type(const rid_basic_id_t *message) {
+    return (rid_basic_id_type_t)message->id_type;
 }
 
 rid_error_t
@@ -59,20 +54,9 @@ rid_set_ua_type(rid_basic_id_t *message, rid_ua_type_t type) {
     return RID_SUCCESS;
 }
 
-rid_error_t
-rid_get_uas_id(const rid_basic_id_t *message, char *buffer, size_t buffer_size) {
-    if (message == NULL || buffer == NULL) {
-        return RID_ERROR_NULL_POINTER;
-    }
-
-    if (buffer_size < 21) {
-        return RID_ERROR_BUFFER_TOO_SMALL;
-    }
-
-    memcpy(buffer, message->uas_id, 20);
-    buffer[20] = '\0';
-
-    return RID_SUCCESS;
+rid_ua_type_t
+rid_get_ua_type(const rid_basic_id_t *message) {
+    return (rid_ua_type_t)message->ua_type;
 }
 
 rid_error_t
@@ -89,6 +73,22 @@ rid_set_uas_id(rid_basic_id_t *message, const char *uas_id) {
 
     memset(message->uas_id, 0, 20);
     memcpy(message->uas_id, uas_id, len);
+
+    return RID_SUCCESS;
+}
+
+rid_error_t
+rid_get_uas_id(const rid_basic_id_t *message, char *buffer, size_t buffer_size) {
+    if (message == NULL || buffer == NULL) {
+        return RID_ERROR_NULL_POINTER;
+    }
+
+    if (buffer_size < 21) {
+        return RID_ERROR_BUFFER_TOO_SMALL;
+    }
+
+    memcpy(buffer, message->uas_id, 20);
+    buffer[20] = '\0';
 
     return RID_SUCCESS;
 }
