@@ -19,6 +19,7 @@ typedef enum rid_basic_id_type {
     RID_ID_TYPE_CAA_REGISTRATION_ID,
     RID_ID_TYPE_UTM_ASSIGNED_UUID,
     RID_ID_TYPE_SPECIFIC_SESSION_ID,
+    RID_ID_TYPE_MAX = 4,
 } rid_basic_id_type_t;
 
 typedef enum rid_ua_type {

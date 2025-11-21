@@ -35,6 +35,10 @@ rid_set_basic_id_type(rid_basic_id_t *message, rid_basic_id_type_t type) {
         return RID_ERROR_NULL_POINTER;
     }
 
+    if (type > RID_ID_TYPE_MAX) {
+        return RID_ERROR_OUT_OF_RANGE;
+    }
+
     message->id_type = type;
 
     return RID_SUCCESS;
