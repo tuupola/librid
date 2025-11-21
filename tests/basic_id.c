@@ -76,6 +76,20 @@ test_set_basic_id_type_out_of_range(void) {
 }
 
 TEST
+test_set_ua_type_out_of_range(void) {
+    rid_basic_id_t message;
+    memset(&message, 0, sizeof(message));
+
+    rid_error_t status = rid_set_ua_type(&message, RID_UA_TYPE_MAX + 1);
+    ASSERT_EQ(RID_ERROR_OUT_OF_RANGE, status);
+
+    status = rid_set_ua_type(&message, UINT8_MAX);
+    ASSERT_EQ(RID_ERROR_OUT_OF_RANGE, status);
+
+    PASS();
+}
+
+TEST
 test_set_and_get_uas_id(void) {
     const char *test_ids[] = {
         "ABC123",
@@ -108,5 +122,6 @@ SUITE(basic_id_suite) {
     RUN_TEST(test_basic_id_init);
     RUN_TEST(test_set_and_get_basic_id_type);
     RUN_TEST(test_set_basic_id_type_out_of_range);
+    RUN_TEST(test_set_ua_type_out_of_range);
     RUN_TEST(test_set_and_get_uas_id);
 }

@@ -19,7 +19,8 @@ typedef enum rid_basic_id_type {
     RID_ID_TYPE_CAA_REGISTRATION_ID,
     RID_ID_TYPE_UTM_ASSIGNED_UUID,
     RID_ID_TYPE_SPECIFIC_SESSION_ID,
-    RID_ID_TYPE_MAX = 4,
+    RID_ID_TYPE_MAX = 15,
+    /* 5-15: unused */
 } rid_basic_id_type_t;
 
 typedef enum rid_ua_type {
@@ -39,6 +40,7 @@ typedef enum rid_ua_type {
     RID_UA_TYPE_TETHERED_POWERED_AIRCRAFT,
     RID_UA_TYPE_GROUND_OBSTACLE,
     RID_UA_TYPE_OTHER,
+    RID_UA_TYPE_MAX = 15,
 } rid_ua_type_t;
 
 rid_error_t rid_basic_id_init(rid_basic_id_t *message);

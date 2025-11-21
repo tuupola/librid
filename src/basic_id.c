@@ -50,6 +50,10 @@ rid_set_ua_type(rid_basic_id_t *message, rid_ua_type_t type) {
         return RID_ERROR_NULL_POINTER;
     }
 
+    if (type > RID_UA_TYPE_MAX) {
+        return RID_ERROR_OUT_OF_RANGE;
+    }
+
     message->ua_type = type;
 
     return RID_SUCCESS;
