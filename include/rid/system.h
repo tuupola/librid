@@ -36,7 +36,7 @@ typedef enum rid_operator_location_type {
     RID_OPERATOR_LOCATION_TYPE_TAKEOFF,
     RID_OPERATOR_LOCATION_TYPE_DYNAMIC,
     RID_OPERATOR_LOCATION_TYPE_FIXED,
-    RID_OPERATOR_LOCATION_TYPE_RESERVED,
+    RID_OPERATOR_LOCATION_TYPE_MAX = 3,
 } rid_operator_location_type_t;
 
 typedef enum rid_classification_type {

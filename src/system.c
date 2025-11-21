@@ -11,7 +11,7 @@ rid_set_operator_location_type(rid_system_t *system, rid_operator_location_type_
         return RID_ERROR_NULL_POINTER;
     }
 
-    if (type > RID_OPERATOR_LOCATION_TYPE_RESERVED) {
+    if (type > RID_OPERATOR_LOCATION_TYPE_MAX) {
         return RID_ERROR_OUT_OF_RANGE;
     }
 

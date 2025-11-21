@@ -1,3 +1,4 @@
+#include <stdint.h>
 #include <string.h>
 
 #include "greatest.h"
@@ -5,12 +6,11 @@
 #include "rid/system.h"
 
 TEST
-test_set_and_gte_operator_location_type(void) {
+test_set_and_get_operator_location_type(void) {
     rid_operator_location_type_t types[] = {
         RID_OPERATOR_LOCATION_TYPE_TAKEOFF,
         RID_OPERATOR_LOCATION_TYPE_DYNAMIC,
-        RID_OPERATOR_LOCATION_TYPE_FIXED,
-        RID_OPERATOR_LOCATION_TYPE_RESERVED
+        RID_OPERATOR_LOCATION_TYPE_FIXED
     };
 
     for (size_t i = 0; i < sizeof(types) / sizeof(types[0]); i++) {
@@ -34,10 +34,10 @@ test_set_operator_location_type_out_of_range(void) {
     rid_system_t system;
     memset(&system, 0, sizeof(system));
 
-    rid_error_t status = rid_set_operator_location_type(&system, 4);
+    rid_error_t status = rid_set_operator_location_type(&system, RID_OPERATOR_LOCATION_TYPE_MAX + 1);
     ASSERT_EQ(RID_ERROR_OUT_OF_RANGE, status);
 
-    status = rid_set_operator_location_type(&system, 255);
+    status = rid_set_operator_location_type(&system, UINT8_MAX);
     ASSERT_EQ(RID_ERROR_OUT_OF_RANGE, status);
 
     PASS();
@@ -81,7 +81,7 @@ test_set_classification_type_out_of_range(void) {
 }
 
 SUITE(system_suite) {
-    RUN_TEST(test_set_and_gte_operator_location_type);
+    RUN_TEST(test_set_and_get_operator_location_type);
     RUN_TEST(test_set_operator_location_type_out_of_range);
     RUN_TEST(test_set_and_get_classification_type);
     RUN_TEST(test_set_classification_type_out_of_range);
