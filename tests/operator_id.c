@@ -76,8 +76,29 @@ test_set_operator_id_must_be_ascii(void) {
     PASS();
 }
 
+TEST
+test_set_operator_id_too_long(void) {
+    rid_operator_id_t message;
+    memset(&message, 0, sizeof(message));
+
+    /* 21 characters - one over limit */
+    rid_error_t status = rid_set_operator_id(&message, "123456789012345678901");
+    ASSERT_EQ(RID_ERROR_BUFFER_TOO_LARGE, status);
+
+    /* Much longer string */
+    status = rid_set_operator_id(&message, "12345678901234567890123456789012345678901234567890");
+    ASSERT_EQ(RID_ERROR_BUFFER_TOO_LARGE, status);
+
+    /* Exactly 20 characters should work */
+    status = rid_set_operator_id(&message, "12345678901234567890");
+    ASSERT_EQ(RID_SUCCESS, status);
+
+    PASS();
+}
+
 SUITE(operator_id_suite) {
     RUN_TEST(test_set_and_get_operator_id_type);
     RUN_TEST(test_set_and_get_operator_id);
     RUN_TEST(test_set_operator_id_must_be_ascii);
+    RUN_TEST(test_set_operator_id_too_long);
 }

@@ -76,6 +76,42 @@ test_set_basic_id_type_out_of_range(void) {
 }
 
 TEST
+test_set_and_get_ua_type(void) {
+    rid_ua_type_t types[] = {
+        RID_UA_TYPE_NONE,
+        RID_UA_TYPE_AEROPLANE_OR_FIXED_WING,
+        RID_UA_TYPE_HELICOPTER_OR_MULTIROTOR,
+        RID_UA_TYPE_GYROPLANE,
+        RID_UA_TYPE_HYBRID_LIFT,
+        RID_UA_TYPE_ORNITHOPTER,
+        RID_UA_TYPE_GLIDER,
+        RID_UA_TYPE_KITE,
+        RID_UA_TYPE_FREE_BALLOON,
+        RID_UA_TYPE_CAPTIVE_BALLOON,
+        RID_UA_TYPE_AIRSHIP,
+        RID_UA_TYPE_FREE_FALL_PARACHUTE,
+        RID_UA_TYPE_ROCKET,
+        RID_UA_TYPE_TETHERED_POWERED_AIRCRAFT,
+        RID_UA_TYPE_GROUND_OBSTACLE,
+        RID_UA_TYPE_OTHER
+    };
+
+    for (size_t i = 0; i < sizeof(types) / sizeof(types[0]); i++) {
+        rid_basic_id_t message;
+
+        memset(&message, 0, sizeof(message));
+        rid_error_t status = rid_set_ua_type(&message, types[i]);
+        ASSERT_EQ(RID_SUCCESS, status);
+
+        rid_ua_type_t result = rid_get_ua_type(&message);
+
+        ASSERT_EQ(types[i], result);
+    }
+
+    PASS();
+}
+
+TEST
 test_set_ua_type_out_of_range(void) {
     rid_basic_id_t message;
     memset(&message, 0, sizeof(message));
@@ -122,6 +158,7 @@ SUITE(basic_id_suite) {
     RUN_TEST(test_basic_id_init);
     RUN_TEST(test_set_and_get_basic_id_type);
     RUN_TEST(test_set_basic_id_type_out_of_range);
+    RUN_TEST(test_set_and_get_ua_type);
     RUN_TEST(test_set_ua_type_out_of_range);
     RUN_TEST(test_set_and_get_uas_id);
 }
