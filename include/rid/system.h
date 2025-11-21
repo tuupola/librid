@@ -42,6 +42,7 @@ typedef enum rid_operator_location_type {
 typedef enum rid_classification_type {
     RID_CLASSIFICATION_TYPE_UNDECLARED,
     RID_CLASSIFICATION_TYPE_EUROPEAN_UNION,
+    RID_CLASSIFICATION_TYPE_MAX = 7,
     /* 2-7: Reserved */
 } rid_classification_type_t;
 
@@ -67,5 +68,8 @@ typedef enum rid_ua_classification_class {
 
 rid_error_t rid_set_operator_location_type(rid_system_t *system, rid_operator_location_type_t type);
 rid_operator_location_type_t rid_get_operator_location_type(const rid_system_t *system);
+
+rid_error_t rid_set_classification_type(rid_system_t *system, rid_classification_type_t type);
+rid_classification_type_t rid_get_classification_type(const rid_system_t *system);
 
 #endif
