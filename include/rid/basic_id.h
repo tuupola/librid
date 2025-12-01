@@ -3,6 +3,9 @@
 
 #include <stdint.h>
 
+/**
+ * @brief Basic ID message structure per ASTM F3411-22a.
+ */
 typedef struct
 __attribute__((__packed__)) rid_basic_id {
     uint8_t protocol_version: 4;
@@ -13,6 +16,9 @@ __attribute__((__packed__)) rid_basic_id {
     char reserved[3];
 } rid_basic_id_t;
 
+/**
+ * @brief UAS ID type classification per ASTM F3411-22a.
+ */
 typedef enum rid_basic_id_type {
     RID_ID_TYPE_NONE,
     RID_ID_TYPE_SERIAL_NUMBER,
@@ -23,6 +29,9 @@ typedef enum rid_basic_id_type {
     /* 5-15: unused */
 } rid_basic_id_type_t;
 
+/**
+ * @brief Unmanned aircraft type classification per ASTM F3411-22a.
+ */
 typedef enum rid_ua_type {
     RID_UA_TYPE_NONE,
     RID_UA_TYPE_AEROPLANE_OR_FIXED_WING,
