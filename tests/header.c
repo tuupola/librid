@@ -32,10 +32,10 @@ test_get_message_type(void) {
 TEST
 test_get_protocol_version(void) {
     rid_protocol_version_t versions[] = {
-        VERSION_0,
-        VERSION_1,
-        VERSION_2,
-        PRIVATE_USE
+        RID_PROTOCOL_VERSION_0,
+        RID_PROTOCOL_VERSION_1,
+        RID_PROTOCOL_VERSION_2,
+        RID_PROTOCOL_PRIVATE_USE
     };
 
     for (size_t i = 0; i < sizeof(versions) / sizeof(versions[0]); i++) {

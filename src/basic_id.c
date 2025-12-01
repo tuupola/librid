@@ -13,7 +13,7 @@ rid_basic_id_init(rid_basic_id_t *message) {
 
     memset(message, 0, sizeof(rid_basic_id_t));
 
-    message->protocol_version = VERSION_2;
+    message->protocol_version = RID_PROTOCOL_VERSION_2;
     message->message_type = RID_MESSAGE_TYPE_BASIC_ID;
 
     return RID_SUCCESS;

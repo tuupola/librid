@@ -29,10 +29,10 @@ typedef enum rid_message_type {
 } rid_message_type_t;
 
 typedef enum rid_protocol_version {
-    VERSION_0,
-    VERSION_1,
-    VERSION_2,
-    PRIVATE_USE = 0x0F,
+    RID_PROTOCOL_VERSION_0,
+    RID_PROTOCOL_VERSION_1,
+    RID_PROTOCOL_VERSION_2,
+    RID_PROTOCOL_PRIVATE_USE = 0x0F,
 } rid_protocol_version_t;
 
 rid_message_type_t rid_get_message_type(const void *message);

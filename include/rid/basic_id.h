@@ -55,7 +55,7 @@ typedef enum rid_ua_type {
 /**
  * @brief Initialize a Basic ID message structure.
  *
- * Sets protocol version to VERSION_2 and message type to
+ * Sets protocol version to RID_PROTOCOL_VERSION_2 and message type to
  * RID_MESSAGE_TYPE_BASIC_ID. All other fields are zeroed.
  *
  * @param message Pointer to the Basic ID message structure to initialize.

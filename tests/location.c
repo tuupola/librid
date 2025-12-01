@@ -1080,7 +1080,7 @@ test_location_init(void) {
     ASSERT_EQ(RID_SUCCESS, status);
 
     /* Verify header fields */
-    ASSERT_EQ(VERSION_2, location.protocol_version);
+    ASSERT_EQ(RID_PROTOCOL_VERSION_2, location.protocol_version);
     ASSERT_EQ(RID_MESSAGE_TYPE_LOCATION, location.message_type);
 
     /* Verify default flags */

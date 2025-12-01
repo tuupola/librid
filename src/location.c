@@ -14,7 +14,7 @@ rid_location_init(rid_location_t *location) {
     /* ASTM F3411-22 Table 7 */
     memset(location, 0, sizeof(rid_location_t));
 
-    location->protocol_version = VERSION_2;
+    location->protocol_version = RID_PROTOCOL_VERSION_2;
     location->message_type = RID_MESSAGE_TYPE_LOCATION;
 
     location->track_direction = RID_TRACK_DIRECTION_UNKNOWN_ENCODED;

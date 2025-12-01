@@ -16,7 +16,7 @@ test_basic_id_init(void) {
     ASSERT_EQ(RID_SUCCESS, status);
 
     /* Verify header fields */
-    ASSERT_EQ(VERSION_2, message.protocol_version);
+    ASSERT_EQ(RID_PROTOCOL_VERSION_2, message.protocol_version);
     ASSERT_EQ(RID_MESSAGE_TYPE_BASIC_ID, message.message_type);
 
     /* Verify other fields are zeroed */
