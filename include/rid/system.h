@@ -164,4 +164,29 @@ rid_error_t rid_set_ua_classification_class(rid_system_t *system, rid_ua_classif
  */
 rid_ua_classification_class_t rid_get_ua_classification_class(const rid_system_t *system);
 
+/**
+ * @brief Set the operator latitude for a System message.
+ *
+ * Encodes latitude in degrees per ASTM F3411-22a (value * 10^7).
+ *
+ * @param system Pointer to the System message structure.
+ * @param degrees Latitude in degrees (-90.0 to +90.0). Use 0.0 for invalid/unknown.
+ *
+ * @retval RID_SUCCESS on success.
+ * @retval RID_ERROR_NULL_POINTER if system is NULL.
+ * @retval RID_ERROR_OUT_OF_RANGE if degrees is outside valid range.
+ */
+rid_error_t rid_set_operator_latitude(rid_system_t *system, double degrees);
+
+/**
+ * @brief Get the operator latitude from a System message.
+ *
+ * Decodes latitude from encoded int32_t value per ASTM F3411-22a.
+ *
+ * @param system Pointer to the System message structure.
+ *
+ * @return Latitude in degrees. 0.0 indicates invalid/unknown.
+ */
+double rid_get_operator_latitude(const rid_system_t *system);
+
 #endif

@@ -84,3 +84,34 @@ rid_ua_classification_class_t
 rid_get_ua_classification_class(const rid_system_t *system) {
     return (rid_ua_classification_class_t)system->ua_classification_class;
 }
+
+rid_error_t
+rid_set_operator_latitude(rid_system_t *system, double degrees) {
+    if (system == NULL) {
+        return RID_ERROR_NULL_POINTER;
+    }
+
+    /* ASTM F3411-22 Table 7
+     * Encoded = value * 10^7
+     * -90 to +90 degrees
+     * Invalid or unknown: 0.0
+     */
+
+    if (degrees > 90.0 || degrees < -90.0) {
+        return RID_ERROR_OUT_OF_RANGE;
+    }
+
+    /* Encode with rounding */
+    if (degrees >= 0.0) {
+        system->operator_latitude = (int32_t)((degrees * 10000000.0) + 0.5);
+    } else {
+        system->operator_latitude = (int32_t)((degrees * 10000000.0) - 0.5);
+    }
+
+    return RID_SUCCESS;
+}
+
+double
+rid_get_operator_latitude(const rid_system_t *system) {
+    return (double)system->operator_latitude / 10000000.0;
+}
