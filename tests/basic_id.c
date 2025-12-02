@@ -76,6 +76,14 @@ test_set_basic_id_type_out_of_range(void) {
 }
 
 TEST
+test_set_basic_id_type_null_pointer(void) {
+    rid_error_t status = rid_set_basic_id_type(NULL, RID_ID_TYPE_SERIAL_NUMBER);
+    ASSERT_EQ(RID_ERROR_NULL_POINTER, status);
+
+    PASS();
+}
+
+TEST
 test_set_and_get_ua_type(void) {
     rid_ua_type_t types[] = {
         RID_UA_TYPE_NONE,
@@ -126,6 +134,14 @@ test_set_ua_type_out_of_range(void) {
 }
 
 TEST
+test_set_ua_type_null_pointer(void) {
+    rid_error_t status = rid_set_ua_type(NULL, RID_UA_TYPE_AEROPLANE_OR_FIXED_WING);
+    ASSERT_EQ(RID_ERROR_NULL_POINTER, status);
+
+    PASS();
+}
+
+TEST
 test_set_and_get_uas_id(void) {
     const char *test_ids[] = {
         "ABC123",
@@ -154,11 +170,37 @@ test_set_and_get_uas_id(void) {
     PASS();
 }
 
+TEST
+test_set_uas_id_null_pointer_message(void) {
+    rid_error_t status = rid_set_uas_id(NULL, "TEST");
+    ASSERT_EQ(RID_ERROR_NULL_POINTER, status);
+
+    PASS();
+}
+
+TEST
+test_set_uas_id_null_pointer_id(void) {
+    rid_basic_id_t message;
+    memset(&message, 0, sizeof(message));
+
+    rid_error_t status = rid_set_uas_id(&message, NULL);
+    ASSERT_EQ(RID_ERROR_NULL_POINTER, status);
+
+    PASS();
+}
+
 SUITE(basic_id_suite) {
     RUN_TEST(test_basic_id_init);
+
     RUN_TEST(test_set_and_get_basic_id_type);
     RUN_TEST(test_set_basic_id_type_out_of_range);
+    RUN_TEST(test_set_basic_id_type_null_pointer);
+
     RUN_TEST(test_set_and_get_ua_type);
     RUN_TEST(test_set_ua_type_out_of_range);
+    RUN_TEST(test_set_ua_type_null_pointer);
+
     RUN_TEST(test_set_and_get_uas_id);
+    RUN_TEST(test_set_uas_id_null_pointer_message);
+    RUN_TEST(test_set_uas_id_null_pointer_id);
 }
