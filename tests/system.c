@@ -44,6 +44,14 @@ test_set_operator_location_type_out_of_range(void) {
 }
 
 TEST
+test_set_operator_location_type_null_pointer(void) {
+    rid_error_t status = rid_set_operator_location_type(NULL, RID_OPERATOR_LOCATION_TYPE_TAKEOFF);
+    ASSERT_EQ(RID_ERROR_NULL_POINTER, status);
+
+    PASS();
+}
+
+TEST
 test_set_and_get_classification_type(void) {
     rid_classification_type_t types[] = {
         RID_CLASSIFICATION_TYPE_UNDECLARED,
@@ -76,6 +84,14 @@ test_set_classification_type_out_of_range(void) {
 
     status = rid_set_classification_type(&system, UINT8_MAX);
     ASSERT_EQ(RID_ERROR_OUT_OF_RANGE, status);
+
+    PASS();
+}
+
+TEST
+test_set_classification_type_null_pointer(void) {
+    rid_error_t status = rid_set_classification_type(NULL, RID_CLASSIFICATION_TYPE_UNDECLARED);
+    ASSERT_EQ(RID_ERROR_NULL_POINTER, status);
 
     PASS();
 }
@@ -115,6 +131,14 @@ test_set_ua_classification_category_out_of_range(void) {
 
     status = rid_set_ua_classification_category(&system, UINT8_MAX);
     ASSERT_EQ(RID_ERROR_OUT_OF_RANGE, status);
+
+    PASS();
+}
+
+TEST
+test_set_ua_classification_category_null_pointer(void) {
+    rid_error_t status = rid_set_ua_classification_category(NULL, RID_UA_CLASSIFICATION_CATEGORY_OPEN);
+    ASSERT_EQ(RID_ERROR_NULL_POINTER, status);
 
     PASS();
 }
@@ -162,6 +186,14 @@ test_set_ua_classification_class_out_of_range(void) {
 }
 
 TEST
+test_set_ua_classification_class_null_pointer(void) {
+    rid_error_t status = rid_set_ua_classification_class(NULL, RID_UA_CLASSIFICATION_CLASS_0);
+    ASSERT_EQ(RID_ERROR_NULL_POINTER, status);
+
+    PASS();
+}
+
+TEST
 test_set_and_get_operator_latitude(void) {
     rid_system_t system;
     double test_values[] = {0.0, 45.5, 60.123456, -45.5, -90.0, 90.0};
@@ -200,6 +232,14 @@ test_set_operator_latitude_out_of_range(void) {
 }
 
 TEST
+test_set_operator_latitude_null_pointer(void) {
+    rid_error_t status = rid_set_operator_latitude(NULL, 45.0);
+    ASSERT_EQ(RID_ERROR_NULL_POINTER, status);
+
+    PASS();
+}
+
+TEST
 test_set_and_get_operator_longitude(void) {
     rid_system_t system;
     double test_values[] = {0.0, 90.5, 120.123456, -90.5, -180.0, 180.0};
@@ -233,6 +273,14 @@ test_set_operator_longitude_out_of_range(void) {
     /* Test longitude < -180 */
     status = rid_set_operator_longitude(&system, -180.1);
     ASSERT_EQ(RID_ERROR_OUT_OF_RANGE, status);
+
+    PASS();
+}
+
+TEST
+test_set_operator_longitude_null_pointer(void) {
+    rid_error_t status = rid_set_operator_longitude(NULL, 90.0);
+    ASSERT_EQ(RID_ERROR_NULL_POINTER, status);
 
     PASS();
 }
@@ -302,18 +350,30 @@ test_set_operator_altitude_invalid(void) {
 SUITE(system_suite) {
     RUN_TEST(test_set_and_get_operator_location_type);
     RUN_TEST(test_set_operator_location_type_out_of_range);
+    RUN_TEST(test_set_operator_location_type_null_pointer);
+
     RUN_TEST(test_set_and_get_classification_type);
     RUN_TEST(test_set_classification_type_out_of_range);
+    RUN_TEST(test_set_classification_type_null_pointer);
+
     RUN_TEST(test_set_and_get_ua_classification_category);
     RUN_TEST(test_set_ua_classification_category_out_of_range);
+    RUN_TEST(test_set_ua_classification_category_null_pointer);
+
     RUN_TEST(test_set_and_get_ua_classification_class);
     RUN_TEST(test_set_ua_classification_class_out_of_range);
+    RUN_TEST(test_set_ua_classification_class_null_pointer);
+
     RUN_TEST(test_set_and_get_operator_latitude);
     RUN_TEST(test_set_operator_latitude_out_of_range);
+    RUN_TEST(test_set_operator_latitude_null_pointer);
+
     RUN_TEST(test_set_and_get_operator_longitude);
     RUN_TEST(test_set_operator_longitude_out_of_range);
+    RUN_TEST(test_set_operator_longitude_null_pointer);
+
     RUN_TEST(test_set_and_get_operator_altitude);
-    RUN_TEST(test_set_operator_altitude_null_pointer);
     RUN_TEST(test_set_operator_altitude_out_of_range);
     RUN_TEST(test_set_operator_altitude_invalid);
+    RUN_TEST(test_set_operator_altitude_null_pointer);
 }
