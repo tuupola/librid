@@ -6,6 +6,9 @@
 
 #include "rid/header.h"
 
+/**
+ * @brief System message structure per ASTM F3411-22a.
+ */
 typedef struct
 __attribute__((__packed__)) rid_system {
     uint8_t protocol_version: 4;
@@ -32,6 +35,9 @@ __attribute__((__packed__)) rid_system {
     uint8_t reserved_2;
 } rid_system_t;
 
+/**
+ * @brief Operator location type per ASTM F3411-22a.
+ */
 typedef enum rid_operator_location_type {
     RID_OPERATOR_LOCATION_TYPE_TAKEOFF,
     RID_OPERATOR_LOCATION_TYPE_DYNAMIC,
@@ -39,6 +45,9 @@ typedef enum rid_operator_location_type {
     RID_OPERATOR_LOCATION_TYPE_MAX = 3,
 } rid_operator_location_type_t;
 
+/**
+ * @brief Classification type per ASTM F3411-22a.
+ */
 typedef enum rid_classification_type {
     RID_CLASSIFICATION_TYPE_UNDECLARED,
     RID_CLASSIFICATION_TYPE_EUROPEAN_UNION,
@@ -46,6 +55,9 @@ typedef enum rid_classification_type {
     /* 2-7: reserved */
 } rid_classification_type_t;
 
+/**
+ * @brief UA classification category per ASTM F3411-22a.
+ */
 typedef enum rid_ua_classification_category {
     RID_UA_CLASSIFICATION_CATEGORY_UNDEFINED,
     RID_UA_CLASSIFICATION_CATEGORY_OPEN,
@@ -55,6 +67,9 @@ typedef enum rid_ua_classification_category {
     /* 4-15: reserved */
 } rid_ua_classification_category_t;
 
+/**
+ * @brief UA classification class per ASTM F3411-22a.
+ */
 typedef enum rid_ua_classification_class {
     RID_UA_CLASSIFICATION_CLASS_UNDEFINED,
     RID_UA_CLASSIFICATION_CLASS_0,
@@ -67,13 +82,64 @@ typedef enum rid_ua_classification_class {
     /* 8-15: reserved */
 } rid_ua_classification_class_t;
 
+/**
+ * @brief Set the operator location type for a System message.
+ *
+ * @param system Pointer to the System message structure.
+ * @param type The operator location type to set.
+ *
+ * @retval RID_SUCCESS on success.
+ * @retval RID_ERROR_NULL_POINTER if system is NULL.
+ */
 rid_error_t rid_set_operator_location_type(rid_system_t *system, rid_operator_location_type_t type);
+
+/**
+ * @brief Get the operator location type from a System message.
+ *
+ * @param system Pointer to the System message structure.
+ *
+ * @return The operator location type value.
+ */
 rid_operator_location_type_t rid_get_operator_location_type(const rid_system_t *system);
 
+/**
+ * @brief Set the classification type for a System message.
+ *
+ * @param system Pointer to the System message structure.
+ * @param type The classification type to set.
+ *
+ * @retval RID_SUCCESS on success.
+ * @retval RID_ERROR_NULL_POINTER if system is NULL.
+ */
 rid_error_t rid_set_classification_type(rid_system_t *system, rid_classification_type_t type);
+
+/**
+ * @brief Get the classification type from a System message.
+ *
+ * @param system Pointer to the System message structure.
+ *
+ * @return The classification type value.
+ */
 rid_classification_type_t rid_get_classification_type(const rid_system_t *system);
 
+/**
+ * @brief Set the UA classification category for a System message.
+ *
+ * @param system Pointer to the System message structure.
+ * @param category The UA classification category to set.
+ *
+ * @retval RID_SUCCESS on success.
+ * @retval RID_ERROR_NULL_POINTER if system is NULL.
+ */
 rid_error_t rid_set_ua_classification_category(rid_system_t *system, rid_ua_classification_category_t category);
+
+/**
+ * @brief Get the UA classification category from a System message.
+ *
+ * @param system Pointer to the System message structure.
+ *
+ * @return The UA classification category value.
+ */
 rid_ua_classification_category_t rid_get_ua_classification_category(const rid_system_t *system);
 
 #endif
