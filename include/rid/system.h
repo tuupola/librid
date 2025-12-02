@@ -189,4 +189,29 @@ rid_error_t rid_set_operator_latitude(rid_system_t *system, double degrees);
  */
 double rid_get_operator_latitude(const rid_system_t *system);
 
+/**
+ * @brief Set the operator longitude for a System message.
+ *
+ * Encodes longitude in degrees per ASTM F3411-22a (value * 10^7).
+ *
+ * @param system Pointer to the System message structure.
+ * @param degrees Longitude in degrees (-180.0 to +180.0). Use 0.0 for invalid/unknown.
+ *
+ * @retval RID_SUCCESS on success.
+ * @retval RID_ERROR_NULL_POINTER if system is NULL.
+ * @retval RID_ERROR_OUT_OF_RANGE if degrees is outside valid range.
+ */
+rid_error_t rid_set_operator_longitude(rid_system_t *system, double degrees);
+
+/**
+ * @brief Get the operator longitude from a System message.
+ *
+ * Decodes longitude from encoded int32_t value per ASTM F3411-22a.
+ *
+ * @param system Pointer to the System message structure.
+ *
+ * @return Longitude in degrees. 0.0 indicates invalid/unknown.
+ */
+double rid_get_operator_longitude(const rid_system_t *system);
+
 #endif

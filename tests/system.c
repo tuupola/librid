@@ -199,6 +199,44 @@ test_set_operator_latitude_out_of_range(void) {
     PASS();
 }
 
+TEST
+test_set_and_get_operator_longitude(void) {
+    rid_system_t system;
+    double test_values[] = {0.0, 90.5, 120.123456, -90.5, -180.0, 180.0};
+
+    for (size_t i = 0; i < sizeof(test_values) / sizeof(test_values[0]); i++) {
+        memset(&system, 0, sizeof(system));
+
+        rid_error_t status = rid_set_operator_longitude(&system, test_values[i]);
+        ASSERT_EQ(RID_SUCCESS, status);
+
+        double result = rid_get_operator_longitude(&system);
+
+        /* Allow for small precision difference (11mm at equator) */
+        double diff = result - test_values[i];
+        if (diff < 0) diff = -diff;
+        ASSERT(diff < 0.0000001);
+    }
+
+    PASS();
+}
+
+TEST
+test_set_operator_longitude_out_of_range(void) {
+    rid_system_t system;
+    memset(&system, 0, sizeof(system));
+
+    /* Test longitude > 180 */
+    rid_error_t status = rid_set_operator_longitude(&system, 180.1);
+    ASSERT_EQ(RID_ERROR_OUT_OF_RANGE, status);
+
+    /* Test longitude < -180 */
+    status = rid_set_operator_longitude(&system, -180.1);
+    ASSERT_EQ(RID_ERROR_OUT_OF_RANGE, status);
+
+    PASS();
+}
+
 SUITE(system_suite) {
     RUN_TEST(test_set_and_get_operator_location_type);
     RUN_TEST(test_set_operator_location_type_out_of_range);
@@ -210,4 +248,6 @@ SUITE(system_suite) {
     RUN_TEST(test_set_ua_classification_class_out_of_range);
     RUN_TEST(test_set_and_get_operator_latitude);
     RUN_TEST(test_set_operator_latitude_out_of_range);
+    RUN_TEST(test_set_and_get_operator_longitude);
+    RUN_TEST(test_set_operator_longitude_out_of_range);
 }

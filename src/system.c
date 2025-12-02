@@ -115,3 +115,34 @@ double
 rid_get_operator_latitude(const rid_system_t *system) {
     return (double)system->operator_latitude / 10000000.0;
 }
+
+rid_error_t
+rid_set_operator_longitude(rid_system_t *system, double degrees) {
+    if (system == NULL) {
+        return RID_ERROR_NULL_POINTER;
+    }
+
+    /* ASTM F3411-22 Table 7
+     * Encoded = value * 10^7
+     * -180 to +180 degrees
+     * Invalid or unknown: 0.0
+     */
+
+    if (degrees > 180.0 || degrees < -180.0) {
+        return RID_ERROR_OUT_OF_RANGE;
+    }
+
+    /* Encode with rounding */
+    if (degrees >= 0.0) {
+        system->operator_longitude = (int32_t)((degrees * 10000000.0) + 0.5);
+    } else {
+        system->operator_longitude = (int32_t)((degrees * 10000000.0) - 0.5);
+    }
+
+    return RID_SUCCESS;
+}
+
+double
+rid_get_operator_longitude(const rid_system_t *system) {
+    return (double)system->operator_longitude / 10000000.0;
+}
