@@ -146,3 +146,36 @@ double
 rid_get_operator_longitude(const rid_system_t *system) {
     return (double)system->operator_longitude / 10000000.0;
 }
+
+rid_error_t
+rid_set_operator_altitude(rid_system_t *system, float altitude) {
+    if (system == NULL) {
+        return RID_ERROR_NULL_POINTER;
+    }
+
+    /* Invalid or unknown altitude */
+    if (altitude == RID_OPERATOR_ALTITUDE_INVALID) {
+        system->operator_altitude = RID_OPERATOR_ALTITUDE_INVALID_ENCODED;
+        return RID_SUCCESS;
+    }
+
+    /* ASTM F3411-22 Table 7
+     * Encoded = (value + 1000) / 0.5
+     * -1000 to 31767 meters
+     * Invalid or unknown: -1000
+     */
+
+    if (altitude < -1000.0f || altitude > 31767.0f) {
+        return RID_ERROR_OUT_OF_RANGE;
+    }
+
+    /* Encode with rounding */
+    system->operator_altitude = (uint16_t)(((altitude + 1000.0f) / 0.5f) + 0.5f);
+
+    return RID_SUCCESS;
+}
+
+float
+rid_get_operator_altitude(const rid_system_t *system) {
+    return ((float)system->operator_altitude * 0.5f) - 1000.0f;
+}

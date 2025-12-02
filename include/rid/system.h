@@ -3,6 +3,7 @@
 
 #include <stdint.h>
 #include <stddef.h>
+#include <float.h>
 
 #include "rid/header.h"
 
@@ -34,6 +35,9 @@ __attribute__((__packed__)) rid_system {
 
     uint8_t reserved_2;
 } rid_system_t;
+
+#define RID_OPERATOR_ALTITUDE_INVALID FLT_MAX
+#define RID_OPERATOR_ALTITUDE_INVALID_ENCODED 0
 
 /**
  * @brief Operator location type per ASTM F3411-22a.
@@ -213,5 +217,30 @@ rid_error_t rid_set_operator_longitude(rid_system_t *system, double degrees);
  * @return Longitude in degrees. 0.0 indicates invalid/unknown.
  */
 double rid_get_operator_longitude(const rid_system_t *system);
+
+/**
+ * @brief Set the operator altitude for a System message.
+ *
+ * Encodes altitude in meters per ASTM F3411-22a ((value + 1000) / 0.5).
+ *
+ * @param system Pointer to the System message structure.
+ * @param altitude Altitude in meters (-1000.0 to 31767.0). Use RID_OPERATOR_ALTITUDE_INVALID for invalid/unknown.
+ *
+ * @retval RID_SUCCESS on success.
+ * @retval RID_ERROR_NULL_POINTER if system is NULL.
+ * @retval RID_ERROR_OUT_OF_RANGE if altitude is outside valid range.
+ */
+rid_error_t rid_set_operator_altitude(rid_system_t *system, float altitude);
+
+/**
+ * @brief Get the operator altitude from a System message.
+ *
+ * Decodes altitude from encoded uint16_t value per ASTM F3411-22a.
+ *
+ * @param system Pointer to the System message structure.
+ *
+ * @return Altitude in meters. -1000.0 indicates invalid/unknown.
+ */
+float rid_get_operator_altitude(const rid_system_t *system);
 
 #endif

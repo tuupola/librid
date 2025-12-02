@@ -237,6 +237,68 @@ test_set_operator_longitude_out_of_range(void) {
     PASS();
 }
 
+TEST
+test_set_and_get_operator_altitude(void) {
+    rid_system_t system;
+    float test_altitudes[] = {0.0f, 10.5f, 100.0f, 500.0f, -100.0f, -500.0f, -1000.0f, 31767.0f};
+
+    for (size_t i = 0; i < sizeof(test_altitudes) / sizeof(test_altitudes[0]); i++) {
+        memset(&system, 0, sizeof(system));
+
+        rid_error_t status = rid_set_operator_altitude(&system, test_altitudes[i]);
+        ASSERT_EQ(RID_SUCCESS, status);
+
+        float result = rid_get_operator_altitude(&system);
+
+        /* 0.5 meter resolution */
+        float diff = result > test_altitudes[i] ? result - test_altitudes[i] : test_altitudes[i] - result;
+        ASSERT(diff < 0.26f);
+    }
+
+    PASS();
+}
+
+TEST
+test_set_operator_altitude_null_pointer(void) {
+    rid_error_t status = rid_set_operator_altitude(NULL, 100.0f);
+    ASSERT_EQ(RID_ERROR_NULL_POINTER, status);
+
+    PASS();
+}
+
+TEST
+test_set_operator_altitude_out_of_range(void) {
+    rid_system_t system;
+    memset(&system, 0, sizeof(system));
+
+    /* Test > 31767 meters */
+    rid_error_t status = rid_set_operator_altitude(&system, 32000.0f);
+    ASSERT_EQ(RID_ERROR_OUT_OF_RANGE, status);
+
+    /* Test < -1000 meters */
+    status = rid_set_operator_altitude(&system, -1001.0f);
+    ASSERT_EQ(RID_ERROR_OUT_OF_RANGE, status);
+
+    PASS();
+}
+
+TEST
+test_set_operator_altitude_invalid(void) {
+    rid_system_t system;
+    memset(&system, 0, sizeof(system));
+
+    /* Test invalid or unknown altitude */
+    rid_error_t status = rid_set_operator_altitude(&system, RID_OPERATOR_ALTITUDE_INVALID);
+    ASSERT_EQ(RID_SUCCESS, status);
+    ASSERT_EQ(RID_OPERATOR_ALTITUDE_INVALID_ENCODED, system.operator_altitude);
+
+    /* Invalid also means -1000m */
+    float result = rid_get_operator_altitude(&system);
+    ASSERT_EQ(-1000.0f, result);
+
+    PASS();
+}
+
 SUITE(system_suite) {
     RUN_TEST(test_set_and_get_operator_location_type);
     RUN_TEST(test_set_operator_location_type_out_of_range);
@@ -250,4 +312,8 @@ SUITE(system_suite) {
     RUN_TEST(test_set_operator_latitude_out_of_range);
     RUN_TEST(test_set_and_get_operator_longitude);
     RUN_TEST(test_set_operator_longitude_out_of_range);
+    RUN_TEST(test_set_and_get_operator_altitude);
+    RUN_TEST(test_set_operator_altitude_null_pointer);
+    RUN_TEST(test_set_operator_altitude_out_of_range);
+    RUN_TEST(test_set_operator_altitude_invalid);
 }
