@@ -79,6 +79,7 @@ typedef enum rid_ua_classification_class {
     RID_UA_CLASSIFICATION_CLASS_4,
     RID_UA_CLASSIFICATION_CLASS_5,
     RID_UA_CLASSIFICATION_CLASS_6,
+    RID_UA_CLASSIFICATION_CLASS_MAX = 15,
     /* 8-15: reserved */
 } rid_ua_classification_class_t;
 
@@ -141,5 +142,26 @@ rid_error_t rid_set_ua_classification_category(rid_system_t *system, rid_ua_clas
  * @return The UA classification category value.
  */
 rid_ua_classification_category_t rid_get_ua_classification_category(const rid_system_t *system);
+
+/**
+ * @brief Set the UA classification class for a System message.
+ *
+ * @param system Pointer to the System message structure.
+ * @param class The UA classification class to set.
+ *
+ * @retval RID_SUCCESS on success.
+ * @retval RID_ERROR_NULL_POINTER if system is NULL.
+ * @retval RID_ERROR_OUT_OF_RANGE if classification_class exceeds RID_UA_CLASSIFICATION_CLASS_MAX.
+ */
+rid_error_t rid_set_ua_classification_class(rid_system_t *system, rid_ua_classification_class_t class);
+
+/**
+ * @brief Get the UA classification class from a System message.
+ *
+ * @param system Pointer to the System message structure.
+ *
+ * @return The UA classification class value.
+ */
+rid_ua_classification_class_t rid_get_ua_classification_class(const rid_system_t *system);
 
 #endif

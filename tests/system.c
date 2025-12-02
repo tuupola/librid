@@ -119,6 +119,48 @@ test_set_ua_classification_category_out_of_range(void) {
     PASS();
 }
 
+TEST
+test_set_and_get_ua_classification_class(void) {
+    rid_ua_classification_class_t classes[] = {
+        RID_UA_CLASSIFICATION_CLASS_UNDEFINED,
+        RID_UA_CLASSIFICATION_CLASS_0,
+        RID_UA_CLASSIFICATION_CLASS_1,
+        RID_UA_CLASSIFICATION_CLASS_2,
+        RID_UA_CLASSIFICATION_CLASS_3,
+        RID_UA_CLASSIFICATION_CLASS_4,
+        RID_UA_CLASSIFICATION_CLASS_5,
+        RID_UA_CLASSIFICATION_CLASS_6
+    };
+
+    for (size_t i = 0; i < sizeof(classes) / sizeof(classes[0]); i++) {
+        rid_system_t system;
+
+        memset(&system, 0, sizeof(system));
+        rid_error_t status = rid_set_ua_classification_class(&system, classes[i]);
+        ASSERT_EQ(RID_SUCCESS, status);
+
+        rid_ua_classification_class_t result = rid_get_ua_classification_class(&system);
+
+        ASSERT_EQ(classes[i], result);
+    }
+
+    PASS();
+}
+
+TEST
+test_set_ua_classification_class_out_of_range(void) {
+    rid_system_t system;
+    memset(&system, 0, sizeof(system));
+
+    rid_error_t status = rid_set_ua_classification_class(&system, RID_UA_CLASSIFICATION_CLASS_MAX + 1);
+    ASSERT_EQ(RID_ERROR_OUT_OF_RANGE, status);
+
+    status = rid_set_ua_classification_class(&system, UINT8_MAX);
+    ASSERT_EQ(RID_ERROR_OUT_OF_RANGE, status);
+
+    PASS();
+}
+
 SUITE(system_suite) {
     RUN_TEST(test_set_and_get_operator_location_type);
     RUN_TEST(test_set_operator_location_type_out_of_range);
@@ -126,4 +168,6 @@ SUITE(system_suite) {
     RUN_TEST(test_set_classification_type_out_of_range);
     RUN_TEST(test_set_and_get_ua_classification_category);
     RUN_TEST(test_set_ua_classification_category_out_of_range);
+    RUN_TEST(test_set_and_get_ua_classification_class);
+    RUN_TEST(test_set_ua_classification_class_out_of_range);
 }
