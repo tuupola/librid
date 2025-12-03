@@ -26,6 +26,14 @@ test_set_and_get_operator_id_type(void) {
 }
 
 TEST
+test_set_operator_id_type_null_pointer(void) {
+    rid_error_t status = rid_set_operator_id_type(NULL, RID_ID_TYPE_OPERATOR_ID);
+    ASSERT_EQ(RID_ERROR_NULL_POINTER, status);
+
+    PASS();
+}
+
+TEST
 test_set_and_get_operator_id(void) {
     const char *test_ids[] = {
         "ABC123",
@@ -96,9 +104,27 @@ test_set_operator_id_too_long(void) {
     PASS();
 }
 
+TEST
+test_set_operator_id_null_pointer(void) {
+    rid_error_t status;
+    rid_operator_id_t message;
+    memset(&message, 0, sizeof(message));
+
+    status = rid_set_operator_id(NULL, "TEST");
+    ASSERT_EQ(RID_ERROR_NULL_POINTER, status);
+
+    status = rid_set_operator_id(&message, NULL);
+    ASSERT_EQ(RID_ERROR_NULL_POINTER, status);
+
+    PASS();
+}
+
 SUITE(operator_id_suite) {
     RUN_TEST(test_set_and_get_operator_id_type);
+    RUN_TEST(test_set_operator_id_type_null_pointer);
+
     RUN_TEST(test_set_and_get_operator_id);
     RUN_TEST(test_set_operator_id_must_be_ascii);
     RUN_TEST(test_set_operator_id_too_long);
+    RUN_TEST(test_set_operator_id_null_pointer);
 }
