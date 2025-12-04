@@ -28,6 +28,14 @@ test_set_and_get_description_type(void) {
 }
 
 TEST
+test_set_description_type_null_pointer(void) {
+    rid_error_t status = rid_set_description_type(NULL, RID_DESCRIPTION_TYPE_TEXT);
+    ASSERT_EQ(RID_ERROR_NULL_POINTER, status);
+
+    PASS();
+}
+
+TEST
 test_set_and_get_description(void) {
     const char *test_descriptions[] = {
         "Kakotron:Survey",
@@ -92,9 +100,27 @@ test_set_description_too_long(void) {
     PASS();
 }
 
+TEST
+test_set_description_null_pointer(void) {
+    rid_error_t status;
+    rid_self_id_t message;
+    memset(&message, 0, sizeof(message));
+
+    status = rid_set_description(NULL, "TEST");
+    ASSERT_EQ(RID_ERROR_NULL_POINTER, status);
+
+    status = rid_set_description(&message, NULL);
+    ASSERT_EQ(RID_ERROR_NULL_POINTER, status);
+
+    PASS();
+}
+
 SUITE(self_id_suite) {
     RUN_TEST(test_set_and_get_description_type);
+    RUN_TEST(test_set_description_type_null_pointer);
+
     RUN_TEST(test_set_and_get_description);
     RUN_TEST(test_set_description_must_be_ascii);
     RUN_TEST(test_set_description_too_long);
+    RUN_TEST(test_set_description_null_pointer);
 }
