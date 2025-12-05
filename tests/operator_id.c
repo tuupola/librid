@@ -1,8 +1,16 @@
+#include <stdint.h>
 #include <string.h>
 
 #include "greatest.h"
 #include "rid/header.h"
 #include "rid/operator_id.h"
+
+/* Real life captured message */
+uint8_t buffer[] = {
+    0x52, 0x00, 0x46, 0x49, 0x4e, 0x38, 0x37, 0x61, 0x73,
+    0x74, 0x72, 0x64, 0x67, 0x65, 0x31, 0x32, 0x6b, 0x38,
+    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
+};
 
 TEST
 test_set_and_get_operator_id_type(void) {
@@ -119,6 +127,20 @@ test_set_operator_id_null_pointer(void) {
     PASS();
 }
 
+TEST
+test_decode_operator_id_buffer(void) {
+    rid_operator_id_t *message = (rid_operator_id_t *)buffer;
+
+    ASSERT_EQ(RID_ID_TYPE_OPERATOR_ID, rid_get_operator_id_type(message));
+
+    char operator_id[21];
+    rid_error_t status = rid_get_operator_id(message, operator_id, sizeof(operator_id));
+    ASSERT_EQ(RID_SUCCESS, status);
+    ASSERT_STR_EQ("FIN87astrdge12k8", operator_id);
+
+    PASS();
+}
+
 SUITE(operator_id_suite) {
     RUN_TEST(test_set_and_get_operator_id_type);
     RUN_TEST(test_set_operator_id_type_null_pointer);
@@ -127,4 +149,6 @@ SUITE(operator_id_suite) {
     RUN_TEST(test_set_operator_id_must_be_ascii);
     RUN_TEST(test_set_operator_id_too_long);
     RUN_TEST(test_set_operator_id_null_pointer);
+
+    RUN_TEST(test_decode_operator_id_buffer);
 }
