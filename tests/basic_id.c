@@ -6,7 +6,7 @@
 #include "rid/basic_id.h"
 
 /* Real life captured message */
-uint8_t buffer[] = {
+static uint8_t buffer[] = {
     0x02, 0x10, 0x32, 0x35, 0x39, 0x36, 0x41, 0x34, 0x30,
     0x33, 0x37, 0x31, 0x36, 0x34, 0x33, 0x30, 0x42, 0x00,
     0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
@@ -197,6 +197,26 @@ test_set_uas_id_null_pointer_id(void) {
 }
 
 TEST
+test_get_uas_id_null_pointer_message(void) {
+    char buffer[21];
+    rid_error_t status = rid_get_uas_id(NULL, buffer, sizeof(buffer));
+    ASSERT_EQ(RID_ERROR_NULL_POINTER, status);
+
+    PASS();
+}
+
+TEST
+test_get_uas_id_null_pointer_buffer(void) {
+    rid_basic_id_t message;
+    rid_basic_id_init(&message);
+
+    rid_error_t status = rid_get_uas_id(&message, NULL, 21);
+    ASSERT_EQ(RID_ERROR_NULL_POINTER, status);
+
+    PASS();
+}
+
+TEST
 test_decode_basic_id_buffer(void) {
     rid_basic_id_t *message = (rid_basic_id_t *)buffer;
 
@@ -224,6 +244,8 @@ SUITE(basic_id_suite) {
     RUN_TEST(test_set_and_get_uas_id);
     RUN_TEST(test_set_uas_id_null_pointer_message);
     RUN_TEST(test_set_uas_id_null_pointer_id);
+    RUN_TEST(test_get_uas_id_null_pointer_message);
+    RUN_TEST(test_get_uas_id_null_pointer_buffer);
 
     RUN_TEST(test_decode_basic_id_buffer);
 }
