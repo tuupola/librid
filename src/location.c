@@ -39,7 +39,7 @@ rid_set_track_direction(rid_location_t *location, uint16_t degrees) {
     /* If aircraft is not moving horizontally use unknown. */
     if (degrees == RID_TRACK_DIRECTION_UNKNOWN) {
         location->track_direction = RID_TRACK_DIRECTION_UNKNOWN_ENCODED;
-        location->ew_direction = RID_EW_DIRECTION_EAST;
+        location->ew_direction = RID_EW_DIRECTION_WEST;
         return RID_SUCCESS;
     }
 
