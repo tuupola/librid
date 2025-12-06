@@ -18,7 +18,7 @@ rid_location_init(rid_location_t *location) {
     location->message_type = RID_MESSAGE_TYPE_LOCATION;
 
     location->track_direction = RID_TRACK_DIRECTION_UNKNOWN_ENCODED;
-    location->ew_direction = RID_EW_DIRECTION_EAST;
+    location->ew_direction = RID_EW_DIRECTION_WEST;
 
     location->speed = RID_SPEED_INVALID_ENCODED;
     location->speed_multiplier = 1;
