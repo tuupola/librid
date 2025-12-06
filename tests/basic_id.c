@@ -91,6 +91,14 @@ test_set_basic_id_type_null_pointer(void) {
 }
 
 TEST
+test_get_basic_id_type_null_pointer(void) {
+    rid_basic_id_type_t type = rid_get_basic_id_type(NULL);
+    ASSERT_EQ(RID_ID_TYPE_NONE, type);
+
+    PASS();
+}
+
+TEST
 test_set_and_get_ua_type(void) {
     rid_ua_type_t types[] = {
         RID_UA_TYPE_NONE,
@@ -144,6 +152,14 @@ TEST
 test_set_ua_type_null_pointer(void) {
     rid_error_t status = rid_set_ua_type(NULL, RID_UA_TYPE_AEROPLANE_OR_FIXED_WING);
     ASSERT_EQ(RID_ERROR_NULL_POINTER, status);
+
+    PASS();
+}
+
+TEST
+test_get_ua_type_null_pointer(void) {
+    rid_ua_type_t type = rid_get_ua_type(NULL);
+    ASSERT_EQ(RID_UA_TYPE_NONE, type);
 
     PASS();
 }
@@ -236,10 +252,12 @@ SUITE(basic_id_suite) {
     RUN_TEST(test_set_and_get_basic_id_type);
     RUN_TEST(test_set_basic_id_type_out_of_range);
     RUN_TEST(test_set_basic_id_type_null_pointer);
+    RUN_TEST(test_get_basic_id_type_null_pointer);
 
     RUN_TEST(test_set_and_get_ua_type);
     RUN_TEST(test_set_ua_type_out_of_range);
     RUN_TEST(test_set_ua_type_null_pointer);
+    RUN_TEST(test_get_ua_type_null_pointer);
 
     RUN_TEST(test_set_and_get_uas_id);
     RUN_TEST(test_set_uas_id_null_pointer_message);

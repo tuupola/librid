@@ -36,6 +36,9 @@ rid_set_basic_id_type(rid_basic_id_t *message, rid_basic_id_type_t type) {
 
 rid_basic_id_type_t
 rid_get_basic_id_type(const rid_basic_id_t *message) {
+    if (message == NULL) {
+        return RID_ID_TYPE_NONE;
+    }
     return (rid_basic_id_type_t)message->id_type;
 }
 
@@ -56,6 +59,9 @@ rid_set_ua_type(rid_basic_id_t *message, rid_ua_type_t type) {
 
 rid_ua_type_t
 rid_get_ua_type(const rid_basic_id_t *message) {
+    if (message == NULL) {
+        return RID_UA_TYPE_NONE;
+    }
     return (rid_ua_type_t)message->ua_type;
 }
 

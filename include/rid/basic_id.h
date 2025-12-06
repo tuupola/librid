@@ -82,7 +82,7 @@ rid_error_t rid_set_basic_id_type(rid_basic_id_t *message, rid_basic_id_type_t t
  *
  * @param message Pointer to the Basic ID message structure.
  *
- * @return The ID type value.
+ * @return The ID type, or RID_ID_TYPE_NONE if message is NULL.
  */
 rid_basic_id_type_t rid_get_basic_id_type(const rid_basic_id_t *message);
 
@@ -103,7 +103,7 @@ rid_error_t rid_set_ua_type(rid_basic_id_t *message, rid_ua_type_t type);
  *
  * @param message Pointer to the Basic ID message structure.
  *
- * @return The UA type value.
+ * @return The UA type, or RID_UA_TYPE_NONE if message is NULL.
  */
 rid_ua_type_t rid_get_ua_type(const rid_basic_id_t *message);
 
