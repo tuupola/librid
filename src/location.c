@@ -156,11 +156,14 @@ rid_set_vertical_speed(rid_location_t *location, float speed_ms) {
         return RID_ERROR_OUT_OF_RANGE;
     }
 
-    if (speed_ms >= 0.0f) {
-        location->vertical_speed = (int8_t)((speed_ms / 0.5f) + 0.5f);
-    } else {
-        location->vertical_speed = (int8_t)((speed_ms / 0.5f) - 0.5f);
-    }
+    /* ASTM F3411-22 does NOT mention rounding */
+    location->vertical_speed = (int8_t)(speed_ms / 0.5f);
+
+    // if (speed_ms >= 0.0f) {
+    //     location->vertical_speed = (int8_t)((speed_ms / 0.5f) + 0.5f);
+    // } else {
+    //     location->vertical_speed = (int8_t)((speed_ms / 0.5f) - 0.5f);
+    // }
 
     return RID_SUCCESS;
 }
