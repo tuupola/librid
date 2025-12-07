@@ -43,7 +43,8 @@ rid_set_track_direction(rid_location_t *location, uint16_t degrees) {
         return RID_SUCCESS;
     }
 
-    /* Impossible direction */
+    /* ASTM F3411-22 Table 6 */
+    /* Must be 0-359 */
     if (degrees > 359) {
         return RID_ERROR_OUT_OF_RANGE;
     }
