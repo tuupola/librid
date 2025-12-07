@@ -1221,7 +1221,7 @@ test_location_init(void) {
 
     /* Verify default flags */
     ASSERT_EQ(1, location.speed_multiplier);
-    ASSERT_EQ(RID_EW_DIRECTION_EAST, location.ew_direction);
+    ASSERT_EQ(RID_EW_DIRECTION_WEST, location.ew_direction);
     ASSERT_EQ(RID_HEIGHT_TYPE_ABOVE_TAKEOFF, location.height_type);
     ASSERT_EQ(RID_OPERATIONAL_STATUS_UNDECLARED, location.operational_status);
 
