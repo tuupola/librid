@@ -7,7 +7,7 @@
 TEST
 test_set_and_get_track_direction(void) {
     /* Test all valid directions 0-359 */
-    for (uint16_t degrees = 0; degrees <= 359; degrees++) {
+    for (uint16_t degrees = 0; degrees <= RID_TRACK_DIRECTION_MAX; degrees++) {
         rid_location_t location;
         memset(&location, 0, sizeof(location));
 
