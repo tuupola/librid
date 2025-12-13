@@ -28,6 +28,19 @@ typedef enum rid_operator_id_type {
 } rid_operator_id_type_t;
 
 /**
+ * @brief Initialize an Operator ID message with default values.
+ *
+ * Sets protocol version to 2 and message type to OPERATOR_ID.
+ * All other fields are set to zero.
+ *
+ * @param message Pointer to the Operator ID message structure.
+ *
+ * @retval RID_SUCCESS on success.
+ * @retval RID_ERROR_NULL_POINTER if message is NULL.
+ */
+rid_error_t rid_operator_id_init(rid_operator_id_t *message);
+
+/**
  * @brief Get the ID type from an Operator ID message.
  *
  * @param message Pointer to the Operator ID message structure.
