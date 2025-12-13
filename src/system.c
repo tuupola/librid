@@ -285,3 +285,30 @@ float
 rid_get_area_floor(const rid_system_t *system) {
     return ((float)system->area_floor * 0.5f) - 1000.0f;
 }
+
+rid_error_t
+rid_set_system_timestamp(rid_system_t *system, uint32_t timestamp) {
+    if (system == NULL) {
+        return RID_ERROR_NULL_POINTER;
+    }
+
+    system->timestamp = timestamp;
+
+    return RID_SUCCESS;
+}
+
+uint32_t
+rid_get_system_timestamp(const rid_system_t *system) {
+    return system->timestamp;
+}
+
+rid_error_t
+rid_set_system_timestamp_from_unixtime(rid_system_t *system, uint32_t unixtime) {
+    if (system == NULL) {
+        return RID_ERROR_NULL_POINTER;
+    }
+
+    system->timestamp = unixtime - RID_SYSTEM_TIMESTAMP_EPOCH;
+
+    return RID_SUCCESS;
+}

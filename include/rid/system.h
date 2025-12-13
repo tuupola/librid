@@ -48,6 +48,8 @@ __attribute__((__packed__)) rid_system {
 #define RID_OPERATOR_ALTITUDE_INVALID FLT_MAX
 #define RID_OPERATOR_ALTITUDE_INVALID_ENCODED 0
 
+#define RID_SYSTEM_TIMESTAMP_EPOCH 1546300800
+
 /**
  * @brief Operator location type per ASTM F3411-22a.
  */
@@ -334,6 +336,39 @@ rid_error_t rid_set_area_floor(rid_system_t *system, float altitude);
  * @return The floor altitude in meters.
  */
 float rid_get_area_floor(const rid_system_t *system);
+
+/**
+ * @brief Set the timestamp for a System message.
+ *
+ * @param system Pointer to the System message structure.
+ * @param timestamp Seconds since RID epoch (2019-01-01 00:00:00 UTC).
+ *
+ * @retval RID_SUCCESS on success.
+ * @retval RID_ERROR_NULL_POINTER if system is NULL.
+ */
+rid_error_t rid_set_system_timestamp(rid_system_t *system, uint32_t timestamp);
+
+/**
+ * @brief Get the timestamp from a System message.
+ *
+ * @param system Pointer to the System message structure.
+ *
+ * @return Seconds since RID epoch (2019-01-01 00:00:00 UTC).
+ */
+uint32_t rid_get_system_timestamp(const rid_system_t *system);
+
+/**
+ * @brief Set the timestamp for a System message from Unix time.
+ *
+ * Converts Unix timestamp to RID epoch and stores.
+ *
+ * @param system Pointer to the System message structure.
+ * @param unixtime Unix timestamp (seconds since 1970-01-01 00:00:00 UTC).
+ *
+ * @retval RID_SUCCESS on success.
+ * @retval RID_ERROR_NULL_POINTER if system is NULL.
+ */
+rid_error_t rid_set_system_timestamp_from_unixtime(rid_system_t *system, uint32_t unixtime);
 
 /**
  * @brief Initialize a System message with default values.
