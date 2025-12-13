@@ -193,3 +193,95 @@ float
 rid_get_operator_altitude(const rid_system_t *system) {
     return ((float)system->operator_altitude * 0.5f) - 1000.0f;
 }
+
+rid_error_t
+rid_set_area_count(rid_system_t *system, uint16_t count) {
+    if (system == NULL) {
+        return RID_ERROR_NULL_POINTER;
+    }
+
+    system->area_count = count;
+
+    return RID_SUCCESS;
+}
+
+uint16_t
+rid_get_area_count(const rid_system_t *system) {
+    return system->area_count;
+}
+
+rid_error_t
+rid_set_area_radius(rid_system_t *system, uint16_t meters) {
+    if (system == NULL) {
+        return RID_ERROR_NULL_POINTER;
+    }
+
+    /* ASTM F3411-22 Table 11
+     * meters * 10
+     * 0 to 2550 meters
+     */
+
+    if (meters > RID_AREA_RADIUS_MAX) {
+        return RID_ERROR_OUT_OF_RANGE;
+    }
+
+    system->area_radius = (uint8_t)(meters / 10);
+
+    return RID_SUCCESS;
+}
+
+uint16_t
+rid_get_area_radius(const rid_system_t *system) {
+    return (uint16_t)system->area_radius * 10;
+}
+
+rid_error_t
+rid_set_area_ceiling(rid_system_t *system, float altitude) {
+    if (system == NULL) {
+        return RID_ERROR_NULL_POINTER;
+    }
+
+    /* ASTM F3411-22 Table 11
+     * WGS-84 HAE
+     * (altitude + 1000m) / 0.5
+     * -1000 to 31767 meters
+     */
+
+    if (altitude < RID_AREA_CEILING_MIN || altitude > RID_AREA_CEILING_MAX) {
+        return RID_ERROR_OUT_OF_RANGE;
+    }
+
+    system->area_ceiling = (uint16_t)(((altitude + 1000.0f) / 0.5f) + 0.5f);
+
+    return RID_SUCCESS;
+}
+
+float
+rid_get_area_ceiling(const rid_system_t *system) {
+    return ((float)system->area_ceiling * 0.5f) - 1000.0f;
+}
+
+rid_error_t
+rid_set_area_floor(rid_system_t *system, float altitude) {
+    if (system == NULL) {
+        return RID_ERROR_NULL_POINTER;
+    }
+
+    /* ASTM F3411-22 Table 7
+     * (altitude + 1000) / 0.5
+     * -1000 to 31767 meters
+     */
+
+    if (altitude < RID_AREA_FLOOR_MIN || altitude > RID_AREA_FLOOR_MAX) {
+        return RID_ERROR_OUT_OF_RANGE;
+    }
+
+    system->area_floor = (uint16_t)(((altitude + 1000.0f) / 0.5f) + 0.5f);
+
+    return RID_SUCCESS;
+}
+
+float
+rid_get_area_floor(const rid_system_t *system) {
+    return ((float)system->area_floor * 0.5f) - 1000.0f;
+}

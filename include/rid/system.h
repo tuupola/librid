@@ -36,6 +36,15 @@ __attribute__((__packed__)) rid_system {
     uint8_t reserved_2;
 } rid_system_t;
 
+#define RID_AREA_COUNT_MAX UINT16_MAX
+#define RID_AREA_RADIUS_MAX 2550
+
+#define RID_AREA_CEILING_MIN -1000.0f
+#define RID_AREA_CEILING_MAX 31767.0f
+
+#define RID_AREA_FLOOR_MIN -1000.0f
+#define RID_AREA_FLOOR_MAX 31767.0f
+
 #define RID_OPERATOR_ALTITUDE_INVALID FLT_MAX
 #define RID_OPERATOR_ALTITUDE_INVALID_ENCODED 0
 
@@ -242,6 +251,89 @@ rid_error_t rid_set_operator_altitude(rid_system_t *system, float altitude);
  * @return Altitude in meters. -1000.0 indicates invalid/unknown.
  */
 float rid_get_operator_altitude(const rid_system_t *system);
+
+/**
+ * @brief Set the area count for a System message.
+ *
+ * @param system Pointer to the System message structure.
+ * @param count The number of aircraft in the area.
+ *
+ * @retval RID_SUCCESS on success.
+ * @retval RID_ERROR_NULL_POINTER if system is NULL.
+ */
+rid_error_t rid_set_area_count(rid_system_t *system, uint16_t count);
+
+/**
+ * @brief Get the area count from a System message.
+ *
+ * @param system Pointer to the System message structure.
+ *
+ * @return The number of aircraft in the area.
+ */
+uint16_t rid_get_area_count(const rid_system_t *system);
+
+/**
+ * @brief Set the area radius for a System message.
+ *
+ * @param system Pointer to the System message structure.
+ * @param meters The radius in meters (0 to 2550, 10m resolution).
+ *
+ * @retval RID_SUCCESS on success.
+ * @retval RID_ERROR_NULL_POINTER if system is NULL.
+ * @retval RID_ERROR_OUT_OF_RANGE if meters exceeds 2550.
+ */
+rid_error_t rid_set_area_radius(rid_system_t *system, uint16_t meters);
+
+/**
+ * @brief Get the area radius from a System message.
+ *
+ * @param system Pointer to the System message structure.
+ *
+ * @return The radius in meters.
+ */
+uint16_t rid_get_area_radius(const rid_system_t *system);
+
+/**
+ * @brief Set the area ceiling for a System message.
+ *
+ * @param system Pointer to the System message structure.
+ * @param altitude The ceiling altitude in meters (-1000 to 31767).
+ *
+ * @retval RID_SUCCESS on success.
+ * @retval RID_ERROR_NULL_POINTER if system is NULL.
+ * @retval RID_ERROR_OUT_OF_RANGE if altitude is outside valid range.
+ */
+rid_error_t rid_set_area_ceiling(rid_system_t *system, float altitude);
+
+/**
+ * @brief Get the area ceiling from a System message.
+ *
+ * @param system Pointer to the System message structure.
+ *
+ * @return The ceiling altitude in meters.
+ */
+float rid_get_area_ceiling(const rid_system_t *system);
+
+/**
+ * @brief Set the area floor for a System message.
+ *
+ * @param system Pointer to the System message structure.
+ * @param altitude The floor altitude in meters (-1000 to 31767).
+ *
+ * @retval RID_SUCCESS on success.
+ * @retval RID_ERROR_NULL_POINTER if system is NULL.
+ * @retval RID_ERROR_OUT_OF_RANGE if altitude is outside valid range.
+ */
+rid_error_t rid_set_area_floor(rid_system_t *system, float altitude);
+
+/**
+ * @brief Get the area floor from a System message.
+ *
+ * @param system Pointer to the System message structure.
+ *
+ * @return The floor altitude in meters.
+ */
+float rid_get_area_floor(const rid_system_t *system);
 
 /**
  * @brief Initialize a System message with default values.
