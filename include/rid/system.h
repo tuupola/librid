@@ -243,4 +243,17 @@ rid_error_t rid_set_operator_altitude(rid_system_t *system, float altitude);
  */
 float rid_get_operator_altitude(const rid_system_t *system);
 
+/**
+ * @brief Initialize a System message with default values.
+ *
+ * Sets protocol version to 2 and message type to SYSTEM.
+ * All other fields are set to zero.
+ *
+ * @param system Pointer to the System message structure.
+ *
+ * @retval RID_SUCCESS on success.
+ * @retval RID_ERROR_NULL_POINTER if system is NULL.
+ */
+rid_error_t rid_system_init(rid_system_t *system);
+
 #endif

@@ -6,6 +6,20 @@
 #include "rid/system.h"
 
 rid_error_t
+rid_system_init(rid_system_t *system) {
+    if (system == NULL) {
+        return RID_ERROR_NULL_POINTER;
+    }
+
+    memset(system, 0, sizeof(rid_system_t));
+    system->protocol_version = RID_PROTOCOL_VERSION_2;
+    system->message_type = RID_MESSAGE_TYPE_SYSTEM;
+    system->area_count = 1;
+
+    return RID_SUCCESS;
+}
+
+rid_error_t
 rid_set_operator_location_type(rid_system_t *system, rid_operator_location_type_t type) {
     if (system == NULL) {
         return RID_ERROR_NULL_POINTER;
