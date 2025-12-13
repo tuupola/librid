@@ -5,6 +5,19 @@
 #include "rid/header.h"
 #include "rid/self_id.h"
 
+rid_error_t
+rid_self_id_init(rid_self_id_t *message) {
+    if (message == NULL) {
+        return RID_ERROR_NULL_POINTER;
+    }
+
+    memset(message, 0, sizeof(rid_self_id_t));
+    message->protocol_version = RID_PROTOCOL_VERSION_2;
+    message->message_type = RID_MESSAGE_TYPE_SELF_ID;
+
+    return RID_SUCCESS;
+}
+
 rid_description_type_t
 rid_get_description_type(const rid_self_id_t *message) {
     return (rid_description_type_t)message->description_type;

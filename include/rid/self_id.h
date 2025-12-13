@@ -77,4 +77,17 @@ rid_error_t rid_get_description(const rid_self_id_t *message, char *buffer, size
  */
 rid_error_t rid_set_description(rid_self_id_t *message, const char *description);
 
+/**
+ * @brief Initialize a Self ID message with default values.
+ *
+ * Sets protocol version to 2 and message type to SELF_ID.
+ * All other fields are set to zero.
+ *
+ * @param message Pointer to the Self ID message structure.
+ *
+ * @retval RID_SUCCESS on success.
+ * @retval RID_ERROR_NULL_POINTER if message is NULL.
+ */
+rid_error_t rid_self_id_init(rid_self_id_t *message);
+
 #endif
