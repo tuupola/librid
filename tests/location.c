@@ -1292,11 +1292,6 @@ SUITE(location_suite) {
     RUN_TEST(test_longitude_out_of_range);
     RUN_TEST(test_set_longitude_null_pointer);
 
-    RUN_TEST(test_set_and_get_height);
-    RUN_TEST(test_height_out_of_range);
-    RUN_TEST(test_height_invalid);
-    RUN_TEST(test_set_height_null_pointer);
-
     RUN_TEST(test_set_and_get_pressure_altitude);
     RUN_TEST(test_pressure_altitude_out_of_range);
     RUN_TEST(test_pressure_altitude_invalid);
@@ -1306,6 +1301,11 @@ SUITE(location_suite) {
     RUN_TEST(test_geodetic_altitude_out_of_range);
     RUN_TEST(test_geodetic_altitude_invalid);
     RUN_TEST(test_set_geodetic_altitude_null_pointer);
+
+    RUN_TEST(test_set_and_get_height);
+    RUN_TEST(test_height_out_of_range);
+    RUN_TEST(test_height_invalid);
+    RUN_TEST(test_set_height_null_pointer);
 
     RUN_TEST(test_set_and_get_height_type);
     RUN_TEST(test_height_type_out_of_range);
