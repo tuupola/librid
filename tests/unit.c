@@ -13,6 +13,7 @@ main(int argc, char **argv) {
     RUN_SUITE(location_suite);
     RUN_SUITE(self_id_suite);
     RUN_SUITE(system_suite);
+    RUN_SUITE(message_pack_suite);
 
     GREATEST_MAIN_END();
 }

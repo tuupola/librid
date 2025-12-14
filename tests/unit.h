@@ -9,5 +9,6 @@ extern SUITE(operator_id_suite);
 extern SUITE(location_suite);
 extern SUITE(self_id_suite);
 extern SUITE(system_suite);
+extern SUITE(message_pack_suite);
 
 #endif

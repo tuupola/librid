@@ -9,10 +9,11 @@ SRC = $(SRC_DIR)/header.c \
       $(SRC_DIR)/operator_id.c \
       $(SRC_DIR)/location.c \
       $(SRC_DIR)/self_id.c \
-      $(SRC_DIR)/system.c
+      $(SRC_DIR)/system.c \
+      $(SRC_DIR)/message_pack.c
 
 # Test files
-TEST_SRC = unit.c header.c basic_id.c operator_id.c location.c self_id.c system.c
+TEST_SRC = unit.c header.c basic_id.c operator_id.c location.c self_id.c system.c message_pack.c
 
 # Object files
 OBJ = $(SRC:.c=.o)
