@@ -2,7 +2,7 @@
 #include <string.h>
 
 #include "greatest.h"
-#include "rid/header.h"
+#include "rid/message.h"
 #include "rid/system.h"
 
 TEST

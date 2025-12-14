@@ -4,7 +4,7 @@
 #include <stdint.h>
 #include <stddef.h>
 
-#include "rid/header.h"
+#include "rid/message.h"
 
 /**
  * @brief Self ID message structure per ASTM F3411-22a.

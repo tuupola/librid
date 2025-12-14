@@ -5,7 +5,7 @@ protocol version.
 
 ```c
 #include <stdio.h>
-#include "rid/header.h"
+#include "rid/message.h"
 #include "rid/basic_id.h"
 
 /* Captured Basic ID message bytes */
@@ -35,7 +35,7 @@ To create a Basic ID message, create a `rid_basic_id_t` structure and initialize
 
 ```c
 #include "rid/basic_id.h"
-#include "rid/header.h"
+#include "rid/message.h"
 
 rid_basic_id_t message;
 
@@ -53,7 +53,7 @@ rid_set_uas_id(&message, "DJI-PHANTOM-4");
 /* Message is now ready to transmit */
 ```
 
-You can read the values for example from a captured message. See all possible values in [header.h](include/rid/header.h) and [basic_id.h](include/rid/basic_id.h) files.
+You can read the values for example from a captured message. See all possible values in [message.h](include/rid/message.h) and [basic_id.h](include/rid/basic_id.h) files.
 
 ```c
 rid_message_type_t type = rid_get_message_type(&message);
@@ -71,4 +71,4 @@ if (status == RID_SUCCESS) {
 
 ## Error handling
 
-All setter functions return `rid_error_t`. See all return values in [header.h](include/rid/header.h) file.
+All setter functions return `rid_error_t`. See all return values in [message.h](include/rid/message.h) file.

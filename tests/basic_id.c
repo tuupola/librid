@@ -2,7 +2,7 @@
 #include <string.h>
 
 #include "greatest.h"
-#include "rid/header.h"
+#include "rid/message.h"
 #include "rid/basic_id.h"
 
 /* Real life captured message */

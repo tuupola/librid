@@ -5,7 +5,7 @@
 #include <stddef.h>
 #include <float.h>
 
-#include "rid/header.h"
+#include "rid/message.h"
 
 /**
  * @brief System message structure per ASTM F3411-22a.

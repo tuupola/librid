@@ -5,7 +5,7 @@
 extern "C" {
 #endif /* __cplusplus */
 
-#include "rid/header.h"
+#include "rid/message.h"
 #include "rid/basic_id.h"
 #include "rid/location.h"
 #include "rid/operator_id.h"

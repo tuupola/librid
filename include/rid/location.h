@@ -4,7 +4,7 @@
 #include <stdint.h>
 #include <float.h>
 
-#include "rid/header.h"
+#include "rid/message.h"
 
 #define RID_TRACK_DIRECTION_MAX 359
 #define RID_TRACK_DIRECTION_UNKNOWN 361

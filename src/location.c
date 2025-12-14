@@ -2,7 +2,7 @@
 #include <stdint.h>
 #include <string.h>
 
-#include "rid/header.h"
+#include "rid/message.h"
 #include "rid/location.h"
 
 rid_error_t
