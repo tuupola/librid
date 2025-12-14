@@ -16,12 +16,12 @@ test_get_message_type(void) {
     };
 
     for (size_t i = 0; i < sizeof(types) / sizeof(types[0]); i++) {
-        rid_message_header_t header;
+        rid_message_t message;
 
-        memset(&header, 0, sizeof(header));
-        header.message_type = types[i];
+        memset(&message, 0, sizeof(message));
+        message.message_type = types[i];
 
-        rid_message_type_t result = rid_get_message_type(&header);
+        rid_message_type_t result = rid_get_message_type(&message);
 
         ASSERT_EQ(types[i], result);
     }
@@ -39,12 +39,12 @@ test_get_protocol_version(void) {
     };
 
     for (size_t i = 0; i < sizeof(versions) / sizeof(versions[0]); i++) {
-        rid_message_header_t header;
+        rid_message_t message;
 
-        memset(&header, 0, sizeof(header));
-        header.protocol_version = versions[i];
+        memset(&message, 0, sizeof(message));
+        message.protocol_version = versions[i];
 
-        rid_protocol_version_t result = rid_get_protocol_version(&header);
+        rid_protocol_version_t result = rid_get_protocol_version(&message);
 
         ASSERT_EQ(versions[i], result);
     }
