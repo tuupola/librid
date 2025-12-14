@@ -233,6 +233,35 @@ test_get_uas_id_null_pointer_buffer(void) {
 }
 
 TEST
+test_set_uas_id_too_long(void) {
+    rid_basic_id_t message;
+    rid_basic_id_init(&message);
+
+    /* 21 characters - one over limit */
+    rid_error_t status = rid_set_uas_id(&message, "123456789012345678901");
+    ASSERT_EQ(RID_ERROR_BUFFER_TOO_LARGE, status);
+
+    /* Even longer string */
+    status = rid_set_uas_id(&message, "Welcome to Costco, I love you.");
+    ASSERT_EQ(RID_ERROR_BUFFER_TOO_LARGE, status);
+
+    PASS();
+}
+
+TEST
+test_get_uas_id_buffer_too_small(void) {
+    rid_basic_id_t message;
+    rid_basic_id_init(&message);
+    rid_set_uas_id(&message, "TEST-DRONE-001");
+
+    char buffer[10];
+    rid_error_t status = rid_get_uas_id(&message, buffer, sizeof(buffer));
+    ASSERT_EQ(RID_ERROR_BUFFER_TOO_SMALL, status);
+
+    PASS();
+}
+
+TEST
 test_decode_basic_id_buffer(void) {
     rid_basic_id_t *message = (rid_basic_id_t *)buffer;
 
@@ -262,8 +291,10 @@ SUITE(basic_id_suite) {
     RUN_TEST(test_set_and_get_uas_id);
     RUN_TEST(test_set_uas_id_null_pointer_message);
     RUN_TEST(test_set_uas_id_null_pointer_id);
+    RUN_TEST(test_set_uas_id_too_long);
     RUN_TEST(test_get_uas_id_null_pointer_message);
     RUN_TEST(test_get_uas_id_null_pointer_buffer);
+    RUN_TEST(test_get_uas_id_buffer_too_small);
 
     RUN_TEST(test_decode_basic_id_buffer);
 }
