@@ -6,7 +6,7 @@
 #include "rid/operator_id.h"
 
 /* Real life captured message */
-uint8_t buffer[] = {
+static uint8_t buffer[] = {
     0x52, 0x00, 0x46, 0x49, 0x4e, 0x38, 0x37, 0x61, 0x73,
     0x74, 0x72, 0x64, 0x67, 0x65, 0x31, 0x32, 0x6b, 0x38,
     0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
@@ -141,7 +141,71 @@ test_decode_operator_id_buffer(void) {
     PASS();
 }
 
+TEST
+test_get_operator_id_null_pointer(void) {
+    rid_error_t status;
+    rid_operator_id_t message;
+    char buf[21];
+
+    memset(&message, 0, sizeof(message));
+
+    status = rid_get_operator_id(NULL, buf, sizeof(buf));
+    ASSERT_EQ(RID_ERROR_NULL_POINTER, status);
+
+    status = rid_get_operator_id(&message, NULL, sizeof(buf));
+    ASSERT_EQ(RID_ERROR_NULL_POINTER, status);
+
+    PASS();
+}
+
+TEST
+test_get_operator_id_buffer_too_small(void) {
+    rid_operator_id_t message;
+    rid_error_t status;
+    char buf[10];
+
+    memset(&message, 0, sizeof(message));
+    rid_set_operator_id(&message, "I like money");
+
+    status = rid_get_operator_id(&message, buf, sizeof(buf));
+    ASSERT_EQ(RID_ERROR_BUFFER_TOO_SMALL, status);
+
+    PASS();
+}
+
+TEST
+test_operator_id_init(void) {
+    rid_operator_id_t message;
+    rid_error_t status;
+
+    memset(&message, 0xFF, sizeof(message));
+
+    status = rid_operator_id_init(&message);
+    ASSERT_EQ(RID_SUCCESS, status);
+
+    ASSERT_EQ(RID_PROTOCOL_VERSION_2, message.protocol_version);
+    ASSERT_EQ(RID_MESSAGE_TYPE_OPERATOR_ID, message.message_type);
+    ASSERT_EQ(RID_ID_TYPE_OPERATOR_ID, message.id_type);
+
+    for (size_t i = 0; i < 20; i++) {
+        ASSERT_EQ(0, message.operator_id[i]);
+    }
+
+    PASS();
+}
+
+TEST
+test_operator_id_init_null_pointer(void) {
+    rid_error_t status = rid_operator_id_init(NULL);
+    ASSERT_EQ(RID_ERROR_NULL_POINTER, status);
+
+    PASS();
+}
+
 SUITE(operator_id_suite) {
+    RUN_TEST(test_operator_id_init);
+    RUN_TEST(test_operator_id_init_null_pointer);
+
     RUN_TEST(test_set_and_get_operator_id_type);
     RUN_TEST(test_set_operator_id_type_null_pointer);
 
@@ -149,6 +213,8 @@ SUITE(operator_id_suite) {
     RUN_TEST(test_set_operator_id_must_be_ascii);
     RUN_TEST(test_set_operator_id_too_long);
     RUN_TEST(test_set_operator_id_null_pointer);
+    RUN_TEST(test_get_operator_id_null_pointer);
+    RUN_TEST(test_get_operator_id_buffer_too_small);
 
     RUN_TEST(test_decode_operator_id_buffer);
 }
