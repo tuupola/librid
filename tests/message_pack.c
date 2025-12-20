@@ -52,9 +52,9 @@ test_set_and_get_count(void) {
     rid_message_pack_init(&message);
 
     for (uint8_t i = 0; i <= RID_MESSAGE_PACK_MAX_MESSAGES; i++) {
-        rid_error_t status = rid_set_message_count(&message, i);
+        rid_error_t status = rid_message_pack_set_message_count(&message, i);
         ASSERT_EQ(RID_SUCCESS, status);
-        ASSERT_EQ(i, rid_get_message_count(&message));
+        ASSERT_EQ(i, rid_message_pack_get_message_count(&message));
     }
 
     PASS();
@@ -62,14 +62,14 @@ test_set_and_get_count(void) {
 
 TEST
 test_set_count_null_pointer(void) {
-    rid_error_t status = rid_set_message_count(NULL, 1);
+    rid_error_t status = rid_message_pack_set_message_count(NULL, 1);
     ASSERT_EQ(RID_ERROR_NULL_POINTER, status);
     PASS();
 }
 
 TEST
 test_get_count_null_pointer(void) {
-    uint8_t count = rid_get_message_count(NULL);
+    uint8_t count = rid_message_pack_get_message_count(NULL);
     ASSERT_EQ(0, count);
     PASS();
 }
@@ -79,10 +79,10 @@ test_set_count_out_of_range(void) {
     rid_message_pack_t message;
     rid_message_pack_init(&message);
 
-    rid_error_t status = rid_set_message_count(&message, RID_MESSAGE_PACK_MAX_MESSAGES + 1);
+    rid_error_t status = rid_message_pack_set_message_count(&message, RID_MESSAGE_PACK_MAX_MESSAGES + 1);
     ASSERT_EQ(RID_ERROR_OUT_OF_RANGE, status);
 
-    status = rid_set_message_count(&message, UINT8_MAX);
+    status = rid_message_pack_set_message_count(&message, UINT8_MAX);
     ASSERT_EQ(RID_ERROR_OUT_OF_RANGE, status);
 
     PASS();
@@ -96,7 +96,7 @@ test_decode_message_pack_buffer(void) {
     ASSERT_EQ(RID_MESSAGE_TYPE_MESSAGE_PACK, rid_get_message_type(message));
     // ASSERT_EQ(RID_MESSAGE_SIZE, rid_message_get_message_size());
 
-    ASSERT_EQ(4, rid_get_message_count(message));
+    ASSERT_EQ(4, rid_message_pack_get_message_count(message));
 
     PASS();
 }

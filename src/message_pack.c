@@ -21,7 +21,7 @@ rid_message_pack_init(rid_message_pack_t *pack) {
 }
 
 rid_error_t
-rid_set_message_count(rid_message_pack_t *pack, uint8_t count) {
+rid_message_pack_set_message_count(rid_message_pack_t *pack, uint8_t count) {
     if (pack == NULL) {
         return RID_ERROR_NULL_POINTER;
     }
@@ -36,7 +36,7 @@ rid_set_message_count(rid_message_pack_t *pack, uint8_t count) {
 }
 
 uint8_t
-rid_get_message_count(const rid_message_pack_t *pack) {
+rid_message_pack_get_message_count(const rid_message_pack_t *pack) {
     if (pack == NULL) {
         return 0;
     }

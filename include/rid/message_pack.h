@@ -44,7 +44,7 @@ rid_error_t rid_message_pack_init(rid_message_pack_t *pack);
  * @retval RID_ERROR_NULL_POINTER if pack is NULL.
  * @retval RID_ERROR_OUT_OF_RANGE if count exceeds RID_MESSAGE_PACK_MAX_MESSAGES.
  */
-rid_error_t rid_set_message_count(rid_message_pack_t *pack, uint8_t count);
+rid_error_t rid_message_pack_set_message_count(rid_message_pack_t *pack, uint8_t count);
 
 /**
  * @brief Get the message count from a Message Pack.
@@ -53,6 +53,6 @@ rid_error_t rid_set_message_count(rid_message_pack_t *pack, uint8_t count);
  *
  * @return The message count, or 0 if pack is NULL.
  */
-uint8_t rid_get_message_count(const rid_message_pack_t *pack);
+uint8_t rid_message_pack_get_message_count(const rid_message_pack_t *pack);
 
 #endif
