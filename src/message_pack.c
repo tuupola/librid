@@ -69,3 +69,25 @@ rid_message_pack_get_message_at(const rid_message_pack_t *pack, uint8_t index) {
     size_t offset = index * RID_MESSAGE_SIZE;
     return &pack->messages[offset];
 }
+
+rid_error_t
+rid_message_pack_delete_message_at(rid_message_pack_t *pack, uint8_t index) {
+    if (pack == NULL) {
+        return RID_ERROR_NULL_POINTER;
+    }
+
+    if (index >= pack->message_count) {
+        return RID_ERROR_OUT_OF_RANGE;
+    }
+
+    /* Shift remaining messages down */
+    size_t offset = index * RID_MESSAGE_SIZE;
+    size_t remaining = (pack->message_count - index - 1) * RID_MESSAGE_SIZE;
+    if (remaining > 0) {
+        memmove(&pack->messages[offset], &pack->messages[offset + RID_MESSAGE_SIZE], remaining);
+    }
+
+    --pack->message_count;
+
+    return RID_SUCCESS;
+}

@@ -241,6 +241,139 @@ test_get_message_at_out_of_range(void) {
     PASS();
 }
 
+TEST
+test_delete_message_at(void) {
+    rid_message_pack_t pack;
+    rid_basic_id_t basic_id;
+    char uas_id[21];
+
+    rid_message_pack_init(&pack);
+
+    /* Add 5 messages: DRONE001 through DRONE005 */
+    for (uint8_t i = 0; i < 5; ++i) {
+        rid_basic_id_init(&basic_id);
+        snprintf(uas_id, sizeof(uas_id), "DRONE%03u", i + 1);
+        rid_set_uas_id(&basic_id, uas_id);
+        rid_message_pack_add_message(&pack, &basic_id);
+    }
+    ASSERT_EQ(5, rid_message_pack_get_message_count(&pack));
+
+    /* Delete middle message (index 2, DRONE003) */
+    rid_error_t status = rid_message_pack_delete_message_at(&pack, 2);
+    ASSERT_EQ(RID_SUCCESS, status);
+    ASSERT_EQ(4, rid_message_pack_get_message_count(&pack));
+
+    /* Verify remaining messages shifted correctly */
+    const rid_basic_id_t *msg = rid_message_pack_get_message_at(&pack, 0);
+    rid_get_uas_id(msg, uas_id, sizeof(uas_id));
+    ASSERT_STR_EQ("DRONE001", uas_id);
+
+    msg = rid_message_pack_get_message_at(&pack, 1);
+    rid_get_uas_id(msg, uas_id, sizeof(uas_id));
+    ASSERT_STR_EQ("DRONE002", uas_id);
+
+    msg = rid_message_pack_get_message_at(&pack, 2);
+    rid_get_uas_id(msg, uas_id, sizeof(uas_id));
+    ASSERT_STR_EQ("DRONE004", uas_id);
+
+    msg = rid_message_pack_get_message_at(&pack, 3);
+    rid_get_uas_id(msg, uas_id, sizeof(uas_id));
+    ASSERT_STR_EQ("DRONE005", uas_id);
+
+    PASS();
+}
+
+TEST
+test_delete_message_at_first(void) {
+    rid_message_pack_t pack;
+    rid_basic_id_t basic_id;
+    char uas_id[21];
+
+    rid_message_pack_init(&pack);
+
+    for (uint8_t i = 0; i < 3; ++i) {
+        rid_basic_id_init(&basic_id);
+        snprintf(uas_id, sizeof(uas_id), "DRONE%03u", i + 1);
+        rid_set_uas_id(&basic_id, uas_id);
+        rid_message_pack_add_message(&pack, &basic_id);
+    }
+
+    rid_error_t status = rid_message_pack_delete_message_at(&pack, 0);
+    ASSERT_EQ(RID_SUCCESS, status);
+    ASSERT_EQ(2, rid_message_pack_get_message_count(&pack));
+
+    const rid_basic_id_t *msg = rid_message_pack_get_message_at(&pack, 0);
+    rid_get_uas_id(msg, uas_id, sizeof(uas_id));
+    ASSERT_STR_EQ("DRONE002", uas_id);
+
+    msg = rid_message_pack_get_message_at(&pack, 1);
+    rid_get_uas_id(msg, uas_id, sizeof(uas_id));
+    ASSERT_STR_EQ("DRONE003", uas_id);
+
+    PASS();
+}
+
+TEST
+test_delete_message_at_last(void) {
+    rid_message_pack_t pack;
+    rid_basic_id_t basic_id;
+    char uas_id[21];
+
+    rid_message_pack_init(&pack);
+
+    for (uint8_t i = 0; i < 3; ++i) {
+        rid_basic_id_init(&basic_id);
+        snprintf(uas_id, sizeof(uas_id), "DRONE%03u", i + 1);
+        rid_set_uas_id(&basic_id, uas_id);
+        rid_message_pack_add_message(&pack, &basic_id);
+    }
+
+    rid_error_t status = rid_message_pack_delete_message_at(&pack, 2);
+    ASSERT_EQ(RID_SUCCESS, status);
+    ASSERT_EQ(2, rid_message_pack_get_message_count(&pack));
+
+    const rid_basic_id_t *msg = rid_message_pack_get_message_at(&pack, 0);
+    rid_get_uas_id(msg, uas_id, sizeof(uas_id));
+    ASSERT_STR_EQ("DRONE001", uas_id);
+
+    msg = rid_message_pack_get_message_at(&pack, 1);
+    rid_get_uas_id(msg, uas_id, sizeof(uas_id));
+    ASSERT_STR_EQ("DRONE002", uas_id);
+
+    PASS();
+}
+
+TEST
+test_delete_message_at_null_pointer(void) {
+    rid_error_t status = rid_message_pack_delete_message_at(NULL, 0);
+    ASSERT_EQ(RID_ERROR_NULL_POINTER, status);
+
+    PASS();
+}
+
+TEST
+test_delete_message_at_out_of_range(void) {
+    rid_message_pack_t pack;
+    rid_basic_id_t basic_id;
+
+    rid_message_pack_init(&pack);
+    rid_basic_id_init(&basic_id);
+    rid_message_pack_add_message(&pack, &basic_id);
+
+    rid_error_t status = rid_message_pack_delete_message_at(&pack, 1);
+    ASSERT_EQ(RID_ERROR_OUT_OF_RANGE, status);
+
+    status = rid_message_pack_delete_message_at(&pack, UINT8_MAX);
+    ASSERT_EQ(RID_ERROR_OUT_OF_RANGE, status);
+
+    /* Empty pack */
+    rid_message_pack_init(&pack);
+    status = rid_message_pack_delete_message_at(&pack, 0);
+    ASSERT_EQ(RID_ERROR_OUT_OF_RANGE, status);
+
+    PASS();
+}
+
 SUITE(message_pack_suite) {
     RUN_TEST(test_message_pack_init);
     RUN_TEST(test_message_pack_size);
@@ -259,4 +392,10 @@ SUITE(message_pack_suite) {
     RUN_TEST(test_get_message_at);
     RUN_TEST(test_get_message_at_null_pointer);
     RUN_TEST(test_get_message_at_out_of_range);
+
+    RUN_TEST(test_delete_message_at);
+    RUN_TEST(test_delete_message_at_first);
+    RUN_TEST(test_delete_message_at_last);
+    RUN_TEST(test_delete_message_at_null_pointer);
+    RUN_TEST(test_delete_message_at_out_of_range);
 }
