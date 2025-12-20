@@ -4,6 +4,7 @@
 #include "greatest.h"
 #include "rid/message.h"
 #include "rid/message_pack.h"
+#include "rid/basic_id.h"
 
 /* Captured from a booting DroneTag */
 static uint8_t buffer[] = {
@@ -101,12 +102,99 @@ test_decode_message_pack_buffer(void) {
     PASS();
 }
 
+TEST
+test_add_message(void) {
+    rid_message_pack_t pack;
+    rid_basic_id_t basic_id;
+
+    rid_message_pack_init(&pack);
+    rid_basic_id_init(&basic_id);
+    rid_set_uas_id(&basic_id, "1596A3037164309A");
+    rid_set_basic_id_type(&basic_id, RID_ID_TYPE_SERIAL_NUMBER);
+    rid_set_ua_type(&basic_id, RID_UA_TYPE_HELICOPTER_OR_MULTIROTOR);
+
+    rid_error_t status = rid_message_pack_add_message(&pack, &basic_id);
+    ASSERT_EQ(RID_SUCCESS, status);
+    ASSERT_EQ(1, rid_message_pack_get_message_count(&pack));
+
+    PASS();
+}
+
+TEST
+test_add_message_multiple(void) {
+    rid_message_pack_t pack;
+    rid_basic_id_t basic_id;
+
+    rid_message_pack_init(&pack);
+
+    for (uint8_t i = 0; i < RID_MESSAGE_PACK_MAX_MESSAGES; ++i) {
+        rid_basic_id_init(&basic_id);
+        basic_id.uas_id[0] = '0' + i;
+        rid_error_t status = rid_message_pack_add_message(&pack, &basic_id);
+        ASSERT_EQ(RID_SUCCESS, status);
+        ASSERT_EQ(i + 1, rid_message_pack_get_message_count(&pack));
+
+        /* Verify the message was stored at correct offset */
+        size_t offset = i * RID_MESSAGE_SIZE;
+        ASSERT_EQ('0' + i, pack.messages[offset + 2]);
+    }
+
+    PASS();
+}
+
+TEST
+test_add_message_pack_full(void) {
+    rid_message_pack_t pack;
+    rid_basic_id_t basic_id;
+
+    rid_message_pack_init(&pack);
+    rid_basic_id_init(&basic_id);
+
+    /* Fill the pack */
+    for (uint8_t i = 0; i < RID_MESSAGE_PACK_MAX_MESSAGES; ++i) {
+        rid_message_pack_add_message(&pack, &basic_id);
+    }
+
+    /* Try adding one more */
+    rid_error_t status = rid_message_pack_add_message(&pack, &basic_id);
+    ASSERT_EQ(RID_ERROR_OUT_OF_RANGE, status);
+    ASSERT_EQ(RID_MESSAGE_PACK_MAX_MESSAGES, rid_message_pack_get_message_count(&pack));
+
+    PASS();
+}
+
+TEST
+test_add_message_null_pointer(void) {
+    rid_message_pack_t pack;
+    rid_basic_id_t basic_id;
+
+    rid_message_pack_init(&pack);
+    rid_basic_id_init(&basic_id);
+
+    rid_error_t status = rid_message_pack_add_message(NULL, &basic_id);
+    ASSERT_EQ(RID_ERROR_NULL_POINTER, status);
+
+    status = rid_message_pack_add_message(&pack, NULL);
+    ASSERT_EQ(RID_ERROR_NULL_POINTER, status);
+
+    status = rid_message_pack_add_message(NULL, NULL);
+    ASSERT_EQ(RID_ERROR_NULL_POINTER, status);
+
+    PASS();
+}
+
 SUITE(message_pack_suite) {
     RUN_TEST(test_message_pack_init);
     RUN_TEST(test_message_pack_size);
+
     RUN_TEST(test_set_and_get_count);
     RUN_TEST(test_set_count_null_pointer);
     RUN_TEST(test_get_count_null_pointer);
     RUN_TEST(test_set_count_out_of_range);
     RUN_TEST(test_decode_message_pack_buffer);
+
+    RUN_TEST(test_add_message);
+    RUN_TEST(test_add_message_multiple);
+    RUN_TEST(test_add_message_pack_full);
+    RUN_TEST(test_add_message_null_pointer);
 }

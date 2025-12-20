@@ -55,4 +55,16 @@ rid_error_t rid_message_pack_set_message_count(rid_message_pack_t *pack, uint8_t
  */
 uint8_t rid_message_pack_get_message_count(const rid_message_pack_t *pack);
 
+/**
+ * @brief Add a message to a Message Pack.
+ *
+ * @param pack Pointer to the Message Pack structure.
+ * @param message Pointer to the message to add.
+ *
+ * @retval RID_SUCCESS on success.
+ * @retval RID_ERROR_NULL_POINTER if pack or message is NULL.
+ * @retval RID_ERROR_OUT_OF_RANGE if pack already contains RID_MESSAGE_PACK_MAX_MESSAGES.
+ */
+rid_error_t rid_message_pack_add_message(rid_message_pack_t *pack, const void *message);
+
 #endif
