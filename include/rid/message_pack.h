@@ -67,4 +67,14 @@ uint8_t rid_message_pack_get_message_count(const rid_message_pack_t *pack);
  */
 rid_error_t rid_message_pack_add_message(rid_message_pack_t *pack, const void *message);
 
+/**
+ * @brief Get a pointer to a message at the specified index.
+ *
+ * @param pack Pointer to the Message Pack structure.
+ * @param index Index of the message (0-based).
+ *
+ * @return Pointer to the message, or NULL if pack is NULL or index is out of range.
+ */
+const void *rid_message_pack_get_message_at(const rid_message_pack_t *pack, uint8_t index);
+
 #endif

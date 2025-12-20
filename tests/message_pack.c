@@ -1,4 +1,5 @@
 #include <stdint.h>
+#include <stdio.h>
 #include <string.h>
 
 #include "greatest.h"
@@ -183,6 +184,63 @@ test_add_message_null_pointer(void) {
     PASS();
 }
 
+TEST
+test_get_message_at(void) {
+    rid_message_pack_t pack;
+    rid_basic_id_t basic_id;
+    char uas_id[21];
+    char expected[21];
+
+    rid_message_pack_init(&pack);
+
+    for (uint8_t i = 0; i < 3; ++i) {
+        rid_basic_id_init(&basic_id);
+        snprintf(uas_id, sizeof(uas_id), "DRONE%03u", i + 1);
+        rid_set_uas_id(&basic_id, uas_id);
+        rid_message_pack_add_message(&pack, &basic_id);
+    }
+
+    for (uint8_t i = 0; i < 3; ++i) {
+        const rid_basic_id_t *msg = rid_message_pack_get_message_at(&pack, i);
+        ASSERT(msg != NULL);
+
+        rid_get_uas_id(msg, uas_id, sizeof(uas_id));
+        snprintf(expected, sizeof(expected), "DRONE%03u", i + 1);
+        ASSERT_STR_EQ(expected, uas_id);
+    }
+
+    PASS();
+}
+
+TEST
+test_get_message_at_null_pointer(void) {
+    const void *msg = rid_message_pack_get_message_at(NULL, 0);
+    ASSERT(msg == NULL);
+
+    PASS();
+}
+
+TEST
+test_get_message_at_out_of_range(void) {
+    rid_message_pack_t pack;
+    rid_basic_id_t basic_id;
+
+    rid_message_pack_init(&pack);
+    rid_basic_id_init(&basic_id);
+    rid_message_pack_add_message(&pack, &basic_id);
+
+    const void *msg = rid_message_pack_get_message_at(&pack, 0);
+    ASSERT(msg != NULL);
+
+    msg = rid_message_pack_get_message_at(&pack, 1);
+    ASSERT(msg == NULL);
+
+    msg = rid_message_pack_get_message_at(&pack, UINT8_MAX);
+    ASSERT(msg == NULL);
+
+    PASS();
+}
+
 SUITE(message_pack_suite) {
     RUN_TEST(test_message_pack_init);
     RUN_TEST(test_message_pack_size);
@@ -197,4 +255,8 @@ SUITE(message_pack_suite) {
     RUN_TEST(test_add_message_multiple);
     RUN_TEST(test_add_message_pack_full);
     RUN_TEST(test_add_message_null_pointer);
+
+    RUN_TEST(test_get_message_at);
+    RUN_TEST(test_get_message_at_null_pointer);
+    RUN_TEST(test_get_message_at_out_of_range);
 }

@@ -59,3 +59,13 @@ rid_message_pack_add_message(rid_message_pack_t *pack, const void *message) {
 
     return RID_SUCCESS;
 }
+
+const void *
+rid_message_pack_get_message_at(const rid_message_pack_t *pack, uint8_t index) {
+    if (pack == NULL || index >= pack->message_count) {
+        return NULL;
+    }
+
+    size_t offset = index * RID_MESSAGE_SIZE;
+    return &pack->messages[offset];
+}
