@@ -21,9 +21,9 @@ __attribute__((__packed__)) rid_self_id {
  * @brief Description type classification per ASTM F3411-22a.
  */
 typedef enum rid_description_type {
-    RID_DESCRIPTION_TYPE_TEXT,
-    RID_DESCRIPTION_TYPE_EMERGENCY,
-    RID_DESCRIPTION_TYPE_EXTENDED_STATUS,
+    RID_DESCRIPTION_TYPE_TEXT = 0,
+    RID_DESCRIPTION_TYPE_EMERGENCY = 1,
+    RID_DESCRIPTION_TYPE_EXTENDED_STATUS = 2,
     /* 3-200: Reserved */
     /* 201-255: Private use*/
 } rid_description_type_t;

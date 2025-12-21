@@ -54,9 +54,9 @@ __attribute__((__packed__)) rid_system {
  * @brief Operator location type per ASTM F3411-22a.
  */
 typedef enum rid_operator_location_type {
-    RID_OPERATOR_LOCATION_TYPE_TAKEOFF,
-    RID_OPERATOR_LOCATION_TYPE_DYNAMIC,
-    RID_OPERATOR_LOCATION_TYPE_FIXED,
+    RID_OPERATOR_LOCATION_TYPE_TAKEOFF = 0,
+    RID_OPERATOR_LOCATION_TYPE_DYNAMIC = 1,
+    RID_OPERATOR_LOCATION_TYPE_FIXED = 2,
     RID_OPERATOR_LOCATION_TYPE_MAX = 3,
 } rid_operator_location_type_t;
 
@@ -64,8 +64,8 @@ typedef enum rid_operator_location_type {
  * @brief Classification type per ASTM F3411-22a.
  */
 typedef enum rid_classification_type {
-    RID_CLASSIFICATION_TYPE_UNDECLARED,
-    RID_CLASSIFICATION_TYPE_EUROPEAN_UNION,
+    RID_CLASSIFICATION_TYPE_UNDECLARED = 0,
+    RID_CLASSIFICATION_TYPE_EUROPEAN_UNION = 1,
     RID_CLASSIFICATION_TYPE_MAX = 7,
     /* 2-7: reserved */
 } rid_classification_type_t;
@@ -74,10 +74,10 @@ typedef enum rid_classification_type {
  * @brief UA classification category per ASTM F3411-22a.
  */
 typedef enum rid_ua_classification_category {
-    RID_UA_CLASSIFICATION_CATEGORY_UNDEFINED,
-    RID_UA_CLASSIFICATION_CATEGORY_OPEN,
-    RID_UA_CLASSIFICATION_CATEGORY_SPECIFIC,
-    RID_UA_CLASSIFICATION_CATEGORY_CERTIFIED,
+    RID_UA_CLASSIFICATION_CATEGORY_UNDEFINED = 0,
+    RID_UA_CLASSIFICATION_CATEGORY_OPEN = 1,
+    RID_UA_CLASSIFICATION_CATEGORY_SPECIFIC = 2,
+    RID_UA_CLASSIFICATION_CATEGORY_CERTIFIED = 3,
     RID_UA_CLASSIFICATION_CATEGORY_MAX = 15,
     /* 4-15: reserved */
 } rid_ua_classification_category_t;
@@ -86,14 +86,14 @@ typedef enum rid_ua_classification_category {
  * @brief UA classification class per ASTM F3411-22a.
  */
 typedef enum rid_ua_classification_class {
-    RID_UA_CLASSIFICATION_CLASS_UNDEFINED,
-    RID_UA_CLASSIFICATION_CLASS_0,
-    RID_UA_CLASSIFICATION_CLASS_1,
-    RID_UA_CLASSIFICATION_CLASS_2,
-    RID_UA_CLASSIFICATION_CLASS_3,
-    RID_UA_CLASSIFICATION_CLASS_4,
-    RID_UA_CLASSIFICATION_CLASS_5,
-    RID_UA_CLASSIFICATION_CLASS_6,
+    RID_UA_CLASSIFICATION_CLASS_UNDEFINED = 0,
+    RID_UA_CLASSIFICATION_CLASS_0 = 1,
+    RID_UA_CLASSIFICATION_CLASS_1 = 2,
+    RID_UA_CLASSIFICATION_CLASS_2 = 3,
+    RID_UA_CLASSIFICATION_CLASS_3 = 4,
+    RID_UA_CLASSIFICATION_CLASS_4 = 5,
+    RID_UA_CLASSIFICATION_CLASS_5 = 6,
+    RID_UA_CLASSIFICATION_CLASS_6 = 7,
     RID_UA_CLASSIFICATION_CLASS_MAX = 15,
     /* 8-15: reserved */
 } rid_ua_classification_class_t;

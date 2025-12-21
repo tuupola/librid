@@ -22,7 +22,7 @@ __attribute__((__packed__)) rid_operator_id {
  * @brief Operator ID type classification per ASTM F3411-22a.
  */
 typedef enum rid_operator_id_type {
-    RID_ID_TYPE_OPERATOR_ID,
+    RID_ID_TYPE_OPERATOR_ID = 0,
     /* 1-200: Reserved */
     /* 201-255: Private use*/
 } rid_operator_id_type_t;
