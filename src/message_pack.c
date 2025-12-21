@@ -91,3 +91,19 @@ rid_message_pack_delete_message_at(rid_message_pack_t *pack, uint8_t index) {
 
     return RID_SUCCESS;
 }
+
+rid_error_t
+rid_message_pack_replace_message_at(rid_message_pack_t *pack, uint8_t index, const void *message) {
+    if (pack == NULL || message == NULL) {
+        return RID_ERROR_NULL_POINTER;
+    }
+
+    if (index >= pack->message_count) {
+        return RID_ERROR_OUT_OF_RANGE;
+    }
+
+    size_t offset = index * RID_MESSAGE_SIZE;
+    memcpy(&pack->messages[offset], message, RID_MESSAGE_SIZE);
+
+    return RID_SUCCESS;
+}
