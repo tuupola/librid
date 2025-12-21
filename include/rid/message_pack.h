@@ -32,7 +32,7 @@ __attribute__((__packed__)) rid_message_pack {
  * @retval RID_SUCCESS on success.
  * @retval RID_ERROR_NULL_POINTER if pack is NULL.
  */
-rid_error_t rid_message_pack_init(rid_message_pack_t *pack);
+int rid_message_pack_init(rid_message_pack_t *pack);
 
 /**
  * @brief Set the message count for a Message Pack.
@@ -44,7 +44,7 @@ rid_error_t rid_message_pack_init(rid_message_pack_t *pack);
  * @retval RID_ERROR_NULL_POINTER if pack is NULL.
  * @retval RID_ERROR_OUT_OF_RANGE if count exceeds RID_MESSAGE_PACK_MAX_MESSAGES.
  */
-rid_error_t rid_message_pack_set_message_count(rid_message_pack_t *pack, uint8_t count);
+int rid_message_pack_set_message_count(rid_message_pack_t *pack, uint8_t count);
 
 /**
  * @brief Get the message count from a Message Pack.
@@ -65,7 +65,7 @@ uint8_t rid_message_pack_get_message_count(const rid_message_pack_t *pack);
  * @retval RID_ERROR_NULL_POINTER if pack or message is NULL.
  * @retval RID_ERROR_OUT_OF_RANGE if pack already contains RID_MESSAGE_PACK_MAX_MESSAGES.
  */
-rid_error_t rid_message_pack_add_message(rid_message_pack_t *pack, const void *message);
+int rid_message_pack_add_message(rid_message_pack_t *pack, const void *message);
 
 /**
  * @brief Get a pointer to a message at the specified index.
@@ -89,7 +89,7 @@ const void *rid_message_pack_get_message_at(const rid_message_pack_t *pack, uint
  * @retval RID_ERROR_NULL_POINTER if pack is NULL.
  * @retval RID_ERROR_OUT_OF_RANGE if index is out of range.
  */
-rid_error_t rid_message_pack_delete_message_at(rid_message_pack_t *pack, uint8_t index);
+int rid_message_pack_delete_message_at(rid_message_pack_t *pack, uint8_t index);
 
 /**
  * @brief Replace a message at the specified index.
@@ -102,6 +102,6 @@ rid_error_t rid_message_pack_delete_message_at(rid_message_pack_t *pack, uint8_t
  * @retval RID_ERROR_NULL_POINTER if pack or message is NULL.
  * @retval RID_ERROR_OUT_OF_RANGE if index is out of range.
  */
-rid_error_t rid_message_pack_replace_message_at(rid_message_pack_t *pack, uint8_t index, const void *message);
+int rid_message_pack_replace_message_at(rid_message_pack_t *pack, uint8_t index, const void *message);
 
 #endif

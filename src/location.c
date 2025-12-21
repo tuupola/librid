@@ -5,7 +5,7 @@
 #include "rid/message.h"
 #include "rid/location.h"
 
-rid_error_t
+int
 rid_location_init(rid_location_t *location) {
     if (location == NULL) {
         return RID_ERROR_NULL_POINTER;
@@ -28,7 +28,7 @@ rid_location_init(rid_location_t *location) {
     return RID_SUCCESS;
 }
 
-rid_error_t
+int
 rid_set_track_direction(rid_location_t *location, uint16_t degrees) {
     if (location == NULL) {
         return RID_ERROR_NULL_POINTER;
@@ -77,7 +77,7 @@ rid_get_track_direction(const rid_location_t *location) {
     }
 }
 
-rid_error_t
+int
 rid_set_speed(rid_location_t *location, float speed_ms) {
     if (location == NULL) {
         return RID_ERROR_NULL_POINTER;
@@ -139,7 +139,7 @@ rid_get_speed(const rid_location_t *location) {
     }
 }
 
-rid_error_t
+int
 rid_set_vertical_speed(rid_location_t *location, float speed_ms) {
     if (location == NULL) {
         return RID_ERROR_NULL_POINTER;
@@ -179,7 +179,7 @@ rid_get_vertical_speed(const rid_location_t *location) {
     return (float)location->vertical_speed * 0.5f;
 }
 
-rid_error_t
+int
 rid_set_latitude(rid_location_t *location, double degrees) {
     if (location == NULL) {
         return RID_ERROR_NULL_POINTER;
@@ -210,7 +210,7 @@ rid_get_latitude(const rid_location_t *location) {
     return (double)location->latitude / 10000000.0;
 }
 
-rid_error_t
+int
 rid_set_longitude(rid_location_t *location, double degrees) {
     if (location == NULL) {
         return RID_ERROR_NULL_POINTER;
@@ -241,7 +241,7 @@ rid_get_longitude(const rid_location_t *location) {
     return (double)location->longitude / 10000000.0;
 }
 
-rid_error_t
+int
 rid_set_height(rid_location_t *location, float height_m) {
     if (location == NULL) {
         return RID_ERROR_NULL_POINTER;
@@ -274,7 +274,7 @@ rid_get_height(const rid_location_t *location) {
     return ((float)location->height * 0.5f) - 1000.0f;
 }
 
-rid_error_t
+int
 rid_set_pressure_altitude(rid_location_t *location, float altitude_m) {
     if (location == NULL) {
         return RID_ERROR_NULL_POINTER;
@@ -307,7 +307,7 @@ rid_get_pressure_altitude(const rid_location_t *location) {
     return ((float)location->pressure_altitude * 0.5f) - 1000.0f;
 }
 
-rid_error_t
+int
 rid_set_geodetic_altitude(rid_location_t *location, float altitude_m) {
     if (location == NULL) {
         return RID_ERROR_NULL_POINTER;
@@ -340,7 +340,7 @@ rid_get_geodetic_altitude(const rid_location_t *location) {
     return ((float)location->geodetic_altitude * 0.5f) - 1000.0f;
 }
 
-rid_error_t
+int
 rid_set_height_type(rid_location_t *location, rid_height_type_t type) {
     if (location == NULL) {
         return RID_ERROR_NULL_POINTER;
@@ -360,7 +360,7 @@ rid_get_height_type(const rid_location_t *location) {
     return (rid_height_type_t)location->height_type;
 }
 
-rid_error_t
+int
 rid_set_operational_status(rid_location_t *location, rid_operational_status_t status) {
     if (location == NULL) {
         return RID_ERROR_NULL_POINTER;
@@ -380,7 +380,7 @@ rid_get_operational_status(const rid_location_t *location) {
     return (rid_operational_status_t)location->operational_status;
 }
 
-rid_error_t
+int
 rid_set_speed_accuracy(rid_location_t *location, rid_speed_accuracy_t accuracy) {
     if (location == NULL) {
         return RID_ERROR_NULL_POINTER;
@@ -400,7 +400,7 @@ rid_get_speed_accuracy(const rid_location_t *location) {
     return (rid_speed_accuracy_t)location->speed_accuracy;
 }
 
-rid_error_t
+int
 rid_set_horizontal_accuracy(rid_location_t *location, rid_horizontal_accuracy_t accuracy) {
     if (location == NULL) {
         return RID_ERROR_NULL_POINTER;
@@ -420,7 +420,7 @@ rid_get_horizontal_accuracy(const rid_location_t *location) {
     return (rid_horizontal_accuracy_t)location->horizontal_accuracy;
 }
 
-rid_error_t
+int
 rid_set_vertical_accuracy(rid_location_t *location, rid_vertical_accuracy_t accuracy) {
     if (location == NULL) {
         return RID_ERROR_NULL_POINTER;
@@ -440,7 +440,7 @@ rid_get_vertical_accuracy(const rid_location_t *location) {
     return (rid_vertical_accuracy_t)location->vertical_accuracy;
 }
 
-rid_error_t
+int
 rid_set_baro_altitude_accuracy(rid_location_t *location, rid_vertical_accuracy_t accuracy) {
     if (location == NULL) {
         return RID_ERROR_NULL_POINTER;
@@ -460,7 +460,7 @@ rid_get_baro_altitude_accuracy(const rid_location_t *location) {
     return (rid_vertical_accuracy_t)location->baro_altitude_accuracy;
 }
 
-rid_error_t
+int
 rid_set_timestamp(rid_location_t *location, uint16_t deciseconds) {
     if (location == NULL) {
         return RID_ERROR_NULL_POINTER;
@@ -486,7 +486,7 @@ rid_get_timestamp(const rid_location_t *location) {
     return location->timestamp;
 }
 
-rid_error_t
+int
 rid_set_timestamp_from_unixtime(rid_location_t *location, uint32_t unixtime) {
     if (location == NULL) {
         return RID_ERROR_NULL_POINTER;
@@ -498,7 +498,7 @@ rid_set_timestamp_from_unixtime(rid_location_t *location, uint32_t unixtime) {
     return rid_set_timestamp(location, deciseconds);
 }
 
-rid_error_t
+int
 rid_set_timestamp_accuracy(rid_location_t *location, rid_timestamp_accuracy_t accuracy) {
     if (location == NULL) {
         return RID_ERROR_NULL_POINTER;

@@ -22,7 +22,7 @@ test_set_and_get_operator_id_type(void) {
         rid_operator_id_t message;
 
         memset(&message, 0, sizeof(message));
-        rid_error_t status = rid_set_operator_id_type(&message, types[i]);
+        int status = rid_set_operator_id_type(&message, types[i]);
         ASSERT_EQ(RID_SUCCESS, status);
 
         rid_operator_id_type_t result = rid_get_operator_id_type(&message);
@@ -35,7 +35,7 @@ test_set_and_get_operator_id_type(void) {
 
 TEST
 test_set_operator_id_type_null_pointer(void) {
-    rid_error_t status = rid_set_operator_id_type(NULL, RID_ID_TYPE_OPERATOR_ID);
+    int status = rid_set_operator_id_type(NULL, RID_ID_TYPE_OPERATOR_ID);
     ASSERT_EQ(RID_ERROR_NULL_POINTER, status);
 
     PASS();
@@ -53,7 +53,7 @@ test_set_and_get_operator_id(void) {
 
     for (size_t i = 0; i < sizeof(test_ids) / sizeof(test_ids[0]); i++) {
         rid_operator_id_t message;
-        rid_error_t status;
+        int status;
 
         memset(&message, 0, sizeof(message));
 
@@ -73,7 +73,7 @@ test_set_and_get_operator_id(void) {
 TEST
 test_set_operator_id_must_be_ascii(void) {
     rid_operator_id_t message;
-    rid_error_t status;
+    int status;
 
     memset(&message, 0, sizeof(message));
 
@@ -98,7 +98,7 @@ test_set_operator_id_too_long(void) {
     memset(&message, 0, sizeof(message));
 
     /* 21 characters - one over limit */
-    rid_error_t status = rid_set_operator_id(&message, "123456789012345678901");
+    int status = rid_set_operator_id(&message, "123456789012345678901");
     ASSERT_EQ(RID_ERROR_BUFFER_TOO_LARGE, status);
 
     /* Much longer string */
@@ -114,7 +114,7 @@ test_set_operator_id_too_long(void) {
 
 TEST
 test_set_operator_id_null_pointer(void) {
-    rid_error_t status;
+    int status;
     rid_operator_id_t message;
     memset(&message, 0, sizeof(message));
 
@@ -134,7 +134,7 @@ test_decode_operator_id_buffer(void) {
     ASSERT_EQ(RID_ID_TYPE_OPERATOR_ID, rid_get_operator_id_type(message));
 
     char operator_id[21];
-    rid_error_t status = rid_get_operator_id(message, operator_id, sizeof(operator_id));
+    int status = rid_get_operator_id(message, operator_id, sizeof(operator_id));
     ASSERT_EQ(RID_SUCCESS, status);
     ASSERT_STR_EQ("FIN87astrdge12k8", operator_id);
 
@@ -143,7 +143,7 @@ test_decode_operator_id_buffer(void) {
 
 TEST
 test_get_operator_id_null_pointer(void) {
-    rid_error_t status;
+    int status;
     rid_operator_id_t message;
     char buf[21];
 
@@ -161,7 +161,7 @@ test_get_operator_id_null_pointer(void) {
 TEST
 test_get_operator_id_buffer_too_small(void) {
     rid_operator_id_t message;
-    rid_error_t status;
+    int status;
     char buf[10];
 
     memset(&message, 0, sizeof(message));
@@ -176,7 +176,7 @@ test_get_operator_id_buffer_too_small(void) {
 TEST
 test_operator_id_init(void) {
     rid_operator_id_t message;
-    rid_error_t status;
+    int status;
 
     memset(&message, 0xFF, sizeof(message));
 
@@ -196,7 +196,7 @@ test_operator_id_init(void) {
 
 TEST
 test_operator_id_init_null_pointer(void) {
-    rid_error_t status = rid_operator_id_init(NULL);
+    int status = rid_operator_id_init(NULL);
     ASSERT_EQ(RID_ERROR_NULL_POINTER, status);
 
     PASS();

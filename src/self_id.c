@@ -5,7 +5,7 @@
 #include "rid/message.h"
 #include "rid/self_id.h"
 
-rid_error_t
+int
 rid_self_id_init(rid_self_id_t *message) {
     if (message == NULL) {
         return RID_ERROR_NULL_POINTER;
@@ -23,7 +23,7 @@ rid_get_description_type(const rid_self_id_t *message) {
     return (rid_description_type_t)message->description_type;
 }
 
-rid_error_t
+int
 rid_set_description_type(rid_self_id_t *message, rid_description_type_t type) {
     if (message == NULL) {
         return RID_ERROR_NULL_POINTER;
@@ -34,7 +34,7 @@ rid_set_description_type(rid_self_id_t *message, rid_description_type_t type) {
     return RID_SUCCESS;
 }
 
-rid_error_t
+int
 rid_get_description(const rid_self_id_t *message, char *buffer, size_t buffer_size) {
     if (message == NULL || buffer == NULL) {
         return RID_ERROR_NULL_POINTER;
@@ -50,7 +50,7 @@ rid_get_description(const rid_self_id_t *message, char *buffer, size_t buffer_si
     return RID_SUCCESS;
 }
 
-rid_error_t
+int
 rid_set_description(rid_self_id_t *message, const char *description) {
     if (message == NULL || description == NULL) {
         return RID_ERROR_NULL_POINTER;

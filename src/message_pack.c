@@ -5,7 +5,7 @@
 #include "rid/message.h"
 #include "rid/message_pack.h"
 
-rid_error_t
+int
 rid_message_pack_init(rid_message_pack_t *pack) {
     if (pack == NULL) {
         return RID_ERROR_NULL_POINTER;
@@ -20,7 +20,7 @@ rid_message_pack_init(rid_message_pack_t *pack) {
     return RID_SUCCESS;
 }
 
-rid_error_t
+int
 rid_message_pack_set_message_count(rid_message_pack_t *pack, uint8_t count) {
     if (pack == NULL) {
         return RID_ERROR_NULL_POINTER;
@@ -43,7 +43,7 @@ rid_message_pack_get_message_count(const rid_message_pack_t *pack) {
     return pack->message_count;
 }
 
-rid_error_t
+int
 rid_message_pack_add_message(rid_message_pack_t *pack, const void *message) {
     if (pack == NULL || message == NULL) {
         return RID_ERROR_NULL_POINTER;
@@ -70,7 +70,7 @@ rid_message_pack_get_message_at(const rid_message_pack_t *pack, uint8_t index) {
     return &pack->messages[offset];
 }
 
-rid_error_t
+int
 rid_message_pack_delete_message_at(rid_message_pack_t *pack, uint8_t index) {
     if (pack == NULL) {
         return RID_ERROR_NULL_POINTER;
@@ -92,7 +92,7 @@ rid_message_pack_delete_message_at(rid_message_pack_t *pack, uint8_t index) {
     return RID_SUCCESS;
 }
 
-rid_error_t
+int
 rid_message_pack_replace_message_at(rid_message_pack_t *pack, uint8_t index, const void *message) {
     if (pack == NULL || message == NULL) {
         return RID_ERROR_NULL_POINTER;

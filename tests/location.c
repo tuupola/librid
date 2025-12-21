@@ -11,7 +11,7 @@ test_set_and_get_track_direction(void) {
         rid_location_t location;
         memset(&location, 0, sizeof(location));
 
-        rid_error_t status = rid_set_track_direction(&location, degrees);
+        int status = rid_set_track_direction(&location, degrees);
         ASSERT_EQ(RID_SUCCESS, status);
 
         uint16_t result = rid_get_track_direction(&location);
@@ -27,7 +27,7 @@ test_track_direction_unknown(void) {
     memset(&location, 0, sizeof(location));
 
     /* Test unknown or invalid value */
-    rid_error_t status = rid_set_track_direction(&location, RID_TRACK_DIRECTION_UNKNOWN);
+    int status = rid_set_track_direction(&location, RID_TRACK_DIRECTION_UNKNOWN);
     ASSERT_EQ(RID_SUCCESS, status);
 
     uint16_t result = rid_get_track_direction(&location);
@@ -42,7 +42,7 @@ test_track_direction_out_of_range(void) {
     memset(&location, 0, sizeof(location));
 
     /* Test degrees > 359 but != 361 */
-    rid_error_t status = rid_set_track_direction(&location, 360);
+    int status = rid_set_track_direction(&location, 360);
     ASSERT_EQ(RID_ERROR_OUT_OF_RANGE, status);
 
     /* Test degrees > 361 */
@@ -54,7 +54,7 @@ test_track_direction_out_of_range(void) {
 
 TEST
 test_set_track_direction_null_pointer(void) {
-    rid_error_t status = rid_set_track_direction(NULL, 45);
+    int status = rid_set_track_direction(NULL, 45);
     ASSERT_EQ(RID_ERROR_NULL_POINTER, status);
 
     PASS();
@@ -69,7 +69,7 @@ test_set_and_get_speed_slow(void) {
     for (size_t i = 0; i < sizeof(test_speeds) / sizeof(test_speeds[0]); i++) {
         memset(&location, 0, sizeof(location));
 
-        rid_error_t status = rid_set_speed(&location, test_speeds[i]);
+        int status = rid_set_speed(&location, test_speeds[i]);
         ASSERT_EQ(RID_SUCCESS, status);
 
         ASSERT_EQ(0, location.speed_multiplier);
@@ -92,7 +92,7 @@ test_set_and_get_speed_fast(void) {
     for (size_t i = 0; i < sizeof(test_speeds) / sizeof(test_speeds[0]); i++) {
         memset(&location, 0, sizeof(location));
 
-        rid_error_t status = rid_set_speed(&location, test_speeds[i]);
+        int status = rid_set_speed(&location, test_speeds[i]);
         ASSERT_EQ(RID_SUCCESS, status);
 
         ASSERT_EQ(1, location.speed_multiplier);
@@ -112,7 +112,7 @@ test_speed_boundary_transition(void) {
     memset(&location, 0, sizeof(location));
 
     /* 63.75 should use multiplier = 0 */
-    rid_error_t status = rid_set_speed(&location, 63.75f);
+    int status = rid_set_speed(&location, 63.75f);
     ASSERT_EQ(RID_SUCCESS, status);
     ASSERT_EQ(0, location.speed_multiplier);
     /* 255 * 0.25 = 63.75 */
@@ -135,7 +135,7 @@ test_maximum_speed(void) {
     memset(&location, 0, sizeof(location));
 
     /* Test maximum speed (>= 254.25 m/s) */
-    rid_error_t status = rid_set_speed(&location, 300.0f);
+    int status = rid_set_speed(&location, 300.0f);
     ASSERT_EQ(RID_SUCCESS, status);
     ASSERT_EQ(1, location.speed_multiplier);
     ASSERT_EQ(254, location.speed);
@@ -152,7 +152,7 @@ test_negative_speed(void) {
     memset(&location, 0, sizeof(location));
 
     /* Speed cannot be negative  */
-    rid_error_t status = rid_set_speed(&location, -10.0f);
+    int status = rid_set_speed(&location, -10.0f);
     ASSERT_EQ(RID_ERROR_OUT_OF_RANGE, status);
 
     PASS();
@@ -164,7 +164,7 @@ test_invalid_speed(void) {
     memset(&location, 0, sizeof(location));
 
     /* Test invalid or unknown speed */
-    rid_error_t status = rid_set_speed(&location, RID_SPEED_INVALID);
+    int status = rid_set_speed(&location, RID_SPEED_INVALID);
     ASSERT_EQ(RID_SUCCESS, status);
     ASSERT_EQ(255, location.speed);
     ASSERT_EQ(1, location.speed_multiplier);
@@ -178,7 +178,7 @@ test_invalid_speed(void) {
 
 TEST
 test_set_speed_null_pointer(void) {
-    rid_error_t status = rid_set_speed(NULL, 50.0f);
+    int status = rid_set_speed(NULL, 50.0f);
     ASSERT_EQ(RID_ERROR_NULL_POINTER, status);
 
     PASS();
@@ -193,7 +193,7 @@ test_set_and_get_vertical_speed(void) {
     for (size_t i = 0; i < sizeof(test_speeds) / sizeof(test_speeds[0]); i++) {
         memset(&location, 0, sizeof(location));
 
-        rid_error_t status = rid_set_vertical_speed(&location, test_speeds[i]);
+        int status = rid_set_vertical_speed(&location, test_speeds[i]);
         ASSERT_EQ(RID_SUCCESS, status);
 
         float result = rid_get_vertical_speed(&location);
@@ -209,7 +209,7 @@ test_vertical_speed_out_of_range(void) {
     memset(&location, 0, sizeof(location));
 
     /* Test speed > 62 m/s */
-    rid_error_t status = rid_set_vertical_speed(&location, 70.0f);
+    int status = rid_set_vertical_speed(&location, 70.0f);
     ASSERT_EQ(RID_ERROR_OUT_OF_RANGE, status);
 
     /* Test speed < -62 m/s */
@@ -225,7 +225,7 @@ test_vertical_speed_invalid(void) {
     memset(&location, 0, sizeof(location));
 
     /* Test invalid or unknown speed */
-    rid_error_t status = rid_set_vertical_speed(&location, RID_VERTICAL_SPEED_INVALID);
+    int status = rid_set_vertical_speed(&location, RID_VERTICAL_SPEED_INVALID);
     ASSERT_EQ(RID_SUCCESS, status);
     ASSERT_EQ(RID_VERTICAL_SPEED_INVALID_ENCODED, location.vertical_speed);
 
@@ -238,7 +238,7 @@ test_vertical_speed_invalid(void) {
 
 TEST
 test_set_vertical_speed_null_pointer(void) {
-    rid_error_t status = rid_set_vertical_speed(NULL, 10.5f);
+    int status = rid_set_vertical_speed(NULL, 10.5f);
     ASSERT_EQ(RID_ERROR_NULL_POINTER, status);
 
     PASS();
@@ -253,7 +253,7 @@ test_set_and_get_latitude(void) {
     for (size_t i = 0; i < sizeof(test_latitudes) / sizeof(test_latitudes[0]); i++) {
         memset(&location, 0, sizeof(location));
 
-        rid_error_t status = rid_set_latitude(&location, test_latitudes[i]);
+        int status = rid_set_latitude(&location, test_latitudes[i]);
         ASSERT_EQ(RID_SUCCESS, status);
 
         double result = rid_get_latitude(&location);
@@ -275,7 +275,7 @@ test_set_and_get_longitude(void) {
     for (size_t i = 0; i < sizeof(test_longitudes) / sizeof(test_longitudes[0]); i++) {
         memset(&location, 0, sizeof(location));
 
-        rid_error_t status = rid_set_longitude(&location, test_longitudes[i]);
+        int status = rid_set_longitude(&location, test_longitudes[i]);
         ASSERT_EQ(RID_SUCCESS, status);
 
         double result = rid_get_longitude(&location);
@@ -294,7 +294,7 @@ test_latitude_out_of_range(void) {
     memset(&location, 0, sizeof(location));
 
     /* Test > 90 degrees */
-    rid_error_t status = rid_set_latitude(&location, 95.0);
+    int status = rid_set_latitude(&location, 95.0);
     ASSERT_EQ(RID_ERROR_OUT_OF_RANGE, status);
 
     /* Test < -90 degrees */
@@ -306,7 +306,7 @@ test_latitude_out_of_range(void) {
 
 TEST
 test_set_latitude_null_pointer(void) {
-    rid_error_t status = rid_set_latitude(NULL, 45.5);
+    int status = rid_set_latitude(NULL, 45.5);
     ASSERT_EQ(RID_ERROR_NULL_POINTER, status);
 
     PASS();
@@ -318,7 +318,7 @@ test_longitude_out_of_range(void) {
     memset(&location, 0, sizeof(location));
 
     /* Test > 180 degrees */
-    rid_error_t status = rid_set_longitude(&location, 185.0);
+    int status = rid_set_longitude(&location, 185.0);
     ASSERT_EQ(RID_ERROR_OUT_OF_RANGE, status);
 
     /* Test < -180 degrees */
@@ -330,7 +330,7 @@ test_longitude_out_of_range(void) {
 
 TEST
 test_set_longitude_null_pointer(void) {
-    rid_error_t status = rid_set_longitude(NULL, 90.5);
+    int status = rid_set_longitude(NULL, 90.5);
     ASSERT_EQ(RID_ERROR_NULL_POINTER, status);
 
     PASS();
@@ -345,7 +345,7 @@ test_set_and_get_height(void) {
     for (size_t i = 0; i < sizeof(test_heights) / sizeof(test_heights[0]); i++) {
         memset(&location, 0, sizeof(location));
 
-        rid_error_t status = rid_set_height(&location, test_heights[i]);
+        int status = rid_set_height(&location, test_heights[i]);
         ASSERT_EQ(RID_SUCCESS, status);
 
         float result = rid_get_height(&location);
@@ -364,7 +364,7 @@ test_height_out_of_range(void) {
     memset(&location, 0, sizeof(location));
 
     /* Test > 31767 meters */
-    rid_error_t status = rid_set_height(&location, 32000.0f);
+    int status = rid_set_height(&location, 32000.0f);
     ASSERT_EQ(RID_ERROR_OUT_OF_RANGE, status);
 
     /* Test < -1000 meters */
@@ -380,7 +380,7 @@ test_height_invalid(void) {
     memset(&location, 0, sizeof(location));
 
     /* Test invalid or unknown height */
-    rid_error_t status = rid_set_height(&location, RID_HEIGHT_INVALID);
+    int status = rid_set_height(&location, RID_HEIGHT_INVALID);
     ASSERT_EQ(RID_SUCCESS, status);
     ASSERT_EQ(RID_HEIGHT_INVALID_ENCODED, location.height);
 
@@ -395,7 +395,7 @@ test_height_invalid(void) {
 
 TEST
 test_set_height_null_pointer(void) {
-    rid_error_t status = rid_set_height(NULL, 100.0f);
+    int status = rid_set_height(NULL, 100.0f);
     ASSERT_EQ(RID_ERROR_NULL_POINTER, status);
 
     PASS();
@@ -410,7 +410,7 @@ test_set_and_get_pressure_altitude(void) {
     for (size_t i = 0; i < sizeof(test_altitudes) / sizeof(test_altitudes[0]); i++) {
         memset(&location, 0, sizeof(location));
 
-        rid_error_t status = rid_set_pressure_altitude(&location, test_altitudes[i]);
+        int status = rid_set_pressure_altitude(&location, test_altitudes[i]);
         ASSERT_EQ(RID_SUCCESS, status);
 
         float result = rid_get_pressure_altitude(&location);
@@ -429,7 +429,7 @@ test_pressure_altitude_out_of_range(void) {
     memset(&location, 0, sizeof(location));
 
     /* Test > 31767 meters */
-    rid_error_t status = rid_set_pressure_altitude(&location, 32000.0f);
+    int status = rid_set_pressure_altitude(&location, 32000.0f);
     ASSERT_EQ(RID_ERROR_OUT_OF_RANGE, status);
 
     /* Test < -1000 meters */
@@ -445,7 +445,7 @@ test_pressure_altitude_invalid(void) {
     memset(&location, 0, sizeof(location));
 
     /* Test invalid or unknown altitude */
-    rid_error_t status = rid_set_pressure_altitude(&location, RID_PRESSURE_ALTITUDE_INVALID);
+    int status = rid_set_pressure_altitude(&location, RID_PRESSURE_ALTITUDE_INVALID);
     ASSERT_EQ(RID_SUCCESS, status);
     ASSERT_EQ(RID_PRESSURE_ALTITUDE_INVALID_ENCODED, location.pressure_altitude);
 
@@ -458,7 +458,7 @@ test_pressure_altitude_invalid(void) {
 
 TEST
 test_set_pressure_altitude_null_pointer(void) {
-    rid_error_t status = rid_set_pressure_altitude(NULL, 100.0f);
+    int status = rid_set_pressure_altitude(NULL, 100.0f);
     ASSERT_EQ(RID_ERROR_NULL_POINTER, status);
 
     PASS();
@@ -473,7 +473,7 @@ test_set_and_get_geodetic_altitude(void) {
     for (size_t i = 0; i < sizeof(test_altitudes) / sizeof(test_altitudes[0]); i++) {
         memset(&location, 0, sizeof(location));
 
-        rid_error_t status = rid_set_geodetic_altitude(&location, test_altitudes[i]);
+        int status = rid_set_geodetic_altitude(&location, test_altitudes[i]);
         ASSERT_EQ(RID_SUCCESS, status);
 
         float result = rid_get_geodetic_altitude(&location);
@@ -492,7 +492,7 @@ test_geodetic_altitude_out_of_range(void) {
     memset(&location, 0, sizeof(location));
 
     /* Test below minimum */
-    rid_error_t status = rid_set_geodetic_altitude(&location, -1001.0f);
+    int status = rid_set_geodetic_altitude(&location, -1001.0f);
     ASSERT_EQ(RID_ERROR_OUT_OF_RANGE, status);
 
     /* Test above maximum */
@@ -508,7 +508,7 @@ test_geodetic_altitude_invalid(void) {
     memset(&location, 0, sizeof(location));
 
     /* Test invalid or unknown altitude */
-    rid_error_t status = rid_set_geodetic_altitude(&location, RID_GEODETIC_ALTITUDE_INVALID);
+    int status = rid_set_geodetic_altitude(&location, RID_GEODETIC_ALTITUDE_INVALID);
     ASSERT_EQ(RID_SUCCESS, status);
     ASSERT_EQ(RID_GEODETIC_ALTITUDE_INVALID_ENCODED, location.geodetic_altitude);
 
@@ -521,7 +521,7 @@ test_geodetic_altitude_invalid(void) {
 
 TEST
 test_set_geodetic_altitude_null_pointer(void) {
-    rid_error_t status = rid_set_geodetic_altitude(NULL, 100.0f);
+    int status = rid_set_geodetic_altitude(NULL, 100.0f);
     ASSERT_EQ(RID_ERROR_NULL_POINTER, status);
 
     PASS();
@@ -533,7 +533,7 @@ test_set_and_get_height_type(void) {
     memset(&location, 0, sizeof(location));
 
     /* Test RID_HEIGHT_TYPE_ABOVE_TAKEOFF */
-    rid_error_t status = rid_set_height_type(&location, RID_HEIGHT_TYPE_ABOVE_TAKEOFF);
+    int status = rid_set_height_type(&location, RID_HEIGHT_TYPE_ABOVE_TAKEOFF);
     ASSERT_EQ(RID_SUCCESS, status);
     ASSERT_EQ(0, location.height_type);
 
@@ -558,7 +558,7 @@ test_height_type_out_of_range(void) {
     memset(&location, 0, sizeof(location));
 
     /* Test invalid enum value */
-    rid_error_t status = rid_set_height_type(&location, (rid_height_type_t)2);
+    int status = rid_set_height_type(&location, (rid_height_type_t)2);
     ASSERT_EQ(RID_ERROR_OUT_OF_RANGE, status);
 
     status = rid_set_height_type(&location, (rid_height_type_t)255);
@@ -569,7 +569,7 @@ test_height_type_out_of_range(void) {
 
 TEST
 test_set_height_type_null_pointer(void) {
-    rid_error_t status = rid_set_height_type(NULL, RID_HEIGHT_TYPE_ABOVE_TAKEOFF);
+    int status = rid_set_height_type(NULL, RID_HEIGHT_TYPE_ABOVE_TAKEOFF);
     ASSERT_EQ(RID_ERROR_NULL_POINTER, status);
 
     PASS();
@@ -581,7 +581,7 @@ test_set_and_gte_operational_status(void) {
     memset(&location, 0, sizeof(location));
 
     /* Test RID_OPERATIONAL_STATUS_UNDECLARED */
-    rid_error_t status = rid_set_operational_status(&location, RID_OPERATIONAL_STATUS_UNDECLARED);
+    int status = rid_set_operational_status(&location, RID_OPERATIONAL_STATUS_UNDECLARED);
     ASSERT_EQ(RID_SUCCESS, status);
     ASSERT_EQ(0, location.operational_status);
 
@@ -642,7 +642,7 @@ test_operational_status_out_of_range(void) {
     memset(&location, 0, sizeof(location));
 
     /* Test value > 15 */
-    rid_error_t status = rid_set_operational_status(&location, (rid_operational_status_t)16);
+    int status = rid_set_operational_status(&location, (rid_operational_status_t)16);
     ASSERT_EQ(RID_ERROR_OUT_OF_RANGE, status);
 
     status = rid_set_operational_status(&location, (rid_operational_status_t)255);
@@ -653,7 +653,7 @@ test_operational_status_out_of_range(void) {
 
 TEST
 test_set_operational_status_null_pointer(void) {
-    rid_error_t status = rid_set_operational_status(NULL, RID_OPERATIONAL_STATUS_AIRBORNE);
+    int status = rid_set_operational_status(NULL, RID_OPERATIONAL_STATUS_AIRBORNE);
     ASSERT_EQ(RID_ERROR_NULL_POINTER, status);
 
     PASS();
@@ -665,7 +665,7 @@ test_set_and_get_speed_accuracy(void) {
     memset(&location, 0, sizeof(location));
 
     /* Test RID_SPEED_ACCURACY_UNKNOWN */
-    rid_error_t status = rid_set_speed_accuracy(&location, RID_SPEED_ACCURACY_UNKNOWN);
+    int status = rid_set_speed_accuracy(&location, RID_SPEED_ACCURACY_UNKNOWN);
     ASSERT_EQ(RID_SUCCESS, status);
     ASSERT_EQ(0, location.speed_accuracy);
 
@@ -726,7 +726,7 @@ test_speed_accuracy_out_of_range(void) {
     memset(&location, 0, sizeof(location));
 
     /* Test value > 15 */
-    rid_error_t status = rid_set_speed_accuracy(&location, (rid_speed_accuracy_t)16);
+    int status = rid_set_speed_accuracy(&location, (rid_speed_accuracy_t)16);
     ASSERT_EQ(RID_ERROR_OUT_OF_RANGE, status);
 
     status = rid_set_speed_accuracy(&location, (rid_speed_accuracy_t)255);
@@ -737,7 +737,7 @@ test_speed_accuracy_out_of_range(void) {
 
 TEST
 test_set_speed_accuracy_null_pointer(void) {
-    rid_error_t status = rid_set_speed_accuracy(NULL, RID_SPEED_ACCURACY_1MS);
+    int status = rid_set_speed_accuracy(NULL, RID_SPEED_ACCURACY_1MS);
     ASSERT_EQ(RID_ERROR_NULL_POINTER, status);
 
     PASS();
@@ -749,7 +749,7 @@ test_set_and_get_horizontal_accuracy(void) {
     memset(&location, 0, sizeof(location));
 
     /* Test RID_HORIZONTAL_ACCURACY_UNKNOWN */
-    rid_error_t status = rid_set_horizontal_accuracy(&location, RID_HORIZONTAL_ACCURACY_UNKNOWN);
+    int status = rid_set_horizontal_accuracy(&location, RID_HORIZONTAL_ACCURACY_UNKNOWN);
     ASSERT_EQ(RID_SUCCESS, status);
     ASSERT_EQ(0, location.horizontal_accuracy);
 
@@ -810,7 +810,7 @@ test_horizontal_accuracy_out_of_range(void) {
     memset(&location, 0, sizeof(location));
 
     /* Test value > 15 */
-    rid_error_t status = rid_set_horizontal_accuracy(&location, (rid_horizontal_accuracy_t)16);
+    int status = rid_set_horizontal_accuracy(&location, (rid_horizontal_accuracy_t)16);
     ASSERT_EQ(RID_ERROR_OUT_OF_RANGE, status);
 
     status = rid_set_horizontal_accuracy(&location, (rid_horizontal_accuracy_t)255);
@@ -821,7 +821,7 @@ test_horizontal_accuracy_out_of_range(void) {
 
 TEST
 test_set_horizontal_accuracy_null_pointer(void) {
-    rid_error_t status = rid_set_horizontal_accuracy(NULL, RID_HORIZONTAL_ACCURACY_1M);
+    int status = rid_set_horizontal_accuracy(NULL, RID_HORIZONTAL_ACCURACY_1M);
     ASSERT_EQ(RID_ERROR_NULL_POINTER, status);
 
     PASS();
@@ -833,7 +833,7 @@ test_set_and_get_vertical_accuracy(void) {
     memset(&location, 0, sizeof(location));
 
     /* Test RID_VERTICAL_ACCURACY_UNKNOWN */
-    rid_error_t status = rid_set_vertical_accuracy(&location, RID_VERTICAL_ACCURACY_UNKNOWN);
+    int status = rid_set_vertical_accuracy(&location, RID_VERTICAL_ACCURACY_UNKNOWN);
     ASSERT_EQ(RID_SUCCESS, status);
     ASSERT_EQ(0, location.vertical_accuracy);
 
@@ -912,7 +912,7 @@ test_vertical_accuracy_out_of_range(void) {
     memset(&location, 0, sizeof(location));
 
     /* Test value > 15 */
-    rid_error_t status = rid_set_vertical_accuracy(&location, (rid_vertical_accuracy_t)16);
+    int status = rid_set_vertical_accuracy(&location, (rid_vertical_accuracy_t)16);
     ASSERT_EQ(RID_ERROR_OUT_OF_RANGE, status);
 
     status = rid_set_vertical_accuracy(&location, (rid_vertical_accuracy_t)255);
@@ -923,7 +923,7 @@ test_vertical_accuracy_out_of_range(void) {
 
 TEST
 test_set_vertical_accuracy_null_pointer(void) {
-    rid_error_t status = rid_set_vertical_accuracy(NULL, RID_VERTICAL_ACCURACY_1M);
+    int status = rid_set_vertical_accuracy(NULL, RID_VERTICAL_ACCURACY_1M);
     ASSERT_EQ(RID_ERROR_NULL_POINTER, status);
 
     PASS();
@@ -935,7 +935,7 @@ test_set_and_get_baro_altitude_accuracy(void) {
     memset(&location, 0, sizeof(location));
 
     /* Test RID_VERTICAL_ACCURACY_UNKNOWN */
-    rid_error_t status = rid_set_baro_altitude_accuracy(&location, RID_VERTICAL_ACCURACY_UNKNOWN);
+    int status = rid_set_baro_altitude_accuracy(&location, RID_VERTICAL_ACCURACY_UNKNOWN);
     ASSERT_EQ(RID_SUCCESS, status);
     ASSERT_EQ(0, location.baro_altitude_accuracy);
 
@@ -1014,7 +1014,7 @@ test_baro_altitude_accuracy_out_of_range(void) {
     memset(&location, 0, sizeof(location));
 
     /* Test value > 15 */
-    rid_error_t status = rid_set_baro_altitude_accuracy(&location, (rid_vertical_accuracy_t)16);
+    int status = rid_set_baro_altitude_accuracy(&location, (rid_vertical_accuracy_t)16);
     ASSERT_EQ(RID_ERROR_OUT_OF_RANGE, status);
 
     status = rid_set_baro_altitude_accuracy(&location, (rid_vertical_accuracy_t)255);
@@ -1025,7 +1025,7 @@ test_baro_altitude_accuracy_out_of_range(void) {
 
 TEST
 test_set_baro_altitude_accuracy_null_pointer(void) {
-    rid_error_t status = rid_set_baro_altitude_accuracy(NULL, RID_VERTICAL_ACCURACY_1M);
+    int status = rid_set_baro_altitude_accuracy(NULL, RID_VERTICAL_ACCURACY_1M);
     ASSERT_EQ(RID_ERROR_NULL_POINTER, status);
 
     PASS();
@@ -1041,7 +1041,7 @@ test_set_and_get_timestamp(void) {
     for (size_t i = 0; i < sizeof(test_timestamps) / sizeof(test_timestamps[0]); i++) {
         memset(&location, 0, sizeof(location));
 
-        rid_error_t status = rid_set_timestamp(&location, test_timestamps[i]);
+        int status = rid_set_timestamp(&location, test_timestamps[i]);
         ASSERT_EQ(RID_SUCCESS, status);
 
         uint16_t result = rid_get_timestamp(&location);
@@ -1056,7 +1056,7 @@ test_timestamp_invalid(void) {
     rid_location_t location;
     memset(&location, 0, sizeof(location));
 
-    rid_error_t status = rid_set_timestamp(&location, RID_TIMESTAMP_INVALID);
+    int status = rid_set_timestamp(&location, RID_TIMESTAMP_INVALID);
     ASSERT_EQ(RID_SUCCESS, status);
     ASSERT_EQ(RID_TIMESTAMP_INVALID, location.timestamp);
 
@@ -1072,7 +1072,7 @@ test_timestamp_out_of_range(void) {
     memset(&location, 0, sizeof(location));
 
     /* Test value > 36000 */
-    rid_error_t status = rid_set_timestamp(&location, 36001);
+    int status = rid_set_timestamp(&location, 36001);
     ASSERT_EQ(RID_ERROR_OUT_OF_RANGE, status);
 
     status = rid_set_timestamp(&location, 50000);
@@ -1083,7 +1083,7 @@ test_timestamp_out_of_range(void) {
 
 TEST
 test_set_timestamp_null_pointer(void) {
-    rid_error_t status = rid_set_timestamp(NULL, 1800);
+    int status = rid_set_timestamp(NULL, 1800);
     ASSERT_EQ(RID_ERROR_NULL_POINTER, status);
 
     PASS();
@@ -1095,7 +1095,7 @@ test_set_timestamp_from_unixtime(void) {
     memset(&location, 0, sizeof(location));
 
     /* Test start of hour (unixtime % 3600 = 0) */
-    rid_error_t status = rid_set_timestamp_from_unixtime(&location, 3600);
+    int status = rid_set_timestamp_from_unixtime(&location, 3600);
     ASSERT_EQ(RID_SUCCESS, status);
     ASSERT_EQ(0, location.timestamp);
 
@@ -1124,7 +1124,7 @@ test_set_timestamp_from_unixtime(void) {
 
 TEST
 test_set_timestamp_from_unixtime_null_pointer(void) {
-    rid_error_t status = rid_set_timestamp_from_unixtime(NULL, 3600);
+    int status = rid_set_timestamp_from_unixtime(NULL, 3600);
     ASSERT_EQ(RID_ERROR_NULL_POINTER, status);
 
     PASS();
@@ -1136,7 +1136,7 @@ test_set_and_get_timestamp_accuracy(void) {
     memset(&location, 0, sizeof(location));
 
     /* Test RID_TIMESTAMP_ACCURACY_UNKNOWN */
-    rid_error_t status = rid_set_timestamp_accuracy(&location, RID_TIMESTAMP_ACCURACY_UNKNOWN);
+    int status = rid_set_timestamp_accuracy(&location, RID_TIMESTAMP_ACCURACY_UNKNOWN);
     ASSERT_EQ(RID_SUCCESS, status);
     ASSERT_EQ(0, location.timestamp_accuracy);
 
@@ -1188,7 +1188,7 @@ test_timestamp_accuracy_out_of_range(void) {
     memset(&location, 0, sizeof(location));
 
     /* Test value > 15 */
-    rid_error_t status = rid_set_timestamp_accuracy(&location, (rid_timestamp_accuracy_t)16);
+    int status = rid_set_timestamp_accuracy(&location, (rid_timestamp_accuracy_t)16);
     ASSERT_EQ(RID_ERROR_OUT_OF_RANGE, status);
 
     status = rid_set_timestamp_accuracy(&location, (rid_timestamp_accuracy_t)255);
@@ -1199,7 +1199,7 @@ test_timestamp_accuracy_out_of_range(void) {
 
 TEST
 test_set_timestamp_accuracy_null_pointer(void) {
-    rid_error_t status = rid_set_timestamp_accuracy(NULL, RID_TIMESTAMP_ACCURACY_1_0S);
+    int status = rid_set_timestamp_accuracy(NULL, RID_TIMESTAMP_ACCURACY_1_0S);
     ASSERT_EQ(RID_ERROR_NULL_POINTER, status);
 
     PASS();
@@ -1209,7 +1209,7 @@ TEST
 test_location_init(void) {
     rid_location_t location;
 
-    rid_error_t status = rid_location_init(NULL);
+    int status = rid_location_init(NULL);
     ASSERT_EQ(RID_ERROR_NULL_POINTER, status);
 
     status = rid_location_init(&location);

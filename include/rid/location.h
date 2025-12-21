@@ -202,7 +202,7 @@ __attribute__((__packed__)) rid_location {
  * @retval RID_SUCCESS on success.
  * @retval RID_ERROR_NULL_POINTER if location is NULL.
  */
-rid_error_t rid_location_init(rid_location_t *location);
+int rid_location_init(rid_location_t *location);
 
 /**
  * @brief Set the height reference type for a Location message.
@@ -213,7 +213,7 @@ rid_error_t rid_location_init(rid_location_t *location);
  * @retval RID_SUCCESS on success.
  * @retval RID_ERROR_NULL_POINTER if location is NULL.
  */
-rid_error_t rid_set_height_type(rid_location_t *location, rid_height_type_t type);
+int rid_set_height_type(rid_location_t *location, rid_height_type_t type);
 
 /**
  * @brief Get the height reference type from a Location message.
@@ -233,7 +233,7 @@ rid_height_type_t rid_get_height_type(const rid_location_t *location);
  * @retval RID_SUCCESS on success.
  * @retval RID_ERROR_NULL_POINTER if location is NULL.
  */
-rid_error_t rid_set_operational_status(rid_location_t *location, rid_operational_status_t status);
+int rid_set_operational_status(rid_location_t *location, rid_operational_status_t status);
 
 /**
  * @brief Get the operational status from a Location message.
@@ -253,7 +253,7 @@ rid_operational_status_t rid_get_operational_status(const rid_location_t *locati
  * @retval RID_SUCCESS on success.
  * @retval RID_ERROR_NULL_POINTER if location is NULL.
  */
-rid_error_t rid_set_track_direction(rid_location_t *location, uint16_t degrees);
+int rid_set_track_direction(rid_location_t *location, uint16_t degrees);
 
 /**
  * @brief Get the track direction from a Location message.
@@ -273,7 +273,7 @@ uint16_t rid_get_track_direction(const rid_location_t *location);
  * @retval RID_SUCCESS on success.
  * @retval RID_ERROR_NULL_POINTER if location is NULL.
  */
-rid_error_t rid_set_speed(rid_location_t *location, float speed_ms);
+int rid_set_speed(rid_location_t *location, float speed_ms);
 
 /**
  * @brief Get the ground speed from a Location message.
@@ -293,7 +293,7 @@ float rid_get_speed(const rid_location_t *location);
  * @retval RID_SUCCESS on success.
  * @retval RID_ERROR_NULL_POINTER if location is NULL.
  */
-rid_error_t rid_set_vertical_speed(rid_location_t *location, float speed_ms);
+int rid_set_vertical_speed(rid_location_t *location, float speed_ms);
 
 /**
  * @brief Get the vertical speed from a Location message.
@@ -313,7 +313,7 @@ float rid_get_vertical_speed(const rid_location_t *location);
  * @retval RID_SUCCESS on success.
  * @retval RID_ERROR_NULL_POINTER if location is NULL.
  */
-rid_error_t rid_set_latitude(rid_location_t *location, double degrees);
+int rid_set_latitude(rid_location_t *location, double degrees);
 
 /**
  * @brief Get the latitude from a Location message.
@@ -333,7 +333,7 @@ double rid_get_latitude(const rid_location_t *location);
  * @retval RID_SUCCESS on success.
  * @retval RID_ERROR_NULL_POINTER if location is NULL.
  */
-rid_error_t rid_set_longitude(rid_location_t *location, double degrees);
+int rid_set_longitude(rid_location_t *location, double degrees);
 
 /**
  * @brief Get the longitude from a Location message.
@@ -353,7 +353,7 @@ double rid_get_longitude(const rid_location_t *location);
  * @retval RID_SUCCESS on success.
  * @retval RID_ERROR_NULL_POINTER if location is NULL.
  */
-rid_error_t rid_set_pressure_altitude(rid_location_t *location, float altitude_m);
+int rid_set_pressure_altitude(rid_location_t *location, float altitude_m);
 
 /**
  * @brief Get the pressure altitude from a Location message.
@@ -373,7 +373,7 @@ float rid_get_pressure_altitude(const rid_location_t *location);
  * @retval RID_SUCCESS on success.
  * @retval RID_ERROR_NULL_POINTER if location is NULL.
  */
-rid_error_t rid_set_geodetic_altitude(rid_location_t *location, float altitude_m);
+int rid_set_geodetic_altitude(rid_location_t *location, float altitude_m);
 
 /**
  * @brief Get the geodetic altitude from a Location message.
@@ -393,7 +393,7 @@ float rid_get_geodetic_altitude(const rid_location_t *location);
  * @retval RID_SUCCESS on success.
  * @retval RID_ERROR_NULL_POINTER if location is NULL.
  */
-rid_error_t rid_set_height(rid_location_t *location, float height_m);
+int rid_set_height(rid_location_t *location, float height_m);
 
 /**
  * @brief Get the height from a Location message.
@@ -413,7 +413,7 @@ float rid_get_height(const rid_location_t *location);
  * @retval RID_SUCCESS on success.
  * @retval RID_ERROR_NULL_POINTER if location is NULL.
  */
-rid_error_t rid_set_horizontal_accuracy(rid_location_t *location, rid_horizontal_accuracy_t accuracy);
+int rid_set_horizontal_accuracy(rid_location_t *location, rid_horizontal_accuracy_t accuracy);
 
 /**
  * @brief Get the horizontal position accuracy from a Location message.
@@ -433,7 +433,7 @@ rid_horizontal_accuracy_t rid_get_horizontal_accuracy(const rid_location_t *loca
  * @retval RID_SUCCESS on success.
  * @retval RID_ERROR_NULL_POINTER if location is NULL.
  */
-rid_error_t rid_set_vertical_accuracy(rid_location_t *location, rid_vertical_accuracy_t accuracy);
+int rid_set_vertical_accuracy(rid_location_t *location, rid_vertical_accuracy_t accuracy);
 
 /**
  * @brief Get the vertical position accuracy from a Location message.
@@ -453,7 +453,7 @@ rid_vertical_accuracy_t rid_get_vertical_accuracy(const rid_location_t *location
  * @retval RID_SUCCESS on success.
  * @retval RID_ERROR_NULL_POINTER if location is NULL.
  */
-rid_error_t rid_set_speed_accuracy(rid_location_t *location, rid_speed_accuracy_t accuracy);
+int rid_set_speed_accuracy(rid_location_t *location, rid_speed_accuracy_t accuracy);
 
 /**
  * @brief Get the speed accuracy from a Location message.
@@ -473,7 +473,7 @@ rid_speed_accuracy_t rid_get_speed_accuracy(const rid_location_t *location);
  * @retval RID_SUCCESS on success.
  * @retval RID_ERROR_NULL_POINTER if location is NULL.
  */
-rid_error_t rid_set_baro_altitude_accuracy(rid_location_t *location, rid_vertical_accuracy_t accuracy);
+int rid_set_baro_altitude_accuracy(rid_location_t *location, rid_vertical_accuracy_t accuracy);
 
 /**
  * @brief Get the barometric altitude accuracy from a Location message.
@@ -493,7 +493,7 @@ rid_vertical_accuracy_t rid_get_baro_altitude_accuracy(const rid_location_t *loc
  * @retval RID_SUCCESS on success.
  * @retval RID_ERROR_NULL_POINTER if location is NULL.
  */
-rid_error_t rid_set_timestamp(rid_location_t *location, uint16_t deciseconds);
+int rid_set_timestamp(rid_location_t *location, uint16_t deciseconds);
 
 /**
  * @brief Get the timestamp from a Location message.
@@ -515,7 +515,7 @@ uint16_t rid_get_timestamp(const rid_location_t *location);
  * @retval RID_SUCCESS on success.
  * @retval RID_ERROR_NULL_POINTER if location is NULL.
  */
-rid_error_t rid_set_timestamp_from_unixtime(rid_location_t *location, uint32_t unixtime);
+int rid_set_timestamp_from_unixtime(rid_location_t *location, uint32_t unixtime);
 
 /**
  * @brief Set the timestamp accuracy for a Location message.
@@ -526,7 +526,7 @@ rid_error_t rid_set_timestamp_from_unixtime(rid_location_t *location, uint32_t u
  * @retval RID_SUCCESS on success.
  * @retval RID_ERROR_NULL_POINTER if location is NULL.
  */
-rid_error_t rid_set_timestamp_accuracy(rid_location_t *location, rid_timestamp_accuracy_t accuracy);
+int rid_set_timestamp_accuracy(rid_location_t *location, rid_timestamp_accuracy_t accuracy);
 
 /**
  * @brief Get the timestamp accuracy from a Location message.

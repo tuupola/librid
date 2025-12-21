@@ -46,7 +46,7 @@ rid_description_type_t rid_get_description_type(const rid_self_id_t *message);
  * @retval RID_SUCCESS on success.
  * @retval RID_ERROR_NULL_POINTER if message is NULL.
  */
-rid_error_t rid_set_description_type(rid_self_id_t *message, rid_description_type_t type);
+int rid_set_description_type(rid_self_id_t *message, rid_description_type_t type);
 
 /**
  * @brief Get the description from a Self ID message.
@@ -61,7 +61,7 @@ rid_error_t rid_set_description_type(rid_self_id_t *message, rid_description_typ
  * @retval RID_ERROR_NULL_POINTER if message or buffer is NULL.
  * @retval RID_ERROR_BUFFER_TOO_SMALL if buffer_size is insufficient.
  */
-rid_error_t rid_get_description(const rid_self_id_t *message, char *buffer, size_t buffer_size);
+int rid_get_description(const rid_self_id_t *message, char *buffer, size_t buffer_size);
 
 /**
  * @brief Set the description for a Self ID message.
@@ -75,7 +75,7 @@ rid_error_t rid_get_description(const rid_self_id_t *message, char *buffer, size
  * @retval RID_ERROR_NULL_POINTER if message or description is NULL.
  * @retval RID_ERROR_BUFFER_TOO_LARGE if description exceeds 23 characters.
  */
-rid_error_t rid_set_description(rid_self_id_t *message, const char *description);
+int rid_set_description(rid_self_id_t *message, const char *description);
 
 /**
  * @brief Initialize a Self ID message with default values.
@@ -88,6 +88,6 @@ rid_error_t rid_set_description(rid_self_id_t *message, const char *description)
  * @retval RID_SUCCESS on success.
  * @retval RID_ERROR_NULL_POINTER if message is NULL.
  */
-rid_error_t rid_self_id_init(rid_self_id_t *message);
+int rid_self_id_init(rid_self_id_t *message);
 
 #endif

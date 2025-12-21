@@ -5,7 +5,7 @@
 #include "rid/message.h"
 #include "rid/basic_id.h"
 
-rid_error_t
+int
 rid_basic_id_init(rid_basic_id_t *message) {
     if (message == NULL) {
         return RID_ERROR_NULL_POINTER;
@@ -19,7 +19,7 @@ rid_basic_id_init(rid_basic_id_t *message) {
     return RID_SUCCESS;
 }
 
-rid_error_t
+int
 rid_set_basic_id_type(rid_basic_id_t *message, rid_basic_id_type_t type) {
     if (message == NULL) {
         return RID_ERROR_NULL_POINTER;
@@ -42,7 +42,7 @@ rid_get_basic_id_type(const rid_basic_id_t *message) {
     return (rid_basic_id_type_t)message->id_type;
 }
 
-rid_error_t
+int
 rid_set_ua_type(rid_basic_id_t *message, rid_ua_type_t type) {
     if (NULL == message) {
         return RID_ERROR_NULL_POINTER;
@@ -65,7 +65,7 @@ rid_get_ua_type(const rid_basic_id_t *message) {
     return (rid_ua_type_t)message->ua_type;
 }
 
-rid_error_t
+int
 rid_set_uas_id(rid_basic_id_t *message, const char *uas_id) {
     if (message == NULL || uas_id == NULL) {
         return RID_ERROR_NULL_POINTER;
@@ -83,7 +83,7 @@ rid_set_uas_id(rid_basic_id_t *message, const char *uas_id) {
     return RID_SUCCESS;
 }
 
-rid_error_t
+int
 rid_get_uas_id(const rid_basic_id_t *message, char *buffer, size_t buffer_size) {
     if (message == NULL || buffer == NULL) {
         return RID_ERROR_NULL_POINTER;

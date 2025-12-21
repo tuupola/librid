@@ -24,7 +24,7 @@ TEST
 test_message_pack_init(void) {
     rid_message_pack_t message;
 
-    rid_error_t status = rid_message_pack_init(NULL);
+    int status = rid_message_pack_init(NULL);
     ASSERT_EQ(RID_ERROR_NULL_POINTER, status);
 
     status = rid_message_pack_init(&message);
@@ -54,7 +54,7 @@ test_set_and_get_count(void) {
     rid_message_pack_init(&message);
 
     for (uint8_t i = 0; i <= RID_MESSAGE_PACK_MAX_MESSAGES; i++) {
-        rid_error_t status = rid_message_pack_set_message_count(&message, i);
+        int status = rid_message_pack_set_message_count(&message, i);
         ASSERT_EQ(RID_SUCCESS, status);
         ASSERT_EQ(i, rid_message_pack_get_message_count(&message));
     }
@@ -64,7 +64,7 @@ test_set_and_get_count(void) {
 
 TEST
 test_set_count_null_pointer(void) {
-    rid_error_t status = rid_message_pack_set_message_count(NULL, 1);
+    int status = rid_message_pack_set_message_count(NULL, 1);
     ASSERT_EQ(RID_ERROR_NULL_POINTER, status);
     PASS();
 }
@@ -81,7 +81,7 @@ test_set_count_out_of_range(void) {
     rid_message_pack_t message;
     rid_message_pack_init(&message);
 
-    rid_error_t status = rid_message_pack_set_message_count(&message, RID_MESSAGE_PACK_MAX_MESSAGES + 1);
+    int status = rid_message_pack_set_message_count(&message, RID_MESSAGE_PACK_MAX_MESSAGES + 1);
     ASSERT_EQ(RID_ERROR_OUT_OF_RANGE, status);
 
     status = rid_message_pack_set_message_count(&message, UINT8_MAX);
@@ -114,7 +114,7 @@ test_add_message(void) {
     rid_set_basic_id_type(&basic_id, RID_ID_TYPE_SERIAL_NUMBER);
     rid_set_ua_type(&basic_id, RID_UA_TYPE_HELICOPTER_OR_MULTIROTOR);
 
-    rid_error_t status = rid_message_pack_add_message(&pack, &basic_id);
+    int status = rid_message_pack_add_message(&pack, &basic_id);
     ASSERT_EQ(RID_SUCCESS, status);
     ASSERT_EQ(1, rid_message_pack_get_message_count(&pack));
 
@@ -131,7 +131,7 @@ test_add_message_multiple(void) {
     for (uint8_t i = 0; i < RID_MESSAGE_PACK_MAX_MESSAGES; ++i) {
         rid_basic_id_init(&basic_id);
         basic_id.uas_id[0] = '0' + i;
-        rid_error_t status = rid_message_pack_add_message(&pack, &basic_id);
+        int status = rid_message_pack_add_message(&pack, &basic_id);
         ASSERT_EQ(RID_SUCCESS, status);
         ASSERT_EQ(i + 1, rid_message_pack_get_message_count(&pack));
 
@@ -157,7 +157,7 @@ test_add_message_pack_full(void) {
     }
 
     /* Try adding one more */
-    rid_error_t status = rid_message_pack_add_message(&pack, &basic_id);
+    int status = rid_message_pack_add_message(&pack, &basic_id);
     ASSERT_EQ(RID_ERROR_OUT_OF_RANGE, status);
     ASSERT_EQ(RID_MESSAGE_PACK_MAX_MESSAGES, rid_message_pack_get_message_count(&pack));
 
@@ -172,7 +172,7 @@ test_add_message_null_pointer(void) {
     rid_message_pack_init(&pack);
     rid_basic_id_init(&basic_id);
 
-    rid_error_t status = rid_message_pack_add_message(NULL, &basic_id);
+    int status = rid_message_pack_add_message(NULL, &basic_id);
     ASSERT_EQ(RID_ERROR_NULL_POINTER, status);
 
     status = rid_message_pack_add_message(&pack, NULL);
@@ -259,7 +259,7 @@ test_delete_message_at(void) {
     ASSERT_EQ(5, rid_message_pack_get_message_count(&pack));
 
     /* Delete middle message (index 2, DRONE003) */
-    rid_error_t status = rid_message_pack_delete_message_at(&pack, 2);
+    int status = rid_message_pack_delete_message_at(&pack, 2);
     ASSERT_EQ(RID_SUCCESS, status);
     ASSERT_EQ(4, rid_message_pack_get_message_count(&pack));
 
@@ -298,7 +298,7 @@ test_delete_message_at_first(void) {
         rid_message_pack_add_message(&pack, &basic_id);
     }
 
-    rid_error_t status = rid_message_pack_delete_message_at(&pack, 0);
+    int status = rid_message_pack_delete_message_at(&pack, 0);
     ASSERT_EQ(RID_SUCCESS, status);
     ASSERT_EQ(2, rid_message_pack_get_message_count(&pack));
 
@@ -328,7 +328,7 @@ test_delete_message_at_last(void) {
         rid_message_pack_add_message(&pack, &basic_id);
     }
 
-    rid_error_t status = rid_message_pack_delete_message_at(&pack, 2);
+    int status = rid_message_pack_delete_message_at(&pack, 2);
     ASSERT_EQ(RID_SUCCESS, status);
     ASSERT_EQ(2, rid_message_pack_get_message_count(&pack));
 
@@ -345,7 +345,7 @@ test_delete_message_at_last(void) {
 
 TEST
 test_delete_message_at_null_pointer(void) {
-    rid_error_t status = rid_message_pack_delete_message_at(NULL, 0);
+    int status = rid_message_pack_delete_message_at(NULL, 0);
     ASSERT_EQ(RID_ERROR_NULL_POINTER, status);
 
     PASS();
@@ -360,7 +360,7 @@ test_delete_message_at_out_of_range(void) {
     rid_basic_id_init(&basic_id);
     rid_message_pack_add_message(&pack, &basic_id);
 
-    rid_error_t status = rid_message_pack_delete_message_at(&pack, 1);
+    int status = rid_message_pack_delete_message_at(&pack, 1);
     ASSERT_EQ(RID_ERROR_OUT_OF_RANGE, status);
 
     status = rid_message_pack_delete_message_at(&pack, UINT8_MAX);
@@ -393,7 +393,7 @@ test_replace_message_at(void) {
     /* Replace middle message */
     rid_basic_id_init(&basic_id);
     rid_set_uas_id(&basic_id, "REPLACED");
-    rid_error_t status = rid_message_pack_replace_message_at(&pack, 1, &basic_id);
+    int status = rid_message_pack_replace_message_at(&pack, 1, &basic_id);
     ASSERT_EQ(RID_SUCCESS, status);
     ASSERT_EQ(3, rid_message_pack_get_message_count(&pack));
 
@@ -422,7 +422,7 @@ test_replace_message_at_null_pointer(void) {
     rid_basic_id_init(&basic_id);
     rid_message_pack_add_message(&pack, &basic_id);
 
-    rid_error_t status = rid_message_pack_replace_message_at(NULL, 0, &basic_id);
+    int status = rid_message_pack_replace_message_at(NULL, 0, &basic_id);
     ASSERT_EQ(RID_ERROR_NULL_POINTER, status);
 
     status = rid_message_pack_replace_message_at(&pack, 0, NULL);
@@ -443,7 +443,7 @@ test_replace_message_at_out_of_range(void) {
     rid_basic_id_init(&basic_id);
     rid_message_pack_add_message(&pack, &basic_id);
 
-    rid_error_t status = rid_message_pack_replace_message_at(&pack, 1, &basic_id);
+    int status = rid_message_pack_replace_message_at(&pack, 1, &basic_id);
     ASSERT_EQ(RID_ERROR_OUT_OF_RANGE, status);
 
     status = rid_message_pack_replace_message_at(&pack, 6, &basic_id);

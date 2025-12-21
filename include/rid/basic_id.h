@@ -63,7 +63,7 @@ typedef enum rid_ua_type {
  * @retval RID_SUCCESS on success.
  * @retval RID_ERROR_NULL_POINTER if message is NULL.
  */
-rid_error_t rid_basic_id_init(rid_basic_id_t *message);
+int rid_basic_id_init(rid_basic_id_t *message);
 
 /**
  * @brief Set the ID type for a Basic ID message.
@@ -75,7 +75,7 @@ rid_error_t rid_basic_id_init(rid_basic_id_t *message);
  * @retval RID_ERROR_NULL_POINTER if message is NULL.
  * @retval RID_ERROR_OUT_OF_RANGE if type exceeds RID_ID_TYPE_MAX.
  */
-rid_error_t rid_set_basic_id_type(rid_basic_id_t *message, rid_basic_id_type_t type);
+int rid_set_basic_id_type(rid_basic_id_t *message, rid_basic_id_type_t type);
 
 /**
  * @brief Get the ID type from a Basic ID message.
@@ -96,7 +96,7 @@ rid_basic_id_type_t rid_get_basic_id_type(const rid_basic_id_t *message);
  * @retval RID_ERROR_NULL_POINTER if message is NULL.
  * @retval RID_ERROR_OUT_OF_RANGE if type exceeds RID_UA_TYPE_MAX.
  */
-rid_error_t rid_set_ua_type(rid_basic_id_t *message, rid_ua_type_t type);
+int rid_set_ua_type(rid_basic_id_t *message, rid_ua_type_t type);
 
 /**
  * @brief Get the UA (unmanned aircraft) type from a Basic ID message.
@@ -119,7 +119,7 @@ rid_ua_type_t rid_get_ua_type(const rid_basic_id_t *message);
  * @retval RID_ERROR_NULL_POINTER if message or uas_id is NULL.
  * @retval RID_ERROR_BUFFER_TOO_LARGE if uas_id exceeds 20 characters.
  */
-rid_error_t rid_set_uas_id(rid_basic_id_t *message, const char *uas_id);
+int rid_set_uas_id(rid_basic_id_t *message, const char *uas_id);
 
 /**
  * @brief Get the UAS ID from a Basic ID message.
@@ -134,6 +134,6 @@ rid_error_t rid_set_uas_id(rid_basic_id_t *message, const char *uas_id);
  * @retval RID_ERROR_NULL_POINTER if message or buffer is NULL.
  * @retval RID_ERROR_BUFFER_TOO_SMALL if buffer_size is insufficient.
  */
-rid_error_t rid_get_uas_id(const rid_basic_id_t *message, char *buffer, size_t buffer_size);
+int rid_get_uas_id(const rid_basic_id_t *message, char *buffer, size_t buffer_size);
 
 #endif

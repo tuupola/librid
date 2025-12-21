@@ -16,7 +16,7 @@ test_set_and_get_description_type(void) {
         rid_self_id_t message;
 
         memset(&message, 0, sizeof(message));
-        rid_error_t status = rid_set_description_type(&message, types[i]);
+        int status = rid_set_description_type(&message, types[i]);
         ASSERT_EQ(RID_SUCCESS, status);
 
         rid_description_type_t result = rid_get_description_type(&message);
@@ -29,7 +29,7 @@ test_set_and_get_description_type(void) {
 
 TEST
 test_set_description_type_null_pointer(void) {
-    rid_error_t status = rid_set_description_type(NULL, RID_DESCRIPTION_TYPE_TEXT);
+    int status = rid_set_description_type(NULL, RID_DESCRIPTION_TYPE_TEXT);
     ASSERT_EQ(RID_ERROR_NULL_POINTER, status);
 
     PASS();
@@ -47,7 +47,7 @@ test_set_and_get_description(void) {
 
     for (size_t i = 0; i < sizeof(test_descriptions) / sizeof(test_descriptions[0]); i++) {
         rid_self_id_t message;
-        rid_error_t status;
+        int status;
 
         memset(&message, 0, sizeof(message));
 
@@ -67,7 +67,7 @@ test_set_and_get_description(void) {
 TEST
 test_set_description_must_be_ascii(void) {
     rid_self_id_t message;
-    rid_error_t status;
+    int status;
 
     memset(&message, 0, sizeof(message));
 
@@ -89,7 +89,7 @@ test_set_description_must_be_ascii(void) {
 TEST
 test_set_description_too_long(void) {
     rid_self_id_t message;
-    rid_error_t status;
+    int status;
 
     memset(&message, 0, sizeof(message));
 
@@ -102,7 +102,7 @@ test_set_description_too_long(void) {
 
 TEST
 test_set_description_null_pointer(void) {
-    rid_error_t status;
+    int status;
     rid_self_id_t message;
     memset(&message, 0, sizeof(message));
 
@@ -117,7 +117,7 @@ test_set_description_null_pointer(void) {
 
 TEST
 test_get_description_null_pointer(void) {
-    rid_error_t status;
+    int status;
     rid_self_id_t message;
     char buffer[24];
 
@@ -135,7 +135,7 @@ test_get_description_null_pointer(void) {
 TEST
 test_get_description_buffer_too_small(void) {
     rid_self_id_t message;
-    rid_error_t status;
+    int status;
     char buffer[10];
 
     memset(&message, 0, sizeof(message));
@@ -150,7 +150,7 @@ test_get_description_buffer_too_small(void) {
 TEST
 test_self_id_init(void) {
     rid_self_id_t message;
-    rid_error_t status;
+    int status;
 
     memset(&message, 0xFF, sizeof(message));
 
@@ -170,7 +170,7 @@ test_self_id_init(void) {
 
 TEST
 test_self_id_init_null_pointer(void) {
-    rid_error_t status = rid_self_id_init(NULL);
+    int status = rid_self_id_init(NULL);
     ASSERT_EQ(RID_ERROR_NULL_POINTER, status);
 
     PASS();
