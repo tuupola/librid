@@ -4,8 +4,8 @@ This example shows how to generate a Remote ID System message and parses it and 
 
 ```
 $ make run
-gcc -Wall -Wextra -std=c99 -I../../include -o generate_system generate_system.c ../../src/message.c ../../src/system.c
-./generate_system
+gcc -Wall -Wextra -std=c99 -I../../include -o generate_system_message generate_system_message.c ../../src/message.c ../../src/system.c
+./generate_system_message
 
 System message (25 bytes):
   Protocol version:   2
