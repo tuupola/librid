@@ -1,7 +1,6 @@
 # Message Example
 
 ```
-$ make
 $ make run
 ```
 

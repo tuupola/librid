@@ -1,7 +1,6 @@
 # Message Pack Example
 
 ```
-$ make
 $ make run
 ```
 

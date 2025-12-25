@@ -1,7 +1,6 @@
 # System Example
 
 ```
-$ make
 $ make run
 ```
 

@@ -1,7 +1,6 @@
 # Operator ID Example
 
 ```
-$ make
 $ make run
 ```
 

@@ -1,7 +1,6 @@
 # Basic ID Example
 
 ```
-$ make
 $ make run
 ```
 

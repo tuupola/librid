@@ -1,7 +1,6 @@
 # Location Example
 
 ```
-$ make
 $ make run
 ```
 

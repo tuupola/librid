@@ -1,7 +1,6 @@
 # Self ID Example
 
 ```
-$ make
 $ make run
 ```
 
