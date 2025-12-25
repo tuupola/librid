@@ -50,7 +50,13 @@ main(void)
     hexdump(&pack, sizeof(pack));
 
     uint8_t count = rid_message_pack_get_message_count(&pack);
-    printf("Message count: %u\n", count);
+
+    for (uint8_t i = 0; i < count; i++) {
+        const rid_message_t *message = rid_message_pack_get_message_at(&pack, i);
+        if (message) {
+            hexdump(&message, sizeof(rid_message_t));
+        }
+    }
     /* [full_example] */
 
     return 0;
