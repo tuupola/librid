@@ -11,6 +11,7 @@ extern "C" {
 #include "rid/operator_id.h"
 #include "rid/self_id.h"
 #include "rid/system.h"
+#include "rid/message_pack.h"
 
 #ifdef __cplusplus
 }
