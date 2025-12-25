@@ -23,7 +23,7 @@ hexdump(const void *data, size_t size)
         }
         printf("%02x ", bytes[i]);
     }
-    printf("\n");
+    printf("\n\n");
 }
 
 int
@@ -50,24 +50,22 @@ main(void)
 
     rid_set_system_timestamp(&system, 3600);
 
-    printf("\nHex dump:\n");
     hexdump(&system, sizeof(system));
 
-    printf("\nParsed system message:\n");
-    printf("  Protocol version:   %u\n", rid_get_protocol_version(&system));
-    printf("  Message type:       %u\n", rid_get_message_type(&system));
-    printf("  Operator loc type:  %u\n", rid_get_operator_location_type(&system));
-    printf("  Classification:     %u\n", rid_get_classification_type(&system));
-    printf("  Operator latitude:  %.6f\n", rid_get_operator_latitude(&system));
-    printf("  Operator longitude: %.6f\n", rid_get_operator_longitude(&system));
-    printf("  Area count:         %u\n", rid_get_area_count(&system));
-    printf("  Area radius:        %u m\n", rid_get_area_radius(&system));
-    printf("  Area ceiling:       %.1f m\n", rid_get_area_ceiling(&system));
-    printf("  Area floor:         %.1f m\n", rid_get_area_floor(&system));
-    printf("  UA class:           %u\n", rid_get_ua_classification_class(&system));
-    printf("  UA category:        %u\n", rid_get_ua_classification_category(&system));
-    printf("  Operator altitude:  %.1f m\n", rid_get_operator_altitude(&system));
-    printf("  Timestamp:          %u\n", rid_get_system_timestamp(&system));
+    printf("Protocol version:   %u\n", rid_get_protocol_version(&system));
+    printf("Message type:       %u\n", rid_get_message_type(&system));
+    printf("Operator loc type:  %u\n", rid_get_operator_location_type(&system));
+    printf("Classification:     %u\n", rid_get_classification_type(&system));
+    printf("Operator latitude:  %.6f\n", rid_get_operator_latitude(&system));
+    printf("Operator longitude: %.6f\n", rid_get_operator_longitude(&system));
+    printf("Area count:         %u\n", rid_get_area_count(&system));
+    printf("Area radius:        %u m\n", rid_get_area_radius(&system));
+    printf("Area ceiling:       %.1f m\n", rid_get_area_ceiling(&system));
+    printf("Area floor:         %.1f m\n", rid_get_area_floor(&system));
+    printf("UA class:           %u\n", rid_get_ua_classification_class(&system));
+    printf("UA category:        %u\n", rid_get_ua_classification_category(&system));
+    printf("Operator altitude:  %.1f m\n", rid_get_operator_altitude(&system));
+    printf("Timestamp:          %u\n", rid_get_system_timestamp(&system));
     /* [full_example] */
 
     return 0;
