@@ -1,0 +1,23 @@
+CC = gcc
+CFLAGS = -Wall -Wextra -std=c99 -I../../include
+LDFLAGS =
+
+SRC_DIR = ../../src
+SRC = $(SRC_DIR)/message.c $(SRC_DIR)/basic_id.c $(SRC_DIR)/location.c \
+      $(SRC_DIR)/self_id.c $(SRC_DIR)/operator_id.c $(SRC_DIR)/system.c \
+      $(SRC_DIR)/message_pack.c
+
+TARGET = message_pack
+
+all: $(TARGET)
+
+$(TARGET): message_pack.c $(SRC)
+	$(CC) $(CFLAGS) -o $@ $^ $(LDFLAGS)
+
+clean:
+	rm -f $(TARGET)
+
+run: $(TARGET)
+	./$(TARGET)
+
+.PHONY: all clean run
