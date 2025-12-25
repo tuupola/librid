@@ -1,6 +1,14 @@
 #ifndef _RID_OPERATOR_ID_H
 #define _RID_OPERATOR_ID_H
 
+/**
+ * @file operator_id.h
+ * @brief Operator ID message handling per ASTM F3411-22a.
+ *
+ * Example usage:
+ * @snippet operator_id/operator_id.c full_example
+ */
+
 #include <stdint.h>
 #include <stddef.h>
 

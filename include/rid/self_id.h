@@ -1,6 +1,14 @@
 #ifndef _RID_SELF_ID_H
 #define _RID_SELF_ID_H
 
+/**
+ * @file self_id.h
+ * @brief Self ID message handling per ASTM F3411-22a.
+ *
+ * Example usage:
+ * @snippet self_id/self_id.c full_example
+ */
+
 #include <stdint.h>
 #include <stddef.h>
 

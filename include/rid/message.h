@@ -1,6 +1,14 @@
 #ifndef _RID_MESSAGE_H
 #define _RID_MESSAGE_H
 
+/**
+ * @file message.h
+ * @brief Message header handling per ASTM F3411-22a.
+ *
+ * Example usage:
+ * @snippet message/message.c full_example
+ */
+
 #include <stdint.h>
 
 typedef enum {

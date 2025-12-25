@@ -1,6 +1,14 @@
 #ifndef _RID_SYSTEM_H
 #define _RID_SYSTEM_H
 
+/**
+ * @file system.h
+ * @brief System message handling per ASTM F3411-22a.
+ *
+ * Example usage:
+ * @snippet system_message/system_message.c full_example
+ */
+
 #include <stdint.h>
 #include <stddef.h>
 #include <float.h>

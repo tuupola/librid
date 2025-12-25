@@ -1,6 +1,14 @@
 #ifndef _RID_MESSAGE_PACK_H
 #define _RID_MESSAGE_PACK_H
 
+/**
+ * @file message_pack.h
+ * @brief Message pack handling per ASTM F3411-22a.
+ *
+ * Example usage:
+ * @snippet message_pack/message_pack.c full_example
+ */
+
 #include <stdint.h>
 
 #define RID_MESSAGE_PACK_MAX_MESSAGES 9

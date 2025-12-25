@@ -1,6 +1,14 @@
 #ifndef _RID_BASIC_ID_H
 #define _RID_BASIC_ID_H
 
+/**
+ * @file basic_id.h
+ * @brief Basic ID message handling per ASTM F3411-22a.
+ *
+ * Example usage:
+ * @snippet basic_id/basic_id.c full_example
+ */
+
 #include <stdint.h>
 
 /**

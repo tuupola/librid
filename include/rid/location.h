@@ -1,6 +1,14 @@
 #ifndef _RID_LOCATION_H
 #define _RID_LOCATION_H
 
+/**
+ * @file location.h
+ * @brief Location message handling per ASTM F3411-22a.
+ *
+ * Example usage:
+ * @snippet location/location.c full_example
+ */
+
 #include <stdint.h>
 #include <float.h>
 
