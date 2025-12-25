@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdint.h>
 
-#include "rid.h"
+#include "rid/rid.h"
 
 static void
 hexdump(const void *data, size_t size)
