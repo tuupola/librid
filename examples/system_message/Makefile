@@ -5,11 +5,11 @@ LDFLAGS =
 SRC_DIR = ../../src
 SRC = $(SRC_DIR)/message.c $(SRC_DIR)/system.c
 
-TARGET = parse_system_message
+TARGET = system_message
 
 all: $(TARGET)
 
-$(TARGET): parse_system_message.c $(SRC)
+$(TARGET): system_message.c $(SRC)
 	$(CC) $(CFLAGS) -o $@ $^ $(LDFLAGS)
 
 clean:
