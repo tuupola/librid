@@ -40,7 +40,7 @@ rid_auth_page_init(rid_auth_page_t *message, uint8_t page_number) {
 }
 
 int
-rid_set_auth_type(rid_auth_t *message, rid_auth_type_t type) {
+rid_auth_set_type(rid_auth_t *message, rid_auth_type_t type) {
     if (NULL == message) {
         return RID_ERROR_NULL_POINTER;
     }
@@ -55,7 +55,7 @@ rid_set_auth_type(rid_auth_t *message, rid_auth_type_t type) {
 }
 
 rid_auth_type_t
-rid_get_auth_type(const rid_auth_t *message) {
+rid_auth_get_type(const rid_auth_t *message) {
     if (NULL == message) {
         return RID_AUTH_TYPE_NONE;
     }
@@ -64,7 +64,7 @@ rid_get_auth_type(const rid_auth_t *message) {
 }
 
 int
-rid_set_auth_last_page_index(rid_auth_t *message, uint8_t index) {
+rid_auth_set_last_page_index(rid_auth_t *message, uint8_t index) {
     if (NULL == message) {
         return RID_ERROR_NULL_POINTER;
     }
@@ -79,7 +79,7 @@ rid_set_auth_last_page_index(rid_auth_t *message, uint8_t index) {
 }
 
 uint8_t
-rid_get_auth_last_page_index(const rid_auth_t *message) {
+rid_auth_get_last_page_index(const rid_auth_t *message) {
     if (NULL == message) {
         return 0;
     }
@@ -88,7 +88,7 @@ rid_get_auth_last_page_index(const rid_auth_t *message) {
 }
 
 int
-rid_set_auth_length(rid_auth_t *message, uint8_t length) {
+rid_auth_set_length(rid_auth_t *message, uint8_t length) {
     if (NULL == message) {
         return RID_ERROR_NULL_POINTER;
     }
@@ -99,7 +99,7 @@ rid_set_auth_length(rid_auth_t *message, uint8_t length) {
 }
 
 uint8_t
-rid_get_auth_length(const rid_auth_t *message) {
+rid_auth_get_length(const rid_auth_t *message) {
     if (NULL == message) {
         return 0;
     }
@@ -108,7 +108,7 @@ rid_get_auth_length(const rid_auth_t *message) {
 }
 
 int
-rid_set_auth_timestamp(rid_auth_t *message, uint32_t timestamp) {
+rid_auth_set_timestamp(rid_auth_t *message, uint32_t timestamp) {
     if (NULL == message) {
         return RID_ERROR_NULL_POINTER;
     }
@@ -119,7 +119,7 @@ rid_set_auth_timestamp(rid_auth_t *message, uint32_t timestamp) {
 }
 
 uint32_t
-rid_get_auth_timestamp(const rid_auth_t *message) {
+rid_auth_get_timestamp(const rid_auth_t *message) {
     if (NULL == message) {
         return 0;
     }
@@ -128,7 +128,7 @@ rid_get_auth_timestamp(const rid_auth_t *message) {
 }
 
 int
-rid_set_auth_data(rid_auth_t *message, const uint8_t *data, size_t size) {
+rid_auth_set_data(rid_auth_t *message, const uint8_t *data, size_t size) {
     if (NULL == message || NULL == data) {
         return RID_ERROR_NULL_POINTER;
     }
@@ -144,7 +144,7 @@ rid_set_auth_data(rid_auth_t *message, const uint8_t *data, size_t size) {
 }
 
 int
-rid_get_auth_data(const rid_auth_t *message, uint8_t *buffer, size_t buffer_size) {
+rid_auth_get_data(const rid_auth_t *message, uint8_t *buffer, size_t buffer_size) {
     if (NULL == message || NULL == buffer) {
         return RID_ERROR_NULL_POINTER;
     }
@@ -159,7 +159,7 @@ rid_get_auth_data(const rid_auth_t *message, uint8_t *buffer, size_t buffer_size
 }
 
 int
-rid_set_auth_page_type(rid_auth_page_t *message, rid_auth_type_t type) {
+rid_auth_page_set_type(rid_auth_page_t *message, rid_auth_type_t type) {
     if (NULL == message) {
         return RID_ERROR_NULL_POINTER;
     }
@@ -174,7 +174,7 @@ rid_set_auth_page_type(rid_auth_page_t *message, rid_auth_type_t type) {
 }
 
 rid_auth_type_t
-rid_get_auth_page_type(const rid_auth_page_t *message) {
+rid_auth_page_get_type(const rid_auth_page_t *message) {
     if (NULL == message) {
         return RID_AUTH_TYPE_NONE;
     }
@@ -183,7 +183,7 @@ rid_get_auth_page_type(const rid_auth_page_t *message) {
 }
 
 int
-rid_set_auth_page_number(rid_auth_page_t *message, uint8_t page_number) {
+rid_auth_page_set_number(rid_auth_page_t *message, uint8_t page_number) {
     if (NULL == message) {
         return RID_ERROR_NULL_POINTER;
     }
@@ -198,7 +198,7 @@ rid_set_auth_page_number(rid_auth_page_t *message, uint8_t page_number) {
 }
 
 uint8_t
-rid_get_auth_page_number(const rid_auth_page_t *message) {
+rid_auth_page_get_number(const rid_auth_page_t *message) {
     if (NULL == message) {
         return 0;
     }
@@ -207,7 +207,7 @@ rid_get_auth_page_number(const rid_auth_page_t *message) {
 }
 
 int
-rid_set_auth_page_data(rid_auth_page_t *message, const uint8_t *data, size_t size) {
+rid_auth_page_set_data(rid_auth_page_t *message, const uint8_t *data, size_t size) {
     if (NULL == message || NULL == data) {
         return RID_ERROR_NULL_POINTER;
     }
@@ -223,7 +223,7 @@ rid_set_auth_page_data(rid_auth_page_t *message, const uint8_t *data, size_t siz
 }
 
 int
-rid_get_auth_page_data(const rid_auth_page_t *message, uint8_t *buffer, size_t buffer_size) {
+rid_auth_page_get_data(const rid_auth_page_t *message, uint8_t *buffer, size_t buffer_size) {
     if (NULL == message || NULL == buffer) {
         return RID_ERROR_NULL_POINTER;
     }
