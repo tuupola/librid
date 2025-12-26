@@ -8,6 +8,7 @@ extern "C" {
 #include "rid/message.h"
 #include "rid/basic_id.h"
 #include "rid/location.h"
+#include "rid/auth.h"
 #include "rid/operator_id.h"
 #include "rid/self_id.h"
 #include "rid/system.h"
