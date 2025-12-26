@@ -115,7 +115,7 @@ typedef enum rid_ua_classification_class {
  * @retval RID_SUCCESS on success.
  * @retval RID_ERROR_NULL_POINTER if system is NULL.
  */
-int rid_set_operator_location_type(rid_system_t *system, rid_operator_location_type_t type);
+int rid_system_set_operator_location_type(rid_system_t *system, rid_operator_location_type_t type);
 
 /**
  * @brief Get the operator location type from a System message.
@@ -124,7 +124,7 @@ int rid_set_operator_location_type(rid_system_t *system, rid_operator_location_t
  *
  * @return The operator location type value.
  */
-rid_operator_location_type_t rid_get_operator_location_type(const rid_system_t *system);
+rid_operator_location_type_t rid_system_get_operator_location_type(const rid_system_t *system);
 
 /**
  * @brief Set the classification type for a System message.
@@ -135,7 +135,7 @@ rid_operator_location_type_t rid_get_operator_location_type(const rid_system_t *
  * @retval RID_SUCCESS on success.
  * @retval RID_ERROR_NULL_POINTER if system is NULL.
  */
-int rid_set_classification_type(rid_system_t *system, rid_classification_type_t type);
+int rid_system_set_classification_type(rid_system_t *system, rid_classification_type_t type);
 
 /**
  * @brief Get the classification type from a System message.
@@ -144,7 +144,7 @@ int rid_set_classification_type(rid_system_t *system, rid_classification_type_t 
  *
  * @return The classification type value.
  */
-rid_classification_type_t rid_get_classification_type(const rid_system_t *system);
+rid_classification_type_t rid_system_get_classification_type(const rid_system_t *system);
 
 /**
  * @brief Set the UA classification category for a System message.
@@ -155,7 +155,7 @@ rid_classification_type_t rid_get_classification_type(const rid_system_t *system
  * @retval RID_SUCCESS on success.
  * @retval RID_ERROR_NULL_POINTER if system is NULL.
  */
-int rid_set_ua_classification_category(rid_system_t *system, rid_ua_classification_category_t category);
+int rid_system_set_ua_classification_category(rid_system_t *system, rid_ua_classification_category_t category);
 
 /**
  * @brief Get the UA classification category from a System message.
@@ -164,7 +164,7 @@ int rid_set_ua_classification_category(rid_system_t *system, rid_ua_classificati
  *
  * @return The UA classification category value.
  */
-rid_ua_classification_category_t rid_get_ua_classification_category(const rid_system_t *system);
+rid_ua_classification_category_t rid_system_get_ua_classification_category(const rid_system_t *system);
 
 /**
  * @brief Set the UA classification class for a System message.
@@ -176,7 +176,7 @@ rid_ua_classification_category_t rid_get_ua_classification_category(const rid_sy
  * @retval RID_ERROR_NULL_POINTER if system is NULL.
  * @retval RID_ERROR_OUT_OF_RANGE if classification_class exceeds RID_UA_CLASSIFICATION_CLASS_MAX.
  */
-int rid_set_ua_classification_class(rid_system_t *system, rid_ua_classification_class_t class);
+int rid_system_set_ua_classification_class(rid_system_t *system, rid_ua_classification_class_t class);
 
 /**
  * @brief Get the UA classification class from a System message.
@@ -185,7 +185,7 @@ int rid_set_ua_classification_class(rid_system_t *system, rid_ua_classification_
  *
  * @return The UA classification class value.
  */
-rid_ua_classification_class_t rid_get_ua_classification_class(const rid_system_t *system);
+rid_ua_classification_class_t rid_system_get_ua_classification_class(const rid_system_t *system);
 
 /**
  * @brief Set the operator latitude for a System message.
@@ -199,7 +199,7 @@ rid_ua_classification_class_t rid_get_ua_classification_class(const rid_system_t
  * @retval RID_ERROR_NULL_POINTER if system is NULL.
  * @retval RID_ERROR_OUT_OF_RANGE if degrees is outside valid range.
  */
-int rid_set_operator_latitude(rid_system_t *system, double degrees);
+int rid_system_set_operator_latitude(rid_system_t *system, double degrees);
 
 /**
  * @brief Get the operator latitude from a System message.
@@ -210,7 +210,7 @@ int rid_set_operator_latitude(rid_system_t *system, double degrees);
  *
  * @return Latitude in degrees. 0.0 indicates invalid/unknown.
  */
-double rid_get_operator_latitude(const rid_system_t *system);
+double rid_system_get_operator_latitude(const rid_system_t *system);
 
 /**
  * @brief Set the operator longitude for a System message.
@@ -224,7 +224,7 @@ double rid_get_operator_latitude(const rid_system_t *system);
  * @retval RID_ERROR_NULL_POINTER if system is NULL.
  * @retval RID_ERROR_OUT_OF_RANGE if degrees is outside valid range.
  */
-int rid_set_operator_longitude(rid_system_t *system, double degrees);
+int rid_system_set_operator_longitude(rid_system_t *system, double degrees);
 
 /**
  * @brief Get the operator longitude from a System message.
@@ -235,7 +235,7 @@ int rid_set_operator_longitude(rid_system_t *system, double degrees);
  *
  * @return Longitude in degrees. 0.0 indicates invalid/unknown.
  */
-double rid_get_operator_longitude(const rid_system_t *system);
+double rid_system_get_operator_longitude(const rid_system_t *system);
 
 /**
  * @brief Set the operator altitude for a System message.
@@ -249,7 +249,7 @@ double rid_get_operator_longitude(const rid_system_t *system);
  * @retval RID_ERROR_NULL_POINTER if system is NULL.
  * @retval RID_ERROR_OUT_OF_RANGE if altitude is outside valid range.
  */
-int rid_set_operator_altitude(rid_system_t *system, float altitude);
+int rid_system_set_operator_altitude(rid_system_t *system, float altitude);
 
 /**
  * @brief Get the operator altitude from a System message.
@@ -260,7 +260,7 @@ int rid_set_operator_altitude(rid_system_t *system, float altitude);
  *
  * @return Altitude in meters. -1000.0 indicates invalid/unknown.
  */
-float rid_get_operator_altitude(const rid_system_t *system);
+float rid_system_get_operator_altitude(const rid_system_t *system);
 
 /**
  * @brief Set the area count for a System message.
@@ -271,7 +271,7 @@ float rid_get_operator_altitude(const rid_system_t *system);
  * @retval RID_SUCCESS on success.
  * @retval RID_ERROR_NULL_POINTER if system is NULL.
  */
-int rid_set_area_count(rid_system_t *system, uint16_t count);
+int rid_system_set_area_count(rid_system_t *system, uint16_t count);
 
 /**
  * @brief Get the area count from a System message.
@@ -280,7 +280,7 @@ int rid_set_area_count(rid_system_t *system, uint16_t count);
  *
  * @return The number of aircraft in the area.
  */
-uint16_t rid_get_area_count(const rid_system_t *system);
+uint16_t rid_system_get_area_count(const rid_system_t *system);
 
 /**
  * @brief Set the area radius for a System message.
@@ -292,7 +292,7 @@ uint16_t rid_get_area_count(const rid_system_t *system);
  * @retval RID_ERROR_NULL_POINTER if system is NULL.
  * @retval RID_ERROR_OUT_OF_RANGE if meters exceeds 2550.
  */
-int rid_set_area_radius(rid_system_t *system, uint16_t meters);
+int rid_system_set_area_radius(rid_system_t *system, uint16_t meters);
 
 /**
  * @brief Get the area radius from a System message.
@@ -301,7 +301,7 @@ int rid_set_area_radius(rid_system_t *system, uint16_t meters);
  *
  * @return The radius in meters.
  */
-uint16_t rid_get_area_radius(const rid_system_t *system);
+uint16_t rid_system_get_area_radius(const rid_system_t *system);
 
 /**
  * @brief Set the area ceiling for a System message.
@@ -313,7 +313,7 @@ uint16_t rid_get_area_radius(const rid_system_t *system);
  * @retval RID_ERROR_NULL_POINTER if system is NULL.
  * @retval RID_ERROR_OUT_OF_RANGE if altitude is outside valid range.
  */
-int rid_set_area_ceiling(rid_system_t *system, float altitude);
+int rid_system_set_area_ceiling(rid_system_t *system, float altitude);
 
 /**
  * @brief Get the area ceiling from a System message.
@@ -322,7 +322,7 @@ int rid_set_area_ceiling(rid_system_t *system, float altitude);
  *
  * @return The ceiling altitude in meters.
  */
-float rid_get_area_ceiling(const rid_system_t *system);
+float rid_system_get_area_ceiling(const rid_system_t *system);
 
 /**
  * @brief Set the area floor for a System message.
@@ -334,7 +334,7 @@ float rid_get_area_ceiling(const rid_system_t *system);
  * @retval RID_ERROR_NULL_POINTER if system is NULL.
  * @retval RID_ERROR_OUT_OF_RANGE if altitude is outside valid range.
  */
-int rid_set_area_floor(rid_system_t *system, float altitude);
+int rid_system_set_area_floor(rid_system_t *system, float altitude);
 
 /**
  * @brief Get the area floor from a System message.
@@ -343,7 +343,7 @@ int rid_set_area_floor(rid_system_t *system, float altitude);
  *
  * @return The floor altitude in meters.
  */
-float rid_get_area_floor(const rid_system_t *system);
+float rid_system_get_area_floor(const rid_system_t *system);
 
 /**
  * @brief Set the timestamp for a System message.
@@ -354,7 +354,7 @@ float rid_get_area_floor(const rid_system_t *system);
  * @retval RID_SUCCESS on success.
  * @retval RID_ERROR_NULL_POINTER if system is NULL.
  */
-int rid_set_system_timestamp(rid_system_t *system, uint32_t timestamp);
+int rid_system_set_timestamp(rid_system_t *system, uint32_t timestamp);
 
 /**
  * @brief Get the timestamp from a System message.
@@ -363,7 +363,7 @@ int rid_set_system_timestamp(rid_system_t *system, uint32_t timestamp);
  *
  * @return Seconds since RID epoch (2019-01-01 00:00:00 UTC).
  */
-uint32_t rid_get_system_timestamp(const rid_system_t *system);
+uint32_t rid_system_get_timestamp(const rid_system_t *system);
 
 /**
  * @brief Set the timestamp for a System message from Unix time.
@@ -376,7 +376,7 @@ uint32_t rid_get_system_timestamp(const rid_system_t *system);
  * @retval RID_SUCCESS on success.
  * @retval RID_ERROR_NULL_POINTER if system is NULL.
  */
-int rid_set_system_timestamp_from_unixtime(rid_system_t *system, uint32_t unixtime);
+int rid_system_set_timestamp_from_unixtime(rid_system_t *system, uint32_t unixtime);
 
 /**
  * @brief Initialize a System message with default values.
