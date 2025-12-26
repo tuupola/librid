@@ -76,4 +76,33 @@ __attribute__((__packed__)) rid_auth_page {
     uint8_t auth_data[23];
 } rid_auth_page_t;
 
+/**
+ * @brief Initialize an Authentication message page 0 structure.
+ *
+ * Sets protocol version to RID_PROTOCOL_VERSION_2, message type to
+ * RID_MESSAGE_TYPE_AUTH, and page number to 0. All other fields are zeroed.
+ *
+ * @param message Pointer to the Authentication message structure to initialize.
+ *
+ * @retval RID_SUCCESS on success.
+ * @retval RID_ERROR_NULL_POINTER if message is NULL.
+ */
+int rid_auth_init(rid_auth_t *message);
+
+/**
+ * @brief Initialize an Authentication message page 1-15 structure.
+ *
+ * Sets protocol version to RID_PROTOCOL_VERSION_2, message type to
+ * RID_MESSAGE_TYPE_AUTH, and page number to specified value.
+ *
+ * @param message Pointer to the Authentication page structure to initialize.
+ * @param page_number Page number (1-15).
+ *
+ * @retval RID_SUCCESS on success.
+ * @retval RID_ERROR_NULL_POINTER if message is NULL.
+ * @retval RID_ERROR_OUT_OF_RANGE if page_number is 0 or > 15.
+ */
+int rid_auth_page_init(rid_auth_page_t *message, uint8_t page_number);
+
+
 #endif
