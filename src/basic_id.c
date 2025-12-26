@@ -20,7 +20,7 @@ rid_basic_id_init(rid_basic_id_t *message) {
 }
 
 int
-rid_set_basic_id_type(rid_basic_id_t *message, rid_basic_id_type_t type) {
+rid_basic_id_set_type(rid_basic_id_t *message, rid_basic_id_type_t type) {
     if (message == NULL) {
         return RID_ERROR_NULL_POINTER;
     }
@@ -35,7 +35,7 @@ rid_set_basic_id_type(rid_basic_id_t *message, rid_basic_id_type_t type) {
 }
 
 rid_basic_id_type_t
-rid_get_basic_id_type(const rid_basic_id_t *message) {
+rid_basic_id_get_type(const rid_basic_id_t *message) {
     if (message == NULL) {
         return RID_ID_TYPE_NONE;
     }
@@ -43,7 +43,7 @@ rid_get_basic_id_type(const rid_basic_id_t *message) {
 }
 
 int
-rid_set_ua_type(rid_basic_id_t *message, rid_ua_type_t type) {
+rid_basic_id_set_ua_type(rid_basic_id_t *message, rid_ua_type_t type) {
     if (NULL == message) {
         return RID_ERROR_NULL_POINTER;
     }
@@ -58,7 +58,7 @@ rid_set_ua_type(rid_basic_id_t *message, rid_ua_type_t type) {
 }
 
 rid_ua_type_t
-rid_get_ua_type(const rid_basic_id_t *message) {
+rid_basic_id_get_ua_type(const rid_basic_id_t *message) {
     if (message == NULL) {
         return RID_UA_TYPE_NONE;
     }
@@ -66,7 +66,7 @@ rid_get_ua_type(const rid_basic_id_t *message) {
 }
 
 int
-rid_set_uas_id(rid_basic_id_t *message, const char *uas_id) {
+rid_basic_id_set_uas_id(rid_basic_id_t *message, const char *uas_id) {
     if (message == NULL || uas_id == NULL) {
         return RID_ERROR_NULL_POINTER;
     }
@@ -84,7 +84,7 @@ rid_set_uas_id(rid_basic_id_t *message, const char *uas_id) {
 }
 
 int
-rid_get_uas_id(const rid_basic_id_t *message, char *buffer, size_t buffer_size) {
+rid_basic_id_get_uas_id(const rid_basic_id_t *message, char *buffer, size_t buffer_size) {
     if (message == NULL || buffer == NULL) {
         return RID_ERROR_NULL_POINTER;
     }

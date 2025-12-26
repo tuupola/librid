@@ -83,7 +83,7 @@ int rid_basic_id_init(rid_basic_id_t *message);
  * @retval RID_ERROR_NULL_POINTER if message is NULL.
  * @retval RID_ERROR_OUT_OF_RANGE if type exceeds RID_ID_TYPE_MAX.
  */
-int rid_set_basic_id_type(rid_basic_id_t *message, rid_basic_id_type_t type);
+int rid_basic_id_set_type(rid_basic_id_t *message, rid_basic_id_type_t type);
 
 /**
  * @brief Get the ID type from a Basic ID message.
@@ -92,7 +92,7 @@ int rid_set_basic_id_type(rid_basic_id_t *message, rid_basic_id_type_t type);
  *
  * @return The ID type, or RID_ID_TYPE_NONE if message is NULL.
  */
-rid_basic_id_type_t rid_get_basic_id_type(const rid_basic_id_t *message);
+rid_basic_id_type_t rid_basic_id_get_type(const rid_basic_id_t *message);
 
 /**
  * @brief Set the UA (unmanned aircraft) type for a Basic ID message.
@@ -104,7 +104,7 @@ rid_basic_id_type_t rid_get_basic_id_type(const rid_basic_id_t *message);
  * @retval RID_ERROR_NULL_POINTER if message is NULL.
  * @retval RID_ERROR_OUT_OF_RANGE if type exceeds RID_UA_TYPE_MAX.
  */
-int rid_set_ua_type(rid_basic_id_t *message, rid_ua_type_t type);
+int rid_basic_id_set_ua_type(rid_basic_id_t *message, rid_ua_type_t type);
 
 /**
  * @brief Get the UA (unmanned aircraft) type from a Basic ID message.
@@ -113,7 +113,7 @@ int rid_set_ua_type(rid_basic_id_t *message, rid_ua_type_t type);
  *
  * @return The UA type, or RID_UA_TYPE_NONE if message is NULL.
  */
-rid_ua_type_t rid_get_ua_type(const rid_basic_id_t *message);
+rid_ua_type_t rid_basic_id_get_ua_type(const rid_basic_id_t *message);
 
 /**
  * @brief Set the UAS ID for a Basic ID message.
@@ -127,7 +127,7 @@ rid_ua_type_t rid_get_ua_type(const rid_basic_id_t *message);
  * @retval RID_ERROR_NULL_POINTER if message or uas_id is NULL.
  * @retval RID_ERROR_BUFFER_TOO_LARGE if uas_id exceeds 20 characters.
  */
-int rid_set_uas_id(rid_basic_id_t *message, const char *uas_id);
+int rid_basic_id_set_uas_id(rid_basic_id_t *message, const char *uas_id);
 
 /**
  * @brief Get the UAS ID from a Basic ID message.
@@ -142,6 +142,6 @@ int rid_set_uas_id(rid_basic_id_t *message, const char *uas_id);
  * @retval RID_ERROR_NULL_POINTER if message or buffer is NULL.
  * @retval RID_ERROR_BUFFER_TOO_SMALL if buffer_size is insufficient.
  */
-int rid_get_uas_id(const rid_basic_id_t *message, char *buffer, size_t buffer_size);
+int rid_basic_id_get_uas_id(const rid_basic_id_t *message, char *buffer, size_t buffer_size);
 
 #endif

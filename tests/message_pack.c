@@ -110,9 +110,9 @@ test_add_message(void) {
 
     rid_message_pack_init(&pack);
     rid_basic_id_init(&basic_id);
-    rid_set_uas_id(&basic_id, "1596A3037164309A");
-    rid_set_basic_id_type(&basic_id, RID_ID_TYPE_SERIAL_NUMBER);
-    rid_set_ua_type(&basic_id, RID_UA_TYPE_HELICOPTER_OR_MULTIROTOR);
+    rid_basic_id_set_uas_id(&basic_id, "1596A3037164309A");
+    rid_basic_id_set_type(&basic_id, RID_ID_TYPE_SERIAL_NUMBER);
+    rid_basic_id_set_ua_type(&basic_id, RID_UA_TYPE_HELICOPTER_OR_MULTIROTOR);
 
     int status = rid_message_pack_add_message(&pack, &basic_id);
     ASSERT_EQ(RID_SUCCESS, status);
@@ -196,7 +196,7 @@ test_get_message_at(void) {
     for (uint8_t i = 0; i < 3; ++i) {
         rid_basic_id_init(&basic_id);
         snprintf(uas_id, sizeof(uas_id), "DRONE%03u", i + 1);
-        rid_set_uas_id(&basic_id, uas_id);
+        rid_basic_id_set_uas_id(&basic_id, uas_id);
         rid_message_pack_add_message(&pack, &basic_id);
     }
 
@@ -204,7 +204,7 @@ test_get_message_at(void) {
         const rid_basic_id_t *msg = rid_message_pack_get_message_at(&pack, i);
         ASSERT(msg != NULL);
 
-        rid_get_uas_id(msg, uas_id, sizeof(uas_id));
+        rid_basic_id_get_uas_id(msg, uas_id, sizeof(uas_id));
         snprintf(expected, sizeof(expected), "DRONE%03u", i + 1);
         ASSERT_STR_EQ(expected, uas_id);
     }
@@ -253,7 +253,7 @@ test_delete_message_at(void) {
     for (uint8_t i = 0; i < 5; ++i) {
         rid_basic_id_init(&basic_id);
         snprintf(uas_id, sizeof(uas_id), "DRONE%03u", i + 1);
-        rid_set_uas_id(&basic_id, uas_id);
+        rid_basic_id_set_uas_id(&basic_id, uas_id);
         rid_message_pack_add_message(&pack, &basic_id);
     }
     ASSERT_EQ(5, rid_message_pack_get_message_count(&pack));
@@ -265,19 +265,19 @@ test_delete_message_at(void) {
 
     /* Verify remaining messages shifted correctly */
     const rid_basic_id_t *msg = rid_message_pack_get_message_at(&pack, 0);
-    rid_get_uas_id(msg, uas_id, sizeof(uas_id));
+    rid_basic_id_get_uas_id(msg, uas_id, sizeof(uas_id));
     ASSERT_STR_EQ("DRONE001", uas_id);
 
     msg = rid_message_pack_get_message_at(&pack, 1);
-    rid_get_uas_id(msg, uas_id, sizeof(uas_id));
+    rid_basic_id_get_uas_id(msg, uas_id, sizeof(uas_id));
     ASSERT_STR_EQ("DRONE002", uas_id);
 
     msg = rid_message_pack_get_message_at(&pack, 2);
-    rid_get_uas_id(msg, uas_id, sizeof(uas_id));
+    rid_basic_id_get_uas_id(msg, uas_id, sizeof(uas_id));
     ASSERT_STR_EQ("DRONE004", uas_id);
 
     msg = rid_message_pack_get_message_at(&pack, 3);
-    rid_get_uas_id(msg, uas_id, sizeof(uas_id));
+    rid_basic_id_get_uas_id(msg, uas_id, sizeof(uas_id));
     ASSERT_STR_EQ("DRONE005", uas_id);
 
     PASS();
@@ -294,7 +294,7 @@ test_delete_message_at_first(void) {
     for (uint8_t i = 0; i < 3; ++i) {
         rid_basic_id_init(&basic_id);
         snprintf(uas_id, sizeof(uas_id), "DRONE%03u", i + 1);
-        rid_set_uas_id(&basic_id, uas_id);
+        rid_basic_id_set_uas_id(&basic_id, uas_id);
         rid_message_pack_add_message(&pack, &basic_id);
     }
 
@@ -303,11 +303,11 @@ test_delete_message_at_first(void) {
     ASSERT_EQ(2, rid_message_pack_get_message_count(&pack));
 
     const rid_basic_id_t *msg = rid_message_pack_get_message_at(&pack, 0);
-    rid_get_uas_id(msg, uas_id, sizeof(uas_id));
+    rid_basic_id_get_uas_id(msg, uas_id, sizeof(uas_id));
     ASSERT_STR_EQ("DRONE002", uas_id);
 
     msg = rid_message_pack_get_message_at(&pack, 1);
-    rid_get_uas_id(msg, uas_id, sizeof(uas_id));
+    rid_basic_id_get_uas_id(msg, uas_id, sizeof(uas_id));
     ASSERT_STR_EQ("DRONE003", uas_id);
 
     PASS();
@@ -324,7 +324,7 @@ test_delete_message_at_last(void) {
     for (uint8_t i = 0; i < 3; ++i) {
         rid_basic_id_init(&basic_id);
         snprintf(uas_id, sizeof(uas_id), "DRONE%03u", i + 1);
-        rid_set_uas_id(&basic_id, uas_id);
+        rid_basic_id_set_uas_id(&basic_id, uas_id);
         rid_message_pack_add_message(&pack, &basic_id);
     }
 
@@ -333,11 +333,11 @@ test_delete_message_at_last(void) {
     ASSERT_EQ(2, rid_message_pack_get_message_count(&pack));
 
     const rid_basic_id_t *msg = rid_message_pack_get_message_at(&pack, 0);
-    rid_get_uas_id(msg, uas_id, sizeof(uas_id));
+    rid_basic_id_get_uas_id(msg, uas_id, sizeof(uas_id));
     ASSERT_STR_EQ("DRONE001", uas_id);
 
     msg = rid_message_pack_get_message_at(&pack, 1);
-    rid_get_uas_id(msg, uas_id, sizeof(uas_id));
+    rid_basic_id_get_uas_id(msg, uas_id, sizeof(uas_id));
     ASSERT_STR_EQ("DRONE002", uas_id);
 
     PASS();
@@ -386,28 +386,28 @@ test_replace_message_at(void) {
     for (uint8_t i = 0; i < 3; ++i) {
         rid_basic_id_init(&basic_id);
         snprintf(uas_id, sizeof(uas_id), "DRONE%03u", i + 1);
-        rid_set_uas_id(&basic_id, uas_id);
+        rid_basic_id_set_uas_id(&basic_id, uas_id);
         rid_message_pack_add_message(&pack, &basic_id);
     }
 
     /* Replace middle message */
     rid_basic_id_init(&basic_id);
-    rid_set_uas_id(&basic_id, "REPLACED");
+    rid_basic_id_set_uas_id(&basic_id, "REPLACED");
     int status = rid_message_pack_replace_message_at(&pack, 1, &basic_id);
     ASSERT_EQ(RID_SUCCESS, status);
     ASSERT_EQ(3, rid_message_pack_get_message_count(&pack));
 
     /* Verify messages */
     const rid_basic_id_t *msg = rid_message_pack_get_message_at(&pack, 0);
-    rid_get_uas_id(msg, uas_id, sizeof(uas_id));
+    rid_basic_id_get_uas_id(msg, uas_id, sizeof(uas_id));
     ASSERT_STR_EQ("DRONE001", uas_id);
 
     msg = rid_message_pack_get_message_at(&pack, 1);
-    rid_get_uas_id(msg, uas_id, sizeof(uas_id));
+    rid_basic_id_get_uas_id(msg, uas_id, sizeof(uas_id));
     ASSERT_STR_EQ("REPLACED", uas_id);
 
     msg = rid_message_pack_get_message_at(&pack, 2);
-    rid_get_uas_id(msg, uas_id, sizeof(uas_id));
+    rid_basic_id_get_uas_id(msg, uas_id, sizeof(uas_id));
     ASSERT_STR_EQ("DRONE003", uas_id);
 
     PASS();

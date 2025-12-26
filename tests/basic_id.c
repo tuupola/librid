@@ -57,10 +57,10 @@ test_set_and_get_basic_id_type(void) {
         rid_basic_id_t message;
 
         memset(&message, 0, sizeof(message));
-        int status = rid_set_basic_id_type(&message, types[i]);
+        int status = rid_basic_id_set_type(&message, types[i]);
         ASSERT_EQ(RID_SUCCESS, status);
 
-        rid_basic_id_type_t result = rid_get_basic_id_type(&message);
+        rid_basic_id_type_t result = rid_basic_id_get_type(&message);
 
         ASSERT_EQ(types[i], result);
     }
@@ -73,10 +73,10 @@ test_set_basic_id_type_out_of_range(void) {
     rid_basic_id_t message;
     memset(&message, 0, sizeof(message));
 
-    int status = rid_set_basic_id_type(&message, RID_ID_TYPE_MAX + 1);
+    int status = rid_basic_id_set_type(&message, RID_ID_TYPE_MAX + 1);
     ASSERT_EQ(RID_ERROR_OUT_OF_RANGE, status);
 
-    status = rid_set_basic_id_type(&message, UINT8_MAX);
+    status = rid_basic_id_set_type(&message, UINT8_MAX);
     ASSERT_EQ(RID_ERROR_OUT_OF_RANGE, status);
 
     PASS();
@@ -84,7 +84,7 @@ test_set_basic_id_type_out_of_range(void) {
 
 TEST
 test_set_basic_id_type_null_pointer(void) {
-    int status = rid_set_basic_id_type(NULL, RID_ID_TYPE_SERIAL_NUMBER);
+    int status = rid_basic_id_set_type(NULL, RID_ID_TYPE_SERIAL_NUMBER);
     ASSERT_EQ(RID_ERROR_NULL_POINTER, status);
 
     PASS();
@@ -92,7 +92,7 @@ test_set_basic_id_type_null_pointer(void) {
 
 TEST
 test_get_basic_id_type_null_pointer(void) {
-    rid_basic_id_type_t type = rid_get_basic_id_type(NULL);
+    rid_basic_id_type_t type = rid_basic_id_get_type(NULL);
     ASSERT_EQ(RID_ID_TYPE_NONE, type);
 
     PASS();
@@ -123,10 +123,10 @@ test_set_and_get_ua_type(void) {
         rid_basic_id_t message;
 
         memset(&message, 0, sizeof(message));
-        int status = rid_set_ua_type(&message, types[i]);
+        int status = rid_basic_id_set_ua_type(&message, types[i]);
         ASSERT_EQ(RID_SUCCESS, status);
 
-        rid_ua_type_t result = rid_get_ua_type(&message);
+        rid_ua_type_t result = rid_basic_id_get_ua_type(&message);
 
         ASSERT_EQ(types[i], result);
     }
@@ -139,10 +139,10 @@ test_set_ua_type_out_of_range(void) {
     rid_basic_id_t message;
     memset(&message, 0, sizeof(message));
 
-    int status = rid_set_ua_type(&message, RID_UA_TYPE_MAX + 1);
+    int status = rid_basic_id_set_ua_type(&message, RID_UA_TYPE_MAX + 1);
     ASSERT_EQ(RID_ERROR_OUT_OF_RANGE, status);
 
-    status = rid_set_ua_type(&message, UINT8_MAX);
+    status = rid_basic_id_set_ua_type(&message, UINT8_MAX);
     ASSERT_EQ(RID_ERROR_OUT_OF_RANGE, status);
 
     PASS();
@@ -150,7 +150,7 @@ test_set_ua_type_out_of_range(void) {
 
 TEST
 test_set_ua_type_null_pointer(void) {
-    int status = rid_set_ua_type(NULL, RID_UA_TYPE_AEROPLANE_OR_FIXED_WING);
+    int status = rid_basic_id_set_ua_type(NULL, RID_UA_TYPE_AEROPLANE_OR_FIXED_WING);
     ASSERT_EQ(RID_ERROR_NULL_POINTER, status);
 
     PASS();
@@ -158,7 +158,7 @@ test_set_ua_type_null_pointer(void) {
 
 TEST
 test_get_ua_type_null_pointer(void) {
-    rid_ua_type_t type = rid_get_ua_type(NULL);
+    rid_ua_type_t type = rid_basic_id_get_ua_type(NULL);
     ASSERT_EQ(RID_UA_TYPE_NONE, type);
 
     PASS();
@@ -180,11 +180,11 @@ test_set_and_get_uas_id(void) {
 
         memset(&message, 0, sizeof(message));
 
-        status = rid_set_uas_id(&message, test_ids[i]);
+        status = rid_basic_id_set_uas_id(&message, test_ids[i]);
         ASSERT_EQ(RID_SUCCESS, status);
 
         char buffer[21];
-        status = rid_get_uas_id(&message, buffer, sizeof(buffer));
+        status = rid_basic_id_get_uas_id(&message, buffer, sizeof(buffer));
         ASSERT_EQ(RID_SUCCESS, status);
 
         ASSERT_STR_EQ(test_ids[i], buffer);
@@ -195,7 +195,7 @@ test_set_and_get_uas_id(void) {
 
 TEST
 test_set_uas_id_null_pointer_message(void) {
-    int status = rid_set_uas_id(NULL, "TEST");
+    int status = rid_basic_id_set_uas_id(NULL, "TEST");
     ASSERT_EQ(RID_ERROR_NULL_POINTER, status);
 
     PASS();
@@ -206,7 +206,7 @@ test_set_uas_id_null_pointer_id(void) {
     rid_basic_id_t message;
     memset(&message, 0, sizeof(message));
 
-    int status = rid_set_uas_id(&message, NULL);
+    int status = rid_basic_id_set_uas_id(&message, NULL);
     ASSERT_EQ(RID_ERROR_NULL_POINTER, status);
 
     PASS();
@@ -215,7 +215,7 @@ test_set_uas_id_null_pointer_id(void) {
 TEST
 test_get_uas_id_null_pointer_message(void) {
     char buffer[21];
-    int status = rid_get_uas_id(NULL, buffer, sizeof(buffer));
+    int status = rid_basic_id_get_uas_id(NULL, buffer, sizeof(buffer));
     ASSERT_EQ(RID_ERROR_NULL_POINTER, status);
 
     PASS();
@@ -226,7 +226,7 @@ test_get_uas_id_null_pointer_buffer(void) {
     rid_basic_id_t message;
     rid_basic_id_init(&message);
 
-    int status = rid_get_uas_id(&message, NULL, 21);
+    int status = rid_basic_id_get_uas_id(&message, NULL, 21);
     ASSERT_EQ(RID_ERROR_NULL_POINTER, status);
 
     PASS();
@@ -238,11 +238,11 @@ test_set_uas_id_too_long(void) {
     rid_basic_id_init(&message);
 
     /* 21 characters - one over limit */
-    int status = rid_set_uas_id(&message, "123456789012345678901");
+    int status = rid_basic_id_set_uas_id(&message, "123456789012345678901");
     ASSERT_EQ(RID_ERROR_BUFFER_TOO_LARGE, status);
 
     /* Even longer string */
-    status = rid_set_uas_id(&message, "Welcome to Costco, I love you.");
+    status = rid_basic_id_set_uas_id(&message, "Welcome to Costco, I love you.");
     ASSERT_EQ(RID_ERROR_BUFFER_TOO_LARGE, status);
 
     PASS();
@@ -252,10 +252,10 @@ TEST
 test_get_uas_id_buffer_too_small(void) {
     rid_basic_id_t message;
     rid_basic_id_init(&message);
-    rid_set_uas_id(&message, "TEST-DRONE-001");
+    rid_basic_id_set_uas_id(&message, "TEST-DRONE-001");
 
     char buffer[10];
-    int status = rid_get_uas_id(&message, buffer, sizeof(buffer));
+    int status = rid_basic_id_get_uas_id(&message, buffer, sizeof(buffer));
     ASSERT_EQ(RID_ERROR_BUFFER_TOO_SMALL, status);
 
     PASS();
@@ -265,11 +265,11 @@ TEST
 test_decode_basic_id_buffer(void) {
     rid_basic_id_t *message = (rid_basic_id_t *)buffer;
 
-    ASSERT_EQ(RID_UA_TYPE_NONE, rid_get_ua_type(message));
-    ASSERT_EQ(RID_ID_TYPE_SERIAL_NUMBER, rid_get_basic_id_type(message));
+    ASSERT_EQ(RID_UA_TYPE_NONE, rid_basic_id_get_ua_type(message));
+    ASSERT_EQ(RID_ID_TYPE_SERIAL_NUMBER, rid_basic_id_get_type(message));
 
     char uas_id[21];
-    int status = rid_get_uas_id(message, uas_id, sizeof(uas_id));
+    int status = rid_basic_id_get_uas_id(message, uas_id, sizeof(uas_id));
     ASSERT_EQ(RID_SUCCESS, status);
     ASSERT_STR_EQ("2596A403716430B", uas_id);
     PASS();
