@@ -22,10 +22,10 @@ test_set_and_get_operator_id_type(void) {
         rid_operator_id_t message;
 
         memset(&message, 0, sizeof(message));
-        int status = rid_set_operator_id_type(&message, types[i]);
+        int status = rid_operator_id_set_type(&message, types[i]);
         ASSERT_EQ(RID_SUCCESS, status);
 
-        rid_operator_id_type_t result = rid_get_operator_id_type(&message);
+        rid_operator_id_type_t result = rid_operator_id_get_type(&message);
 
         ASSERT_EQ(types[i], result);
     }
@@ -35,7 +35,7 @@ test_set_and_get_operator_id_type(void) {
 
 TEST
 test_set_operator_id_type_null_pointer(void) {
-    int status = rid_set_operator_id_type(NULL, RID_ID_TYPE_OPERATOR_ID);
+    int status = rid_operator_id_set_type(NULL, RID_ID_TYPE_OPERATOR_ID);
     ASSERT_EQ(RID_ERROR_NULL_POINTER, status);
 
     PASS();
@@ -57,11 +57,11 @@ test_set_and_get_operator_id(void) {
 
         memset(&message, 0, sizeof(message));
 
-        status = rid_set_operator_id(&message, test_ids[i]);
+        status = rid_operator_id_set(&message, test_ids[i]);
         ASSERT_EQ(RID_SUCCESS, status);
 
         char buffer[21];
-        status = rid_get_operator_id(&message, buffer, sizeof(buffer));
+        status = rid_operator_id_get(&message, buffer, sizeof(buffer));
         ASSERT_EQ(RID_SUCCESS, status);
 
         ASSERT_STR_EQ(test_ids[i], buffer);
@@ -78,15 +78,15 @@ test_set_operator_id_must_be_ascii(void) {
     memset(&message, 0, sizeof(message));
 
     /* Test with non-ASCII character (UTF-8 encoded) */
-    status = rid_set_operator_id(&message, "TEST\xC3\xA4");
+    status = rid_operator_id_set(&message, "TEST\xC3\xA4");
     ASSERT_EQ(RID_ERROR_INVALID_CHARACTER, status);
 
     /* Test with character > 127 */
-    status = rid_set_operator_id(&message, "TEST\xFF");
+    status = rid_operator_id_set(&message, "TEST\xFF");
     ASSERT_EQ(RID_ERROR_INVALID_CHARACTER, status);
 
     /* Test valid ASCII */
-    status = rid_set_operator_id(&message, "BRAWND0");
+    status = rid_operator_id_set(&message, "BRAWND0");
     ASSERT_EQ(RID_SUCCESS, status);
 
     PASS();
@@ -98,15 +98,15 @@ test_set_operator_id_too_long(void) {
     memset(&message, 0, sizeof(message));
 
     /* 21 characters - one over limit */
-    int status = rid_set_operator_id(&message, "123456789012345678901");
+    int status = rid_operator_id_set(&message, "123456789012345678901");
     ASSERT_EQ(RID_ERROR_BUFFER_TOO_LARGE, status);
 
     /* Much longer string */
-    status = rid_set_operator_id(&message, "12345678901234567890123456789012345678901234567890");
+    status = rid_operator_id_set(&message, "12345678901234567890123456789012345678901234567890");
     ASSERT_EQ(RID_ERROR_BUFFER_TOO_LARGE, status);
 
     /* Exactly 20 characters should work */
-    status = rid_set_operator_id(&message, "12345678901234567890");
+    status = rid_operator_id_set(&message, "12345678901234567890");
     ASSERT_EQ(RID_SUCCESS, status);
 
     PASS();
@@ -118,10 +118,10 @@ test_set_operator_id_null_pointer(void) {
     rid_operator_id_t message;
     memset(&message, 0, sizeof(message));
 
-    status = rid_set_operator_id(NULL, "TEST");
+    status = rid_operator_id_set(NULL, "TEST");
     ASSERT_EQ(RID_ERROR_NULL_POINTER, status);
 
-    status = rid_set_operator_id(&message, NULL);
+    status = rid_operator_id_set(&message, NULL);
     ASSERT_EQ(RID_ERROR_NULL_POINTER, status);
 
     PASS();
@@ -131,10 +131,10 @@ TEST
 test_decode_operator_id_buffer(void) {
     rid_operator_id_t *message = (rid_operator_id_t *)buffer;
 
-    ASSERT_EQ(RID_ID_TYPE_OPERATOR_ID, rid_get_operator_id_type(message));
+    ASSERT_EQ(RID_ID_TYPE_OPERATOR_ID, rid_operator_id_get_type(message));
 
     char operator_id[21];
-    int status = rid_get_operator_id(message, operator_id, sizeof(operator_id));
+    int status = rid_operator_id_get(message, operator_id, sizeof(operator_id));
     ASSERT_EQ(RID_SUCCESS, status);
     ASSERT_STR_EQ("FIN87astrdge12k8", operator_id);
 
@@ -149,10 +149,10 @@ test_get_operator_id_null_pointer(void) {
 
     memset(&message, 0, sizeof(message));
 
-    status = rid_get_operator_id(NULL, buf, sizeof(buf));
+    status = rid_operator_id_get(NULL, buf, sizeof(buf));
     ASSERT_EQ(RID_ERROR_NULL_POINTER, status);
 
-    status = rid_get_operator_id(&message, NULL, sizeof(buf));
+    status = rid_operator_id_get(&message, NULL, sizeof(buf));
     ASSERT_EQ(RID_ERROR_NULL_POINTER, status);
 
     PASS();
@@ -165,9 +165,9 @@ test_get_operator_id_buffer_too_small(void) {
     char buf[10];
 
     memset(&message, 0, sizeof(message));
-    rid_set_operator_id(&message, "I like money");
+    rid_operator_id_set(&message, "I like money");
 
-    status = rid_get_operator_id(&message, buf, sizeof(buf));
+    status = rid_operator_id_get(&message, buf, sizeof(buf));
     ASSERT_EQ(RID_ERROR_BUFFER_TOO_SMALL, status);
 
     PASS();

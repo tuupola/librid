@@ -19,12 +19,12 @@ rid_operator_id_init(rid_operator_id_t *message) {
 }
 
 rid_operator_id_type_t
-rid_get_operator_id_type(const rid_operator_id_t *message) {
+rid_operator_id_get_type(const rid_operator_id_t *message) {
     return (rid_operator_id_type_t)message->id_type;
 }
 
 int
-rid_set_operator_id_type(rid_operator_id_t *message, rid_operator_id_type_t type) {
+rid_operator_id_set_type(rid_operator_id_t *message, rid_operator_id_type_t type) {
     if (message == NULL) {
         return RID_ERROR_NULL_POINTER;
     }
@@ -35,7 +35,7 @@ rid_set_operator_id_type(rid_operator_id_t *message, rid_operator_id_type_t type
 }
 
 int
-rid_get_operator_id(const rid_operator_id_t *message, char *buffer, size_t buffer_size) {
+rid_operator_id_get(const rid_operator_id_t *message, char *buffer, size_t buffer_size) {
     if (message == NULL || buffer == NULL) {
         return RID_ERROR_NULL_POINTER;
     }
@@ -51,7 +51,7 @@ rid_get_operator_id(const rid_operator_id_t *message, char *buffer, size_t buffe
 }
 
 int
-rid_set_operator_id(rid_operator_id_t *message, const char *operator_id) {
+rid_operator_id_set(rid_operator_id_t *message, const char *operator_id) {
     if (message == NULL || operator_id == NULL) {
         return RID_ERROR_NULL_POINTER;
     }
