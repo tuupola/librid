@@ -107,3 +107,22 @@ rid_get_auth_length(const rid_auth_t *message) {
     return message->length;
 }
 
+int
+rid_set_auth_timestamp(rid_auth_t *message, uint32_t timestamp) {
+    if (NULL == message) {
+        return RID_ERROR_NULL_POINTER;
+    }
+
+    message->timestamp = timestamp;
+
+    return RID_SUCCESS;
+}
+
+uint32_t
+rid_get_auth_timestamp(const rid_auth_t *message) {
+    if (NULL == message) {
+        return 0;
+    }
+
+    return message->timestamp;
+}

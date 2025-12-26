@@ -166,5 +166,26 @@ int rid_set_auth_length(rid_auth_t *message, uint8_t length);
  */
 uint8_t rid_get_auth_length(const rid_auth_t *message);
 
+/**
+ * @brief Set the timestamp for page 0.
+ *
+ * Timestamp is seconds since 2019-01-01 00:00:00 UTC.
+ *
+ * @param message Pointer to the Authentication message structure.
+ * @param timestamp Seconds since 2019-01-01 00:00:00 UTC.
+ *
+ * @retval RID_SUCCESS on success.
+ * @retval RID_ERROR_NULL_POINTER if message is NULL.
+ */
+int rid_set_auth_timestamp(rid_auth_t *message, uint32_t timestamp);
+
+/**
+ * @brief Get the timestamp from page 0.
+ *
+ * @param message Pointer to the Authentication message structure.
+ *
+ * @return Seconds since 2019-01-01 00:00:00 UTC, or 0 if message is NULL.
+ */
+uint32_t rid_get_auth_timestamp(const rid_auth_t *message);
 
 #endif
