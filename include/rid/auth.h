@@ -104,5 +104,26 @@ int rid_auth_init(rid_auth_t *message);
  */
 int rid_auth_page_init(rid_auth_page_t *message, uint8_t page_number);
 
+/**
+ * @brief Set the authentication type for page 0.
+ *
+ * @param message Pointer to the Authentication message structure.
+ * @param type The authentication type to set.
+ *
+ * @retval RID_SUCCESS on success.
+ * @retval RID_ERROR_NULL_POINTER if message is NULL.
+ * @retval RID_ERROR_OUT_OF_RANGE if type exceeds RID_AUTH_TYPE_MAX.
+ */
+int rid_set_auth_type(rid_auth_t *message, rid_auth_type_t type);
+
+/**
+ * @brief Get the authentication type from page 0.
+ *
+ * @param message Pointer to the Authentication message structure.
+ *
+ * @return The authentication type, or RID_AUTH_TYPE_NONE if message is NULL.
+ */
+rid_auth_type_t rid_get_auth_type(const rid_auth_t *message);
+
 
 #endif
