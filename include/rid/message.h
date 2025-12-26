@@ -50,7 +50,7 @@ typedef enum rid_protocol_version {
     RID_PROTOCOL_PRIVATE_USE = 0x0F,
 } rid_protocol_version_t;
 
-rid_message_type_t rid_get_message_type(const void *message);
-rid_protocol_version_t rid_get_protocol_version(const void *message);
+rid_message_type_t rid_message_get_type(const void *message);
+rid_protocol_version_t rid_message_get_protocol_version(const void *message);
 
 #endif
