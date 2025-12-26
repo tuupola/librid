@@ -14,7 +14,7 @@ SRC = $(SRC_DIR)/message.c \
       $(SRC_DIR)/auth.c
 
 # Test files
-TEST_SRC = unit.c message.c basic_id.c operator_id.c location.c self_id.c system.c message_pack.c auth.c
+TEST_SRC = unit.c test_message.c test_basic_id.c test_operator_id.c test_location.c test_self_id.c test_system.c test_message_pack.c test_auth.c
 
 # Object files
 OBJ = $(SRC:.c=.o)
