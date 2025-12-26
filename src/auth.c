@@ -62,3 +62,48 @@ rid_get_auth_type(const rid_auth_t *message) {
 
     return (rid_auth_type_t)message->auth_type;
 }
+
+int
+rid_set_auth_last_page_index(rid_auth_t *message, uint8_t index) {
+    if (NULL == message) {
+        return RID_ERROR_NULL_POINTER;
+    }
+
+    if (index > RID_AUTH_MAX_PAGE_INDEX) {
+        return RID_ERROR_OUT_OF_RANGE;
+    }
+
+    message->last_page_index = index;
+
+    return RID_SUCCESS;
+}
+
+uint8_t
+rid_get_auth_last_page_index(const rid_auth_t *message) {
+    if (NULL == message) {
+        return 0;
+    }
+
+    return message->last_page_index;
+}
+
+int
+rid_set_auth_length(rid_auth_t *message, uint8_t length) {
+    if (NULL == message) {
+        return RID_ERROR_NULL_POINTER;
+    }
+
+    message->length = length;
+
+    return RID_SUCCESS;
+}
+
+uint8_t
+rid_get_auth_length(const rid_auth_t *message) {
+    if (NULL == message) {
+        return 0;
+    }
+
+    return message->length;
+}
+
