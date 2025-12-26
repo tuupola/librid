@@ -26,14 +26,14 @@ main(void)
     rid_operator_id_t operator_id;
 
     rid_operator_id_init(&operator_id);
-    rid_set_operator_id_type(&operator_id, RID_ID_TYPE_OPERATOR_ID);
-    rid_set_operator_id(&operator_id, "FIN87astrdge12k8");
+    rid_operator_id_set_type(&operator_id, RID_ID_TYPE_OPERATOR_ID);
+    rid_operator_id_set(&operator_id, "FIN87astrdge12k8");
 
     hexdump(&operator_id, sizeof(operator_id));
 
     char id[21];
-    rid_get_operator_id(&operator_id, id, sizeof(id));
-    rid_operator_id_type_t id_type = rid_get_operator_id_type(&operator_id);
+    rid_operator_id_get(&operator_id, id, sizeof(id));
+    rid_operator_id_type_t id_type = rid_operator_id_get_type(&operator_id);
 
     printf("Operator ID: %s\n", id);
     printf("ID type:     %d\n", id_type);

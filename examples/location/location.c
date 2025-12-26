@@ -26,31 +26,31 @@ main(void)
     rid_location_t location;
 
     rid_location_init(&location);
-    rid_set_operational_status(&location, RID_OPERATIONAL_STATUS_AIRBORNE);
-    rid_set_height_type(&location, RID_HEIGHT_TYPE_ABOVE_TAKEOFF);
-    rid_set_latitude(&location, 60.1699);
-    rid_set_longitude(&location, 24.9384);
-    rid_set_geodetic_altitude(&location, 120.5f);
-    rid_set_height(&location, 50.0f);
-    rid_set_speed(&location, 15.5f);
-    rid_set_vertical_speed(&location, 2.0f);
-    rid_set_track_direction(&location, 45);
-    rid_set_timestamp(&location, 12345);
-    rid_set_horizontal_accuracy(&location, RID_HORIZONTAL_ACCURACY_10M);
-    rid_set_vertical_accuracy(&location, RID_VERTICAL_ACCURACY_10M);
-    rid_set_speed_accuracy(&location, RID_SPEED_ACCURACY_1MS);
-    rid_set_timestamp_accuracy(&location, RID_TIMESTAMP_ACCURACY_0_1S);
+    rid_location_set_operational_status(&location, RID_OPERATIONAL_STATUS_AIRBORNE);
+    rid_location_set_height_type(&location, RID_HEIGHT_TYPE_ABOVE_TAKEOFF);
+    rid_location_set_latitude(&location, 60.1699);
+    rid_location_set_longitude(&location, 24.9384);
+    rid_location_set_geodetic_altitude(&location, 120.5f);
+    rid_location_set_height(&location, 50.0f);
+    rid_location_set_speed(&location, 15.5f);
+    rid_location_set_vertical_speed(&location, 2.0f);
+    rid_location_set_track_direction(&location, 45);
+    rid_location_set_timestamp(&location, 12345);
+    rid_location_set_horizontal_accuracy(&location, RID_HORIZONTAL_ACCURACY_10M);
+    rid_location_set_vertical_accuracy(&location, RID_VERTICAL_ACCURACY_10M);
+    rid_location_set_speed_accuracy(&location, RID_SPEED_ACCURACY_1MS);
+    rid_location_set_timestamp_accuracy(&location, RID_TIMESTAMP_ACCURACY_0_1S);
 
     hexdump(&location, sizeof(location));
 
-    double latitude = rid_get_latitude(&location);
-    double longitude = rid_get_longitude(&location);
-    float altitude = rid_get_geodetic_altitude(&location);
-    float height = rid_get_height(&location);
-    float speed = rid_get_speed(&location);
-    float vspeed = rid_get_vertical_speed(&location);
-    uint16_t direction = rid_get_track_direction(&location);
-    rid_operational_status_t status = rid_get_operational_status(&location);
+    double latitude = rid_location_get_latitude(&location);
+    double longitude = rid_location_get_longitude(&location);
+    float altitude = rid_location_get_geodetic_altitude(&location);
+    float height = rid_location_get_height(&location);
+    float speed = rid_location_get_speed(&location);
+    float vspeed = rid_location_get_vertical_speed(&location);
+    uint16_t direction = rid_location_get_track_direction(&location);
+    rid_operational_status_t status = rid_location_get_operational_status(&location);
 
     printf("Latitude:   %.4f\n", latitude);
     printf("Longitude:  %.4f\n", longitude);
