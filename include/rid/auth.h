@@ -214,5 +214,47 @@ int rid_set_auth_data(rid_auth_t *message, const uint8_t *data, size_t size);
  */
 int rid_get_auth_data(const rid_auth_t *message, uint8_t *buffer, size_t buffer_size);
 
+/**
+ * @brief Set the authentication type for pages 1-15.
+ *
+ * @param message Pointer to the Authentication page structure.
+ * @param type The authentication type to set.
+ *
+ * @retval RID_SUCCESS on success.
+ * @retval RID_ERROR_NULL_POINTER if message is NULL.
+ * @retval RID_ERROR_OUT_OF_RANGE if type exceeds RID_AUTH_TYPE_MAX.
+ */
+int rid_set_auth_page_type(rid_auth_page_t *message, rid_auth_type_t type);
+
+/**
+ * @brief Get the authentication type from pages 1-15.
+ *
+ * @param message Pointer to the Authentication page structure.
+ *
+ * @return The authentication type, or RID_AUTH_TYPE_NONE if message is NULL.
+ */
+rid_auth_type_t rid_get_auth_page_type(const rid_auth_page_t *message);
+
+/**
+ * @brief Set the page number for pages 1-15.
+ *
+ * @param message Pointer to the Authentication page structure.
+ * @param page_number The page number (1-15).
+ *
+ * @retval RID_SUCCESS on success.
+ * @retval RID_ERROR_NULL_POINTER if message is NULL.
+ * @retval RID_ERROR_OUT_OF_RANGE if page_number is 0 or > 15.
+ */
+int rid_set_auth_page_number(rid_auth_page_t *message, uint8_t page_number);
+
+/**
+ * @brief Get the page number from pages 1-15.
+ *
+ * @param message Pointer to the Authentication page structure.
+ *
+ * @return The page number, or 0 if message is NULL.
+ */
+uint8_t rid_get_auth_page_number(const rid_auth_page_t *message);
+
 
 #endif

@@ -157,3 +157,52 @@ rid_get_auth_data(const rid_auth_t *message, uint8_t *buffer, size_t buffer_size
 
     return RID_SUCCESS;
 }
+
+int
+rid_set_auth_page_type(rid_auth_page_t *message, rid_auth_type_t type) {
+    if (NULL == message) {
+        return RID_ERROR_NULL_POINTER;
+    }
+
+    if (type > RID_AUTH_TYPE_MAX) {
+        return RID_ERROR_OUT_OF_RANGE;
+    }
+
+    message->auth_type = type;
+
+    return RID_SUCCESS;
+}
+
+rid_auth_type_t
+rid_get_auth_page_type(const rid_auth_page_t *message) {
+    if (NULL == message) {
+        return RID_AUTH_TYPE_NONE;
+    }
+
+    return (rid_auth_type_t)message->auth_type;
+}
+
+int
+rid_set_auth_page_number(rid_auth_page_t *message, uint8_t page_number) {
+    if (NULL == message) {
+        return RID_ERROR_NULL_POINTER;
+    }
+
+    if (0 == page_number || page_number > RID_AUTH_MAX_PAGE_INDEX) {
+        return RID_ERROR_OUT_OF_RANGE;
+    }
+
+    message->page_number = page_number;
+
+    return RID_SUCCESS;
+}
+
+uint8_t
+rid_get_auth_page_number(const rid_auth_page_t *message) {
+    if (NULL == message) {
+        return 0;
+    }
+
+    return message->page_number;
+}
+
