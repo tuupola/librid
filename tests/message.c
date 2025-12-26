@@ -21,7 +21,7 @@ test_get_message_type(void) {
         memset(&message, 0, sizeof(message));
         message.message_type = types[i];
 
-        rid_message_type_t result = rid_get_message_type(&message);
+        rid_message_type_t result = rid_message_get_type(&message);
 
         ASSERT_EQ(types[i], result);
     }
@@ -44,7 +44,7 @@ test_get_protocol_version(void) {
         memset(&message, 0, sizeof(message));
         message.protocol_version = versions[i];
 
-        rid_protocol_version_t result = rid_get_protocol_version(&message);
+        rid_protocol_version_t result = rid_message_get_protocol_version(&message);
 
         ASSERT_EQ(versions[i], result);
     }

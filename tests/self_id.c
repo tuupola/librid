@@ -16,10 +16,10 @@ test_set_and_get_description_type(void) {
         rid_self_id_t message;
 
         memset(&message, 0, sizeof(message));
-        int status = rid_set_description_type(&message, types[i]);
+        int status = rid_self_id_set_description_type(&message, types[i]);
         ASSERT_EQ(RID_SUCCESS, status);
 
-        rid_description_type_t result = rid_get_description_type(&message);
+        rid_description_type_t result = rid_self_id_get_description_type(&message);
 
         ASSERT_EQ(types[i], result);
     }
@@ -29,7 +29,7 @@ test_set_and_get_description_type(void) {
 
 TEST
 test_set_description_type_null_pointer(void) {
-    int status = rid_set_description_type(NULL, RID_DESCRIPTION_TYPE_TEXT);
+    int status = rid_self_id_set_description_type(NULL, RID_DESCRIPTION_TYPE_TEXT);
     ASSERT_EQ(RID_ERROR_NULL_POINTER, status);
 
     PASS();
@@ -51,11 +51,11 @@ test_set_and_get_description(void) {
 
         memset(&message, 0, sizeof(message));
 
-        status = rid_set_description(&message, test_descriptions[i]);
+        status = rid_self_id_set_description(&message, test_descriptions[i]);
         ASSERT_EQ(RID_SUCCESS, status);
 
         char buffer[24];
-        status = rid_get_description(&message, buffer, sizeof(buffer));
+        status = rid_self_id_get_description(&message, buffer, sizeof(buffer));
         ASSERT_EQ(RID_SUCCESS, status);
 
         ASSERT_STR_EQ(test_descriptions[i], buffer);
@@ -72,15 +72,15 @@ test_set_description_must_be_ascii(void) {
     memset(&message, 0, sizeof(message));
 
     /* Test with non-ASCII character (UTF-8 encoded) */
-    status = rid_set_description(&message, "TEST\xC3\xA4");
+    status = rid_self_id_set_description(&message, "TEST\xC3\xA4");
     ASSERT_EQ(RID_ERROR_INVALID_CHARACTER, status);
 
     /* Test with character > 127 */
-    status = rid_set_description(&message, "TEST\xFF");
+    status = rid_self_id_set_description(&message, "TEST\xFF");
     ASSERT_EQ(RID_ERROR_INVALID_CHARACTER, status);
 
     /* Test valid ASCII */
-    status = rid_set_description(&message, "All your base are");
+    status = rid_self_id_set_description(&message, "All your base are");
     ASSERT_EQ(RID_SUCCESS, status);
 
     PASS();
@@ -94,7 +94,7 @@ test_set_description_too_long(void) {
     memset(&message, 0, sizeof(message));
 
     /* Test with description > 23 characters */
-    status = rid_set_description(&message, "All your base are belong to us...");
+    status = rid_self_id_set_description(&message, "All your base are belong to us...");
     ASSERT_EQ(RID_ERROR_BUFFER_TOO_LARGE, status);
 
     PASS();
@@ -106,10 +106,10 @@ test_set_description_null_pointer(void) {
     rid_self_id_t message;
     memset(&message, 0, sizeof(message));
 
-    status = rid_set_description(NULL, "TEST");
+    status = rid_self_id_set_description(NULL, "TEST");
     ASSERT_EQ(RID_ERROR_NULL_POINTER, status);
 
-    status = rid_set_description(&message, NULL);
+    status = rid_self_id_set_description(&message, NULL);
     ASSERT_EQ(RID_ERROR_NULL_POINTER, status);
 
     PASS();
@@ -123,10 +123,10 @@ test_get_description_null_pointer(void) {
 
     memset(&message, 0, sizeof(message));
 
-    status = rid_get_description(NULL, buffer, sizeof(buffer));
+    status = rid_self_id_get_description(NULL, buffer, sizeof(buffer));
     ASSERT_EQ(RID_ERROR_NULL_POINTER, status);
 
-    status = rid_get_description(&message, NULL, sizeof(buffer));
+    status = rid_self_id_get_description(&message, NULL, sizeof(buffer));
     ASSERT_EQ(RID_ERROR_NULL_POINTER, status);
 
     PASS();
@@ -139,9 +139,9 @@ test_get_description_buffer_too_small(void) {
     char buffer[10];
 
     memset(&message, 0, sizeof(message));
-    rid_set_description(&message, "Go away, batin!");
+    rid_self_id_set_description(&message, "Go away, batin!");
 
-    status = rid_get_description(&message, buffer, sizeof(buffer));
+    status = rid_self_id_get_description(&message, buffer, sizeof(buffer));
     ASSERT_EQ(RID_ERROR_BUFFER_TOO_SMALL, status);
 
     PASS();

@@ -94,8 +94,8 @@ TEST
 test_decode_message_pack_buffer(void) {
     rid_message_pack_t *message = (rid_message_pack_t *)buffer;
 
-    ASSERT_EQ(RID_PROTOCOL_VERSION_2, rid_get_protocol_version(message));
-    ASSERT_EQ(RID_MESSAGE_TYPE_MESSAGE_PACK, rid_get_message_type(message));
+    ASSERT_EQ(RID_PROTOCOL_VERSION_2, rid_message_get_protocol_version(message));
+    ASSERT_EQ(RID_MESSAGE_TYPE_MESSAGE_PACK, rid_message_get_type(message));
     // ASSERT_EQ(RID_MESSAGE_SIZE, rid_message_get_message_size());
 
     ASSERT_EQ(4, rid_message_pack_get_message_count(message));

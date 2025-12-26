@@ -17,10 +17,10 @@ test_set_and_get_operator_location_type(void) {
         rid_system_t system;
         memset(&system, 0, sizeof(system));
 
-        int status = rid_set_operator_location_type(&system, types[i]);
+        int status = rid_system_set_operator_location_type(&system, types[i]);
         ASSERT_EQ(RID_SUCCESS, status);
 
-        rid_operator_location_type_t result = rid_get_operator_location_type(&system);
+        rid_operator_location_type_t result = rid_system_get_operator_location_type(&system);
 
         ASSERT_EQ(types[i], result);
     }
@@ -34,10 +34,10 @@ test_set_operator_location_type_out_of_range(void) {
     rid_system_t system;
     memset(&system, 0, sizeof(system));
 
-    int status = rid_set_operator_location_type(&system, RID_OPERATOR_LOCATION_TYPE_MAX + 1);
+    int status = rid_system_set_operator_location_type(&system, RID_OPERATOR_LOCATION_TYPE_MAX + 1);
     ASSERT_EQ(RID_ERROR_OUT_OF_RANGE, status);
 
-    status = rid_set_operator_location_type(&system, UINT8_MAX);
+    status = rid_system_set_operator_location_type(&system, UINT8_MAX);
     ASSERT_EQ(RID_ERROR_OUT_OF_RANGE, status);
 
     PASS();
@@ -45,7 +45,7 @@ test_set_operator_location_type_out_of_range(void) {
 
 TEST
 test_set_operator_location_type_null_pointer(void) {
-    int status = rid_set_operator_location_type(NULL, RID_OPERATOR_LOCATION_TYPE_TAKEOFF);
+    int status = rid_system_set_operator_location_type(NULL, RID_OPERATOR_LOCATION_TYPE_TAKEOFF);
     ASSERT_EQ(RID_ERROR_NULL_POINTER, status);
 
     PASS();
@@ -62,10 +62,10 @@ test_set_and_get_classification_type(void) {
         rid_system_t system;
 
         memset(&system, 0, sizeof(system));
-        int status = rid_set_classification_type(&system, types[i]);
+        int status = rid_system_set_classification_type(&system, types[i]);
         ASSERT_EQ(RID_SUCCESS, status);
 
-        rid_classification_type_t result = rid_get_classification_type(&system);
+        rid_classification_type_t result = rid_system_get_classification_type(&system);
 
         ASSERT_EQ(types[i], result);
     }
@@ -79,10 +79,10 @@ test_set_classification_type_out_of_range(void) {
     rid_system_t system;
     memset(&system, 0, sizeof(system));
 
-    int status = rid_set_classification_type(&system, RID_CLASSIFICATION_TYPE_MAX + 1);
+    int status = rid_system_set_classification_type(&system, RID_CLASSIFICATION_TYPE_MAX + 1);
     ASSERT_EQ(RID_ERROR_OUT_OF_RANGE, status);
 
-    status = rid_set_classification_type(&system, UINT8_MAX);
+    status = rid_system_set_classification_type(&system, UINT8_MAX);
     ASSERT_EQ(RID_ERROR_OUT_OF_RANGE, status);
 
     PASS();
@@ -90,7 +90,7 @@ test_set_classification_type_out_of_range(void) {
 
 TEST
 test_set_classification_type_null_pointer(void) {
-    int status = rid_set_classification_type(NULL, RID_CLASSIFICATION_TYPE_UNDECLARED);
+    int status = rid_system_set_classification_type(NULL, RID_CLASSIFICATION_TYPE_UNDECLARED);
     ASSERT_EQ(RID_ERROR_NULL_POINTER, status);
 
     PASS();
@@ -109,10 +109,10 @@ test_set_and_get_ua_classification_category(void) {
         rid_system_t system;
 
         memset(&system, 0, sizeof(system));
-        int status = rid_set_ua_classification_category(&system, categories[i]);
+        int status = rid_system_set_ua_classification_category(&system, categories[i]);
         ASSERT_EQ(RID_SUCCESS, status);
 
-        rid_ua_classification_category_t result = rid_get_ua_classification_category(&system);
+        rid_ua_classification_category_t result = rid_system_get_ua_classification_category(&system);
 
         ASSERT_EQ(categories[i], result);
     }
@@ -126,10 +126,10 @@ test_set_ua_classification_category_out_of_range(void) {
     rid_system_t system;
     memset(&system, 0, sizeof(system));
 
-    int status = rid_set_ua_classification_category(&system, RID_UA_CLASSIFICATION_CATEGORY_MAX + 1);
+    int status = rid_system_set_ua_classification_category(&system, RID_UA_CLASSIFICATION_CATEGORY_MAX + 1);
     ASSERT_EQ(RID_ERROR_OUT_OF_RANGE, status);
 
-    status = rid_set_ua_classification_category(&system, UINT8_MAX);
+    status = rid_system_set_ua_classification_category(&system, UINT8_MAX);
     ASSERT_EQ(RID_ERROR_OUT_OF_RANGE, status);
 
     PASS();
@@ -137,7 +137,7 @@ test_set_ua_classification_category_out_of_range(void) {
 
 TEST
 test_set_ua_classification_category_null_pointer(void) {
-    int status = rid_set_ua_classification_category(NULL, RID_UA_CLASSIFICATION_CATEGORY_OPEN);
+    int status = rid_system_set_ua_classification_category(NULL, RID_UA_CLASSIFICATION_CATEGORY_OPEN);
     ASSERT_EQ(RID_ERROR_NULL_POINTER, status);
 
     PASS();
@@ -160,10 +160,10 @@ test_set_and_get_ua_classification_class(void) {
         rid_system_t system;
 
         memset(&system, 0, sizeof(system));
-        int status = rid_set_ua_classification_class(&system, classes[i]);
+        int status = rid_system_set_ua_classification_class(&system, classes[i]);
         ASSERT_EQ(RID_SUCCESS, status);
 
-        rid_ua_classification_class_t result = rid_get_ua_classification_class(&system);
+        rid_ua_classification_class_t result = rid_system_get_ua_classification_class(&system);
 
         ASSERT_EQ(classes[i], result);
     }
@@ -176,10 +176,10 @@ test_set_ua_classification_class_out_of_range(void) {
     rid_system_t system;
     memset(&system, 0, sizeof(system));
 
-    int status = rid_set_ua_classification_class(&system, RID_UA_CLASSIFICATION_CLASS_MAX + 1);
+    int status = rid_system_set_ua_classification_class(&system, RID_UA_CLASSIFICATION_CLASS_MAX + 1);
     ASSERT_EQ(RID_ERROR_OUT_OF_RANGE, status);
 
-    status = rid_set_ua_classification_class(&system, UINT8_MAX);
+    status = rid_system_set_ua_classification_class(&system, UINT8_MAX);
     ASSERT_EQ(RID_ERROR_OUT_OF_RANGE, status);
 
     PASS();
@@ -187,7 +187,7 @@ test_set_ua_classification_class_out_of_range(void) {
 
 TEST
 test_set_ua_classification_class_null_pointer(void) {
-    int status = rid_set_ua_classification_class(NULL, RID_UA_CLASSIFICATION_CLASS_0);
+    int status = rid_system_set_ua_classification_class(NULL, RID_UA_CLASSIFICATION_CLASS_0);
     ASSERT_EQ(RID_ERROR_NULL_POINTER, status);
 
     PASS();
@@ -201,10 +201,10 @@ test_set_and_get_operator_latitude(void) {
     for (size_t i = 0; i < sizeof(test_values) / sizeof(test_values[0]); i++) {
         memset(&system, 0, sizeof(system));
 
-        int status = rid_set_operator_latitude(&system, test_values[i]);
+        int status = rid_system_set_operator_latitude(&system, test_values[i]);
         ASSERT_EQ(RID_SUCCESS, status);
 
-        double result = rid_get_operator_latitude(&system);
+        double result = rid_system_get_operator_latitude(&system);
 
         /* Allow for small precision difference (11mm at equator) */
         double diff = result - test_values[i];
@@ -221,11 +221,11 @@ test_set_operator_latitude_out_of_range(void) {
     memset(&system, 0, sizeof(system));
 
     /* Test latitude > 90 */
-    int status = rid_set_operator_latitude(&system, 90.1);
+    int status = rid_system_set_operator_latitude(&system, 90.1);
     ASSERT_EQ(RID_ERROR_OUT_OF_RANGE, status);
 
     /* Test latitude < -90 */
-    status = rid_set_operator_latitude(&system, -90.1);
+    status = rid_system_set_operator_latitude(&system, -90.1);
     ASSERT_EQ(RID_ERROR_OUT_OF_RANGE, status);
 
     PASS();
@@ -233,7 +233,7 @@ test_set_operator_latitude_out_of_range(void) {
 
 TEST
 test_set_operator_latitude_null_pointer(void) {
-    int status = rid_set_operator_latitude(NULL, 45.0);
+    int status = rid_system_set_operator_latitude(NULL, 45.0);
     ASSERT_EQ(RID_ERROR_NULL_POINTER, status);
 
     PASS();
@@ -247,10 +247,10 @@ test_set_and_get_operator_longitude(void) {
     for (size_t i = 0; i < sizeof(test_values) / sizeof(test_values[0]); i++) {
         memset(&system, 0, sizeof(system));
 
-        int status = rid_set_operator_longitude(&system, test_values[i]);
+        int status = rid_system_set_operator_longitude(&system, test_values[i]);
         ASSERT_EQ(RID_SUCCESS, status);
 
-        double result = rid_get_operator_longitude(&system);
+        double result = rid_system_get_operator_longitude(&system);
 
         /* Allow for small precision difference (11mm at equator) */
         double diff = result - test_values[i];
@@ -267,11 +267,11 @@ test_set_operator_longitude_out_of_range(void) {
     memset(&system, 0, sizeof(system));
 
     /* Test longitude > 180 */
-    int status = rid_set_operator_longitude(&system, 180.1);
+    int status = rid_system_set_operator_longitude(&system, 180.1);
     ASSERT_EQ(RID_ERROR_OUT_OF_RANGE, status);
 
     /* Test longitude < -180 */
-    status = rid_set_operator_longitude(&system, -180.1);
+    status = rid_system_set_operator_longitude(&system, -180.1);
     ASSERT_EQ(RID_ERROR_OUT_OF_RANGE, status);
 
     PASS();
@@ -279,7 +279,7 @@ test_set_operator_longitude_out_of_range(void) {
 
 TEST
 test_set_operator_longitude_null_pointer(void) {
-    int status = rid_set_operator_longitude(NULL, 90.0);
+    int status = rid_system_set_operator_longitude(NULL, 90.0);
     ASSERT_EQ(RID_ERROR_NULL_POINTER, status);
 
     PASS();
@@ -293,10 +293,10 @@ test_set_and_get_operator_altitude(void) {
     for (size_t i = 0; i < sizeof(test_altitudes) / sizeof(test_altitudes[0]); i++) {
         memset(&system, 0, sizeof(system));
 
-        int status = rid_set_operator_altitude(&system, test_altitudes[i]);
+        int status = rid_system_set_operator_altitude(&system, test_altitudes[i]);
         ASSERT_EQ(RID_SUCCESS, status);
 
-        float result = rid_get_operator_altitude(&system);
+        float result = rid_system_get_operator_altitude(&system);
 
         /* 0.5 meter resolution */
         float diff = result > test_altitudes[i] ? result - test_altitudes[i] : test_altitudes[i] - result;
@@ -308,7 +308,7 @@ test_set_and_get_operator_altitude(void) {
 
 TEST
 test_set_operator_altitude_null_pointer(void) {
-    int status = rid_set_operator_altitude(NULL, 100.0f);
+    int status = rid_system_set_operator_altitude(NULL, 100.0f);
     ASSERT_EQ(RID_ERROR_NULL_POINTER, status);
 
     PASS();
@@ -320,11 +320,11 @@ test_set_operator_altitude_out_of_range(void) {
     memset(&system, 0, sizeof(system));
 
     /* Test > 31767 meters */
-    int status = rid_set_operator_altitude(&system, 32000.0f);
+    int status = rid_system_set_operator_altitude(&system, 32000.0f);
     ASSERT_EQ(RID_ERROR_OUT_OF_RANGE, status);
 
     /* Test < -1000 meters */
-    status = rid_set_operator_altitude(&system, -1001.0f);
+    status = rid_system_set_operator_altitude(&system, -1001.0f);
     ASSERT_EQ(RID_ERROR_OUT_OF_RANGE, status);
 
     PASS();
@@ -336,12 +336,12 @@ test_set_operator_altitude_invalid(void) {
     memset(&system, 0, sizeof(system));
 
     /* Test invalid or unknown altitude */
-    int status = rid_set_operator_altitude(&system, RID_OPERATOR_ALTITUDE_INVALID);
+    int status = rid_system_set_operator_altitude(&system, RID_OPERATOR_ALTITUDE_INVALID);
     ASSERT_EQ(RID_SUCCESS, status);
     ASSERT_EQ(RID_OPERATOR_ALTITUDE_INVALID_ENCODED, system.operator_altitude);
 
     /* Invalid also means -1000m */
-    float result = rid_get_operator_altitude(&system);
+    float result = rid_system_get_operator_altitude(&system);
     ASSERT_EQ(-1000.0f, result);
 
     PASS();
@@ -377,10 +377,10 @@ test_set_and_get_area_count(void) {
     uint16_t test_values[] = {0, 1, 100, 1000, UINT16_MAX};
 
     for (size_t i = 0; i < sizeof(test_values) / sizeof(test_values[0]); i++) {
-        int status = rid_set_area_count(&system, test_values[i]);
+        int status = rid_system_set_area_count(&system, test_values[i]);
         ASSERT_EQ(RID_SUCCESS, status);
 
-        uint16_t result = rid_get_area_count(&system);
+        uint16_t result = rid_system_get_area_count(&system);
         ASSERT_EQ(test_values[i], result);
     }
 
@@ -389,7 +389,7 @@ test_set_and_get_area_count(void) {
 
 TEST
 test_set_area_count_null_pointer(void) {
-    int status = rid_set_area_count(NULL, 1);
+    int status = rid_system_set_area_count(NULL, 1);
     ASSERT_EQ(RID_ERROR_NULL_POINTER, status);
 
     PASS();
@@ -404,10 +404,10 @@ test_set_and_get_area_radius(void) {
     uint16_t test_values[] = {0, 10, 100, 500, 1000, 2550};
 
     for (size_t i = 0; i < sizeof(test_values) / sizeof(test_values[0]); i++) {
-        int status = rid_set_area_radius(&system, test_values[i]);
+        int status = rid_system_set_area_radius(&system, test_values[i]);
         ASSERT_EQ(RID_SUCCESS, status);
 
-        uint16_t result = rid_get_area_radius(&system);
+        uint16_t result = rid_system_get_area_radius(&system);
         ASSERT_EQ(test_values[i], result);
     }
 
@@ -419,10 +419,10 @@ test_set_area_radius_out_of_range(void) {
     rid_system_t system;
     memset(&system, 0, sizeof(system));
 
-    int status = rid_set_area_radius(&system, 2551);
+    int status = rid_system_set_area_radius(&system, 2551);
     ASSERT_EQ(RID_ERROR_OUT_OF_RANGE, status);
 
-    status = rid_set_area_radius(&system, 3000);
+    status = rid_system_set_area_radius(&system, 3000);
     ASSERT_EQ(RID_ERROR_OUT_OF_RANGE, status);
 
     PASS();
@@ -430,7 +430,7 @@ test_set_area_radius_out_of_range(void) {
 
 TEST
 test_set_area_radius_null_pointer(void) {
-    int status = rid_set_area_radius(NULL, 100);
+    int status = rid_system_set_area_radius(NULL, 100);
     ASSERT_EQ(RID_ERROR_NULL_POINTER, status);
 
     PASS();
@@ -444,10 +444,10 @@ test_set_and_get_area_ceiling(void) {
     for (size_t i = 0; i < sizeof(test_values) / sizeof(test_values[0]); i++) {
         memset(&system, 0, sizeof(system));
 
-        int status = rid_set_area_ceiling(&system, test_values[i]);
+        int status = rid_system_set_area_ceiling(&system, test_values[i]);
         ASSERT_EQ(RID_SUCCESS, status);
 
-        float result = rid_get_area_ceiling(&system);
+        float result = rid_system_get_area_ceiling(&system);
 
         /* 0.5 meter resolution */
         float diff = result > test_values[i] ? result - test_values[i] : test_values[i] - result;
@@ -462,10 +462,10 @@ test_set_area_ceiling_out_of_range(void) {
     rid_system_t system;
     memset(&system, 0, sizeof(system));
 
-    int status = rid_set_area_ceiling(&system, 31768.0f);
+    int status = rid_system_set_area_ceiling(&system, 31768.0f);
     ASSERT_EQ(RID_ERROR_OUT_OF_RANGE, status);
 
-    status = rid_set_area_ceiling(&system, -1001.0f);
+    status = rid_system_set_area_ceiling(&system, -1001.0f);
     ASSERT_EQ(RID_ERROR_OUT_OF_RANGE, status);
 
     PASS();
@@ -473,7 +473,7 @@ test_set_area_ceiling_out_of_range(void) {
 
 TEST
 test_set_area_ceiling_null_pointer(void) {
-    int status = rid_set_area_ceiling(NULL, 100.0f);
+    int status = rid_system_set_area_ceiling(NULL, 100.0f);
     ASSERT_EQ(RID_ERROR_NULL_POINTER, status);
 
     PASS();
@@ -487,10 +487,10 @@ test_set_and_get_area_floor(void) {
     for (size_t i = 0; i < sizeof(test_values) / sizeof(test_values[0]); i++) {
         memset(&system, 0, sizeof(system));
 
-        int status = rid_set_area_floor(&system, test_values[i]);
+        int status = rid_system_set_area_floor(&system, test_values[i]);
         ASSERT_EQ(RID_SUCCESS, status);
 
-        float result = rid_get_area_floor(&system);
+        float result = rid_system_get_area_floor(&system);
 
         /* 0.5 meter resolution */
         float diff = result > test_values[i] ? result - test_values[i] : test_values[i] - result;
@@ -505,10 +505,10 @@ test_set_area_floor_out_of_range(void) {
     rid_system_t system;
     memset(&system, 0, sizeof(system));
 
-    int status = rid_set_area_floor(&system, 31768.0f);
+    int status = rid_system_set_area_floor(&system, 31768.0f);
     ASSERT_EQ(RID_ERROR_OUT_OF_RANGE, status);
 
-    status = rid_set_area_floor(&system, -1001.0f);
+    status = rid_system_set_area_floor(&system, -1001.0f);
     ASSERT_EQ(RID_ERROR_OUT_OF_RANGE, status);
 
     PASS();
@@ -516,7 +516,7 @@ test_set_area_floor_out_of_range(void) {
 
 TEST
 test_set_area_floor_null_pointer(void) {
-    int status = rid_set_area_floor(NULL, 100.0f);
+    int status = rid_system_set_area_floor(NULL, 100.0f);
     ASSERT_EQ(RID_ERROR_NULL_POINTER, status);
 
     PASS();
@@ -529,12 +529,12 @@ test_set_and_get_system_timestamp(void) {
 
     uint32_t timestamp = 164205645;
 
-    int status = rid_set_system_timestamp(&system, timestamp);
+    int status = rid_system_set_timestamp(&system, timestamp);
     ASSERT_EQ(RID_SUCCESS, status);
 
     ASSERT_EQ(timestamp, system.timestamp);
 
-    uint32_t result = rid_get_system_timestamp(&system);
+    uint32_t result = rid_system_get_timestamp(&system);
     ASSERT_EQ(timestamp, result);
 
     PASS();
@@ -547,7 +547,7 @@ test_set_system_timestamp_from_unixtime(void) {
 
     uint32_t unixtime = 1710506445;
 
-    int status = rid_set_system_timestamp_from_unixtime(&system, unixtime);
+    int status = rid_system_set_timestamp_from_unixtime(&system, unixtime);
     ASSERT_EQ(RID_SUCCESS, status);
 
     /* Internal value should be offset by RID epoch */
@@ -563,7 +563,7 @@ test_set_system_timestamp_from_unixtime_at_epoch(void) {
 
     uint32_t unixtime = RID_SYSTEM_TIMESTAMP_EPOCH;
 
-    int status = rid_set_system_timestamp_from_unixtime(&system, unixtime);
+    int status = rid_system_set_timestamp_from_unixtime(&system, unixtime);
     ASSERT_EQ(RID_SUCCESS, status);
 
     /* Internal value should be 0 at epoch */
@@ -574,7 +574,7 @@ test_set_system_timestamp_from_unixtime_at_epoch(void) {
 
 TEST
 test_set_system_timestamp_null_pointer(void) {
-    int status = rid_set_system_timestamp(NULL, 164205645);
+    int status = rid_system_set_timestamp(NULL, 164205645);
     ASSERT_EQ(RID_ERROR_NULL_POINTER, status);
 
     PASS();
@@ -582,7 +582,7 @@ test_set_system_timestamp_null_pointer(void) {
 
 TEST
 test_set_system_timestamp_from_unixtime_null_pointer(void) {
-    int status = rid_set_system_timestamp_from_unixtime(NULL, 1710506445);
+    int status = rid_system_set_timestamp_from_unixtime(NULL, 1710506445);
     ASSERT_EQ(RID_ERROR_NULL_POINTER, status);
 
     PASS();
