@@ -19,12 +19,12 @@ rid_self_id_init(rid_self_id_t *message) {
 }
 
 rid_description_type_t
-rid_get_description_type(const rid_self_id_t *message) {
+rid_self_id_get_description_type(const rid_self_id_t *message) {
     return (rid_description_type_t)message->description_type;
 }
 
 int
-rid_set_description_type(rid_self_id_t *message, rid_description_type_t type) {
+rid_self_id_set_description_type(rid_self_id_t *message, rid_description_type_t type) {
     if (message == NULL) {
         return RID_ERROR_NULL_POINTER;
     }
@@ -35,7 +35,7 @@ rid_set_description_type(rid_self_id_t *message, rid_description_type_t type) {
 }
 
 int
-rid_get_description(const rid_self_id_t *message, char *buffer, size_t buffer_size) {
+rid_self_id_get_description(const rid_self_id_t *message, char *buffer, size_t buffer_size) {
     if (message == NULL || buffer == NULL) {
         return RID_ERROR_NULL_POINTER;
     }
@@ -51,7 +51,7 @@ rid_get_description(const rid_self_id_t *message, char *buffer, size_t buffer_si
 }
 
 int
-rid_set_description(rid_self_id_t *message, const char *description) {
+rid_self_id_set_description(rid_self_id_t *message, const char *description) {
     if (message == NULL || description == NULL) {
         return RID_ERROR_NULL_POINTER;
     }
