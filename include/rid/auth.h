@@ -188,4 +188,31 @@ int rid_set_auth_timestamp(rid_auth_t *message, uint32_t timestamp);
  */
 uint32_t rid_get_auth_timestamp(const rid_auth_t *message);
 
+/**
+ * @brief Set the authentication data for page 0.
+ *
+ * @param message Pointer to the Authentication message structure.
+ * @param data Pointer to the authentication data.
+ * @param size Size of the data (max 17 bytes).
+ *
+ * @retval RID_SUCCESS on success.
+ * @retval RID_ERROR_NULL_POINTER if message or data is NULL.
+ * @retval RID_ERROR_BUFFER_TOO_LARGE if size > 17.
+ */
+int rid_set_auth_data(rid_auth_t *message, const uint8_t *data, size_t size);
+
+/**
+ * @brief Get the authentication data from page 0.
+ *
+ * @param message Pointer to the Authentication message structure.
+ * @param buffer Buffer to store the authentication data.
+ * @param buffer_size Size of the buffer (must be at least 17).
+ *
+ * @retval RID_SUCCESS on success.
+ * @retval RID_ERROR_NULL_POINTER if message or buffer is NULL.
+ * @retval RID_ERROR_BUFFER_TOO_SMALL if buffer_size < 17.
+ */
+int rid_get_auth_data(const rid_auth_t *message, uint8_t *buffer, size_t buffer_size);
+
+
 #endif
