@@ -206,3 +206,33 @@ rid_get_auth_page_number(const rid_auth_page_t *message) {
     return message->page_number;
 }
 
+int
+rid_set_auth_page_data(rid_auth_page_t *message, const uint8_t *data, size_t size) {
+    if (NULL == message || NULL == data) {
+        return RID_ERROR_NULL_POINTER;
+    }
+
+    if (size > RID_AUTH_PAGE_DATA_SIZE) {
+        return RID_ERROR_BUFFER_TOO_LARGE;
+    }
+
+    memset(message->auth_data, 0, RID_AUTH_PAGE_DATA_SIZE);
+    memcpy(message->auth_data, data, size);
+
+    return RID_SUCCESS;
+}
+
+int
+rid_get_auth_page_data(const rid_auth_page_t *message, uint8_t *buffer, size_t buffer_size) {
+    if (NULL == message || NULL == buffer) {
+        return RID_ERROR_NULL_POINTER;
+    }
+
+    if (buffer_size < RID_AUTH_PAGE_DATA_SIZE) {
+        return RID_ERROR_BUFFER_TOO_SMALL;
+    }
+
+    memcpy(buffer, message->auth_data, RID_AUTH_PAGE_DATA_SIZE);
+
+    return RID_SUCCESS;
+}
