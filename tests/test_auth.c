@@ -239,6 +239,53 @@ test_auth_roundtrip_single_page(void) {
     PASS();
 }
 
+TEST
+test_auth_set_and_get_unixtime(void) {
+    rid_auth_t auth;
+    rid_auth_init(&auth);
+
+    /* 2019-01-01 00:00:00 UTC = epoch, should give 0 */
+    int status = rid_auth_set_unixtime(&auth, 1546300800);
+    ASSERT_EQ(RID_SUCCESS, status);
+    ASSERT_EQ(0, rid_auth_get_timestamp(&auth));
+    ASSERT_EQ(1546300800, rid_auth_get_unixtime(&auth));
+
+    /* 2019-01-01 00:01:40 UTC = 100 seconds after epoch */
+    status = rid_auth_set_unixtime(&auth, 1546300900);
+    ASSERT_EQ(RID_SUCCESS, status);
+    ASSERT_EQ(100, rid_auth_get_timestamp(&auth));
+    ASSERT_EQ(1546300900, rid_auth_get_unixtime(&auth));
+
+    PASS();
+}
+
+TEST
+test_auth_set_unixtime_null_pointer(void) {
+    int status = rid_auth_set_unixtime(NULL, 1546300800);
+    ASSERT_EQ(RID_ERROR_NULL_POINTER, status);
+
+    PASS();
+}
+
+TEST
+test_auth_set_unixtime_before_epoch(void) {
+    rid_auth_t auth;
+    rid_auth_init(&auth);
+
+    /* Before 2019-01-01 should fail */
+    int status = rid_auth_set_unixtime(&auth, 1546300799);
+    ASSERT_EQ(RID_ERROR_OUT_OF_RANGE, status);
+
+    PASS();
+}
+
+TEST
+test_auth_get_unixtime_null_pointer(void) {
+    ASSERT_EQ(0, rid_auth_get_unixtime(NULL));
+
+    PASS();
+}
+
 SUITE(auth_suite) {
     RUN_TEST(test_auth_init);
     RUN_TEST(test_auth_set_null_pointer);
@@ -252,4 +299,8 @@ SUITE(auth_suite) {
     RUN_TEST(test_auth_get_buffer_too_small);
     RUN_TEST(test_auth_get_page_count);
     RUN_TEST(test_auth_roundtrip_single_page);
+    RUN_TEST(test_auth_set_and_get_unixtime);
+    RUN_TEST(test_auth_set_unixtime_null_pointer);
+    RUN_TEST(test_auth_set_unixtime_before_epoch);
+    RUN_TEST(test_auth_get_unixtime_null_pointer);
 }
