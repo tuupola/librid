@@ -2,4 +2,5 @@ docs/
 tmp/
 specs/
 *.o
+Doxyfile.dist
 
