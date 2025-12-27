@@ -6,7 +6,7 @@
 #include "rid/auth.h"
 
 int
-rid_auth_init(rid_auth_t *message) {
+rid_auth_page_0_init(rid_auth_t *message) {
     if (NULL == message) {
         return RID_ERROR_NULL_POINTER;
     }
@@ -40,7 +40,7 @@ rid_auth_page_init(rid_auth_page_t *message, uint8_t page_number) {
 }
 
 int
-rid_auth_set_type(rid_auth_t *message, rid_auth_type_t type) {
+rid_auth_page_0_set_type(rid_auth_t *message, rid_auth_type_t type) {
     if (NULL == message) {
         return RID_ERROR_NULL_POINTER;
     }
@@ -55,7 +55,7 @@ rid_auth_set_type(rid_auth_t *message, rid_auth_type_t type) {
 }
 
 rid_auth_type_t
-rid_auth_get_type(const rid_auth_t *message) {
+rid_auth_page_0_get_type(const rid_auth_t *message) {
     if (NULL == message) {
         return RID_AUTH_TYPE_NONE;
     }
@@ -64,7 +64,7 @@ rid_auth_get_type(const rid_auth_t *message) {
 }
 
 int
-rid_auth_set_last_page_index(rid_auth_t *message, uint8_t index) {
+rid_auth_page_0_set_last_page_index(rid_auth_t *message, uint8_t index) {
     if (NULL == message) {
         return RID_ERROR_NULL_POINTER;
     }
@@ -79,7 +79,7 @@ rid_auth_set_last_page_index(rid_auth_t *message, uint8_t index) {
 }
 
 uint8_t
-rid_auth_get_last_page_index(const rid_auth_t *message) {
+rid_auth_page_0_get_last_page_index(const rid_auth_t *message) {
     if (NULL == message) {
         return 0;
     }
@@ -88,7 +88,7 @@ rid_auth_get_last_page_index(const rid_auth_t *message) {
 }
 
 int
-rid_auth_set_length(rid_auth_t *message, uint8_t length) {
+rid_auth_page_0_set_length(rid_auth_t *message, uint8_t length) {
     if (NULL == message) {
         return RID_ERROR_NULL_POINTER;
     }
@@ -99,7 +99,7 @@ rid_auth_set_length(rid_auth_t *message, uint8_t length) {
 }
 
 uint8_t
-rid_auth_get_length(const rid_auth_t *message) {
+rid_auth_page_0_get_length(const rid_auth_t *message) {
     if (NULL == message) {
         return 0;
     }
@@ -108,7 +108,7 @@ rid_auth_get_length(const rid_auth_t *message) {
 }
 
 int
-rid_auth_set_timestamp(rid_auth_t *message, uint32_t timestamp) {
+rid_auth_page_0_set_timestamp(rid_auth_t *message, uint32_t timestamp) {
     if (NULL == message) {
         return RID_ERROR_NULL_POINTER;
     }

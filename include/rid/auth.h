@@ -90,7 +90,7 @@ __attribute__((__packed__)) rid_auth_page {
  * @retval RID_SUCCESS on success.
  * @retval RID_ERROR_NULL_POINTER if message is NULL.
  */
-int rid_auth_init(rid_auth_t *message);
+int rid_auth_page_0_init(rid_auth_t *message);
 
 /**
  * @brief Initialize an Authentication message page 1-15 structure.
@@ -117,7 +117,7 @@ int rid_auth_page_init(rid_auth_page_t *message, uint8_t page_number);
  * @retval RID_ERROR_NULL_POINTER if message is NULL.
  * @retval RID_ERROR_OUT_OF_RANGE if type exceeds RID_AUTH_TYPE_MAX.
  */
-int rid_auth_set_type(rid_auth_t *message, rid_auth_type_t type);
+int rid_auth_page_0_set_type(rid_auth_t *message, rid_auth_type_t type);
 
 /**
  * @brief Get the authentication type from page 0.
@@ -126,7 +126,7 @@ int rid_auth_set_type(rid_auth_t *message, rid_auth_type_t type);
  *
  * @return The authentication type, or RID_AUTH_TYPE_NONE if message is NULL.
  */
-rid_auth_type_t rid_auth_get_type(const rid_auth_t *message);
+rid_auth_type_t rid_auth_page_0_get_type(const rid_auth_t *message);
 
 /**
  * @brief Set the last page index for page 0.
@@ -138,7 +138,7 @@ rid_auth_type_t rid_auth_get_type(const rid_auth_t *message);
  * @retval RID_ERROR_NULL_POINTER if message is NULL.
  * @retval RID_ERROR_OUT_OF_RANGE if index > 15.
  */
-int rid_auth_set_last_page_index(rid_auth_t *message, uint8_t index);
+int rid_auth_page_0_set_last_page_index(rid_auth_t *message, uint8_t index);
 
 /**
  * @brief Get the last page index from page 0.
@@ -147,7 +147,7 @@ int rid_auth_set_last_page_index(rid_auth_t *message, uint8_t index);
  *
  * @return The last page index, or 0 if message is NULL.
  */
-uint8_t rid_auth_get_last_page_index(const rid_auth_t *message);
+uint8_t rid_auth_page_0_get_last_page_index(const rid_auth_t *message);
 
 /**
  * @brief Set the total authentication data length for page 0.
@@ -158,7 +158,7 @@ uint8_t rid_auth_get_last_page_index(const rid_auth_t *message);
  * @retval RID_SUCCESS on success.
  * @retval RID_ERROR_NULL_POINTER if message is NULL.
  */
-int rid_auth_set_length(rid_auth_t *message, uint8_t length);
+int rid_auth_page_0_set_length(rid_auth_t *message, uint8_t length);
 
 /**
  * @brief Get the total authentication data length from page 0.
@@ -167,7 +167,7 @@ int rid_auth_set_length(rid_auth_t *message, uint8_t length);
  *
  * @return The total length, or 0 if message is NULL.
  */
-uint8_t rid_auth_get_length(const rid_auth_t *message);
+uint8_t rid_auth_page_0_get_length(const rid_auth_t *message);
 
 /**
  * @brief Set the timestamp for page 0.
@@ -180,7 +180,7 @@ uint8_t rid_auth_get_length(const rid_auth_t *message);
  * @retval RID_SUCCESS on success.
  * @retval RID_ERROR_NULL_POINTER if message is NULL.
  */
-int rid_auth_set_timestamp(rid_auth_t *message, uint32_t timestamp);
+int rid_auth_page_0_set_timestamp(rid_auth_t *message, uint32_t timestamp);
 
 /**
  * @brief Set the timestamp for page 0 from Unix time.
