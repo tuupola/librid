@@ -240,6 +240,37 @@ test_auth_roundtrip_single_page(void) {
 }
 
 TEST
+test_auth_set_and_get_timestamp(void) {
+    rid_auth_t auth;
+    rid_auth_init(&auth);
+
+    int status = rid_auth_set_timestamp(&auth, 0);
+    ASSERT_EQ(RID_SUCCESS, status);
+    ASSERT_EQ(0, rid_auth_get_timestamp(&auth));
+
+    status = rid_auth_set_timestamp(&auth, 12345678);
+    ASSERT_EQ(RID_SUCCESS, status);
+    ASSERT_EQ(12345678, rid_auth_get_timestamp(&auth));
+
+    PASS();
+}
+
+TEST
+test_auth_set_timestamp_null_pointer(void) {
+    int status = rid_auth_set_timestamp(NULL, 12345);
+    ASSERT_EQ(RID_ERROR_NULL_POINTER, status);
+
+    PASS();
+}
+
+TEST
+test_auth_get_timestamp_null_pointer(void) {
+    ASSERT_EQ(0, rid_auth_get_timestamp(NULL));
+
+    PASS();
+}
+
+TEST
 test_auth_set_and_get_unixtime(void) {
     rid_auth_t auth;
     rid_auth_init(&auth);
@@ -299,6 +330,9 @@ SUITE(auth_suite) {
     RUN_TEST(test_auth_get_buffer_too_small);
     RUN_TEST(test_auth_get_page_count);
     RUN_TEST(test_auth_roundtrip_single_page);
+    RUN_TEST(test_auth_set_and_get_timestamp);
+    RUN_TEST(test_auth_set_timestamp_null_pointer);
+    RUN_TEST(test_auth_get_timestamp_null_pointer);
     RUN_TEST(test_auth_set_and_get_unixtime);
     RUN_TEST(test_auth_set_unixtime_null_pointer);
     RUN_TEST(test_auth_set_unixtime_before_epoch);
