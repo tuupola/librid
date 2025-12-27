@@ -28,12 +28,11 @@
 /**
  * @brief Container for multi-page authentication data.
  *
- * Holds page 0 and up to 15 additional pages, along with the total page count.
+ * Holds page 0 and up to 15 additional pages.
  */
 typedef struct rid_auth {
     rid_auth_page_0_t page_0;
     rid_auth_page_x_t page_x[15];
-    uint8_t page_count;
 } rid_auth_t;
 
 /**

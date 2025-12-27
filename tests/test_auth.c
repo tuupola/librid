@@ -14,7 +14,7 @@ test_auth_init(void) {
 
     status = rid_auth_init(&auth);
     ASSERT_EQ(RID_SUCCESS, status);
-    ASSERT_EQ(1, auth.page_count);
+    ASSERT_EQ(1, rid_auth_get_page_count(&auth));
     ASSERT_EQ(RID_PROTOCOL_VERSION_2, auth.page_0.protocol_version);
     ASSERT_EQ(RID_MESSAGE_TYPE_AUTH, auth.page_0.message_type);
     ASSERT_EQ(0, auth.page_0.page_number);

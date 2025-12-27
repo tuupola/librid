@@ -14,7 +14,6 @@ rid_auth_init(rid_auth_t *auth) {
 
     memset(auth, 0, sizeof(rid_auth_t));
     rid_auth_page_0_init(&auth->page_0);
-    auth->page_count = 1;
 
     return RID_SUCCESS;
 }
@@ -25,7 +24,7 @@ rid_auth_get_page_count(const rid_auth_t *auth) {
         return 0;
     }
 
-    return auth->page_count;
+    return rid_auth_page_0_get_last_page_index(&auth->page_0) + 1;
 }
 
 int
