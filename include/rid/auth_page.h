@@ -35,13 +35,15 @@
  */
 typedef enum rid_auth_page_0_type {
     RID_AUTH_TYPE_NONE = 0,
-    /* uas id + auth timestamp */
+    /* Signature of uas id + auth timestamp. */
     RID_AUTH_TYPE_UAS_ID_SIGNATURE = 1,
-    /* operator id + auth timestamp */
+    /* Signature of operator id + auth timestamp. */
     RID_AUTH_TYPE_OPERATOR_ID_SIGNATURE = 2,
-    /* bytes of each message + auth timestamp */
+    /* Signature of bytes of each message + auth timestamp. */
     RID_AUTH_TYPE_MESSAGE_SET_SIGNATURE = 3,
+    /* Trust network remote id, empty signature. */
     RID_AUTH_TYPE_NETWORK_REMOTE_ID = 4,
+    /* For example DRIP signature. */
     RID_AUTH_TYPE_SPECIFIC_METHOD = 5,
     /* 6-9: Reserved for ASTM spec */
     /* 0xA-0xF: Available for private use */
