@@ -457,17 +457,17 @@ test_get_auth_page_data_buffer_too_small(void) {
 }
 
 TEST
-test_set_timestamp_from_unixtime(void) {
+test_set_unixtime(void) {
     rid_auth_page_0_t message;
     rid_auth_page_0_init(&message);
 
     /* 2019-01-01 00:00:00 UTC = epoch, should give 0 */
-    int status = rid_auth_page_0_set_timestamp_from_unixtime(&message, 1546300800);
+    int status = rid_auth_page_0_set_unixtime(&message, 1546300800);
     ASSERT_EQ(RID_SUCCESS, status);
     ASSERT_EQ(0, rid_auth_page_0_get_timestamp(&message));
 
     /* 2019-01-01 00:01:40 UTC = 100 seconds after epoch */
-    status = rid_auth_page_0_set_timestamp_from_unixtime(&message, 1546300900);
+    status = rid_auth_page_0_set_unixtime(&message, 1546300900);
     ASSERT_EQ(RID_SUCCESS, status);
     ASSERT_EQ(100, rid_auth_page_0_get_timestamp(&message));
 
@@ -475,20 +475,20 @@ test_set_timestamp_from_unixtime(void) {
 }
 
 TEST
-test_set_timestamp_from_unixtime_null_pointer(void) {
-    int status = rid_auth_page_0_set_timestamp_from_unixtime(NULL, 1546300800);
+test_set_unixtime_null_pointer(void) {
+    int status = rid_auth_page_0_set_unixtime(NULL, 1546300800);
     ASSERT_EQ(RID_ERROR_NULL_POINTER, status);
 
     PASS();
 }
 
 TEST
-test_set_timestamp_from_unixtime_before_epoch(void) {
+test_set_unixtime_before_epoch(void) {
     rid_auth_page_0_t message;
     rid_auth_page_0_init(&message);
 
     /* Before 2019-01-01 should fail */
-    int status = rid_auth_page_0_set_timestamp_from_unixtime(&message, 1546300799);
+    int status = rid_auth_page_0_set_unixtime(&message, 1546300799);
     ASSERT_EQ(RID_ERROR_OUT_OF_RANGE, status);
 
     PASS();
@@ -511,9 +511,9 @@ SUITE(auth_page_suite) {
 
     RUN_TEST(test_set_and_get_auth_timestamp);
     RUN_TEST(test_set_and_get_auth_timestamp_null_pointer);
-    RUN_TEST(test_set_timestamp_from_unixtime);
-    RUN_TEST(test_set_timestamp_from_unixtime_null_pointer);
-    RUN_TEST(test_set_timestamp_from_unixtime_before_epoch);
+    RUN_TEST(test_set_unixtime);
+    RUN_TEST(test_set_unixtime_null_pointer);
+    RUN_TEST(test_set_unixtime_before_epoch);
 
     RUN_TEST(test_set_and_get_auth_data);
     RUN_TEST(test_set_auth_data_partial);

@@ -194,7 +194,7 @@ int rid_auth_page_0_set_timestamp(rid_auth_page_0_t *message, uint32_t timestamp
  * @retval RID_ERROR_NULL_POINTER if message is NULL.
  * @retval RID_ERROR_OUT_OF_RANGE if unixtime is before RID epoch (2019-01-01).
  */
-int rid_auth_page_0_set_timestamp_from_unixtime(rid_auth_page_0_t *message, uint32_t unixtime);
+int rid_auth_page_0_set_unixtime(rid_auth_page_0_t *message, uint32_t unixtime);
 
 /**
  * @brief Get the timestamp from page 0.

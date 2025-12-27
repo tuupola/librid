@@ -119,7 +119,7 @@ rid_auth_page_0_set_timestamp(rid_auth_page_0_t *message, uint32_t timestamp) {
 }
 
 int
-rid_auth_page_0_set_timestamp_from_unixtime(rid_auth_page_0_t *message, uint32_t unixtime) {
+rid_auth_page_0_set_unixtime(rid_auth_page_0_t *message, uint32_t unixtime) {
     if (NULL == message) {
         return RID_ERROR_NULL_POINTER;
     }
