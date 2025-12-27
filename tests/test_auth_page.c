@@ -494,7 +494,7 @@ test_set_timestamp_from_unixtime_before_epoch(void) {
     PASS();
 }
 
-SUITE(auth_suite) {
+SUITE(auth_page_suite) {
     RUN_TEST(test_auth_init);
     RUN_TEST(test_auth_page_init);
 

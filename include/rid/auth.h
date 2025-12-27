@@ -1,8 +1,8 @@
-#ifndef _RID_AUTH_DATA_H
-#define _RID_AUTH_DATA_H
+#ifndef _RID_AUTH_H
+#define _RID_AUTH_H
 
 /**
- * @file auth_data.h
+ * @file auth.h
  * @brief High-level authentication data API per ASTM F3411-22a.
  *
  * Provides a container struct and functions that automatically handle

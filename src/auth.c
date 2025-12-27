@@ -4,7 +4,7 @@
 
 #include "rid/message.h"
 #include "rid/auth_page.h"
-#include "rid/auth_data.h"
+#include "rid/auth.h"
 
 int
 rid_auth_data_init(rid_auth_data_t *data) {
