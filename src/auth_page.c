@@ -3,7 +3,7 @@
 #include <stddef.h>
 
 #include "rid/message.h"
-#include "rid/auth.h"
+#include "rid/auth_page.h"
 
 int
 rid_auth_page_0_init(rid_auth_page_0_t *message) {

@@ -11,10 +11,11 @@ SRC = $(SRC_DIR)/message.c \
       $(SRC_DIR)/self_id.c \
       $(SRC_DIR)/system.c \
       $(SRC_DIR)/message_pack.c \
-      $(SRC_DIR)/auth.c
+      $(SRC_DIR)/auth_page.c \
+      $(SRC_DIR)/auth_data.c
 
 # Test files
-TEST_SRC = unit.c test_message.c test_basic_id.c test_operator_id.c test_location.c test_self_id.c test_system.c test_message_pack.c test_auth.c
+TEST_SRC = unit.c test_message.c test_basic_id.c test_operator_id.c test_location.c test_self_id.c test_system.c test_message_pack.c test_auth_page.c test_auth_data.c
 
 # Object files
 OBJ = $(SRC:.c=.o)

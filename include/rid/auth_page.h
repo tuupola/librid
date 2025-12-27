@@ -1,8 +1,8 @@
-#ifndef _RID_AUTH_H
-#define _RID_AUTH_H
+#ifndef _RID_AUTH_PAGE_H
+#define _RID_AUTH_PAGE_H
 
 /**
- * @file auth.h
+ * @file auth_page.h
  * @brief Authentication message handling per ASTM F3411-22a.
  *
  * Authentication messages support multi-page transmission with up to 16 pages
