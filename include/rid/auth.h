@@ -120,4 +120,24 @@ int rid_auth_set_type(rid_auth_t *auth, rid_auth_type_t type);
  */
 rid_auth_type_t rid_auth_get_type(const rid_auth_t *auth);
 
+/**
+ * @brief Set the timestamp.
+ *
+ * @param auth Pointer to the authentication data container.
+ * @param timestamp Seconds since 2019-01-01 00:00:00 UTC.
+ *
+ * @retval RID_SUCCESS on success.
+ * @retval RID_ERROR_NULL_POINTER if auth is NULL.
+ */
+int rid_auth_set_timestamp(rid_auth_t *auth, uint32_t timestamp);
+
+/**
+ * @brief Get the timestamp.
+ *
+ * @param auth Pointer to the authentication data container.
+ *
+ * @return Seconds since 2019-01-01 00:00:00 UTC, or 0 if auth is NULL.
+ */
+uint32_t rid_auth_get_timestamp(const rid_auth_t *auth);
+
 #endif

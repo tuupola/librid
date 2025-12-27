@@ -151,3 +151,21 @@ rid_auth_get_type(const rid_auth_t *auth) {
 
     return rid_auth_page_0_get_type(&auth->page_0);
 }
+
+int
+rid_auth_set_timestamp(rid_auth_t *auth, uint32_t timestamp) {
+    if (NULL == auth) {
+        return RID_ERROR_NULL_POINTER;
+    }
+
+    return rid_auth_page_0_set_timestamp(&auth->page_0, timestamp);
+}
+
+uint32_t
+rid_auth_get_timestamp(const rid_auth_t *auth) {
+    if (NULL == auth) {
+        return 0;
+    }
+
+    return rid_auth_page_0_get_timestamp(&auth->page_0);
+}
