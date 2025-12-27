@@ -183,20 +183,6 @@ uint8_t rid_auth_page_0_get_length(const rid_auth_page_0_t *message);
 int rid_auth_page_0_set_timestamp(rid_auth_page_0_t *message, uint32_t timestamp);
 
 /**
- * @brief Set the timestamp for page 0 from Unix time.
- *
- * Converts Unix timestamp to RID timestamp (seconds since 2019-01-01).
- *
- * @param message Pointer to the Authentication message structure.
- * @param unixtime Unix timestamp (seconds since 1970-01-01 00:00:00 UTC).
- *
- * @retval RID_SUCCESS on success.
- * @retval RID_ERROR_NULL_POINTER if message is NULL.
- * @retval RID_ERROR_OUT_OF_RANGE if unixtime is before RID epoch (2019-01-01).
- */
-int rid_auth_page_0_set_unixtime(rid_auth_page_0_t *message, uint32_t unixtime);
-
-/**
  * @brief Get the timestamp from page 0.
  *
  * @param message Pointer to the Authentication message structure.

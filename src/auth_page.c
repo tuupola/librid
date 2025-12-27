@@ -118,21 +118,6 @@ rid_auth_page_0_set_timestamp(rid_auth_page_0_t *message, uint32_t timestamp) {
     return RID_SUCCESS;
 }
 
-int
-rid_auth_page_0_set_unixtime(rid_auth_page_0_t *message, uint32_t unixtime) {
-    if (NULL == message) {
-        return RID_ERROR_NULL_POINTER;
-    }
-
-    if (unixtime < RID_AUTH_EPOCH_OFFSET) {
-        return RID_ERROR_OUT_OF_RANGE;
-    }
-
-    message->timestamp = unixtime - RID_AUTH_EPOCH_OFFSET;
-
-    return RID_SUCCESS;
-}
-
 uint32_t
 rid_auth_page_0_get_timestamp(const rid_auth_page_0_t *message) {
     if (NULL == message) {

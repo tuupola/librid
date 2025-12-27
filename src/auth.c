@@ -169,3 +169,25 @@ rid_auth_get_timestamp(const rid_auth_t *auth) {
 
     return rid_auth_page_0_get_timestamp(&auth->page_0);
 }
+
+int
+rid_auth_set_unixtime(rid_auth_t *auth, uint32_t unixtime) {
+    if (NULL == auth) {
+        return RID_ERROR_NULL_POINTER;
+    }
+
+    if (unixtime < RID_AUTH_EPOCH_OFFSET) {
+        return RID_ERROR_OUT_OF_RANGE;
+    }
+
+    return rid_auth_page_0_set_timestamp(&auth->page_0, unixtime - RID_AUTH_EPOCH_OFFSET);
+}
+
+uint32_t
+rid_auth_get_unixtime(const rid_auth_t *auth) {
+    if (NULL == auth) {
+        return 0;
+    }
+
+    return rid_auth_page_0_get_timestamp(&auth->page_0) + RID_AUTH_EPOCH_OFFSET;
+}

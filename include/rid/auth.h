@@ -140,4 +140,30 @@ int rid_auth_set_timestamp(rid_auth_t *auth, uint32_t timestamp);
  */
 uint32_t rid_auth_get_timestamp(const rid_auth_t *auth);
 
+/**
+ * @brief Set the timestamp from Unix time.
+ *
+ * Converts Unix timestamp to RID timestamp (seconds since 2019-01-01).
+ *
+ * @param auth Pointer to the authentication data container.
+ * @param unixtime Unix timestamp (seconds since 1970-01-01 00:00:00 UTC).
+ *
+ * @retval RID_SUCCESS on success.
+ * @retval RID_ERROR_NULL_POINTER if auth is NULL.
+ * @retval RID_ERROR_OUT_OF_RANGE if unixtime is before RID epoch (2019-01-01).
+ */
+int rid_auth_set_unixtime(rid_auth_t *auth, uint32_t unixtime);
+
+/**
+ * @brief Get the timestamp as Unix time.
+ *
+ * Converts RID timestamp to Unix timestamp.
+ *
+ * @param auth Pointer to the authentication data container.
+ *
+ * @return Unix timestamp (seconds since 1970-01-01 00:00:00 UTC),
+ *         or 0 if auth is NULL.
+ */
+uint32_t rid_auth_get_unixtime(const rid_auth_t *auth);
+
 #endif
