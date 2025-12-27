@@ -42,21 +42,21 @@ typedef struct rid_auth {
  * Zeros the structure and initializes page0 with protocol version and
  * message type. Sets page_count to 1.
  *
- * @param data Pointer to the authentication data container.
+ * @param auth Pointer to the authentication data container.
  *
  * @retval RID_SUCCESS on success.
- * @retval RID_ERROR_NULL_POINTER if data is NULL.
+ * @retval RID_ERROR_NULL_POINTER if auth is NULL.
  */
-int rid_auth_init(rid_auth_t *data);
+int rid_auth_init(rid_auth_t *auth);
 
 /**
  * @brief Get the number of pages used.
  *
- * @param data Pointer to the authentication data container.
+ * @param auth Pointer to the authentication data container.
  *
- * @return The page count (1-16), or 0 if data is NULL.
+ * @return The page count (1-16), or 0 if auth is NULL.
  */
-uint8_t rid_auth_get_page_count(const rid_auth_t *data);
+uint8_t rid_auth_get_page_count(const rid_auth_t *auth);
 
 /**
  * @brief Set the authentication type.

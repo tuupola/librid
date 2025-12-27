@@ -7,25 +7,25 @@
 #include "rid/auth.h"
 
 int
-rid_auth_init(rid_auth_t *data) {
-    if (NULL == data) {
+rid_auth_init(rid_auth_t *auth) {
+    if (NULL == auth) {
         return RID_ERROR_NULL_POINTER;
     }
 
-    memset(data, 0, sizeof(rid_auth_t));
-    rid_auth_page_0_init(&data->page_0);
-    data->page_count = 1;
+    memset(auth, 0, sizeof(rid_auth_t));
+    rid_auth_page_0_init(&auth->page_0);
+    auth->page_count = 1;
 
     return RID_SUCCESS;
 }
 
 uint8_t
-rid_auth_get_page_count(const rid_auth_t *data) {
-    if (NULL == data) {
+rid_auth_get_page_count(const rid_auth_t *auth) {
+    if (NULL == auth) {
         return 0;
     }
 
-    return data->page_count;
+    return auth->page_count;
 }
 
 int
