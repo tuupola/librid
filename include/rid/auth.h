@@ -124,4 +124,44 @@ int rid_auth_set_unixtime(rid_auth_t *auth, uint32_t unixtime);
  */
 uint32_t rid_auth_get_unixtime(const rid_auth_t *auth);
 
+/**
+ * @brief Set the signature data.
+ *
+ * Distributes signature data across page 0 and additional pages as needed.
+ * Page 0 holds up to 17 bytes, each additional page holds up to 23 bytes.
+ *
+ * @param auth Pointer to the authentication data container.
+ * @param signature Pointer to the signature data.
+ * @param size Size of the signature data (max 255 bytes).
+ *
+ * @retval RID_SUCCESS on success.
+ * @retval RID_ERROR_NULL_POINTER if auth or signature is NULL.
+ * @retval RID_ERROR_BUFFER_TOO_LARGE if size exceeds 255 bytes.
+ */
+int rid_auth_set_signature(rid_auth_t *auth, const uint8_t *signature, size_t size);
+
+/**
+ * @brief Get the total signature length.
+ *
+ * @param auth Pointer to the authentication data container.
+ *
+ * @return The total signature length in bytes, or 0 if auth is NULL.
+ */
+uint8_t rid_auth_get_length(const rid_auth_t *auth);
+
+/**
+ * @brief Get the signature data.
+ *
+ * Retrieves signature data from page 0 and additional pages.
+ *
+ * @param auth Pointer to the authentication data container.
+ * @param buffer Buffer to store the signature data.
+ * @param buffer_size Size of the buffer (must be at least the signature length).
+ *
+ * @retval RID_SUCCESS on success.
+ * @retval RID_ERROR_NULL_POINTER if auth or buffer is NULL.
+ * @retval RID_ERROR_BUFFER_TOO_SMALL if buffer_size is less than signature length.
+ */
+int rid_auth_get_signature(const rid_auth_t *auth, uint8_t *buffer, size_t buffer_size);
+
 #endif
