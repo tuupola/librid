@@ -24,7 +24,7 @@
 #include <stdint.h>
 #include <stddef.h>
 
-#include "rid/auth.h"
+#include "rid/auth_page.h"
 
 /** Maximum authentication data size in bytes */
 #define RID_AUTH_MAX_DATA_SIZE 255
@@ -35,8 +35,8 @@
  * Holds page 0 and up to 15 additional pages, along with the total page count.
  */
 typedef struct rid_auth_data {
-    rid_auth_t page0;
-    rid_auth_page_t pages[15];
+    rid_auth_page_0_t page_0;
+    rid_auth_page_x_t page_x[15];
     uint8_t page_count;
 } rid_auth_data_t;
 
@@ -71,7 +71,7 @@ int rid_auth_data_init(rid_auth_data_t *data);
  * @retval RID_ERROR_BUFFER_TOO_LARGE if size > 255.
  */
 int rid_auth_data_set(rid_auth_data_t *data, rid_auth_type_t type,
-                      uint32_t timestamp, const uint8_t *buffer, size_t size);
+    uint32_t timestamp, const uint8_t *buffer, size_t size);
 
 /**
  * @brief Get authentication data, reassembling from all pages.
@@ -88,7 +88,7 @@ int rid_auth_data_set(rid_auth_data_t *data, rid_auth_type_t type,
  * @retval RID_ERROR_BUFFER_TOO_SMALL if buffer_size is insufficient.
  */
 int rid_auth_data_get(const rid_auth_data_t *data, uint8_t *buffer,
-                      size_t buffer_size, size_t *size);
+    size_t buffer_size, size_t *size);
 
 /**
  * @brief Get the number of pages used.
