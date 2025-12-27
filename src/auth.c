@@ -119,7 +119,7 @@ rid_auth_page_0_set_timestamp(rid_auth_t *message, uint32_t timestamp) {
 }
 
 int
-rid_auth_set_timestamp_from_unixtime(rid_auth_t *message, uint32_t unixtime) {
+rid_auth_page_0_set_timestamp_from_unixtime(rid_auth_t *message, uint32_t unixtime) {
     if (NULL == message) {
         return RID_ERROR_NULL_POINTER;
     }
@@ -134,7 +134,7 @@ rid_auth_set_timestamp_from_unixtime(rid_auth_t *message, uint32_t unixtime) {
 }
 
 uint32_t
-rid_auth_get_timestamp(const rid_auth_t *message) {
+rid_auth_page_0_get_timestamp(const rid_auth_t *message) {
     if (NULL == message) {
         return 0;
     }
@@ -143,7 +143,7 @@ rid_auth_get_timestamp(const rid_auth_t *message) {
 }
 
 int
-rid_auth_set_data(rid_auth_t *message, const uint8_t *data, size_t size) {
+rid_auth_page_0_set_data(rid_auth_t *message, const uint8_t *data, size_t size) {
     if (NULL == message || NULL == data) {
         return RID_ERROR_NULL_POINTER;
     }
@@ -159,7 +159,7 @@ rid_auth_set_data(rid_auth_t *message, const uint8_t *data, size_t size) {
 }
 
 int
-rid_auth_get_data(const rid_auth_t *message, uint8_t *buffer, size_t buffer_size) {
+rid_auth_page_0_get_data(const rid_auth_t *message, uint8_t *buffer, size_t buffer_size) {
     if (NULL == message || NULL == buffer) {
         return RID_ERROR_NULL_POINTER;
     }

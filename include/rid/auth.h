@@ -194,7 +194,7 @@ int rid_auth_page_0_set_timestamp(rid_auth_t *message, uint32_t timestamp);
  * @retval RID_ERROR_NULL_POINTER if message is NULL.
  * @retval RID_ERROR_OUT_OF_RANGE if unixtime is before RID epoch (2019-01-01).
  */
-int rid_auth_set_timestamp_from_unixtime(rid_auth_t *message, uint32_t unixtime);
+int rid_auth_page_0_set_timestamp_from_unixtime(rid_auth_t *message, uint32_t unixtime);
 
 /**
  * @brief Get the timestamp from page 0.
@@ -203,7 +203,7 @@ int rid_auth_set_timestamp_from_unixtime(rid_auth_t *message, uint32_t unixtime)
  *
  * @return Seconds since 2019-01-01 00:00:00 UTC, or 0 if message is NULL.
  */
-uint32_t rid_auth_get_timestamp(const rid_auth_t *message);
+uint32_t rid_auth_page_0_get_timestamp(const rid_auth_t *message);
 
 /**
  * @brief Set the authentication data for page 0.
@@ -216,7 +216,7 @@ uint32_t rid_auth_get_timestamp(const rid_auth_t *message);
  * @retval RID_ERROR_NULL_POINTER if message or data is NULL.
  * @retval RID_ERROR_BUFFER_TOO_LARGE if size > 17.
  */
-int rid_auth_set_data(rid_auth_t *message, const uint8_t *data, size_t size);
+int rid_auth_page_0_set_data(rid_auth_t *message, const uint8_t *data, size_t size);
 
 /**
  * @brief Get the authentication data from page 0.
@@ -229,7 +229,7 @@ int rid_auth_set_data(rid_auth_t *message, const uint8_t *data, size_t size);
  * @retval RID_ERROR_NULL_POINTER if message or buffer is NULL.
  * @retval RID_ERROR_BUFFER_TOO_SMALL if buffer_size < 17.
  */
-int rid_auth_get_data(const rid_auth_t *message, uint8_t *buffer, size_t buffer_size);
+int rid_auth_page_0_get_data(const rid_auth_t *message, uint8_t *buffer, size_t buffer_size);
 
 /**
  * @brief Set the authentication type for pages 1-15.
