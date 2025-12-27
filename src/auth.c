@@ -21,7 +21,7 @@ rid_auth_page_0_init(rid_auth_t *message) {
 }
 
 int
-rid_auth_page_init(rid_auth_page_t *message, uint8_t page_number) {
+rid_auth_page_x_init(rid_auth_page_t *message, uint8_t page_number) {
     if (NULL == message) {
         return RID_ERROR_NULL_POINTER;
     }
@@ -174,7 +174,7 @@ rid_auth_page_0_get_data(const rid_auth_t *message, uint8_t *buffer, size_t buff
 }
 
 int
-rid_auth_page_set_type(rid_auth_page_t *message, rid_auth_type_t type) {
+rid_auth_page_x_set_type(rid_auth_page_t *message, rid_auth_type_t type) {
     if (NULL == message) {
         return RID_ERROR_NULL_POINTER;
     }
@@ -189,7 +189,7 @@ rid_auth_page_set_type(rid_auth_page_t *message, rid_auth_type_t type) {
 }
 
 rid_auth_type_t
-rid_auth_page_get_type(const rid_auth_page_t *message) {
+rid_auth_page_x_get_type(const rid_auth_page_t *message) {
     if (NULL == message) {
         return RID_AUTH_TYPE_NONE;
     }
@@ -198,7 +198,7 @@ rid_auth_page_get_type(const rid_auth_page_t *message) {
 }
 
 int
-rid_auth_page_set_number(rid_auth_page_t *message, uint8_t page_number) {
+rid_auth_page_x_set_number(rid_auth_page_t *message, uint8_t page_number) {
     if (NULL == message) {
         return RID_ERROR_NULL_POINTER;
     }
@@ -213,7 +213,7 @@ rid_auth_page_set_number(rid_auth_page_t *message, uint8_t page_number) {
 }
 
 uint8_t
-rid_auth_page_get_number(const rid_auth_page_t *message) {
+rid_auth_page_x_get_number(const rid_auth_page_t *message) {
     if (NULL == message) {
         return 0;
     }
@@ -222,7 +222,7 @@ rid_auth_page_get_number(const rid_auth_page_t *message) {
 }
 
 int
-rid_auth_page_set_data(rid_auth_page_t *message, const uint8_t *data, size_t size) {
+rid_auth_page_x_set_data(rid_auth_page_t *message, const uint8_t *data, size_t size) {
     if (NULL == message || NULL == data) {
         return RID_ERROR_NULL_POINTER;
     }
@@ -238,7 +238,7 @@ rid_auth_page_set_data(rid_auth_page_t *message, const uint8_t *data, size_t siz
 }
 
 int
-rid_auth_page_get_data(const rid_auth_page_t *message, uint8_t *buffer, size_t buffer_size) {
+rid_auth_page_x_get_data(const rid_auth_page_t *message, uint8_t *buffer, size_t buffer_size) {
     if (NULL == message || NULL == buffer) {
         return RID_ERROR_NULL_POINTER;
     }
