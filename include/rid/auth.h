@@ -99,4 +99,25 @@ int rid_auth_get(const rid_auth_t *data, uint8_t *buffer,
  */
 uint8_t rid_auth_get_page_count(const rid_auth_t *data);
 
+/**
+ * @brief Set the authentication type.
+ *
+ * @param auth Pointer to the authentication data container.
+ * @param type The authentication type to set.
+ *
+ * @retval RID_SUCCESS on success.
+ * @retval RID_ERROR_NULL_POINTER if auth is NULL.
+ * @retval RID_ERROR_OUT_OF_RANGE if type exceeds RID_AUTH_TYPE_MAX.
+ */
+int rid_auth_set_type(rid_auth_t *auth, rid_auth_type_t type);
+
+/**
+ * @brief Get the authentication type.
+ *
+ * @param auth Pointer to the authentication data container.
+ *
+ * @return The authentication type, or RID_AUTH_TYPE_NONE if auth is NULL.
+ */
+rid_auth_type_t rid_auth_get_type(const rid_auth_t *auth);
+
 #endif

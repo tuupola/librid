@@ -133,3 +133,21 @@ rid_auth_get_page_count(const rid_auth_t *data) {
 
     return data->page_count;
 }
+
+int
+rid_auth_set_type(rid_auth_t *auth, rid_auth_type_t type) {
+    if (NULL == auth) {
+        return RID_ERROR_NULL_POINTER;
+    }
+
+    return rid_auth_page_0_set_type(&auth->page_0, type);
+}
+
+rid_auth_type_t
+rid_auth_get_type(const rid_auth_t *auth) {
+    if (NULL == auth) {
+        return RID_AUTH_TYPE_NONE;
+    }
+
+    return rid_auth_page_0_get_type(&auth->page_0);
+}
