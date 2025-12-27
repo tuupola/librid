@@ -6,12 +6,12 @@
 #include "rid/auth.h"
 
 int
-rid_auth_page_0_init(rid_auth_t *message) {
+rid_auth_page_0_init(rid_auth_page_0_t *message) {
     if (NULL == message) {
         return RID_ERROR_NULL_POINTER;
     }
 
-    memset(message, 0, sizeof(rid_auth_t));
+    memset(message, 0, sizeof(rid_auth_page_0_t));
 
     message->protocol_version = RID_PROTOCOL_VERSION_2;
     message->message_type = RID_MESSAGE_TYPE_AUTH;
@@ -21,7 +21,7 @@ rid_auth_page_0_init(rid_auth_t *message) {
 }
 
 int
-rid_auth_page_x_init(rid_auth_page_t *message, uint8_t page_number) {
+rid_auth_page_x_init(rid_auth_page_x_t *message, uint8_t page_number) {
     if (NULL == message) {
         return RID_ERROR_NULL_POINTER;
     }
@@ -30,7 +30,7 @@ rid_auth_page_x_init(rid_auth_page_t *message, uint8_t page_number) {
         return RID_ERROR_OUT_OF_RANGE;
     }
 
-    memset(message, 0, sizeof(rid_auth_page_t));
+    memset(message, 0, sizeof(rid_auth_page_x_t));
 
     message->protocol_version = RID_PROTOCOL_VERSION_2;
     message->message_type = RID_MESSAGE_TYPE_AUTH;
@@ -40,7 +40,7 @@ rid_auth_page_x_init(rid_auth_page_t *message, uint8_t page_number) {
 }
 
 int
-rid_auth_page_0_set_type(rid_auth_t *message, rid_auth_type_t type) {
+rid_auth_page_0_set_type(rid_auth_page_0_t *message, rid_auth_type_t type) {
     if (NULL == message) {
         return RID_ERROR_NULL_POINTER;
     }
@@ -55,7 +55,7 @@ rid_auth_page_0_set_type(rid_auth_t *message, rid_auth_type_t type) {
 }
 
 rid_auth_type_t
-rid_auth_page_0_get_type(const rid_auth_t *message) {
+rid_auth_page_0_get_type(const rid_auth_page_0_t *message) {
     if (NULL == message) {
         return RID_AUTH_TYPE_NONE;
     }
@@ -64,7 +64,7 @@ rid_auth_page_0_get_type(const rid_auth_t *message) {
 }
 
 int
-rid_auth_page_0_set_last_page_index(rid_auth_t *message, uint8_t index) {
+rid_auth_page_0_set_last_page_index(rid_auth_page_0_t *message, uint8_t index) {
     if (NULL == message) {
         return RID_ERROR_NULL_POINTER;
     }
@@ -79,7 +79,7 @@ rid_auth_page_0_set_last_page_index(rid_auth_t *message, uint8_t index) {
 }
 
 uint8_t
-rid_auth_page_0_get_last_page_index(const rid_auth_t *message) {
+rid_auth_page_0_get_last_page_index(const rid_auth_page_0_t *message) {
     if (NULL == message) {
         return 0;
     }
@@ -88,7 +88,7 @@ rid_auth_page_0_get_last_page_index(const rid_auth_t *message) {
 }
 
 int
-rid_auth_page_0_set_length(rid_auth_t *message, uint8_t length) {
+rid_auth_page_0_set_length(rid_auth_page_0_t *message, uint8_t length) {
     if (NULL == message) {
         return RID_ERROR_NULL_POINTER;
     }
@@ -99,7 +99,7 @@ rid_auth_page_0_set_length(rid_auth_t *message, uint8_t length) {
 }
 
 uint8_t
-rid_auth_page_0_get_length(const rid_auth_t *message) {
+rid_auth_page_0_get_length(const rid_auth_page_0_t *message) {
     if (NULL == message) {
         return 0;
     }
@@ -108,7 +108,7 @@ rid_auth_page_0_get_length(const rid_auth_t *message) {
 }
 
 int
-rid_auth_page_0_set_timestamp(rid_auth_t *message, uint32_t timestamp) {
+rid_auth_page_0_set_timestamp(rid_auth_page_0_t *message, uint32_t timestamp) {
     if (NULL == message) {
         return RID_ERROR_NULL_POINTER;
     }
@@ -119,7 +119,7 @@ rid_auth_page_0_set_timestamp(rid_auth_t *message, uint32_t timestamp) {
 }
 
 int
-rid_auth_page_0_set_timestamp_from_unixtime(rid_auth_t *message, uint32_t unixtime) {
+rid_auth_page_0_set_timestamp_from_unixtime(rid_auth_page_0_t *message, uint32_t unixtime) {
     if (NULL == message) {
         return RID_ERROR_NULL_POINTER;
     }
@@ -134,7 +134,7 @@ rid_auth_page_0_set_timestamp_from_unixtime(rid_auth_t *message, uint32_t unixti
 }
 
 uint32_t
-rid_auth_page_0_get_timestamp(const rid_auth_t *message) {
+rid_auth_page_0_get_timestamp(const rid_auth_page_0_t *message) {
     if (NULL == message) {
         return 0;
     }
@@ -143,7 +143,7 @@ rid_auth_page_0_get_timestamp(const rid_auth_t *message) {
 }
 
 int
-rid_auth_page_0_set_data(rid_auth_t *message, const uint8_t *data, size_t size) {
+rid_auth_page_0_set_data(rid_auth_page_0_t *message, const uint8_t *data, size_t size) {
     if (NULL == message || NULL == data) {
         return RID_ERROR_NULL_POINTER;
     }
@@ -159,7 +159,7 @@ rid_auth_page_0_set_data(rid_auth_t *message, const uint8_t *data, size_t size) 
 }
 
 int
-rid_auth_page_0_get_data(const rid_auth_t *message, uint8_t *buffer, size_t buffer_size) {
+rid_auth_page_0_get_data(const rid_auth_page_0_t *message, uint8_t *buffer, size_t buffer_size) {
     if (NULL == message || NULL == buffer) {
         return RID_ERROR_NULL_POINTER;
     }
@@ -174,7 +174,7 @@ rid_auth_page_0_get_data(const rid_auth_t *message, uint8_t *buffer, size_t buff
 }
 
 int
-rid_auth_page_x_set_type(rid_auth_page_t *message, rid_auth_type_t type) {
+rid_auth_page_x_set_type(rid_auth_page_x_t *message, rid_auth_type_t type) {
     if (NULL == message) {
         return RID_ERROR_NULL_POINTER;
     }
@@ -189,7 +189,7 @@ rid_auth_page_x_set_type(rid_auth_page_t *message, rid_auth_type_t type) {
 }
 
 rid_auth_type_t
-rid_auth_page_x_get_type(const rid_auth_page_t *message) {
+rid_auth_page_x_get_type(const rid_auth_page_x_t *message) {
     if (NULL == message) {
         return RID_AUTH_TYPE_NONE;
     }
@@ -198,7 +198,7 @@ rid_auth_page_x_get_type(const rid_auth_page_t *message) {
 }
 
 int
-rid_auth_page_x_set_number(rid_auth_page_t *message, uint8_t page_number) {
+rid_auth_page_x_set_number(rid_auth_page_x_t *message, uint8_t page_number) {
     if (NULL == message) {
         return RID_ERROR_NULL_POINTER;
     }
@@ -213,7 +213,7 @@ rid_auth_page_x_set_number(rid_auth_page_t *message, uint8_t page_number) {
 }
 
 uint8_t
-rid_auth_page_x_get_number(const rid_auth_page_t *message) {
+rid_auth_page_x_get_number(const rid_auth_page_x_t *message) {
     if (NULL == message) {
         return 0;
     }
@@ -222,7 +222,7 @@ rid_auth_page_x_get_number(const rid_auth_page_t *message) {
 }
 
 int
-rid_auth_page_x_set_data(rid_auth_page_t *message, const uint8_t *data, size_t size) {
+rid_auth_page_x_set_data(rid_auth_page_x_t *message, const uint8_t *data, size_t size) {
     if (NULL == message || NULL == data) {
         return RID_ERROR_NULL_POINTER;
     }
@@ -238,7 +238,7 @@ rid_auth_page_x_set_data(rid_auth_page_t *message, const uint8_t *data, size_t s
 }
 
 int
-rid_auth_page_x_get_data(const rid_auth_page_t *message, uint8_t *buffer, size_t buffer_size) {
+rid_auth_page_x_get_data(const rid_auth_page_x_t *message, uint8_t *buffer, size_t buffer_size) {
     if (NULL == message || NULL == buffer) {
         return RID_ERROR_NULL_POINTER;
     }
