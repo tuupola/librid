@@ -7,12 +7,12 @@
 #include "rid/auth.h"
 
 int
-rid_auth_data_init(rid_auth_data_t *data) {
+rid_auth_init(rid_auth_t *data) {
     if (NULL == data) {
         return RID_ERROR_NULL_POINTER;
     }
 
-    memset(data, 0, sizeof(rid_auth_data_t));
+    memset(data, 0, sizeof(rid_auth_t));
     rid_auth_page_0_init(&data->page_0);
     data->page_count = 1;
 
@@ -20,7 +20,7 @@ rid_auth_data_init(rid_auth_data_t *data) {
 }
 
 int
-rid_auth_data_set(rid_auth_data_t *data, rid_auth_type_t type,
+rid_auth_set(rid_auth_t *data, rid_auth_type_t type,
     uint32_t timestamp, const uint8_t *buffer, size_t size) {
 
     if (NULL == data || NULL == buffer) {
@@ -32,7 +32,7 @@ rid_auth_data_set(rid_auth_data_t *data, rid_auth_type_t type,
     }
 
     /* Initialize and set up page 0 */
-    rid_auth_data_init(data);
+    rid_auth_init(data);
     rid_auth_page_0_set_type(&data->page_0, type);
     rid_auth_page_0_set_timestamp(&data->page_0, timestamp);
     rid_auth_page_0_set_length(&data->page_0, (uint8_t)size);
@@ -75,7 +75,7 @@ rid_auth_data_set(rid_auth_data_t *data, rid_auth_type_t type,
 }
 
 int
-rid_auth_data_get(const rid_auth_data_t *data, uint8_t *buffer,
+rid_auth_get(const rid_auth_t *data, uint8_t *buffer,
     size_t buffer_size, size_t *size) {
     if (NULL == data || NULL == buffer) {
         return RID_ERROR_NULL_POINTER;
@@ -126,7 +126,7 @@ rid_auth_data_get(const rid_auth_data_t *data, uint8_t *buffer,
 }
 
 uint8_t
-rid_auth_data_get_page_count(const rid_auth_data_t *data) {
+rid_auth_get_page_count(const rid_auth_t *data) {
     if (NULL == data) {
         return 0;
     }

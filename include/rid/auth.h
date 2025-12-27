@@ -10,14 +10,14 @@
  *
  * Example usage:
  * @code
- * rid_auth_data_t auth;
+ * rid_auth_t auth;
  * uint8_t signature[64] = { ... };
  *
- * rid_auth_data_init(&auth);
- * rid_auth_data_set(&auth, RID_AUTH_TYPE_UAS_ID_SIGNATURE,
+ * rid_auth_init(&auth);
+ * rid_auth_set(&auth, RID_AUTH_TYPE_UAS_ID_SIGNATURE,
  *                   timestamp, signature, sizeof(signature));
  *
- * uint8_t page_count = rid_auth_data_get_page_count(&auth);
+ * uint8_t page_count = rid_auth_get_page_count(&auth);
  * @endcode
  */
 
@@ -34,11 +34,11 @@
  *
  * Holds page 0 and up to 15 additional pages, along with the total page count.
  */
-typedef struct rid_auth_data {
+typedef struct rid_auth {
     rid_auth_page_0_t page_0;
     rid_auth_page_x_t page_x[15];
     uint8_t page_count;
-} rid_auth_data_t;
+} rid_auth_t;
 
 /**
  * @brief Initialize an authentication data container.
@@ -51,7 +51,7 @@ typedef struct rid_auth_data {
  * @retval RID_SUCCESS on success.
  * @retval RID_ERROR_NULL_POINTER if data is NULL.
  */
-int rid_auth_data_init(rid_auth_data_t *data);
+int rid_auth_init(rid_auth_t *data);
 
 /**
  * @brief Set authentication data, automatically splitting across pages.
@@ -70,7 +70,7 @@ int rid_auth_data_init(rid_auth_data_t *data);
  * @retval RID_ERROR_NULL_POINTER if data or buffer is NULL.
  * @retval RID_ERROR_BUFFER_TOO_LARGE if size > 255.
  */
-int rid_auth_data_set(rid_auth_data_t *data, rid_auth_type_t type,
+int rid_auth_set(rid_auth_t *data, rid_auth_type_t type,
     uint32_t timestamp, const uint8_t *buffer, size_t size);
 
 /**
@@ -87,7 +87,7 @@ int rid_auth_data_set(rid_auth_data_t *data, rid_auth_type_t type,
  * @retval RID_ERROR_NULL_POINTER if data or buffer is NULL.
  * @retval RID_ERROR_BUFFER_TOO_SMALL if buffer_size is insufficient.
  */
-int rid_auth_data_get(const rid_auth_data_t *data, uint8_t *buffer,
+int rid_auth_get(const rid_auth_t *data, uint8_t *buffer,
     size_t buffer_size, size_t *size);
 
 /**
@@ -97,6 +97,6 @@ int rid_auth_data_get(const rid_auth_data_t *data, uint8_t *buffer,
  *
  * @return The page count (1-16), or 0 if data is NULL.
  */
-uint8_t rid_auth_data_get_page_count(const rid_auth_data_t *data);
+uint8_t rid_auth_get_page_count(const rid_auth_t *data);
 
 #endif
