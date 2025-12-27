@@ -19,7 +19,7 @@
 #define RID_AUTH_EPOCH_OFFSET 1546300800
 
 /** Auth data size for page 0 */
-#define RID_AUTH_PAGE0_DATA_SIZE 17
+#define RID_AUTH_PAGE_0_DATA_SIZE 17
 
 /** Auth data size for pages 1-15 */
 #define RID_AUTH_PAGE_DATA_SIZE 23
@@ -35,8 +35,11 @@
  */
 typedef enum rid_auth_type {
     RID_AUTH_TYPE_NONE = 0,
+    /* uas id + auth timestamp */
     RID_AUTH_TYPE_UAS_ID_SIGNATURE = 1,
+    /* operator id + auth timestamp */
     RID_AUTH_TYPE_OPERATOR_ID_SIGNATURE = 2,
+    /* bytes of each message + auth timestamp */
     RID_AUTH_TYPE_MESSAGE_SET_SIGNATURE = 3,
     RID_AUTH_TYPE_NETWORK_REMOTE_ID = 4,
     RID_AUTH_TYPE_SPECIFIC_METHOD = 5,
@@ -178,6 +181,20 @@ uint8_t rid_auth_get_length(const rid_auth_t *message);
  * @retval RID_ERROR_NULL_POINTER if message is NULL.
  */
 int rid_auth_set_timestamp(rid_auth_t *message, uint32_t timestamp);
+
+/**
+ * @brief Set the timestamp for page 0 from Unix time.
+ *
+ * Converts Unix timestamp to RID timestamp (seconds since 2019-01-01).
+ *
+ * @param message Pointer to the Authentication message structure.
+ * @param unixtime Unix timestamp (seconds since 1970-01-01 00:00:00 UTC).
+ *
+ * @retval RID_SUCCESS on success.
+ * @retval RID_ERROR_NULL_POINTER if message is NULL.
+ * @retval RID_ERROR_OUT_OF_RANGE if unixtime is before RID epoch (2019-01-01).
+ */
+int rid_auth_set_timestamp_from_unixtime(rid_auth_t *message, uint32_t unixtime);
 
 /**
  * @brief Get the timestamp from page 0.

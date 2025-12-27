@@ -1,0 +1,134 @@
+#include <string.h>
+#include <stdint.h>
+#include <stddef.h>
+
+#include "rid/message.h"
+#include "rid/auth.h"
+#include "rid/auth_data.h"
+
+int
+rid_auth_data_init(rid_auth_data_t *data) {
+    if (NULL == data) {
+        return RID_ERROR_NULL_POINTER;
+    }
+
+    memset(data, 0, sizeof(rid_auth_data_t));
+    rid_auth_init(&data->page0);
+    data->page_count = 1;
+
+    return RID_SUCCESS;
+}
+
+int
+rid_auth_data_set(rid_auth_data_t *data, rid_auth_type_t type,
+                  uint32_t timestamp, const uint8_t *buffer, size_t size) {
+    if (NULL == data || NULL == buffer) {
+        return RID_ERROR_NULL_POINTER;
+    }
+
+    if (size > RID_AUTH_MAX_DATA_SIZE) {
+        return RID_ERROR_BUFFER_TOO_LARGE;
+    }
+
+    /* Initialize and set up page 0 */
+    rid_auth_data_init(data);
+    rid_auth_set_type(&data->page0, type);
+    rid_auth_set_timestamp(&data->page0, timestamp);
+    rid_auth_set_length(&data->page0, (uint8_t)size);
+
+    /* Copy data to page 0 (up to 17 bytes) */
+    size_t page0_size = size;
+    if (page0_size > RID_AUTH_PAGE_0_DATA_SIZE) {
+        page0_size = RID_AUTH_PAGE_0_DATA_SIZE;
+    }
+    rid_auth_set_data(&data->page0, buffer, page0_size);
+
+    /* Calculate number of pages needed */
+    if (size <= RID_AUTH_PAGE_0_DATA_SIZE) {
+        data->page_count = 1;
+        rid_auth_set_last_page_index(&data->page0, 0);
+    } else {
+        size_t remaining = size - RID_AUTH_PAGE_0_DATA_SIZE;
+        uint8_t extra_pages = (uint8_t)((remaining + RID_AUTH_PAGE_DATA_SIZE - 1) / RID_AUTH_PAGE_DATA_SIZE);
+        data->page_count = 1 + extra_pages;
+        rid_auth_set_last_page_index(&data->page0, extra_pages);
+
+        /* Fill additional pages */
+        const uint8_t *src = buffer + RID_AUTH_PAGE_0_DATA_SIZE;
+        for (uint8_t i = 0; i < extra_pages; ++i) {
+            rid_auth_page_init(&data->pages[i], i + 1);
+            rid_auth_page_set_type(&data->pages[i], type);
+
+            size_t chunk = remaining;
+            if (chunk > RID_AUTH_PAGE_DATA_SIZE) {
+                chunk = RID_AUTH_PAGE_DATA_SIZE;
+            }
+            rid_auth_page_set_data(&data->pages[i], src, chunk);
+
+            src += chunk;
+            remaining -= chunk;
+        }
+    }
+
+    return RID_SUCCESS;
+}
+
+int
+rid_auth_data_get(const rid_auth_data_t *data, uint8_t *buffer,
+                  size_t buffer_size, size_t *size) {
+    if (NULL == data || NULL == buffer) {
+        return RID_ERROR_NULL_POINTER;
+    }
+
+    uint8_t total_length = rid_auth_get_length(&data->page0);
+
+    if (buffer_size < total_length) {
+        return RID_ERROR_BUFFER_TOO_SMALL;
+    }
+
+    /* Copy from page 0 */
+    size_t page0_size = total_length;
+    if (page0_size > RID_AUTH_PAGE_0_DATA_SIZE) {
+        page0_size = RID_AUTH_PAGE_0_DATA_SIZE;
+    }
+
+    uint8_t temp[RID_AUTH_PAGE_0_DATA_SIZE];
+    rid_auth_get_data(&data->page0, temp, sizeof(temp));
+    memcpy(buffer, temp, page0_size);
+
+    /* Copy from additional pages */
+    if (total_length > RID_AUTH_PAGE_0_DATA_SIZE) {
+        size_t remaining = total_length - RID_AUTH_PAGE_0_DATA_SIZE;
+        uint8_t *dst = buffer + RID_AUTH_PAGE_0_DATA_SIZE;
+        uint8_t last_page = rid_auth_get_last_page_index(&data->page0);
+
+        for (uint8_t i = 0; i < last_page; ++i) {
+            uint8_t page_temp[RID_AUTH_PAGE_DATA_SIZE];
+            rid_auth_page_get_data(&data->pages[i], page_temp, sizeof(page_temp));
+
+            size_t chunk = remaining;
+            if (chunk > RID_AUTH_PAGE_DATA_SIZE) {
+                chunk = RID_AUTH_PAGE_DATA_SIZE;
+            }
+            memcpy(dst, page_temp, chunk);
+
+            dst += chunk;
+            remaining -= chunk;
+        }
+    }
+
+    if (NULL != size) {
+        *size = total_length;
+    }
+
+    return RID_SUCCESS;
+}
+
+uint8_t
+rid_auth_data_get_page_count(const rid_auth_data_t *data) {
+    if (NULL == data) {
+        return 0;
+    }
+
+    return data->page_count;
+}

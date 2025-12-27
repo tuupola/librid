@@ -23,7 +23,7 @@ test_auth_init(void) {
     ASSERT_EQ(0, message.length);
     ASSERT_EQ(0, message.timestamp);
 
-    for (size_t i = 0; i < RID_AUTH_PAGE0_DATA_SIZE; ++i) {
+    for (size_t i = 0; i < RID_AUTH_PAGE_0_DATA_SIZE; ++i) {
         ASSERT_EQ(0, message.auth_data[i]);
     }
 
@@ -211,7 +211,7 @@ test_set_and_get_auth_data(void) {
     rid_auth_t message;
     rid_auth_init(&message);
 
-    uint8_t test_data[RID_AUTH_PAGE0_DATA_SIZE] = {
+    uint8_t test_data[RID_AUTH_PAGE_0_DATA_SIZE] = {
         0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08,
         0x09, 0x0A, 0x0B, 0x0C, 0x0D, 0x0E, 0x0F, 0x10,
         0x11
@@ -220,11 +220,11 @@ test_set_and_get_auth_data(void) {
     int status = rid_auth_set_data(&message, test_data, sizeof(test_data));
     ASSERT_EQ(RID_SUCCESS, status);
 
-    uint8_t buffer[RID_AUTH_PAGE0_DATA_SIZE];
+    uint8_t buffer[RID_AUTH_PAGE_0_DATA_SIZE];
     status = rid_auth_get_data(&message, buffer, sizeof(buffer));
     ASSERT_EQ(RID_SUCCESS, status);
 
-    ASSERT_MEM_EQ(test_data, buffer, RID_AUTH_PAGE0_DATA_SIZE);
+    ASSERT_MEM_EQ(test_data, buffer, RID_AUTH_PAGE_0_DATA_SIZE);
 
     PASS();
 }
@@ -239,14 +239,14 @@ test_set_auth_data_partial(void) {
     int status = rid_auth_set_data(&message, test_data, sizeof(test_data));
     ASSERT_EQ(RID_SUCCESS, status);
 
-    uint8_t buffer[RID_AUTH_PAGE0_DATA_SIZE];
+    uint8_t buffer[RID_AUTH_PAGE_0_DATA_SIZE];
     status = rid_auth_get_data(&message, buffer, sizeof(buffer));
     ASSERT_EQ(RID_SUCCESS, status);
 
     ASSERT_MEM_EQ(test_data, buffer, sizeof(test_data));
 
     /* Remaining bytes should be zero */
-    for (size_t i = sizeof(test_data); i < RID_AUTH_PAGE0_DATA_SIZE; ++i) {
+    for (size_t i = sizeof(test_data); i < RID_AUTH_PAGE_0_DATA_SIZE; ++i) {
         ASSERT_EQ(0, buffer[i]);
     }
 
@@ -258,7 +258,7 @@ test_set_and_get_auth_data_null_pointer(void) {
     rid_auth_t message;
     rid_auth_init(&message);
     uint8_t data[4] = {0};
-    uint8_t buffer[RID_AUTH_PAGE0_DATA_SIZE];
+    uint8_t buffer[RID_AUTH_PAGE_0_DATA_SIZE];
 
     int status = rid_auth_set_data(NULL, data, sizeof(data));
     ASSERT_EQ(RID_ERROR_NULL_POINTER, status);
@@ -269,7 +269,7 @@ test_set_and_get_auth_data_null_pointer(void) {
     status = rid_auth_get_data(NULL, buffer, sizeof(buffer));
     ASSERT_EQ(RID_ERROR_NULL_POINTER, status);
 
-    status = rid_auth_get_data(&message, NULL, RID_AUTH_PAGE0_DATA_SIZE);
+    status = rid_auth_get_data(&message, NULL, RID_AUTH_PAGE_0_DATA_SIZE);
     ASSERT_EQ(RID_ERROR_NULL_POINTER, status);
 
     PASS();
@@ -279,7 +279,7 @@ TEST
 test_set_auth_data_too_large(void) {
     rid_auth_t message;
     rid_auth_init(&message);
-    uint8_t data[RID_AUTH_PAGE0_DATA_SIZE + 1] = {0};
+    uint8_t data[RID_AUTH_PAGE_0_DATA_SIZE + 1] = {0};
 
     int status = rid_auth_set_data(&message, data, sizeof(data));
     ASSERT_EQ(RID_ERROR_BUFFER_TOO_LARGE, status);
@@ -291,7 +291,7 @@ TEST
 test_get_auth_data_buffer_too_small(void) {
     rid_auth_t message;
     rid_auth_init(&message);
-    uint8_t buffer[RID_AUTH_PAGE0_DATA_SIZE - 1];
+    uint8_t buffer[RID_AUTH_PAGE_0_DATA_SIZE - 1];
 
     int status = rid_auth_get_data(&message, buffer, sizeof(buffer));
     ASSERT_EQ(RID_ERROR_BUFFER_TOO_SMALL, status);
@@ -456,6 +456,44 @@ test_get_auth_page_data_buffer_too_small(void) {
     PASS();
 }
 
+TEST
+test_set_timestamp_from_unixtime(void) {
+    rid_auth_t message;
+    rid_auth_init(&message);
+
+    /* 2019-01-01 00:00:00 UTC = epoch, should give 0 */
+    int status = rid_auth_set_timestamp_from_unixtime(&message, 1546300800);
+    ASSERT_EQ(RID_SUCCESS, status);
+    ASSERT_EQ(0, rid_auth_get_timestamp(&message));
+
+    /* 2019-01-01 00:01:40 UTC = 100 seconds after epoch */
+    status = rid_auth_set_timestamp_from_unixtime(&message, 1546300900);
+    ASSERT_EQ(RID_SUCCESS, status);
+    ASSERT_EQ(100, rid_auth_get_timestamp(&message));
+
+    PASS();
+}
+
+TEST
+test_set_timestamp_from_unixtime_null_pointer(void) {
+    int status = rid_auth_set_timestamp_from_unixtime(NULL, 1546300800);
+    ASSERT_EQ(RID_ERROR_NULL_POINTER, status);
+
+    PASS();
+}
+
+TEST
+test_set_timestamp_from_unixtime_before_epoch(void) {
+    rid_auth_t message;
+    rid_auth_init(&message);
+
+    /* Before 2019-01-01 should fail */
+    int status = rid_auth_set_timestamp_from_unixtime(&message, 1546300799);
+    ASSERT_EQ(RID_ERROR_OUT_OF_RANGE, status);
+
+    PASS();
+}
+
 SUITE(auth_suite) {
     RUN_TEST(test_auth_init);
     RUN_TEST(test_auth_page_init);
@@ -473,6 +511,9 @@ SUITE(auth_suite) {
 
     RUN_TEST(test_set_and_get_auth_timestamp);
     RUN_TEST(test_set_and_get_auth_timestamp_null_pointer);
+    RUN_TEST(test_set_timestamp_from_unixtime);
+    RUN_TEST(test_set_timestamp_from_unixtime_null_pointer);
+    RUN_TEST(test_set_timestamp_from_unixtime_before_epoch);
 
     RUN_TEST(test_set_and_get_auth_data);
     RUN_TEST(test_set_auth_data_partial);

@@ -118,6 +118,21 @@ rid_auth_set_timestamp(rid_auth_t *message, uint32_t timestamp) {
     return RID_SUCCESS;
 }
 
+int
+rid_auth_set_timestamp_from_unixtime(rid_auth_t *message, uint32_t unixtime) {
+    if (NULL == message) {
+        return RID_ERROR_NULL_POINTER;
+    }
+
+    if (unixtime < RID_AUTH_EPOCH_OFFSET) {
+        return RID_ERROR_OUT_OF_RANGE;
+    }
+
+    message->timestamp = unixtime - RID_AUTH_EPOCH_OFFSET;
+
+    return RID_SUCCESS;
+}
+
 uint32_t
 rid_auth_get_timestamp(const rid_auth_t *message) {
     if (NULL == message) {
@@ -133,11 +148,11 @@ rid_auth_set_data(rid_auth_t *message, const uint8_t *data, size_t size) {
         return RID_ERROR_NULL_POINTER;
     }
 
-    if (size > RID_AUTH_PAGE0_DATA_SIZE) {
+    if (size > RID_AUTH_PAGE_0_DATA_SIZE) {
         return RID_ERROR_BUFFER_TOO_LARGE;
     }
 
-    memset(message->auth_data, 0, RID_AUTH_PAGE0_DATA_SIZE);
+    memset(message->auth_data, 0, RID_AUTH_PAGE_0_DATA_SIZE);
     memcpy(message->auth_data, data, size);
 
     return RID_SUCCESS;
@@ -149,11 +164,11 @@ rid_auth_get_data(const rid_auth_t *message, uint8_t *buffer, size_t buffer_size
         return RID_ERROR_NULL_POINTER;
     }
 
-    if (buffer_size < RID_AUTH_PAGE0_DATA_SIZE) {
+    if (buffer_size < RID_AUTH_PAGE_0_DATA_SIZE) {
         return RID_ERROR_BUFFER_TOO_SMALL;
     }
 
-    memcpy(buffer, message->auth_data, RID_AUTH_PAGE0_DATA_SIZE);
+    memcpy(buffer, message->auth_data, RID_AUTH_PAGE_0_DATA_SIZE);
 
     return RID_SUCCESS;
 }
