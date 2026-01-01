@@ -151,10 +151,11 @@ rid_location_set_vertical_speed(rid_location_t *location, float speed_ms) {
         return RID_SUCCESS;
     }
 
-    /* ASTM F3411-22 Table 7 */
-
-    if (speed_ms > 62.0f || speed_ms < -62.0f) {
-        return RID_ERROR_OUT_OF_RANGE;
+    /* ASTM F3411-22 clamp to valid range */
+    if (speed_ms > 62.0f) {
+        speed_ms = 62.0f;
+    } else if (speed_ms < -62.0f) {
+        speed_ms = -62.0f;
     }
 
     /* ASTM F3411-22 does NOT mention rounding */
