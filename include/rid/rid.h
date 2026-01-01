@@ -9,6 +9,7 @@ extern "C" {
 #include "rid/basic_id.h"
 #include "rid/location.h"
 #include "rid/auth_page.h"
+#include "rid/auth.h"
 #include "rid/operator_id.h"
 #include "rid/self_id.h"
 #include "rid/system.h"

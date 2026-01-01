@@ -141,7 +141,7 @@ uint32_t rid_auth_get_unixtime(const rid_auth_t *auth);
 int rid_auth_set_signature(rid_auth_t *auth, const uint8_t *signature, size_t size);
 
 /**
- * @brief Get the total signature length.
+ * @brief Get the total signature length in bytes.
  *
  * @param auth Pointer to the authentication data container.
  *
