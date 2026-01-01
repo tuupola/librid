@@ -6,7 +6,7 @@
  * @brief System message handling per ASTM F3411-22a.
  *
  * Example usage:
- * @snippet system_message/system_message.c full_example
+ * @snippet system/example_system.c full_example
  */
 
 #include <stdint.h>

@@ -6,7 +6,7 @@
  * @brief Message header handling per ASTM F3411-22a.
  *
  * Example usage:
- * @snippet message/message.c full_example
+ * @snippet message/example_message.c full_example
  */
 
 #include <stdint.h>

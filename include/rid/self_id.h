@@ -6,7 +6,7 @@
  * @brief Self ID message handling per ASTM F3411-22a.
  *
  * Example usage:
- * @snippet self_id/self_id.c full_example
+ * @snippet self_id/example_self_id.c full_example
  */
 
 #include <stdint.h>

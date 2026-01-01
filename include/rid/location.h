@@ -6,7 +6,7 @@
  * @brief Location message handling per ASTM F3411-22a.
  *
  * Example usage:
- * @snippet location/location.c full_example
+ * @snippet location/example_location.c full_example
  */
 
 #include <stdint.h>

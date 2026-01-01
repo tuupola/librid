@@ -6,7 +6,7 @@
  * @brief Message pack handling per ASTM F3411-22a.
  *
  * Example usage:
- * @snippet message_pack/message_pack.c full_example
+ * @snippet message_pack/example_message_pack.c full_example
  */
 
 #include <stdint.h>

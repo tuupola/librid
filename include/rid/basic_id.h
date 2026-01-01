@@ -6,7 +6,7 @@
  * @brief Basic ID message handling per ASTM F3411-22a.
  *
  * Example usage:
- * @snippet basic_id/basic_id.c full_example
+ * @snippet basic_id/example_basic_id.c full_example
  */
 
 #include <stdint.h>

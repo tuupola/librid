@@ -6,7 +6,7 @@
  * @brief Operator ID message handling per ASTM F3411-22a.
  *
  * Example usage:
- * @snippet operator_id/operator_id.c full_example
+ * @snippet operator_id/example_operator_id.c full_example
  */
 
 #include <stdint.h>
