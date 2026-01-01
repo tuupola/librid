@@ -9,7 +9,7 @@ TARGET = basic_id
 
 all: $(TARGET)
 
-$(TARGET): basic_id.c $(SRC)
+$(TARGET): example_basic_id.c $(SRC)
 	$(CC) $(CFLAGS) -o $@ $^ $(LDFLAGS)
 
 clean:

@@ -9,7 +9,7 @@ TARGET = auth_page
 
 all: $(TARGET)
 
-$(TARGET): auth_page.c $(SRC)
+$(TARGET): example_auth_page.c $(SRC)
 	$(CC) $(CFLAGS) -o $@ $^ $(LDFLAGS)
 
 clean:

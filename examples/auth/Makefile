@@ -9,7 +9,7 @@ TARGET = auth
 
 all: $(TARGET)
 
-$(TARGET): auth.c $(SRC)
+$(TARGET): example_auth.c $(SRC)
 	$(CC) $(CFLAGS) -o $@ $^ $(LDFLAGS)
 
 clean:

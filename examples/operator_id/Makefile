@@ -9,7 +9,7 @@ TARGET = operator_id
 
 all: $(TARGET)
 
-$(TARGET): operator_id.c $(SRC)
+$(TARGET): example_operator_id.c $(SRC)
 	$(CC) $(CFLAGS) -o $@ $^ $(LDFLAGS)
 
 clean:

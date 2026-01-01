@@ -9,7 +9,7 @@ TARGET = message
 
 all: $(TARGET)
 
-$(TARGET): message.c $(SRC)
+$(TARGET): example_message.c $(SRC)
 	$(CC) $(CFLAGS) -o $@ $^ $(LDFLAGS)
 
 clean:

@@ -9,7 +9,7 @@ TARGET = system
 
 all: $(TARGET)
 
-$(TARGET): system.c $(SRC)
+$(TARGET): example_system.c $(SRC)
 	$(CC) $(CFLAGS) -o $@ $^ $(LDFLAGS)
 
 clean:

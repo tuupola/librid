@@ -9,7 +9,7 @@ TARGET = location
 
 all: $(TARGET)
 
-$(TARGET): location.c $(SRC)
+$(TARGET): example_location.c $(SRC)
 	$(CC) $(CFLAGS) -o $@ $^ $(LDFLAGS)
 
 clean:

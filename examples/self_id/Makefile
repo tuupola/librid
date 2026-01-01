@@ -9,7 +9,7 @@ TARGET = self_id
 
 all: $(TARGET)
 
-$(TARGET): self_id.c $(SRC)
+$(TARGET): example_self_id.c $(SRC)
 	$(CC) $(CFLAGS) -o $@ $^ $(LDFLAGS)
 
 clean:

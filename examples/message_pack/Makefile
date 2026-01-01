@@ -11,7 +11,7 @@ TARGET = message_pack
 
 all: $(TARGET)
 
-$(TARGET): message_pack.c $(SRC)
+$(TARGET): example_message_pack.c $(SRC)
 	$(CC) $(CFLAGS) -o $@ $^ $(LDFLAGS)
 
 clean:
