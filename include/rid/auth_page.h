@@ -9,7 +9,7 @@
  * (0-15). Page 0 has a different structure than pages 1-15.
  *
  * Example usage:
- * @snippet auth/example_auth.c full_example
+ * @snippet auth_page/example_auth_page.c full_example
  */
 
 #include <stdint.h>

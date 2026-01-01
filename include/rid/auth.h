@@ -9,15 +9,7 @@
  * authentication data.
  *
  * Example usage:
- * @code
- * rid_auth_t auth;
- *
- * rid_auth_init(&auth);
- * rid_auth_set_type(&auth, RID_AUTH_TYPE_UAS_ID_SIGNATURE);
- * rid_auth_set_timestamp(&auth, 12345678);
- *
- * uint8_t page_count = rid_auth_get_page_count(&auth);
- * @endcode
+ * @snippet auth/example_auth.c full_example
  */
 
 #include <stdint.h>
