@@ -295,8 +295,10 @@ float rid_location_get_speed(const rid_location_t *location);
 /**
  * @brief Set the vertical speed for a Location message.
  *
+ * Values outside -62 to 62 m/s range are clamped to the nearest limit.
+ *
  * @param location Pointer to the Location message structure.
- * @param speed_ms Vertical speed in meters per second.
+ * @param speed_ms Vertical speed in meters per second (-62 to 62).
  *
  * @retval RID_SUCCESS on success.
  * @retval RID_ERROR_NULL_POINTER if location is NULL.
