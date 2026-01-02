@@ -204,17 +204,22 @@ test_set_and_get_vertical_speed(void) {
 }
 
 TEST
-test_vertical_speed_out_of_range(void) {
+test_vertical_speed_clamping(void) {
     rid_location_t location;
     memset(&location, 0, sizeof(location));
 
-    /* Test speed > 62 m/s */
+    /* Test speed > 62 m/s clamps to 62 */
     int status = rid_location_set_vertical_speed(&location, 70.0f);
-    ASSERT_EQ(RID_ERROR_OUT_OF_RANGE, status);
+    ASSERT_EQ(RID_SUCCESS, status);
+    float result = rid_location_get_vertical_speed(&location);
+    ASSERT_EQ(62.0f, result);
 
-    /* Test speed < -62 m/s */
+    /* Test speed < -62 m/s clamps to -62 */
+    memset(&location, 0, sizeof(location));
     status = rid_location_set_vertical_speed(&location, -70.0f);
-    ASSERT_EQ(RID_ERROR_OUT_OF_RANGE, status);
+    ASSERT_EQ(RID_SUCCESS, status);
+    result = rid_location_get_vertical_speed(&location);
+    ASSERT_EQ(-62.0f, result);
 
     PASS();
 }
@@ -1280,7 +1285,7 @@ SUITE(location_suite) {
     RUN_TEST(test_set_speed_null_pointer);
 
     RUN_TEST(test_set_and_get_vertical_speed);
-    RUN_TEST(test_vertical_speed_out_of_range);
+    RUN_TEST(test_vertical_speed_clamping);
     RUN_TEST(test_vertical_speed_invalid);
     RUN_TEST(test_set_vertical_speed_null_pointer);
 
