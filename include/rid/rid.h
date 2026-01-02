@@ -1,6 +1,11 @@
 #ifndef _RID_H
 #define _RID_H
 
+/**
+ * @file rid.h
+ * @brief Convenience header to include all the other headers.
+ */
+
 #ifdef __cplusplus
 extern "C" {
 #endif /* __cplusplus */
