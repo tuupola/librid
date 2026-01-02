@@ -33,6 +33,14 @@ rid_auth_set_type(rid_auth_t *auth, rid_auth_type_t type) {
         return RID_ERROR_NULL_POINTER;
     }
 
+    /* BMG0180: Network Remote ID requires an empty signature */
+    if (RID_AUTH_TYPE_NETWORK_REMOTE_ID == type) {
+        memset(auth->page_0.auth_data, 0, RID_AUTH_PAGE_0_DATA_SIZE);
+        auth->page_0.last_page_index = 0;
+        auth->page_0.length = 0;
+        memset(auth->page_x, 0, sizeof(auth->page_x));
+    }
+
     return rid_auth_page_0_set_type(&auth->page_0, type);
 }
 

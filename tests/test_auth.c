@@ -317,6 +317,29 @@ test_auth_signature_preserves_type(void) {
     PASS();
 }
 
+TEST
+test_auth_set_type_network_remote_id_clears_signature(void) {
+    rid_auth_t auth;
+    rid_auth_init(&auth);
+
+    /* Set signature first */
+    uint8_t signature[40];
+    for (size_t i = 0; i < 40; ++i) {
+        signature[i] = (uint8_t)i;
+    }
+    rid_auth_set_signature(&auth, signature, 40);
+    ASSERT_EQ(40, rid_auth_get_length(&auth));
+    ASSERT_EQ(2, rid_auth_get_page_count(&auth));
+
+    /* BMG0180: Setting tRID_AUTH_TYPE_NETWORK_REMOTE_ID should clear signature */
+    int status = rid_auth_set_type(&auth, RID_AUTH_TYPE_NETWORK_REMOTE_ID);
+    ASSERT_EQ(RID_SUCCESS, status);
+    ASSERT_EQ(0, rid_auth_get_length(&auth));
+    ASSERT_EQ(1, rid_auth_get_page_count(&auth));
+
+    PASS();
+}
+
 SUITE(auth_suite) {
     RUN_TEST(test_auth_init);
     RUN_TEST(test_auth_get_page_count);
@@ -340,4 +363,5 @@ SUITE(auth_suite) {
     RUN_TEST(test_auth_get_signature_null_pointer);
     RUN_TEST(test_auth_get_signature_buffer_too_small);
     RUN_TEST(test_auth_signature_preserves_type);
+    RUN_TEST(test_auth_set_type_network_remote_id_clears_signature);
 }
