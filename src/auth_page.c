@@ -84,7 +84,8 @@ rid_auth_page_0_get_last_page_index(const rid_auth_page_0_t *message) {
         return 0;
     }
 
-    return message->last_page_index;
+    /* Mask reserved bits [7..4] per ASTM F3411-22a Table 8 */
+    return message->last_page_index & 0x0F;
 }
 
 int

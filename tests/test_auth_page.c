@@ -149,6 +149,28 @@ test_set_auth_last_page_index_out_of_range(void) {
 }
 
 TEST
+test_get_auth_last_page_index_reserved_bits(void) {
+    rid_auth_page_0_t message;
+    rid_auth_page_0_init(&message);
+
+    /* Simulate external data with garbage in reserved bits [7..4] */
+    message.last_page_index = 0xF5;
+
+    uint8_t result = rid_auth_page_0_get_last_page_index(&message);
+    ASSERT_EQ(5, result);
+
+    message.last_page_index = 0xAF;
+    result = rid_auth_page_0_get_last_page_index(&message);
+    ASSERT_EQ(15, result);
+
+    message.last_page_index = 0x80;
+    result = rid_auth_page_0_get_last_page_index(&message);
+    ASSERT_EQ(0, result);
+
+    PASS();
+}
+
+TEST
 test_set_and_get_auth_length(void) {
     rid_auth_page_0_t message;
     rid_auth_page_0_init(&message);
@@ -467,6 +489,7 @@ SUITE(auth_page_suite) {
     RUN_TEST(test_set_and_get_auth_last_page_index);
     RUN_TEST(test_set_and_get_auth_last_page_index_null_pointer);
     RUN_TEST(test_set_auth_last_page_index_out_of_range);
+    RUN_TEST(test_get_auth_last_page_index_reserved_bits);
 
     RUN_TEST(test_set_and_get_auth_length);
     RUN_TEST(test_set_and_get_auth_length_null_pointer);
