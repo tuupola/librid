@@ -5,7 +5,7 @@ LDFLAGS = -lsodium
 SRC_DIR = ../../src
 SRC = $(SRC_DIR)/message.c $(SRC_DIR)/auth_page.c $(SRC_DIR)/auth.c
 
-TARGET = auth
+TARGET = example_auth
 
 all: $(TARGET)
 

@@ -5,7 +5,7 @@ LDFLAGS =
 SRC_DIR = ../../src
 SRC = $(SRC_DIR)/message.c $(SRC_DIR)/basic_id.c
 
-TARGET = basic_id
+TARGET = example_basic_id
 
 all: $(TARGET)
 

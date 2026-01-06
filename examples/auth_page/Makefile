@@ -5,7 +5,7 @@ LDFLAGS =
 SRC_DIR = ../../src
 SRC = $(SRC_DIR)/message.c $(SRC_DIR)/auth_page.c
 
-TARGET = auth_page
+TARGET = example_auth_page
 
 all: $(TARGET)
 

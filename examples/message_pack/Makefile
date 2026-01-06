@@ -7,7 +7,7 @@ SRC = $(SRC_DIR)/message.c $(SRC_DIR)/basic_id.c $(SRC_DIR)/location.c \
       $(SRC_DIR)/self_id.c $(SRC_DIR)/operator_id.c $(SRC_DIR)/system.c \
       $(SRC_DIR)/message_pack.c
 
-TARGET = message_pack
+TARGET = example_message_pack
 
 all: $(TARGET)
 
