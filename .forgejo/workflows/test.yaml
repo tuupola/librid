@@ -7,9 +7,11 @@ jobs:
       - name: Install dependencies
         run: |
           apt-get update
-          apt-get install -y gcc make
+          apt-get install -y gcc make cmake
       - name: Run unit tests
         run: |
-          cd tests
-          make clean
-          make test
+          mkdir build
+          cd build
+          cmake -DRID_BUILD_TESTS=ON ..
+          make
+          ctest --output-on-failure
