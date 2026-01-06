@@ -3,15 +3,14 @@ jobs:
   test:
     runs-on: docker
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Install dependencies
         run: |
           apt-get update
           apt-get install -y gcc make cmake
-      - name: Run unit tests
-        run: |
-          mkdir build
-          cd build
-          cmake -DRID_BUILD_TESTS=ON ..
-          make
-          ctest --output-on-failure
+      - name: Configure
+        run: cmake -B build -DRID_BUILD_TESTS=ON
+      - name: Build
+        run: cmake --build build
+      - name: Test
+        run: ctest --test-dir build --output-on-failure --verbose
