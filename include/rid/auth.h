@@ -30,8 +30,8 @@ SPDX-License-Identifier: MIT
 
 */
 
-#ifndef _RID_AUTH_H
-#define _RID_AUTH_H
+#ifndef RID_AUTH_H
+#define RID_AUTH_H
 
 /**
  * @file auth.h

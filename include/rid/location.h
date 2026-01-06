@@ -30,8 +30,8 @@ SPDX-License-Identifier: MIT
 
 */
 
-#ifndef _RID_LOCATION_H
-#define _RID_LOCATION_H
+#ifndef RID_LOCATION_H
+#define RID_LOCATION_H
 
 /**
  * @file location.h

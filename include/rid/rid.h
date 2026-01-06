@@ -30,8 +30,8 @@ SPDX-License-Identifier: MIT
 
 */
 
-#ifndef _RID_H
-#define _RID_H
+#ifndef RID_H
+#define RID_H
 
 /**
  * @file rid.h
@@ -56,4 +56,4 @@ extern "C" {
 }
 #endif /* __cplusplus */
 
-#endif /* _RID_H */
+#endif /* RID_H */

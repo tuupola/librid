@@ -30,8 +30,8 @@ SPDX-License-Identifier: MIT
 
 */
 
-#ifndef _RID_MESSAGE_PACK_H
-#define _RID_MESSAGE_PACK_H
+#ifndef RID_MESSAGE_PACK_H
+#define RID_MESSAGE_PACK_H
 
 /**
  * @file message_pack.h

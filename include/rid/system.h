@@ -30,8 +30,8 @@ SPDX-License-Identifier: MIT
 
 */
 
-#ifndef _RID_SYSTEM_H
-#define _RID_SYSTEM_H
+#ifndef RID_SYSTEM_H
+#define RID_SYSTEM_H
 
 /**
  * @file system.h

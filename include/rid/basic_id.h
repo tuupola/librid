@@ -30,8 +30,8 @@ SPDX-License-Identifier: MIT
 
 */
 
-#ifndef _RID_BASIC_ID_H
-#define _RID_BASIC_ID_H
+#ifndef RID_BASIC_ID_H
+#define RID_BASIC_ID_H
 
 /**
  * @file basic_id.h
