@@ -47,6 +47,10 @@ SPDX-License-Identifier: MIT
 
 #include "rid/message.h"
 
+#ifdef __cplusplus
+extern "C" {
+#endif /* __cplusplus */
+
 /**
  * @brief System message structure per ASTM F3411-22a.
  */
@@ -422,5 +426,9 @@ int rid_system_set_timestamp_from_unixtime(rid_system_t *system, uint32_t unixti
  * @retval RID_ERROR_NULL_POINTER if system is NULL.
  */
 int rid_system_init(rid_system_t *system);
+
+#ifdef __cplusplus
+}
+#endif /* __cplusplus */
 
 #endif

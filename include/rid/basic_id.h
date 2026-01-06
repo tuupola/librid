@@ -43,6 +43,10 @@ SPDX-License-Identifier: MIT
 
 #include <stdint.h>
 
+#ifdef __cplusplus
+extern "C" {
+#endif /* __cplusplus */
+
 /**
  * @brief Basic ID message structure per ASTM F3411-22a.
  */
@@ -175,5 +179,9 @@ int rid_basic_id_set_uas_id(rid_basic_id_t *message, const char *uas_id);
  * @retval RID_ERROR_BUFFER_TOO_SMALL if buffer_size is insufficient.
  */
 int rid_basic_id_get_uas_id(const rid_basic_id_t *message, char *buffer, size_t buffer_size);
+
+#ifdef __cplusplus
+}
+#endif /* __cplusplus */
 
 #endif

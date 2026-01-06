@@ -46,6 +46,10 @@ SPDX-License-Identifier: MIT
 
 #include "rid/message.h"
 
+#ifdef __cplusplus
+extern "C" {
+#endif /* __cplusplus */
+
 #define RID_TRACK_DIRECTION_MAX 359
 #define RID_TRACK_DIRECTION_UNKNOWN 361
 #define RID_TRACK_DIRECTION_UNKNOWN_ENCODED 181
@@ -578,5 +582,9 @@ int rid_location_set_timestamp_accuracy(rid_location_t *location, rid_timestamp_
  * @return The timestamp accuracy.
  */
 rid_timestamp_accuracy_t rid_location_get_timestamp_accuracy(const rid_location_t *location);
+
+#ifdef __cplusplus
+}
+#endif /* __cplusplus */
 
 #endif

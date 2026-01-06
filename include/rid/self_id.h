@@ -46,6 +46,10 @@ SPDX-License-Identifier: MIT
 
 #include "rid/message.h"
 
+#ifdef __cplusplus
+extern "C" {
+#endif /* __cplusplus */
+
 /**
  * @brief Self ID message structure per ASTM F3411-22a.
  */
@@ -129,5 +133,9 @@ int rid_self_id_set_description(rid_self_id_t *message, const char *description)
  * @retval RID_ERROR_NULL_POINTER if message is NULL.
  */
 int rid_self_id_init(rid_self_id_t *message);
+
+#ifdef __cplusplus
+}
+#endif /* __cplusplus */
 
 #endif

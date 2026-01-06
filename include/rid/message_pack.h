@@ -43,6 +43,10 @@ SPDX-License-Identifier: MIT
 
 #include <stdint.h>
 
+#ifdef __cplusplus
+extern "C" {
+#endif /* __cplusplus */
+
 #define RID_MESSAGE_PACK_MAX_MESSAGES 9
 #define RID_MESSAGE_SIZE 25
 
@@ -143,5 +147,9 @@ int rid_message_pack_delete_message_at(rid_message_pack_t *pack, uint8_t index);
  * @retval RID_ERROR_OUT_OF_RANGE if index is out of range.
  */
 int rid_message_pack_replace_message_at(rid_message_pack_t *pack, uint8_t index, const void *message);
+
+#ifdef __cplusplus
+}
+#endif /* __cplusplus */
 
 #endif

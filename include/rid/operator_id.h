@@ -46,6 +46,10 @@ SPDX-License-Identifier: MIT
 
 #include "rid/message.h"
 
+#ifdef __cplusplus
+extern "C" {
+#endif /* __cplusplus */
+
 /**
  * @brief Operator ID message structure per ASTM F3411-22a.
  */
@@ -128,5 +132,9 @@ int rid_operator_id_get(const rid_operator_id_t *message, char *buffer, size_t b
  * @retval RID_ERROR_BUFFER_TOO_LARGE if uas_id exceeds 20 characters.
  */
 int rid_operator_id_set(rid_operator_id_t *message, const char *uas_id);
+
+#ifdef __cplusplus
+}
+#endif /* __cplusplus */
 
 #endif

@@ -47,6 +47,10 @@ SPDX-License-Identifier: MIT
 #include <stdint.h>
 #include <stddef.h>
 
+#ifdef __cplusplus
+extern "C" {
+#endif /* __cplusplus */
+
 /** Timestamp epoch offset (2019-01-01 00:00:00 UTC as Unix timestamp) */
 #define RID_AUTH_EPOCH_OFFSET 1546300800
 
@@ -318,5 +322,9 @@ int rid_auth_page_x_set_data(rid_auth_page_x_t *message, const uint8_t *data, si
  * @retval RID_ERROR_BUFFER_TOO_SMALL if buffer_size < 23.
  */
 int rid_auth_page_x_get_data(const rid_auth_page_x_t *message, uint8_t *buffer, size_t buffer_size);
+
+#ifdef __cplusplus
+}
+#endif /* __cplusplus */
 
 #endif

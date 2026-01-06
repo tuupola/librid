@@ -49,6 +49,10 @@ SPDX-License-Identifier: MIT
 
 #include "rid/auth_page.h"
 
+#ifdef __cplusplus
+extern "C" {
+#endif /* __cplusplus */
+
 /**
  * @brief Container for multi-page authentication data.
  *
@@ -187,5 +191,9 @@ uint8_t rid_auth_get_length(const rid_auth_t *auth);
  * @retval RID_ERROR_BUFFER_TOO_SMALL if buffer_size is less than signature length.
  */
 int rid_auth_get_signature(const rid_auth_t *auth, uint8_t *buffer, size_t buffer_size);
+
+#ifdef __cplusplus
+}
+#endif /* __cplusplus */
 
 #endif

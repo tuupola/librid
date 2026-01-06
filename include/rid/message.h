@@ -43,6 +43,10 @@ SPDX-License-Identifier: MIT
 
 #include <stdint.h>
 
+#ifdef __cplusplus
+extern "C" {
+#endif /* __cplusplus */
+
 typedef enum {
     RID_SUCCESS = 0,
     RID_ERROR_NULL_POINTER = -1,
@@ -84,5 +88,9 @@ typedef enum rid_protocol_version {
 
 rid_message_type_t rid_message_get_type(const void *message);
 rid_protocol_version_t rid_message_get_protocol_version(const void *message);
+
+#ifdef __cplusplus
+}
+#endif /* __cplusplus */
 
 #endif
