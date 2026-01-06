@@ -1,4 +1,14 @@
 # Usage
+## Build examples
+
+```
+$ mkdir build && cd build
+$ cmake -DRID_BUILD_EXAMPLES=ON ..
+$ make
+```
+
+
+
 ## Message header
 If you have captured a Remote ID message you can find the message type and
 protocol version.
