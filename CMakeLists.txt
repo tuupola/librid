@@ -20,6 +20,7 @@ else()
     set(CMAKE_C_STANDARD_REQUIRED ON)
 
     option(RID_BUILD_EXAMPLES "Build example programs" OFF)
+    option(RID_BUILD_TESTS "Build unit tests" OFF)
 
     add_library(rid
         src/basic_id.c
@@ -38,5 +39,10 @@ else()
 
     if(RID_BUILD_EXAMPLES)
         add_subdirectory(examples)
+    endif()
+
+    if(RID_BUILD_TESTS)
+        enable_testing()
+        add_subdirectory(tests)
     endif()
 endif()

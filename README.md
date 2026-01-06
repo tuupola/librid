@@ -7,7 +7,14 @@ $ cmake -DRID_BUILD_EXAMPLES=ON ..
 $ make
 ```
 
+## Build and run tests
 
+```
+$ mkdir build && cd build
+$ cmake -DRID_BUILD_TESTS=ON ..
+$ make
+$ ctest
+```
 
 ## Message header
 If you have captured a Remote ID message you can find the message type and
