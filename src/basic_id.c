@@ -74,7 +74,27 @@ rid_basic_id_validate(const rid_basic_id_t *message) {
             if (c == '\0') {
                 break;
             }
-            int valid = (c >= 'A' && c <= 'Z') || (c >= '0' && c <= '9') || (c == '.');
+            int valid = (c >= 'A' && c <= 'Z') ||
+                        (c >= '0' && c <= '9') ||
+                        (c == '.');
+            if (!valid) {
+                return RID_ERROR_INVALID_CHARACTER;
+            }
+        }
+    }
+
+    /* Validate Serial Number characters per ANSI/CTA-2063 section 3.1.1 */
+    if (message->id_type == RID_ID_TYPE_SERIAL_NUMBER) {
+        for (size_t i = 0; i < sizeof(message->uas_id); ++i) {
+            char c = message->uas_id[i];
+            if (c == '\0') {
+                break;
+            }
+            /* Valid: A-H, J-N, P-Z, 0-9 (excludes I and O) */
+            int valid = (c >= 'A' && c <= 'H') ||
+                        (c >= 'J' && c <= 'N') ||
+                        (c >= 'P' && c <= 'Z') ||
+                        (c >= '0' && c <= '9');
             if (!valid) {
                 return RID_ERROR_INVALID_CHARACTER;
             }

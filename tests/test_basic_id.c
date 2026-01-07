@@ -430,6 +430,70 @@ test_basic_id_validate_registration_id_invalid_char(void) {
     PASS();
 }
 
+TEST
+test_basic_id_validate_serial_number_valid(void) {
+    rid_basic_id_t message;
+
+    rid_basic_id_init(&message);
+    rid_basic_id_set_type(&message, RID_ID_TYPE_SERIAL_NUMBER);
+
+    rid_basic_id_set_uas_id(&message, "1234567890ABCDEFGHJK");
+    int status = rid_basic_id_validate(&message);
+    ASSERT_EQ(RID_SUCCESS, status);
+
+    rid_basic_id_set_uas_id(&message, "LMNPQRSTUVWXYZ");
+    status = rid_basic_id_validate(&message);
+    ASSERT_EQ(RID_SUCCESS, status);
+
+    rid_basic_id_set_uas_id(&message, "2596A403716430B");
+    status = rid_basic_id_validate(&message);
+    ASSERT_EQ(RID_SUCCESS, status);
+
+    PASS();
+}
+
+TEST
+test_basic_id_validate_serial_number_invalid_i(void) {
+    rid_basic_id_t message;
+
+    rid_basic_id_init(&message);
+    rid_basic_id_set_type(&message, RID_ID_TYPE_SERIAL_NUMBER);
+    rid_basic_id_set_uas_id(&message, "ABC123I456");
+
+    int status = rid_basic_id_validate(&message);
+    ASSERT_EQ(RID_ERROR_INVALID_CHARACTER, status);
+
+    PASS();
+}
+
+TEST
+test_basic_id_validate_serial_number_invalid_o(void) {
+    rid_basic_id_t message;
+
+    rid_basic_id_init(&message);
+    rid_basic_id_set_type(&message, RID_ID_TYPE_SERIAL_NUMBER);
+    rid_basic_id_set_uas_id(&message, "ABC123O456");
+
+    int status = rid_basic_id_validate(&message);
+    ASSERT_EQ(RID_ERROR_INVALID_CHARACTER, status);
+
+    PASS();
+}
+
+TEST
+test_basic_id_validate_serial_number_invalid_lowercase(void) {
+    rid_basic_id_t message;
+
+    rid_basic_id_init(&message);
+    rid_basic_id_set_type(&message, RID_ID_TYPE_SERIAL_NUMBER);
+    rid_basic_id_set_uas_id(&message, "abc123");
+
+    int status = rid_basic_id_validate(&message);
+    ASSERT_EQ(RID_ERROR_INVALID_CHARACTER, status);
+
+    PASS();
+}
+
 SUITE(basic_id_suite) {
     RUN_TEST(test_basic_id_init);
 
@@ -463,4 +527,8 @@ SUITE(basic_id_suite) {
     RUN_TEST(test_basic_id_validate_registration_id_valid);
     RUN_TEST(test_basic_id_validate_registration_id_invalid_lowercase);
     RUN_TEST(test_basic_id_validate_registration_id_invalid_char);
+    RUN_TEST(test_basic_id_validate_serial_number_valid);
+    RUN_TEST(test_basic_id_validate_serial_number_invalid_i);
+    RUN_TEST(test_basic_id_validate_serial_number_invalid_o);
+    RUN_TEST(test_basic_id_validate_serial_number_invalid_lowercase);
 }
