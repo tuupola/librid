@@ -548,3 +548,227 @@ rid_timestamp_accuracy_t
 rid_location_get_timestamp_accuracy(const rid_location_t *location) {
     return (rid_timestamp_accuracy_t)location->timestamp_accuracy;
 }
+
+const char *
+rid_ew_direction_to_string(rid_ew_direction_t direction) {
+    switch (direction) {
+        case RID_EW_DIRECTION_EAST:
+            return "RID_EW_DIRECTION_EAST";
+        case RID_EW_DIRECTION_WEST:
+            return "RID_EW_DIRECTION_WEST";
+        default:
+            return "UNKNOWN";
+    }
+}
+
+const char *
+rid_height_type_to_string(rid_height_type_t type) {
+    switch (type) {
+        case RID_HEIGHT_TYPE_ABOVE_TAKEOFF:
+            return "RID_HEIGHT_TYPE_ABOVE_TAKEOFF";
+        case RID_HEIGHT_TYPE_AGL:
+            return "RID_HEIGHT_TYPE_AGL";
+        default:
+            return "UNKNOWN";
+    }
+}
+
+const char *
+rid_operational_status_to_string(rid_operational_status_t status) {
+    switch (status) {
+        case RID_OPERATIONAL_STATUS_UNDECLARED:
+            return "RID_OPERATIONAL_STATUS_UNDECLARED";
+        case RID_OPERATIONAL_STATUS_GROUND:
+            return "RID_OPERATIONAL_STATUS_GROUND";
+        case RID_OPERATIONAL_STATUS_AIRBORNE:
+            return "RID_OPERATIONAL_STATUS_AIRBORNE";
+        case RID_OPERATIONAL_STATUS_EMERGENCY:
+            return "RID_OPERATIONAL_STATUS_EMERGENCY";
+        case RID_OPERATIONAL_STATUS_REMOTE_ID_SYSTEM_FAILURE:
+            return "RID_OPERATIONAL_STATUS_REMOTE_ID_SYSTEM_FAILURE";
+        case RID_OPERATIONAL_STATUS_RESERVED_5:
+            return "RID_OPERATIONAL_STATUS_RESERVED_5";
+        case RID_OPERATIONAL_STATUS_RESERVED_6:
+            return "RID_OPERATIONAL_STATUS_RESERVED_6";
+        case RID_OPERATIONAL_STATUS_RESERVED_7:
+            return "RID_OPERATIONAL_STATUS_RESERVED_7";
+        case RID_OPERATIONAL_STATUS_RESERVED_8:
+            return "RID_OPERATIONAL_STATUS_RESERVED_8";
+        case RID_OPERATIONAL_STATUS_RESERVED_9:
+            return "RID_OPERATIONAL_STATUS_RESERVED_9";
+        case RID_OPERATIONAL_STATUS_RESERVED_10:
+            return "RID_OPERATIONAL_STATUS_RESERVED_10";
+        case RID_OPERATIONAL_STATUS_RESERVED_11:
+            return "RID_OPERATIONAL_STATUS_RESERVED_11";
+        case RID_OPERATIONAL_STATUS_RESERVED_12:
+            return "RID_OPERATIONAL_STATUS_RESERVED_12";
+        case RID_OPERATIONAL_STATUS_RESERVED_13:
+            return "RID_OPERATIONAL_STATUS_RESERVED_13";
+        case RID_OPERATIONAL_STATUS_RESERVED_14:
+            return "RID_OPERATIONAL_STATUS_RESERVED_14";
+        case RID_OPERATIONAL_STATUS_RESERVED_15:
+            return "RID_OPERATIONAL_STATUS_RESERVED_15";
+        default:
+            return "UNKNOWN";
+    }
+}
+
+const char *
+rid_horizontal_accuracy_to_string(rid_horizontal_accuracy_t accuracy) {
+    switch (accuracy) {
+        case RID_HORIZONTAL_ACCURACY_UNKNOWN:
+            return "RID_HORIZONTAL_ACCURACY_UNKNOWN";
+        case RID_HORIZONTAL_ACCURACY_18520M:
+            return "RID_HORIZONTAL_ACCURACY_18520M";
+        case RID_HORIZONTAL_ACCURACY_7408M:
+            return "RID_HORIZONTAL_ACCURACY_7408M";
+        case RID_HORIZONTAL_ACCURACY_3704M:
+            return "RID_HORIZONTAL_ACCURACY_3704M";
+        case RID_HORIZONTAL_ACCURACY_1852M:
+            return "RID_HORIZONTAL_ACCURACY_1852M";
+        case RID_HORIZONTAL_ACCURACY_926M:
+            return "RID_HORIZONTAL_ACCURACY_926M";
+        case RID_HORIZONTAL_ACCURACY_555M:
+            return "RID_HORIZONTAL_ACCURACY_555M";
+        case RID_HORIZONTAL_ACCURACY_185M:
+            return "RID_HORIZONTAL_ACCURACY_185M";
+        case RID_HORIZONTAL_ACCURACY_93M:
+            return "RID_HORIZONTAL_ACCURACY_93M";
+        case RID_HORIZONTAL_ACCURACY_30M:
+            return "RID_HORIZONTAL_ACCURACY_30M";
+        case RID_HORIZONTAL_ACCURACY_10M:
+            return "RID_HORIZONTAL_ACCURACY_10M";
+        case RID_HORIZONTAL_ACCURACY_3M:
+            return "RID_HORIZONTAL_ACCURACY_3M";
+        case RID_HORIZONTAL_ACCURACY_1M:
+            return "RID_HORIZONTAL_ACCURACY_1M";
+        case RID_HORIZONTAL_ACCURACY_RESERVED_13:
+            return "RID_HORIZONTAL_ACCURACY_RESERVED_13";
+        case RID_HORIZONTAL_ACCURACY_RESERVED_14:
+            return "RID_HORIZONTAL_ACCURACY_RESERVED_14";
+        case RID_HORIZONTAL_ACCURACY_RESERVED_15:
+            return "RID_HORIZONTAL_ACCURACY_RESERVED_15";
+        default:
+            return "UNKNOWN";
+    }
+}
+
+const char *
+rid_vertical_accuracy_to_string(rid_vertical_accuracy_t accuracy) {
+    switch (accuracy) {
+        case RID_VERTICAL_ACCURACY_UNKNOWN:
+            return "RID_VERTICAL_ACCURACY_UNKNOWN";
+        case RID_VERTICAL_ACCURACY_150M:
+            return "RID_VERTICAL_ACCURACY_150M";
+        case RID_VERTICAL_ACCURACY_45M:
+            return "RID_VERTICAL_ACCURACY_45M";
+        case RID_VERTICAL_ACCURACY_25M:
+            return "RID_VERTICAL_ACCURACY_25M";
+        case RID_VERTICAL_ACCURACY_10M:
+            return "RID_VERTICAL_ACCURACY_10M";
+        case RID_VERTICAL_ACCURACY_3M:
+            return "RID_VERTICAL_ACCURACY_3M";
+        case RID_VERTICAL_ACCURACY_1M:
+            return "RID_VERTICAL_ACCURACY_1M";
+        case RID_VERTICAL_ACCURACY_RESERVED_7:
+            return "RID_VERTICAL_ACCURACY_RESERVED_7";
+        case RID_VERTICAL_ACCURACY_RESERVED_8:
+            return "RID_VERTICAL_ACCURACY_RESERVED_8";
+        case RID_VERTICAL_ACCURACY_RESERVED_9:
+            return "RID_VERTICAL_ACCURACY_RESERVED_9";
+        case RID_VERTICAL_ACCURACY_RESERVED_10:
+            return "RID_VERTICAL_ACCURACY_RESERVED_10";
+        case RID_VERTICAL_ACCURACY_RESERVED_11:
+            return "RID_VERTICAL_ACCURACY_RESERVED_11";
+        case RID_VERTICAL_ACCURACY_RESERVED_12:
+            return "RID_VERTICAL_ACCURACY_RESERVED_12";
+        case RID_VERTICAL_ACCURACY_RESERVED_13:
+            return "RID_VERTICAL_ACCURACY_RESERVED_13";
+        case RID_VERTICAL_ACCURACY_RESERVED_14:
+            return "RID_VERTICAL_ACCURACY_RESERVED_14";
+        case RID_VERTICAL_ACCURACY_RESERVED_15:
+            return "RID_VERTICAL_ACCURACY_RESERVED_15";
+        default:
+            return "UNKNOWN";
+    }
+}
+
+const char *
+rid_speed_accuracy_to_string(rid_speed_accuracy_t accuracy) {
+    switch (accuracy) {
+        case RID_SPEED_ACCURACY_UNKNOWN:
+            return "RID_SPEED_ACCURACY_UNKNOWN";
+        case RID_SPEED_ACCURACY_10MS:
+            return "RID_SPEED_ACCURACY_10MS";
+        case RID_SPEED_ACCURACY_3MS:
+            return "RID_SPEED_ACCURACY_3MS";
+        case RID_SPEED_ACCURACY_1MS:
+            return "RID_SPEED_ACCURACY_1MS";
+        case RID_SPEED_ACCURACY_03MS:
+            return "RID_SPEED_ACCURACY_03MS";
+        case RID_SPEED_ACCURACY_RESERVED_5:
+            return "RID_SPEED_ACCURACY_RESERVED_5";
+        case RID_SPEED_ACCURACY_RESERVED_6:
+            return "RID_SPEED_ACCURACY_RESERVED_6";
+        case RID_SPEED_ACCURACY_RESERVED_7:
+            return "RID_SPEED_ACCURACY_RESERVED_7";
+        case RID_SPEED_ACCURACY_RESERVED_8:
+            return "RID_SPEED_ACCURACY_RESERVED_8";
+        case RID_SPEED_ACCURACY_RESERVED_9:
+            return "RID_SPEED_ACCURACY_RESERVED_9";
+        case RID_SPEED_ACCURACY_RESERVED_10:
+            return "RID_SPEED_ACCURACY_RESERVED_10";
+        case RID_SPEED_ACCURACY_RESERVED_11:
+            return "RID_SPEED_ACCURACY_RESERVED_11";
+        case RID_SPEED_ACCURACY_RESERVED_12:
+            return "RID_SPEED_ACCURACY_RESERVED_12";
+        case RID_SPEED_ACCURACY_RESERVED_13:
+            return "RID_SPEED_ACCURACY_RESERVED_13";
+        case RID_SPEED_ACCURACY_RESERVED_14:
+            return "RID_SPEED_ACCURACY_RESERVED_14";
+        case RID_SPEED_ACCURACY_RESERVED_15:
+            return "RID_SPEED_ACCURACY_RESERVED_15";
+        default:
+            return "UNKNOWN";
+    }
+}
+
+const char *
+rid_timestamp_accuracy_to_string(rid_timestamp_accuracy_t accuracy) {
+    switch (accuracy) {
+        case RID_TIMESTAMP_ACCURACY_UNKNOWN:
+            return "RID_TIMESTAMP_ACCURACY_UNKNOWN";
+        case RID_TIMESTAMP_ACCURACY_0_1S:
+            return "RID_TIMESTAMP_ACCURACY_0_1S";
+        case RID_TIMESTAMP_ACCURACY_0_2S:
+            return "RID_TIMESTAMP_ACCURACY_0_2S";
+        case RID_TIMESTAMP_ACCURACY_0_3S:
+            return "RID_TIMESTAMP_ACCURACY_0_3S";
+        case RID_TIMESTAMP_ACCURACY_0_4S:
+            return "RID_TIMESTAMP_ACCURACY_0_4S";
+        case RID_TIMESTAMP_ACCURACY_0_5S:
+            return "RID_TIMESTAMP_ACCURACY_0_5S";
+        case RID_TIMESTAMP_ACCURACY_0_6S:
+            return "RID_TIMESTAMP_ACCURACY_0_6S";
+        case RID_TIMESTAMP_ACCURACY_0_7S:
+            return "RID_TIMESTAMP_ACCURACY_0_7S";
+        case RID_TIMESTAMP_ACCURACY_0_8S:
+            return "RID_TIMESTAMP_ACCURACY_0_8S";
+        case RID_TIMESTAMP_ACCURACY_0_9S:
+            return "RID_TIMESTAMP_ACCURACY_0_9S";
+        case RID_TIMESTAMP_ACCURACY_1_0S:
+            return "RID_TIMESTAMP_ACCURACY_1_0S";
+        case RID_TIMESTAMP_ACCURACY_1_1S:
+            return "RID_TIMESTAMP_ACCURACY_1_1S";
+        case RID_TIMESTAMP_ACCURACY_1_2S:
+            return "RID_TIMESTAMP_ACCURACY_1_2S";
+        case RID_TIMESTAMP_ACCURACY_1_3S:
+            return "RID_TIMESTAMP_ACCURACY_1_3S";
+        case RID_TIMESTAMP_ACCURACY_1_4S:
+            return "RID_TIMESTAMP_ACCURACY_1_4S";
+        case RID_TIMESTAMP_ACCURACY_1_5S:
+            return "RID_TIMESTAMP_ACCURACY_1_5S";
+        default:
+            return "UNKNOWN";
+    }
+}

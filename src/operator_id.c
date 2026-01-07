@@ -106,3 +106,13 @@ rid_operator_id_set(rid_operator_id_t *message, const char *operator_id) {
 
     return RID_SUCCESS;
 }
+
+const char *
+rid_operator_id_type_to_string(rid_operator_id_type_t type) {
+    switch (type) {
+        case RID_ID_TYPE_OPERATOR_ID:
+            return "RID_ID_TYPE_OPERATOR_ID";
+        default:
+            return "UNKNOWN";
+    }
+}

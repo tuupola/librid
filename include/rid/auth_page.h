@@ -323,6 +323,16 @@ int rid_auth_page_x_set_data(rid_auth_page_x_t *message, const uint8_t *data, si
  */
 int rid_auth_page_x_get_data(const rid_auth_page_x_t *message, uint8_t *buffer, size_t buffer_size);
 
+/**
+ * @brief Convert authentication type to string representation.
+ *
+ * @param type The authentication type to convert.
+ *
+ * @return String representation of the authentication type.
+ *         Returns "UNKNOWN" for invalid values.
+ */
+const char *rid_auth_type_to_string(rid_auth_type_t type);
+
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */

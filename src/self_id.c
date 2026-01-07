@@ -106,3 +106,17 @@ rid_self_id_set_description(rid_self_id_t *message, const char *description) {
 
     return RID_SUCCESS;
 }
+
+const char *
+rid_description_type_to_string(rid_description_type_t type) {
+    switch (type) {
+        case RID_DESCRIPTION_TYPE_TEXT:
+            return "RID_DESCRIPTION_TYPE_TEXT";
+        case RID_DESCRIPTION_TYPE_EMERGENCY:
+            return "RID_DESCRIPTION_TYPE_EMERGENCY";
+        case RID_DESCRIPTION_TYPE_EXTENDED_STATUS:
+            return "RID_DESCRIPTION_TYPE_EXTENDED_STATUS";
+        default:
+            return "UNKNOWN";
+    }
+}

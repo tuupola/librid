@@ -344,3 +344,69 @@ rid_system_set_timestamp_from_unixtime(rid_system_t *system, uint32_t unixtime) 
 
     return RID_SUCCESS;
 }
+
+const char *
+rid_operator_location_type_to_string(rid_operator_location_type_t type) {
+    switch (type) {
+        case RID_OPERATOR_LOCATION_TYPE_TAKEOFF:
+            return "RID_OPERATOR_LOCATION_TYPE_TAKEOFF";
+        case RID_OPERATOR_LOCATION_TYPE_DYNAMIC:
+            return "RID_OPERATOR_LOCATION_TYPE_DYNAMIC";
+        case RID_OPERATOR_LOCATION_TYPE_FIXED:
+            return "RID_OPERATOR_LOCATION_TYPE_FIXED";
+        default:
+            return "UNKNOWN";
+    }
+}
+
+const char *
+rid_classification_type_to_string(rid_classification_type_t type) {
+    switch (type) {
+        case RID_CLASSIFICATION_TYPE_UNDECLARED:
+            return "RID_CLASSIFICATION_TYPE_UNDECLARED";
+        case RID_CLASSIFICATION_TYPE_EUROPEAN_UNION:
+            return "RID_CLASSIFICATION_TYPE_EUROPEAN_UNION";
+        default:
+            return "UNKNOWN";
+    }
+}
+
+const char *
+rid_ua_classification_category_to_string(rid_ua_classification_category_t category) {
+    switch (category) {
+        case RID_UA_CLASSIFICATION_CATEGORY_UNDEFINED:
+            return "RID_UA_CLASSIFICATION_CATEGORY_UNDEFINED";
+        case RID_UA_CLASSIFICATION_CATEGORY_OPEN:
+            return "RID_UA_CLASSIFICATION_CATEGORY_OPEN";
+        case RID_UA_CLASSIFICATION_CATEGORY_SPECIFIC:
+            return "RID_UA_CLASSIFICATION_CATEGORY_SPECIFIC";
+        case RID_UA_CLASSIFICATION_CATEGORY_CERTIFIED:
+            return "RID_UA_CLASSIFICATION_CATEGORY_CERTIFIED";
+        default:
+            return "UNKNOWN";
+    }
+}
+
+const char *
+rid_ua_classification_class_to_string(rid_ua_classification_class_t class) {
+    switch (class) {
+        case RID_UA_CLASSIFICATION_CLASS_UNDEFINED:
+            return "RID_UA_CLASSIFICATION_CLASS_UNDEFINED";
+        case RID_UA_CLASSIFICATION_CLASS_0:
+            return "RID_UA_CLASSIFICATION_CLASS_0";
+        case RID_UA_CLASSIFICATION_CLASS_1:
+            return "RID_UA_CLASSIFICATION_CLASS_1";
+        case RID_UA_CLASSIFICATION_CLASS_2:
+            return "RID_UA_CLASSIFICATION_CLASS_2";
+        case RID_UA_CLASSIFICATION_CLASS_3:
+            return "RID_UA_CLASSIFICATION_CLASS_3";
+        case RID_UA_CLASSIFICATION_CLASS_4:
+            return "RID_UA_CLASSIFICATION_CLASS_4";
+        case RID_UA_CLASSIFICATION_CLASS_5:
+            return "RID_UA_CLASSIFICATION_CLASS_5";
+        case RID_UA_CLASSIFICATION_CLASS_6:
+            return "RID_UA_CLASSIFICATION_CLASS_6";
+        default:
+            return "UNKNOWN";
+    }
+}

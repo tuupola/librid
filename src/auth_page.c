@@ -269,3 +269,23 @@ rid_auth_page_x_get_data(const rid_auth_page_x_t *message, uint8_t *buffer, size
 
     return RID_SUCCESS;
 }
+
+const char *
+rid_auth_type_to_string(rid_auth_type_t type) {
+    switch (type) {
+        case RID_AUTH_TYPE_NONE:
+            return "RID_AUTH_TYPE_NONE";
+        case RID_AUTH_TYPE_UAS_ID_SIGNATURE:
+            return "RID_AUTH_TYPE_UAS_ID_SIGNATURE";
+        case RID_AUTH_TYPE_OPERATOR_ID_SIGNATURE:
+            return "RID_AUTH_TYPE_OPERATOR_ID_SIGNATURE";
+        case RID_AUTH_TYPE_MESSAGE_SET_SIGNATURE:
+            return "RID_AUTH_TYPE_MESSAGE_SET_SIGNATURE";
+        case RID_AUTH_TYPE_NETWORK_REMOTE_ID:
+            return "RID_AUTH_TYPE_NETWORK_REMOTE_ID";
+        case RID_AUTH_TYPE_SPECIFIC_METHOD:
+            return "RID_AUTH_TYPE_SPECIFIC_METHOD";
+        default:
+            return "UNKNOWN";
+    }
+}

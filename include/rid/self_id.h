@@ -134,6 +134,16 @@ int rid_self_id_set_description(rid_self_id_t *message, const char *description)
  */
 int rid_self_id_init(rid_self_id_t *message);
 
+/**
+ * @brief Convert description type to string representation.
+ *
+ * @param type The description type to convert.
+ *
+ * @return String representation of the description type.
+ *         Returns "UNKNOWN" for invalid values.
+ */
+const char *rid_description_type_to_string(rid_description_type_t type);
+
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */

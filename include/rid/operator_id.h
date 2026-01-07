@@ -133,6 +133,16 @@ int rid_operator_id_get(const rid_operator_id_t *message, char *buffer, size_t b
  */
 int rid_operator_id_set(rid_operator_id_t *message, const char *uas_id);
 
+/**
+ * @brief Convert operator ID type to string representation.
+ *
+ * @param type The operator ID type to convert.
+ *
+ * @return String representation of the operator ID type.
+ *         Returns "UNKNOWN" for invalid values.
+ */
+const char *rid_operator_id_type_to_string(rid_operator_id_type_t type);
+
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */

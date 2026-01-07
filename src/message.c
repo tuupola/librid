@@ -45,3 +45,61 @@ rid_message_get_protocol_version(const void *message) {
     rid_message_t *msg = (rid_message_t *)message;
     return msg->protocol_version;
 }
+
+const char *
+rid_message_type_to_string(rid_message_type_t type) {
+    switch (type) {
+        case RID_MESSAGE_TYPE_BASIC_ID:
+            return "RID_MESSAGE_TYPE_BASIC_ID";
+        case RID_MESSAGE_TYPE_LOCATION:
+            return "RID_MESSAGE_TYPE_LOCATION";
+        case RID_MESSAGE_TYPE_AUTH:
+            return "RID_MESSAGE_TYPE_AUTH";
+        case RID_MESSAGE_TYPE_SELF_ID:
+            return "RID_MESSAGE_TYPE_SELF_ID";
+        case RID_MESSAGE_TYPE_SYSTEM:
+            return "RID_MESSAGE_TYPE_SYSTEM";
+        case RID_MESSAGE_TYPE_OPERATOR_ID:
+            return "RID_MESSAGE_TYPE_OPERATOR_ID";
+        case RID_MESSAGE_TYPE_MESSAGE_PACK:
+            return "RID_MESSAGE_TYPE_MESSAGE_PACK";
+        default:
+            return "UNKNOWN";
+    }
+}
+
+const char *
+rid_protocol_version_to_string(rid_protocol_version_t version) {
+    switch (version) {
+        case RID_PROTOCOL_VERSION_0:
+            return "RID_PROTOCOL_VERSION_0";
+        case RID_PROTOCOL_VERSION_1:
+            return "RID_PROTOCOL_VERSION_1";
+        case RID_PROTOCOL_VERSION_2:
+            return "RID_PROTOCOL_VERSION_2";
+        case RID_PROTOCOL_PRIVATE_USE:
+            return "RID_PROTOCOL_PRIVATE_USE";
+        default:
+            return "UNKNOWN";
+    }
+}
+
+const char *
+rid_error_to_string(rid_error_t error) {
+    switch (error) {
+        case RID_SUCCESS:
+            return "RID_SUCCESS";
+        case RID_ERROR_NULL_POINTER:
+            return "RID_ERROR_NULL_POINTER";
+        case RID_ERROR_BUFFER_TOO_SMALL:
+            return "RID_ERROR_BUFFER_TOO_SMALL";
+        case RID_ERROR_BUFFER_TOO_LARGE:
+            return "RID_ERROR_BUFFER_TOO_LARGE";
+        case RID_ERROR_INVALID_CHARACTER:
+            return "RID_ERROR_INVALID_CHARACTER";
+        case RID_ERROR_OUT_OF_RANGE:
+            return "RID_ERROR_OUT_OF_RANGE";
+        default:
+            return "UNKNOWN";
+    }
+}

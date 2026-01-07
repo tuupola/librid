@@ -130,3 +130,61 @@ rid_basic_id_get_uas_id(const rid_basic_id_t *message, char *buffer, size_t buff
 
     return RID_SUCCESS;
 }
+
+const char *
+rid_basic_id_type_to_string(rid_basic_id_type_t type) {
+    switch (type) {
+        case RID_ID_TYPE_NONE:
+            return "RID_ID_TYPE_NONE";
+        case RID_ID_TYPE_SERIAL_NUMBER:
+            return "RID_ID_TYPE_SERIAL_NUMBER";
+        case RID_ID_TYPE_CAA_REGISTRATION_ID:
+            return "RID_ID_TYPE_CAA_REGISTRATION_ID";
+        case RID_ID_TYPE_UTM_ASSIGNED_UUID:
+            return "RID_ID_TYPE_UTM_ASSIGNED_UUID";
+        case RID_ID_TYPE_SPECIFIC_SESSION_ID:
+            return "RID_ID_TYPE_SPECIFIC_SESSION_ID";
+        default:
+            return "UNKNOWN";
+    }
+}
+
+const char *
+rid_ua_type_to_string(rid_ua_type_t type) {
+    switch (type) {
+        case RID_UA_TYPE_NONE:
+            return "RID_UA_TYPE_NONE";
+        case RID_UA_TYPE_AEROPLANE_OR_FIXED_WING:
+            return "RID_UA_TYPE_AEROPLANE_OR_FIXED_WING";
+        case RID_UA_TYPE_HELICOPTER_OR_MULTIROTOR:
+            return "RID_UA_TYPE_HELICOPTER_OR_MULTIROTOR";
+        case RID_UA_TYPE_GYROPLANE:
+            return "RID_UA_TYPE_GYROPLANE";
+        case RID_UA_TYPE_HYBRID_LIFT:
+            return "RID_UA_TYPE_HYBRID_LIFT";
+        case RID_UA_TYPE_ORNITHOPTER:
+            return "RID_UA_TYPE_ORNITHOPTER";
+        case RID_UA_TYPE_GLIDER:
+            return "RID_UA_TYPE_GLIDER";
+        case RID_UA_TYPE_KITE:
+            return "RID_UA_TYPE_KITE";
+        case RID_UA_TYPE_FREE_BALLOON:
+            return "RID_UA_TYPE_FREE_BALLOON";
+        case RID_UA_TYPE_CAPTIVE_BALLOON:
+            return "RID_UA_TYPE_CAPTIVE_BALLOON";
+        case RID_UA_TYPE_AIRSHIP:
+            return "RID_UA_TYPE_AIRSHIP";
+        case RID_UA_TYPE_FREE_FALL_PARACHUTE:
+            return "RID_UA_TYPE_FREE_FALL_PARACHUTE";
+        case RID_UA_TYPE_ROCKET:
+            return "RID_UA_TYPE_ROCKET";
+        case RID_UA_TYPE_TETHERED_POWERED_AIRCRAFT:
+            return "RID_UA_TYPE_TETHERED_POWERED_AIRCRAFT";
+        case RID_UA_TYPE_GROUND_OBSTACLE:
+            return "RID_UA_TYPE_GROUND_OBSTACLE";
+        case RID_UA_TYPE_OTHER:
+            return "RID_UA_TYPE_OTHER";
+        default:
+            return "UNKNOWN";
+    }
+}

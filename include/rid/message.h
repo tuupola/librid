@@ -89,6 +89,36 @@ typedef enum rid_protocol_version {
 rid_message_type_t rid_message_get_type(const void *message);
 rid_protocol_version_t rid_message_get_protocol_version(const void *message);
 
+/**
+ * @brief Convert message type to string representation.
+ *
+ * @param type The message type to convert.
+ *
+ * @return String representation of the message type.
+ *         Returns "UNKNOWN" for invalid values.
+ */
+const char *rid_message_type_to_string(rid_message_type_t type);
+
+/**
+ * @brief Convert protocol version to string representation.
+ *
+ * @param version The protocol version to convert.
+ *
+ * @return String representation of the protocol version.
+ *         Returns "UNKNOWN" for invalid values.
+ */
+const char *rid_protocol_version_to_string(rid_protocol_version_t version);
+
+/**
+ * @brief Convert error code to string representation.
+ *
+ * @param error The error code to convert.
+ *
+ * @return String representation of the error code.
+ *         Returns "UNKNOWN" for invalid values.
+ */
+const char *rid_error_to_string(rid_error_t error);
+
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */

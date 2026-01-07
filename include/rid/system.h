@@ -440,6 +440,46 @@ int rid_system_set_timestamp_from_unixtime(rid_system_t *system, uint32_t unixti
  */
 int rid_system_init(rid_system_t *system);
 
+/**
+ * @brief Convert operator location type to string representation.
+ *
+ * @param type The operator location type to convert.
+ *
+ * @return String representation of the operator location type.
+ *         Returns "UNKNOWN" for invalid values.
+ */
+const char *rid_operator_location_type_to_string(rid_operator_location_type_t type);
+
+/**
+ * @brief Convert classification type to string representation.
+ *
+ * @param type The classification type to convert.
+ *
+ * @return String representation of the classification type.
+ *         Returns "UNKNOWN" for invalid values.
+ */
+const char *rid_classification_type_to_string(rid_classification_type_t type);
+
+/**
+ * @brief Convert UA classification category to string representation.
+ *
+ * @param category The UA classification category to convert.
+ *
+ * @return String representation of the UA classification category.
+ *         Returns "UNKNOWN" for invalid values.
+ */
+const char *rid_ua_classification_category_to_string(rid_ua_classification_category_t category);
+
+/**
+ * @brief Convert UA classification class to string representation.
+ *
+ * @param class The UA classification class to convert.
+ *
+ * @return String representation of the UA classification class.
+ *         Returns "UNKNOWN" for invalid values.
+ */
+const char *rid_ua_classification_class_to_string(rid_ua_classification_class_t class);
+
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */

@@ -180,6 +180,26 @@ int rid_basic_id_set_uas_id(rid_basic_id_t *message, const char *uas_id);
  */
 int rid_basic_id_get_uas_id(const rid_basic_id_t *message, char *buffer, size_t buffer_size);
 
+/**
+ * @brief Convert ID type to string representation.
+ *
+ * @param type The ID type to convert.
+ *
+ * @return String representation of the ID type (e.g., "RID_ID_TYPE_NONE").
+ *         Returns "UNKNOWN" for invalid values.
+ */
+const char *rid_basic_id_type_to_string(rid_basic_id_type_t type);
+
+/**
+ * @brief Convert UA type to string representation.
+ *
+ * @param type The UA type to convert.
+ *
+ * @return String representation of the UA type (e.g., "RID_UA_TYPE_NONE").
+ *         Returns "UNKNOWN" for invalid values.
+ */
+const char *rid_ua_type_to_string(rid_ua_type_t type);
+
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */

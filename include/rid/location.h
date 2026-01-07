@@ -598,6 +598,76 @@ int rid_location_set_timestamp_accuracy(rid_location_t *location, rid_timestamp_
  */
 rid_timestamp_accuracy_t rid_location_get_timestamp_accuracy(const rid_location_t *location);
 
+/**
+ * @brief Convert EW direction to string representation.
+ *
+ * @param direction The EW direction to convert.
+ *
+ * @return String representation of the EW direction.
+ *         Returns "UNKNOWN" for invalid values.
+ */
+const char *rid_ew_direction_to_string(rid_ew_direction_t direction);
+
+/**
+ * @brief Convert height type to string representation.
+ *
+ * @param type The height type to convert.
+ *
+ * @return String representation of the height type.
+ *         Returns "UNKNOWN" for invalid values.
+ */
+const char *rid_height_type_to_string(rid_height_type_t type);
+
+/**
+ * @brief Convert operational status to string representation.
+ *
+ * @param status The operational status to convert.
+ *
+ * @return String representation of the operational status.
+ *         Returns "UNKNOWN" for invalid values.
+ */
+const char *rid_operational_status_to_string(rid_operational_status_t status);
+
+/**
+ * @brief Convert horizontal accuracy to string representation.
+ *
+ * @param accuracy The horizontal accuracy to convert.
+ *
+ * @return String representation of the horizontal accuracy.
+ *         Returns "UNKNOWN" for invalid values.
+ */
+const char *rid_horizontal_accuracy_to_string(rid_horizontal_accuracy_t accuracy);
+
+/**
+ * @brief Convert vertical accuracy to string representation.
+ *
+ * @param accuracy The vertical accuracy to convert.
+ *
+ * @return String representation of the vertical accuracy.
+ *         Returns "UNKNOWN" for invalid values.
+ */
+const char *rid_vertical_accuracy_to_string(rid_vertical_accuracy_t accuracy);
+
+/**
+ * @brief Convert speed accuracy to string representation.
+ *
+ * @param accuracy The speed accuracy to convert.
+ *
+ * @return String representation of the speed accuracy.
+ *         Returns "UNKNOWN" for invalid values.
+ */
+const char *rid_speed_accuracy_to_string(rid_speed_accuracy_t accuracy);
+
+/**
+ * @brief Convert timestamp accuracy to string representation.
+ *
+ * @param accuracy The timestamp accuracy to convert.
+ *
+ * @return String representation of the timestamp accuracy.
+ *         Returns "UNKNOWN" for invalid values.
+ */
+const char *rid_timestamp_accuracy_to_string(rid_timestamp_accuracy_t accuracy);
+
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */
