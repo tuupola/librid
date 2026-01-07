@@ -264,6 +264,26 @@ __attribute__((__packed__)) rid_location {
 int rid_location_init(rid_location_t *location);
 
 /**
+ * @brief Validate a Location message structure.
+ *
+ * Checks that all fields contain valid encoded values according to
+ * ASTM F3411-22a. This validates the raw encoded values, not decoded
+ * physical values.
+ *
+ * @param location Pointer to the Location message structure to validate.
+ *
+ * @retval RID_SUCCESS if all fields are valid.
+ * @retval RID_ERROR_NULL_POINTER if location is NULL.
+ * @retval RID_ERROR_INVALID_PROTOCOL_VERSION if protocol version is invalid.
+ * @retval RID_ERROR_WRONG_MESSAGE_TYPE if message type is not LOCATION.
+ * @retval RID_ERROR_INVALID_LATITUDE if latitude is out of range.
+ * @retval RID_ERROR_INVALID_LONGITUDE if longitude is out of range.
+ * @retval RID_ERROR_INVALID_TRACK_DIRECTION if track direction is out of range.
+ * @retval RID_ERROR_INVALID_TIMESTAMP if timestamp is out of range.
+ */
+int rid_location_validate(const rid_location_t *location);
+
+/**
  * @brief Set the height reference type for a Location message.
  *
  * @param location Pointer to the Location message structure.

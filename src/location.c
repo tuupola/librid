@@ -61,6 +61,46 @@ rid_location_init(rid_location_t *location) {
 }
 
 int
+rid_location_validate(const rid_location_t *location) {
+    if (location == NULL) {
+        return RID_ERROR_NULL_POINTER;
+    }
+
+    /* Valid protocol versions: 0, 1, 2, or 0x0F (private use) */
+    if (location->protocol_version > RID_PROTOCOL_VERSION_2 &&
+        location->protocol_version != RID_PROTOCOL_PRIVATE_USE) {
+        return RID_ERROR_INVALID_PROTOCOL_VERSION;
+    }
+
+    if (location->message_type != RID_MESSAGE_TYPE_LOCATION) {
+        return RID_ERROR_WRONG_MESSAGE_TYPE;
+    }
+
+    /* Encoded latitude range: -900000000 to 900000000 */
+    if (location->latitude < -900000000 || location->latitude > 900000000) {
+        return RID_ERROR_INVALID_LATITUDE;
+    }
+
+    /* Encoded longitude range: -1800000000 to 1800000000 */
+    if (location->longitude < -1800000000 || location->longitude > 1800000000) {
+        return RID_ERROR_INVALID_LONGITUDE;
+    }
+
+    /* Track direction: 0-180 or unknown (181) */
+    if (location->track_direction > RID_TRACK_DIRECTION_UNKNOWN_ENCODED) {
+        return RID_ERROR_INVALID_TRACK_DIRECTION;
+    }
+
+    /* Timestamp: 0-36000 or invalid (0xFFFF) */
+    if (location->timestamp > RID_TIMESTAMP_MAX &&
+        location->timestamp != RID_TIMESTAMP_INVALID) {
+        return RID_ERROR_INVALID_TIMESTAMP;
+    }
+
+    return RID_SUCCESS;
+}
+
+int
 rid_location_set_track_direction(rid_location_t *location, uint16_t degrees) {
     if (location == NULL) {
         return RID_ERROR_NULL_POINTER;

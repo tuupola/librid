@@ -1331,6 +1331,153 @@ test_timestamp_accuracy_to_string(void) {
     PASS();
 }
 
+TEST
+test_validate_valid_message(void) {
+    rid_location_t location;
+
+    rid_location_init(&location);
+    rid_location_set_latitude(&location, 45.5);
+    rid_location_set_longitude(&location, 90.5);
+
+    int status = rid_location_validate(&location);
+    ASSERT_EQ(RID_SUCCESS, status);
+
+    PASS();
+}
+
+TEST
+test_validate_null_pointer(void) {
+    int status = rid_location_validate(NULL);
+    ASSERT_EQ(RID_ERROR_NULL_POINTER, status);
+
+    PASS();
+}
+
+TEST
+test_validate_invalid_protocol_version(void) {
+    rid_location_t location;
+
+    rid_location_init(&location);
+
+    /* Value between 2 and 0x0F is invalid */
+    location.protocol_version = 5;
+    int status = rid_location_validate(&location);
+    ASSERT_EQ(RID_ERROR_INVALID_PROTOCOL_VERSION, status);
+
+    /* Valid versions should pass */
+    location.protocol_version = RID_PROTOCOL_VERSION_0;
+    status = rid_location_validate(&location);
+    ASSERT_EQ(RID_SUCCESS, status);
+
+    location.protocol_version = RID_PROTOCOL_VERSION_1;
+    status = rid_location_validate(&location);
+    ASSERT_EQ(RID_SUCCESS, status);
+
+    location.protocol_version = RID_PROTOCOL_VERSION_2;
+    status = rid_location_validate(&location);
+    ASSERT_EQ(RID_SUCCESS, status);
+
+    location.protocol_version = RID_PROTOCOL_PRIVATE_USE;
+    status = rid_location_validate(&location);
+    ASSERT_EQ(RID_SUCCESS, status);
+
+    PASS();
+}
+
+TEST
+test_validate_invalid_message_type(void) {
+    rid_location_t location;
+
+    rid_location_init(&location);
+    location.message_type = RID_MESSAGE_TYPE_BASIC_ID;
+
+    int status = rid_location_validate(&location);
+    ASSERT_EQ(RID_ERROR_WRONG_MESSAGE_TYPE, status);
+
+    PASS();
+}
+
+TEST
+test_validate_invalid_latitude(void) {
+    rid_location_t location;
+
+    rid_location_init(&location);
+
+    /* Latitude too high */
+    location.latitude = 900000001;
+    int status = rid_location_validate(&location);
+    ASSERT_EQ(RID_ERROR_INVALID_LATITUDE, status);
+
+    /* Latitude too low */
+    location.latitude = -900000001;
+    status = rid_location_validate(&location);
+    ASSERT_EQ(RID_ERROR_INVALID_LATITUDE, status);
+
+    PASS();
+}
+
+TEST
+test_validate_invalid_longitude(void) {
+    rid_location_t location;
+
+    rid_location_init(&location);
+
+    /* Longitude too high */
+    location.longitude = 1800000001;
+    int status = rid_location_validate(&location);
+    ASSERT_EQ(RID_ERROR_INVALID_LONGITUDE, status);
+
+    /* Longitude too low */
+    location.longitude = -1800000001;
+    status = rid_location_validate(&location);
+    ASSERT_EQ(RID_ERROR_INVALID_LONGITUDE, status);
+
+    PASS();
+}
+
+TEST
+test_validate_invalid_track_direction(void) {
+    rid_location_t location;
+
+    rid_location_init(&location);
+
+    /* Track direction > 181 */
+    location.track_direction = 182;
+    int status = rid_location_validate(&location);
+    ASSERT_EQ(RID_ERROR_INVALID_TRACK_DIRECTION, status);
+
+    /* Maximum invalid value */
+    location.track_direction = 255;
+    status = rid_location_validate(&location);
+    ASSERT_EQ(RID_ERROR_INVALID_TRACK_DIRECTION, status);
+
+    PASS();
+}
+
+TEST
+test_validate_invalid_timestamp(void) {
+    rid_location_t location;
+
+    rid_location_init(&location);
+
+    /* Timestamp > 36000 and != 0xFFFF */
+    location.timestamp = 36001;
+    int status = rid_location_validate(&location);
+    ASSERT_EQ(RID_ERROR_INVALID_TIMESTAMP, status);
+
+    /* Another invalid value */
+    location.timestamp = 50000;
+    status = rid_location_validate(&location);
+    ASSERT_EQ(RID_ERROR_INVALID_TIMESTAMP, status);
+
+    /* Valid invalid marker should pass */
+    location.timestamp = RID_TIMESTAMP_INVALID;
+    status = rid_location_validate(&location);
+    ASSERT_EQ(RID_SUCCESS, status);
+
+    PASS();
+}
+
 SUITE(location_suite) {
     RUN_TEST(test_location_init);
 
@@ -1418,4 +1565,13 @@ SUITE(location_suite) {
     RUN_TEST(test_vertical_accuracy_to_string);
     RUN_TEST(test_speed_accuracy_to_string);
     RUN_TEST(test_timestamp_accuracy_to_string);
+
+    RUN_TEST(test_validate_valid_message);
+    RUN_TEST(test_validate_null_pointer);
+    RUN_TEST(test_validate_invalid_protocol_version);
+    RUN_TEST(test_validate_invalid_message_type);
+    RUN_TEST(test_validate_invalid_latitude);
+    RUN_TEST(test_validate_invalid_longitude);
+    RUN_TEST(test_validate_invalid_track_direction);
+    RUN_TEST(test_validate_invalid_timestamp);
 }

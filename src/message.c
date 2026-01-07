@@ -99,6 +99,18 @@ rid_error_to_string(rid_error_t error) {
             return "RID_ERROR_INVALID_CHARACTER";
         case RID_ERROR_OUT_OF_RANGE:
             return "RID_ERROR_OUT_OF_RANGE";
+        case RID_ERROR_WRONG_MESSAGE_TYPE:
+            return "RID_ERROR_WRONG_MESSAGE_TYPE";
+        case RID_ERROR_INVALID_LATITUDE:
+            return "RID_ERROR_INVALID_LATITUDE";
+        case RID_ERROR_INVALID_LONGITUDE:
+            return "RID_ERROR_INVALID_LONGITUDE";
+        case RID_ERROR_INVALID_TRACK_DIRECTION:
+            return "RID_ERROR_INVALID_TRACK_DIRECTION";
+        case RID_ERROR_INVALID_TIMESTAMP:
+            return "RID_ERROR_INVALID_TIMESTAMP";
+        case RID_ERROR_INVALID_PROTOCOL_VERSION:
+            return "RID_ERROR_INVALID_PROTOCOL_VERSION";
         default:
             return "UNKNOWN";
     }
