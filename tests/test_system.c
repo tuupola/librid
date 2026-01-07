@@ -624,6 +624,108 @@ test_ua_classification_class_to_string(void) {
     PASS();
 }
 
+TEST
+test_system_validate_valid_message(void) {
+    rid_system_t system;
+
+    rid_system_init(&system);
+
+    int status = rid_system_validate(&system);
+    ASSERT_EQ(RID_SUCCESS, status);
+
+    PASS();
+}
+
+TEST
+test_system_validate_null_pointer(void) {
+    int status = rid_system_validate(NULL);
+    ASSERT_EQ(RID_ERROR_NULL_POINTER, status);
+
+    PASS();
+}
+
+TEST
+test_system_validate_invalid_protocol_version(void) {
+    rid_system_t system;
+
+    rid_system_init(&system);
+
+    /* Value between 2 and 0x0F is invalid */
+    system.protocol_version = 5;
+    int status = rid_system_validate(&system);
+    ASSERT_EQ(RID_ERROR_INVALID_PROTOCOL_VERSION, status);
+
+    /* Valid versions should pass */
+    system.protocol_version = RID_PROTOCOL_VERSION_0;
+    status = rid_system_validate(&system);
+    ASSERT_EQ(RID_SUCCESS, status);
+
+    system.protocol_version = RID_PROTOCOL_VERSION_1;
+    status = rid_system_validate(&system);
+    ASSERT_EQ(RID_SUCCESS, status);
+
+    system.protocol_version = RID_PROTOCOL_VERSION_2;
+    status = rid_system_validate(&system);
+    ASSERT_EQ(RID_SUCCESS, status);
+
+    system.protocol_version = RID_PROTOCOL_PRIVATE_USE;
+    status = rid_system_validate(&system);
+    ASSERT_EQ(RID_SUCCESS, status);
+
+    PASS();
+}
+
+TEST
+test_system_validate_invalid_message_type(void) {
+    rid_system_t system;
+
+    rid_system_init(&system);
+    system.message_type = RID_MESSAGE_TYPE_LOCATION;
+
+    int status = rid_system_validate(&system);
+    ASSERT_EQ(RID_ERROR_WRONG_MESSAGE_TYPE, status);
+
+    PASS();
+}
+
+TEST
+test_system_validate_invalid_latitude(void) {
+    rid_system_t system;
+
+    rid_system_init(&system);
+
+    /* Latitude > 90 degrees encoded */
+    system.operator_latitude = 900000001;
+    int status = rid_system_validate(&system);
+    ASSERT_EQ(RID_ERROR_INVALID_LATITUDE, status);
+
+    /* Latitude < -90 degrees encoded */
+    system.operator_latitude = -900000001;
+    status = rid_system_validate(&system);
+    ASSERT_EQ(RID_ERROR_INVALID_LATITUDE, status);
+
+    PASS();
+}
+
+TEST
+test_system_validate_invalid_longitude(void) {
+    rid_system_t system;
+
+    rid_system_init(&system);
+
+    /* Longitude > 180 degrees encoded */
+    system.operator_longitude = 1800000001;
+    int status = rid_system_validate(&system);
+    ASSERT_EQ(RID_ERROR_INVALID_LONGITUDE, status);
+
+    /* Longitude < -180 degrees encoded */
+    system.operator_longitude = -1800000001;
+    status = rid_system_validate(&system);
+    ASSERT_EQ(RID_ERROR_INVALID_LONGITUDE, status);
+
+    PASS();
+}
+
 SUITE(system_suite) {
     RUN_TEST(test_set_and_get_operator_location_type);
     RUN_TEST(test_set_operator_location_type_out_of_range);
@@ -682,4 +784,11 @@ SUITE(system_suite) {
     RUN_TEST(test_classification_type_to_string);
     RUN_TEST(test_ua_classification_category_to_string);
     RUN_TEST(test_ua_classification_class_to_string);
+
+    RUN_TEST(test_system_validate_valid_message);
+    RUN_TEST(test_system_validate_null_pointer);
+    RUN_TEST(test_system_validate_invalid_protocol_version);
+    RUN_TEST(test_system_validate_invalid_message_type);
+    RUN_TEST(test_system_validate_invalid_latitude);
+    RUN_TEST(test_system_validate_invalid_longitude);
 }

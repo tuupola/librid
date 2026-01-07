@@ -52,6 +52,37 @@ rid_system_init(rid_system_t *system) {
 }
 
 int
+rid_system_validate(const rid_system_t *system) {
+    if (system == NULL) {
+        return RID_ERROR_NULL_POINTER;
+    }
+
+    /* Valid protocol versions: 0, 1, 2, or 0x0F (private use) */
+    if (system->protocol_version > RID_PROTOCOL_VERSION_2 &&
+        system->protocol_version != RID_PROTOCOL_PRIVATE_USE) {
+        return RID_ERROR_INVALID_PROTOCOL_VERSION;
+    }
+
+    if (system->message_type != RID_MESSAGE_TYPE_SYSTEM) {
+        return RID_ERROR_WRONG_MESSAGE_TYPE;
+    }
+
+    /* Operator latitude: encoded as value * 10^7, valid range -90 to +90 degrees */
+    if (system->operator_latitude < -900000000 ||
+        system->operator_latitude > 900000000) {
+        return RID_ERROR_INVALID_LATITUDE;
+    }
+
+    /* Operator longitude: encoded as value * 10^7, valid range -180 to +180 degrees */
+    if (system->operator_longitude < -1800000000 ||
+        system->operator_longitude > 1800000000) {
+        return RID_ERROR_INVALID_LONGITUDE;
+    }
+
+    return RID_SUCCESS;
+}
+
+int
 rid_system_set_operator_location_type(rid_system_t *system, rid_operator_location_type_t type) {
     if (system == NULL) {
         return RID_ERROR_NULL_POINTER;

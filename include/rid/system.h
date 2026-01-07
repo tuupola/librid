@@ -441,6 +441,23 @@ int rid_system_set_timestamp_from_unixtime(rid_system_t *system, uint32_t unixti
 int rid_system_init(rid_system_t *system);
 
 /**
+ * @brief Validate a System message structure.
+ *
+ * Checks that all fields contain valid encoded values according to
+ * ASTM F3411-22a.
+ *
+ * @param system Pointer to the System message structure to validate.
+ *
+ * @retval RID_SUCCESS if all fields are valid.
+ * @retval RID_ERROR_NULL_POINTER if system is NULL.
+ * @retval RID_ERROR_INVALID_PROTOCOL_VERSION if protocol version is invalid.
+ * @retval RID_ERROR_WRONG_MESSAGE_TYPE if message type is not SYSTEM.
+ * @retval RID_ERROR_INVALID_LATITUDE if operator latitude is out of range.
+ * @retval RID_ERROR_INVALID_LONGITUDE if operator longitude is out of range.
+ */
+int rid_system_validate(const rid_system_t *system);
+
+/**
  * @brief Convert operator location type to string representation.
  *
  * @param type The operator location type to convert.
