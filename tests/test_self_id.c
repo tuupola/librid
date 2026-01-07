@@ -185,6 +185,83 @@ test_description_type_to_string(void) {
     PASS();
 }
 
+TEST
+test_self_id_validate_valid_message(void) {
+    rid_self_id_t message;
+
+    rid_self_id_init(&message);
+
+    int status = rid_self_id_validate(&message);
+    ASSERT_EQ(RID_SUCCESS, status);
+
+    PASS();
+}
+
+TEST
+test_self_id_validate_null_pointer(void) {
+    int status = rid_self_id_validate(NULL);
+    ASSERT_EQ(RID_ERROR_NULL_POINTER, status);
+
+    PASS();
+}
+
+TEST
+test_self_id_validate_invalid_protocol_version(void) {
+    rid_self_id_t message;
+
+    rid_self_id_init(&message);
+
+    /* Value between 2 and 0x0F is invalid */
+    message.protocol_version = 5;
+    int status = rid_self_id_validate(&message);
+    ASSERT_EQ(RID_ERROR_INVALID_PROTOCOL_VERSION, status);
+
+    /* Valid versions should pass */
+    message.protocol_version = RID_PROTOCOL_VERSION_0;
+    status = rid_self_id_validate(&message);
+    ASSERT_EQ(RID_SUCCESS, status);
+
+    message.protocol_version = RID_PROTOCOL_VERSION_1;
+    status = rid_self_id_validate(&message);
+    ASSERT_EQ(RID_SUCCESS, status);
+
+    message.protocol_version = RID_PROTOCOL_VERSION_2;
+    status = rid_self_id_validate(&message);
+    ASSERT_EQ(RID_SUCCESS, status);
+
+    message.protocol_version = RID_PROTOCOL_PRIVATE_USE;
+    status = rid_self_id_validate(&message);
+    ASSERT_EQ(RID_SUCCESS, status);
+
+    PASS();
+}
+
+TEST
+test_self_id_validate_invalid_message_type(void) {
+    rid_self_id_t message;
+
+    rid_self_id_init(&message);
+    message.message_type = RID_MESSAGE_TYPE_LOCATION;
+
+    int status = rid_self_id_validate(&message);
+    ASSERT_EQ(RID_ERROR_WRONG_MESSAGE_TYPE, status);
+
+    PASS();
+}
+
+TEST
+test_self_id_validate_invalid_description(void) {
+    rid_self_id_t message;
+
+    rid_self_id_init(&message);
+    message.description[5] = (char)0xFF;
+
+    int status = rid_self_id_validate(&message);
+    ASSERT_EQ(RID_ERROR_INVALID_CHARACTER, status);
+
+    PASS();
+}
+
 SUITE(self_id_suite) {
     RUN_TEST(test_self_id_init);
     RUN_TEST(test_self_id_init_null_pointer);
@@ -200,4 +277,10 @@ SUITE(self_id_suite) {
     RUN_TEST(test_get_description_buffer_too_small);
 
     RUN_TEST(test_description_type_to_string);
+
+    RUN_TEST(test_self_id_validate_valid_message);
+    RUN_TEST(test_self_id_validate_null_pointer);
+    RUN_TEST(test_self_id_validate_invalid_protocol_version);
+    RUN_TEST(test_self_id_validate_invalid_message_type);
+    RUN_TEST(test_self_id_validate_invalid_description);
 }

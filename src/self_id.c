@@ -50,6 +50,32 @@ rid_self_id_init(rid_self_id_t *message) {
     return RID_SUCCESS;
 }
 
+int
+rid_self_id_validate(const rid_self_id_t *message) {
+    if (message == NULL) {
+        return RID_ERROR_NULL_POINTER;
+    }
+
+    /* Valid protocol versions: 0, 1, 2, or 0x0F (private use) */
+    if (message->protocol_version > RID_PROTOCOL_VERSION_2 &&
+        message->protocol_version != RID_PROTOCOL_PRIVATE_USE) {
+        return RID_ERROR_INVALID_PROTOCOL_VERSION;
+    }
+
+    if (message->message_type != RID_MESSAGE_TYPE_SELF_ID) {
+        return RID_ERROR_WRONG_MESSAGE_TYPE;
+    }
+
+    /* Description must be ASCII only */
+    for (size_t i = 0; i < 23; ++i) {
+        if ((unsigned char)message->description[i] > 127) {
+            return RID_ERROR_INVALID_CHARACTER;
+        }
+    }
+
+    return RID_SUCCESS;
+}
+
 rid_description_type_t
 rid_self_id_get_description_type(const rid_self_id_t *message) {
     return (rid_description_type_t)message->description_type;

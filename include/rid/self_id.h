@@ -135,6 +135,22 @@ int rid_self_id_set_description(rid_self_id_t *message, const char *description)
 int rid_self_id_init(rid_self_id_t *message);
 
 /**
+ * @brief Validate a Self ID message structure.
+ *
+ * Checks that all fields contain valid encoded values according to
+ * ASTM F3411-22a.
+ *
+ * @param message Pointer to the Self ID message structure to validate.
+ *
+ * @retval RID_SUCCESS if all fields are valid.
+ * @retval RID_ERROR_NULL_POINTER if message is NULL.
+ * @retval RID_ERROR_INVALID_PROTOCOL_VERSION if protocol version is invalid.
+ * @retval RID_ERROR_WRONG_MESSAGE_TYPE if message type is not SELF_ID.
+ * @retval RID_ERROR_INVALID_CHARACTER if description contains non-ASCII characters.
+ */
+int rid_self_id_validate(const rid_self_id_t *message);
+
+/**
  * @brief Convert description type to string representation.
  *
  * @param type The description type to convert.
