@@ -111,6 +111,10 @@ rid_error_to_string(rid_error_t error) {
             return "RID_ERROR_INVALID_TIMESTAMP";
         case RID_ERROR_INVALID_PROTOCOL_VERSION:
             return "RID_ERROR_INVALID_PROTOCOL_VERSION";
+        case RID_ERROR_INVALID_MESSAGE_COUNT:
+            return "RID_ERROR_INVALID_MESSAGE_COUNT";
+        case RID_ERROR_INVALID_MESSAGE_SIZE:
+            return "RID_ERROR_INVALID_MESSAGE_SIZE";
         default:
             return "UNKNOWN";
     }

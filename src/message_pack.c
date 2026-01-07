@@ -53,6 +53,33 @@ rid_message_pack_init(rid_message_pack_t *pack) {
 }
 
 int
+rid_message_pack_validate(const rid_message_pack_t *pack) {
+    if (pack == NULL) {
+        return RID_ERROR_NULL_POINTER;
+    }
+
+    /* Valid protocol versions: 0, 1, 2, or 0x0F (private use) */
+    if (pack->protocol_version > RID_PROTOCOL_VERSION_2 &&
+        pack->protocol_version != RID_PROTOCOL_PRIVATE_USE) {
+        return RID_ERROR_INVALID_PROTOCOL_VERSION;
+    }
+
+    if (pack->message_type != RID_MESSAGE_TYPE_MESSAGE_PACK) {
+        return RID_ERROR_WRONG_MESSAGE_TYPE;
+    }
+
+    if (pack->message_size != RID_MESSAGE_SIZE) {
+        return RID_ERROR_INVALID_MESSAGE_SIZE;
+    }
+
+    if (pack->message_count > RID_MESSAGE_PACK_MAX_MESSAGES) {
+        return RID_ERROR_INVALID_MESSAGE_COUNT;
+    }
+
+    return RID_SUCCESS;
+}
+
+int
 rid_message_pack_set_message_count(rid_message_pack_t *pack, uint8_t count) {
     if (pack == NULL) {
         return RID_ERROR_NULL_POINTER;

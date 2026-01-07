@@ -457,6 +457,104 @@ test_replace_message_at_out_of_range(void) {
     PASS();
 }
 
+TEST
+test_message_pack_validate_valid(void) {
+    rid_message_pack_t pack;
+
+    rid_message_pack_init(&pack);
+
+    int status = rid_message_pack_validate(&pack);
+    ASSERT_EQ(RID_SUCCESS, status);
+
+    PASS();
+}
+
+TEST
+test_message_pack_validate_null_pointer(void) {
+    int status = rid_message_pack_validate(NULL);
+    ASSERT_EQ(RID_ERROR_NULL_POINTER, status);
+
+    PASS();
+}
+
+TEST
+test_message_pack_validate_invalid_protocol_version(void) {
+    rid_message_pack_t pack;
+
+    rid_message_pack_init(&pack);
+
+    /* Value between 2 and 0x0F is invalid */
+    pack.protocol_version = 5;
+    int status = rid_message_pack_validate(&pack);
+    ASSERT_EQ(RID_ERROR_INVALID_PROTOCOL_VERSION, status);
+
+    /* Valid versions should pass */
+    pack.protocol_version = RID_PROTOCOL_VERSION_0;
+    status = rid_message_pack_validate(&pack);
+    ASSERT_EQ(RID_SUCCESS, status);
+
+    pack.protocol_version = RID_PROTOCOL_VERSION_1;
+    status = rid_message_pack_validate(&pack);
+    ASSERT_EQ(RID_SUCCESS, status);
+
+    pack.protocol_version = RID_PROTOCOL_VERSION_2;
+    status = rid_message_pack_validate(&pack);
+    ASSERT_EQ(RID_SUCCESS, status);
+
+    pack.protocol_version = RID_PROTOCOL_PRIVATE_USE;
+    status = rid_message_pack_validate(&pack);
+    ASSERT_EQ(RID_SUCCESS, status);
+
+    PASS();
+}
+
+TEST
+test_message_pack_validate_invalid_message_type(void) {
+    rid_message_pack_t pack;
+
+    rid_message_pack_init(&pack);
+    pack.message_type = RID_MESSAGE_TYPE_LOCATION;
+
+    int status = rid_message_pack_validate(&pack);
+    ASSERT_EQ(RID_ERROR_WRONG_MESSAGE_TYPE, status);
+
+    PASS();
+}
+
+TEST
+test_message_pack_validate_invalid_message_size(void) {
+    rid_message_pack_t pack;
+
+    rid_message_pack_init(&pack);
+    pack.message_size = 24;
+
+    int status = rid_message_pack_validate(&pack);
+    ASSERT_EQ(RID_ERROR_INVALID_MESSAGE_SIZE, status);
+
+    pack.message_size = 26;
+    status = rid_message_pack_validate(&pack);
+    ASSERT_EQ(RID_ERROR_INVALID_MESSAGE_SIZE, status);
+
+    PASS();
+}
+
+TEST
+test_message_pack_validate_invalid_message_count(void) {
+    rid_message_pack_t pack;
+
+    rid_message_pack_init(&pack);
+    pack.message_count = RID_MESSAGE_PACK_MAX_MESSAGES + 1;
+
+    int status = rid_message_pack_validate(&pack);
+    ASSERT_EQ(RID_ERROR_INVALID_MESSAGE_COUNT, status);
+
+    pack.message_count = UINT8_MAX;
+    status = rid_message_pack_validate(&pack);
+    ASSERT_EQ(RID_ERROR_INVALID_MESSAGE_COUNT, status);
+
+    PASS();
+}
+
 SUITE(message_pack_suite) {
     RUN_TEST(test_message_pack_init);
     RUN_TEST(test_message_pack_size);
@@ -485,4 +583,11 @@ SUITE(message_pack_suite) {
     RUN_TEST(test_replace_message_at);
     RUN_TEST(test_replace_message_at_null_pointer);
     RUN_TEST(test_replace_message_at_out_of_range);
+
+    RUN_TEST(test_message_pack_validate_valid);
+    RUN_TEST(test_message_pack_validate_null_pointer);
+    RUN_TEST(test_message_pack_validate_invalid_protocol_version);
+    RUN_TEST(test_message_pack_validate_invalid_message_type);
+    RUN_TEST(test_message_pack_validate_invalid_message_size);
+    RUN_TEST(test_message_pack_validate_invalid_message_count);
 }
