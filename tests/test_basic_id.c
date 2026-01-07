@@ -308,6 +308,70 @@ test_ua_type_to_string(void) {
     PASS();
 }
 
+TEST
+test_basic_id_validate_valid_message(void) {
+    rid_basic_id_t message;
+
+    rid_basic_id_init(&message);
+
+    int status = rid_basic_id_validate(&message);
+    ASSERT_EQ(RID_SUCCESS, status);
+
+    PASS();
+}
+
+TEST
+test_basic_id_validate_null_pointer(void) {
+    int status = rid_basic_id_validate(NULL);
+    ASSERT_EQ(RID_ERROR_NULL_POINTER, status);
+
+    PASS();
+}
+
+TEST
+test_basic_id_validate_invalid_protocol_version(void) {
+    rid_basic_id_t message;
+
+    rid_basic_id_init(&message);
+
+    /* Value between 2 and 0x0F is invalid */
+    message.protocol_version = 5;
+    int status = rid_basic_id_validate(&message);
+    ASSERT_EQ(RID_ERROR_INVALID_PROTOCOL_VERSION, status);
+
+    /* Valid versions should pass */
+    message.protocol_version = RID_PROTOCOL_VERSION_0;
+    status = rid_basic_id_validate(&message);
+    ASSERT_EQ(RID_SUCCESS, status);
+
+    message.protocol_version = RID_PROTOCOL_VERSION_1;
+    status = rid_basic_id_validate(&message);
+    ASSERT_EQ(RID_SUCCESS, status);
+
+    message.protocol_version = RID_PROTOCOL_VERSION_2;
+    status = rid_basic_id_validate(&message);
+    ASSERT_EQ(RID_SUCCESS, status);
+
+    message.protocol_version = RID_PROTOCOL_PRIVATE_USE;
+    status = rid_basic_id_validate(&message);
+    ASSERT_EQ(RID_SUCCESS, status);
+
+    PASS();
+}
+
+TEST
+test_basic_id_validate_invalid_message_type(void) {
+    rid_basic_id_t message;
+
+    rid_basic_id_init(&message);
+    message.message_type = RID_MESSAGE_TYPE_LOCATION;
+
+    int status = rid_basic_id_validate(&message);
+    ASSERT_EQ(RID_ERROR_WRONG_MESSAGE_TYPE, status);
+
+    PASS();
+}
+
 SUITE(basic_id_suite) {
     RUN_TEST(test_basic_id_init);
 
@@ -333,4 +397,9 @@ SUITE(basic_id_suite) {
 
     RUN_TEST(test_basic_id_type_to_string);
     RUN_TEST(test_ua_type_to_string);
+
+    RUN_TEST(test_basic_id_validate_valid_message);
+    RUN_TEST(test_basic_id_validate_null_pointer);
+    RUN_TEST(test_basic_id_validate_invalid_protocol_version);
+    RUN_TEST(test_basic_id_validate_invalid_message_type);
 }
