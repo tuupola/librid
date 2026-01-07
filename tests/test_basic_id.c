@@ -372,6 +372,64 @@ test_basic_id_validate_invalid_message_type(void) {
     PASS();
 }
 
+TEST
+test_basic_id_validate_registration_id_valid(void) {
+    rid_basic_id_t message;
+
+    rid_basic_id_init(&message);
+    rid_basic_id_set_type(&message, RID_ID_TYPE_CAA_REGISTRATION_ID);
+
+    rid_basic_id_set_uas_id(&message, "FIN.ABC123");
+    int status = rid_basic_id_validate(&message);
+    ASSERT_EQ(RID_SUCCESS, status);
+
+    rid_basic_id_set_uas_id(&message, "USA123456789");
+    status = rid_basic_id_validate(&message);
+    ASSERT_EQ(RID_SUCCESS, status);
+
+    rid_basic_id_set_uas_id(&message, "X.Y.Z");
+    status = rid_basic_id_validate(&message);
+    ASSERT_EQ(RID_SUCCESS, status);
+
+    PASS();
+}
+
+TEST
+test_basic_id_validate_registration_id_invalid_lowercase(void) {
+    rid_basic_id_t message;
+
+    rid_basic_id_init(&message);
+    rid_basic_id_set_type(&message, RID_ID_TYPE_CAA_REGISTRATION_ID);
+    rid_basic_id_set_uas_id(&message, "FIN.abc123");
+
+    int status = rid_basic_id_validate(&message);
+    ASSERT_EQ(RID_ERROR_INVALID_CHARACTER, status);
+
+    PASS();
+}
+
+TEST
+test_basic_id_validate_registration_id_invalid_char(void) {
+    rid_basic_id_t message;
+
+    rid_basic_id_init(&message);
+    rid_basic_id_set_type(&message, RID_ID_TYPE_CAA_REGISTRATION_ID);
+
+    rid_basic_id_set_uas_id(&message, "FIN-ABC123");
+    int status = rid_basic_id_validate(&message);
+    ASSERT_EQ(RID_ERROR_INVALID_CHARACTER, status);
+
+    rid_basic_id_set_uas_id(&message, "FIN_ABC123");
+    status = rid_basic_id_validate(&message);
+    ASSERT_EQ(RID_ERROR_INVALID_CHARACTER, status);
+
+    rid_basic_id_set_uas_id(&message, "FIN ABC123");
+    status = rid_basic_id_validate(&message);
+    ASSERT_EQ(RID_ERROR_INVALID_CHARACTER, status);
+
+    PASS();
+}
+
 SUITE(basic_id_suite) {
     RUN_TEST(test_basic_id_init);
 
@@ -402,4 +460,7 @@ SUITE(basic_id_suite) {
     RUN_TEST(test_basic_id_validate_null_pointer);
     RUN_TEST(test_basic_id_validate_invalid_protocol_version);
     RUN_TEST(test_basic_id_validate_invalid_message_type);
+    RUN_TEST(test_basic_id_validate_registration_id_valid);
+    RUN_TEST(test_basic_id_validate_registration_id_invalid_lowercase);
+    RUN_TEST(test_basic_id_validate_registration_id_invalid_char);
 }

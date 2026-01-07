@@ -67,6 +67,20 @@ rid_basic_id_validate(const rid_basic_id_t *message) {
         return RID_ERROR_WRONG_MESSAGE_TYPE;
     }
 
+    /* Validate Registration ID characters per ASTM F3411-22a Table 1 */
+    if (message->id_type == RID_ID_TYPE_CAA_REGISTRATION_ID) {
+        for (size_t i = 0; i < sizeof(message->uas_id); ++i) {
+            char c = message->uas_id[i];
+            if (c == '\0') {
+                break;
+            }
+            int valid = (c >= 'A' && c <= 'Z') || (c >= '0' && c <= '9') || (c == '.');
+            if (!valid) {
+                return RID_ERROR_INVALID_CHARACTER;
+            }
+        }
+    }
+
     return RID_SUCCESS;
 }
 
