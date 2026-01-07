@@ -50,6 +50,25 @@ rid_operator_id_init(rid_operator_id_t *message) {
     return RID_SUCCESS;
 }
 
+int
+rid_operator_id_validate(const rid_operator_id_t *message) {
+    if (message == NULL) {
+        return RID_ERROR_NULL_POINTER;
+    }
+
+    /* Valid protocol versions: 0, 1, 2, or 0x0F (private use) */
+    if (message->protocol_version > RID_PROTOCOL_VERSION_2 &&
+        message->protocol_version != RID_PROTOCOL_PRIVATE_USE) {
+        return RID_ERROR_INVALID_PROTOCOL_VERSION;
+    }
+
+    if (message->message_type != RID_MESSAGE_TYPE_OPERATOR_ID) {
+        return RID_ERROR_WRONG_MESSAGE_TYPE;
+    }
+
+    return RID_SUCCESS;
+}
+
 rid_operator_id_type_t
 rid_operator_id_get_type(const rid_operator_id_t *message) {
     return (rid_operator_id_type_t)message->id_type;

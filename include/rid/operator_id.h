@@ -85,6 +85,21 @@ typedef enum rid_operator_id_type {
 int rid_operator_id_init(rid_operator_id_t *message);
 
 /**
+ * @brief Validate an Operator ID message structure.
+ *
+ * Checks that all fields contain valid encoded values according to
+ * ASTM F3411-22a.
+ *
+ * @param message Pointer to the Operator ID message structure to validate.
+ *
+ * @retval RID_SUCCESS if all fields are valid.
+ * @retval RID_ERROR_NULL_POINTER if message is NULL.
+ * @retval RID_ERROR_INVALID_PROTOCOL_VERSION if protocol version is invalid.
+ * @retval RID_ERROR_WRONG_MESSAGE_TYPE if message type is not OPERATOR_ID.
+ */
+int rid_operator_id_validate(const rid_operator_id_t *message);
+
+/**
  * @brief Get the ID type from an Operator ID message.
  *
  * @param message Pointer to the Operator ID message structure.
