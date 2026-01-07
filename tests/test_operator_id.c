@@ -202,6 +202,13 @@ test_operator_id_init_null_pointer(void) {
     PASS();
 }
 
+TEST
+test_operator_id_type_to_string(void) {
+    ASSERT_STR_EQ("RID_ID_TYPE_OPERATOR_ID", rid_operator_id_type_to_string(RID_ID_TYPE_OPERATOR_ID));
+    ASSERT_STR_EQ("UNKNOWN", rid_operator_id_type_to_string((rid_operator_id_type_t)99));
+    PASS();
+}
+
 SUITE(operator_id_suite) {
     RUN_TEST(test_operator_id_init);
     RUN_TEST(test_operator_id_init_null_pointer);
@@ -217,4 +224,6 @@ SUITE(operator_id_suite) {
     RUN_TEST(test_get_operator_id_buffer_too_small);
 
     RUN_TEST(test_decode_operator_id_buffer);
+
+    RUN_TEST(test_operator_id_type_to_string);
 }

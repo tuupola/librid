@@ -176,6 +176,15 @@ test_self_id_init_null_pointer(void) {
     PASS();
 }
 
+TEST
+test_description_type_to_string(void) {
+    ASSERT_STR_EQ("RID_DESCRIPTION_TYPE_TEXT", rid_description_type_to_string(RID_DESCRIPTION_TYPE_TEXT));
+    ASSERT_STR_EQ("RID_DESCRIPTION_TYPE_EMERGENCY", rid_description_type_to_string(RID_DESCRIPTION_TYPE_EMERGENCY));
+    ASSERT_STR_EQ("RID_DESCRIPTION_TYPE_EXTENDED_STATUS", rid_description_type_to_string(RID_DESCRIPTION_TYPE_EXTENDED_STATUS));
+    ASSERT_STR_EQ("UNKNOWN", rid_description_type_to_string((rid_description_type_t)99));
+    PASS();
+}
+
 SUITE(self_id_suite) {
     RUN_TEST(test_self_id_init);
     RUN_TEST(test_self_id_init_null_pointer);
@@ -189,4 +198,6 @@ SUITE(self_id_suite) {
     RUN_TEST(test_set_description_null_pointer);
     RUN_TEST(test_get_description_null_pointer);
     RUN_TEST(test_get_description_buffer_too_small);
+
+    RUN_TEST(test_description_type_to_string);
 }

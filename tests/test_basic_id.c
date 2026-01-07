@@ -275,6 +275,39 @@ test_decode_basic_id_buffer(void) {
     PASS();
 }
 
+TEST
+test_basic_id_type_to_string(void) {
+    ASSERT_STR_EQ("RID_ID_TYPE_NONE", rid_basic_id_type_to_string(RID_ID_TYPE_NONE));
+    ASSERT_STR_EQ("RID_ID_TYPE_SERIAL_NUMBER", rid_basic_id_type_to_string(RID_ID_TYPE_SERIAL_NUMBER));
+    ASSERT_STR_EQ("RID_ID_TYPE_CAA_REGISTRATION_ID", rid_basic_id_type_to_string(RID_ID_TYPE_CAA_REGISTRATION_ID));
+    ASSERT_STR_EQ("RID_ID_TYPE_UTM_ASSIGNED_UUID", rid_basic_id_type_to_string(RID_ID_TYPE_UTM_ASSIGNED_UUID));
+    ASSERT_STR_EQ("RID_ID_TYPE_SPECIFIC_SESSION_ID", rid_basic_id_type_to_string(RID_ID_TYPE_SPECIFIC_SESSION_ID));
+    ASSERT_STR_EQ("UNKNOWN", rid_basic_id_type_to_string((rid_basic_id_type_t)99));
+    PASS();
+}
+
+TEST
+test_ua_type_to_string(void) {
+    ASSERT_STR_EQ("RID_UA_TYPE_NONE", rid_ua_type_to_string(RID_UA_TYPE_NONE));
+    ASSERT_STR_EQ("RID_UA_TYPE_AEROPLANE_OR_FIXED_WING", rid_ua_type_to_string(RID_UA_TYPE_AEROPLANE_OR_FIXED_WING));
+    ASSERT_STR_EQ("RID_UA_TYPE_HELICOPTER_OR_MULTIROTOR", rid_ua_type_to_string(RID_UA_TYPE_HELICOPTER_OR_MULTIROTOR));
+    ASSERT_STR_EQ("RID_UA_TYPE_GYROPLANE", rid_ua_type_to_string(RID_UA_TYPE_GYROPLANE));
+    ASSERT_STR_EQ("RID_UA_TYPE_HYBRID_LIFT", rid_ua_type_to_string(RID_UA_TYPE_HYBRID_LIFT));
+    ASSERT_STR_EQ("RID_UA_TYPE_ORNITHOPTER", rid_ua_type_to_string(RID_UA_TYPE_ORNITHOPTER));
+    ASSERT_STR_EQ("RID_UA_TYPE_GLIDER", rid_ua_type_to_string(RID_UA_TYPE_GLIDER));
+    ASSERT_STR_EQ("RID_UA_TYPE_KITE", rid_ua_type_to_string(RID_UA_TYPE_KITE));
+    ASSERT_STR_EQ("RID_UA_TYPE_FREE_BALLOON", rid_ua_type_to_string(RID_UA_TYPE_FREE_BALLOON));
+    ASSERT_STR_EQ("RID_UA_TYPE_CAPTIVE_BALLOON", rid_ua_type_to_string(RID_UA_TYPE_CAPTIVE_BALLOON));
+    ASSERT_STR_EQ("RID_UA_TYPE_AIRSHIP", rid_ua_type_to_string(RID_UA_TYPE_AIRSHIP));
+    ASSERT_STR_EQ("RID_UA_TYPE_FREE_FALL_PARACHUTE", rid_ua_type_to_string(RID_UA_TYPE_FREE_FALL_PARACHUTE));
+    ASSERT_STR_EQ("RID_UA_TYPE_ROCKET", rid_ua_type_to_string(RID_UA_TYPE_ROCKET));
+    ASSERT_STR_EQ("RID_UA_TYPE_TETHERED_POWERED_AIRCRAFT", rid_ua_type_to_string(RID_UA_TYPE_TETHERED_POWERED_AIRCRAFT));
+    ASSERT_STR_EQ("RID_UA_TYPE_GROUND_OBSTACLE", rid_ua_type_to_string(RID_UA_TYPE_GROUND_OBSTACLE));
+    ASSERT_STR_EQ("RID_UA_TYPE_OTHER", rid_ua_type_to_string(RID_UA_TYPE_OTHER));
+    ASSERT_STR_EQ("UNKNOWN", rid_ua_type_to_string((rid_ua_type_t)99));
+    PASS();
+}
+
 SUITE(basic_id_suite) {
     RUN_TEST(test_basic_id_init);
 
@@ -297,4 +330,7 @@ SUITE(basic_id_suite) {
     RUN_TEST(test_get_uas_id_buffer_too_small);
 
     RUN_TEST(test_decode_basic_id_buffer);
+
+    RUN_TEST(test_basic_id_type_to_string);
+    RUN_TEST(test_ua_type_to_string);
 }

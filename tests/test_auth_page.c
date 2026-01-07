@@ -478,6 +478,18 @@ test_get_auth_page_data_buffer_too_small(void) {
     PASS();
 }
 
+TEST
+test_auth_type_to_string(void) {
+    ASSERT_STR_EQ("RID_AUTH_TYPE_NONE", rid_auth_type_to_string(RID_AUTH_TYPE_NONE));
+    ASSERT_STR_EQ("RID_AUTH_TYPE_UAS_ID_SIGNATURE", rid_auth_type_to_string(RID_AUTH_TYPE_UAS_ID_SIGNATURE));
+    ASSERT_STR_EQ("RID_AUTH_TYPE_OPERATOR_ID_SIGNATURE", rid_auth_type_to_string(RID_AUTH_TYPE_OPERATOR_ID_SIGNATURE));
+    ASSERT_STR_EQ("RID_AUTH_TYPE_MESSAGE_SET_SIGNATURE", rid_auth_type_to_string(RID_AUTH_TYPE_MESSAGE_SET_SIGNATURE));
+    ASSERT_STR_EQ("RID_AUTH_TYPE_NETWORK_REMOTE_ID", rid_auth_type_to_string(RID_AUTH_TYPE_NETWORK_REMOTE_ID));
+    ASSERT_STR_EQ("RID_AUTH_TYPE_SPECIFIC_METHOD", rid_auth_type_to_string(RID_AUTH_TYPE_SPECIFIC_METHOD));
+    ASSERT_STR_EQ("UNKNOWN", rid_auth_type_to_string((rid_auth_type_t)99));
+    PASS();
+}
+
 SUITE(auth_page_suite) {
     RUN_TEST(test_auth_init);
     RUN_TEST(test_auth_page_init);
@@ -515,4 +527,6 @@ SUITE(auth_page_suite) {
     RUN_TEST(test_set_and_get_auth_page_data_null_pointer);
     RUN_TEST(test_set_auth_page_data_too_large);
     RUN_TEST(test_get_auth_page_data_buffer_too_small);
+
+    RUN_TEST(test_auth_type_to_string);
 }

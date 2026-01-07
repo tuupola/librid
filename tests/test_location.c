@@ -1268,6 +1268,69 @@ test_location_init(void) {
     PASS();
 }
 
+TEST
+test_ew_direction_to_string(void) {
+    ASSERT_STR_EQ("RID_EW_DIRECTION_EAST", rid_ew_direction_to_string(RID_EW_DIRECTION_EAST));
+    ASSERT_STR_EQ("RID_EW_DIRECTION_WEST", rid_ew_direction_to_string(RID_EW_DIRECTION_WEST));
+    ASSERT_STR_EQ("UNKNOWN", rid_ew_direction_to_string((rid_ew_direction_t)99));
+    PASS();
+}
+
+TEST
+test_height_type_to_string(void) {
+    ASSERT_STR_EQ("RID_HEIGHT_TYPE_ABOVE_TAKEOFF", rid_height_type_to_string(RID_HEIGHT_TYPE_ABOVE_TAKEOFF));
+    ASSERT_STR_EQ("RID_HEIGHT_TYPE_AGL", rid_height_type_to_string(RID_HEIGHT_TYPE_AGL));
+    ASSERT_STR_EQ("UNKNOWN", rid_height_type_to_string((rid_height_type_t)99));
+    PASS();
+}
+
+TEST
+test_operational_status_to_string(void) {
+    ASSERT_STR_EQ("RID_OPERATIONAL_STATUS_UNDECLARED", rid_operational_status_to_string(RID_OPERATIONAL_STATUS_UNDECLARED));
+    ASSERT_STR_EQ("RID_OPERATIONAL_STATUS_GROUND", rid_operational_status_to_string(RID_OPERATIONAL_STATUS_GROUND));
+    ASSERT_STR_EQ("RID_OPERATIONAL_STATUS_AIRBORNE", rid_operational_status_to_string(RID_OPERATIONAL_STATUS_AIRBORNE));
+    ASSERT_STR_EQ("RID_OPERATIONAL_STATUS_EMERGENCY", rid_operational_status_to_string(RID_OPERATIONAL_STATUS_EMERGENCY));
+    ASSERT_STR_EQ("RID_OPERATIONAL_STATUS_REMOTE_ID_SYSTEM_FAILURE", rid_operational_status_to_string(RID_OPERATIONAL_STATUS_REMOTE_ID_SYSTEM_FAILURE));
+    ASSERT_STR_EQ("UNKNOWN", rid_operational_status_to_string((rid_operational_status_t)99));
+    PASS();
+}
+
+TEST
+test_horizontal_accuracy_to_string(void) {
+    ASSERT_STR_EQ("RID_HORIZONTAL_ACCURACY_UNKNOWN", rid_horizontal_accuracy_to_string(RID_HORIZONTAL_ACCURACY_UNKNOWN));
+    ASSERT_STR_EQ("RID_HORIZONTAL_ACCURACY_18520M", rid_horizontal_accuracy_to_string(RID_HORIZONTAL_ACCURACY_18520M));
+    ASSERT_STR_EQ("RID_HORIZONTAL_ACCURACY_1M", rid_horizontal_accuracy_to_string(RID_HORIZONTAL_ACCURACY_1M));
+    ASSERT_STR_EQ("UNKNOWN", rid_horizontal_accuracy_to_string((rid_horizontal_accuracy_t)99));
+    PASS();
+}
+
+TEST
+test_vertical_accuracy_to_string(void) {
+    ASSERT_STR_EQ("RID_VERTICAL_ACCURACY_UNKNOWN", rid_vertical_accuracy_to_string(RID_VERTICAL_ACCURACY_UNKNOWN));
+    ASSERT_STR_EQ("RID_VERTICAL_ACCURACY_150M", rid_vertical_accuracy_to_string(RID_VERTICAL_ACCURACY_150M));
+    ASSERT_STR_EQ("RID_VERTICAL_ACCURACY_1M", rid_vertical_accuracy_to_string(RID_VERTICAL_ACCURACY_1M));
+    ASSERT_STR_EQ("UNKNOWN", rid_vertical_accuracy_to_string((rid_vertical_accuracy_t)99));
+    PASS();
+}
+
+TEST
+test_speed_accuracy_to_string(void) {
+    ASSERT_STR_EQ("RID_SPEED_ACCURACY_UNKNOWN", rid_speed_accuracy_to_string(RID_SPEED_ACCURACY_UNKNOWN));
+    ASSERT_STR_EQ("RID_SPEED_ACCURACY_10MS", rid_speed_accuracy_to_string(RID_SPEED_ACCURACY_10MS));
+    ASSERT_STR_EQ("RID_SPEED_ACCURACY_03MS", rid_speed_accuracy_to_string(RID_SPEED_ACCURACY_03MS));
+    ASSERT_STR_EQ("UNKNOWN", rid_speed_accuracy_to_string((rid_speed_accuracy_t)99));
+    PASS();
+}
+
+TEST
+test_timestamp_accuracy_to_string(void) {
+    ASSERT_STR_EQ("RID_TIMESTAMP_ACCURACY_UNKNOWN", rid_timestamp_accuracy_to_string(RID_TIMESTAMP_ACCURACY_UNKNOWN));
+    ASSERT_STR_EQ("RID_TIMESTAMP_ACCURACY_0_1S", rid_timestamp_accuracy_to_string(RID_TIMESTAMP_ACCURACY_0_1S));
+    ASSERT_STR_EQ("RID_TIMESTAMP_ACCURACY_1_5S", rid_timestamp_accuracy_to_string(RID_TIMESTAMP_ACCURACY_1_5S));
+    ASSERT_STR_EQ("UNKNOWN", rid_timestamp_accuracy_to_string((rid_timestamp_accuracy_t)99));
+    PASS();
+}
+
 SUITE(location_suite) {
     RUN_TEST(test_location_init);
 
@@ -1347,4 +1410,12 @@ SUITE(location_suite) {
     RUN_TEST(test_set_and_get_timestamp_accuracy);
     RUN_TEST(test_timestamp_accuracy_out_of_range);
     RUN_TEST(test_set_timestamp_accuracy_null_pointer);
+
+    RUN_TEST(test_ew_direction_to_string);
+    RUN_TEST(test_height_type_to_string);
+    RUN_TEST(test_operational_status_to_string);
+    RUN_TEST(test_horizontal_accuracy_to_string);
+    RUN_TEST(test_vertical_accuracy_to_string);
+    RUN_TEST(test_speed_accuracy_to_string);
+    RUN_TEST(test_timestamp_accuracy_to_string);
 }

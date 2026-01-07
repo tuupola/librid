@@ -588,6 +588,42 @@ test_set_system_timestamp_from_unixtime_null_pointer(void) {
     PASS();
 }
 
+TEST
+test_operator_location_type_to_string(void) {
+    ASSERT_STR_EQ("RID_OPERATOR_LOCATION_TYPE_TAKEOFF", rid_operator_location_type_to_string(RID_OPERATOR_LOCATION_TYPE_TAKEOFF));
+    ASSERT_STR_EQ("RID_OPERATOR_LOCATION_TYPE_DYNAMIC", rid_operator_location_type_to_string(RID_OPERATOR_LOCATION_TYPE_DYNAMIC));
+    ASSERT_STR_EQ("RID_OPERATOR_LOCATION_TYPE_FIXED", rid_operator_location_type_to_string(RID_OPERATOR_LOCATION_TYPE_FIXED));
+    ASSERT_STR_EQ("UNKNOWN", rid_operator_location_type_to_string((rid_operator_location_type_t)99));
+    PASS();
+}
+
+TEST
+test_classification_type_to_string(void) {
+    ASSERT_STR_EQ("RID_CLASSIFICATION_TYPE_UNDECLARED", rid_classification_type_to_string(RID_CLASSIFICATION_TYPE_UNDECLARED));
+    ASSERT_STR_EQ("RID_CLASSIFICATION_TYPE_EUROPEAN_UNION", rid_classification_type_to_string(RID_CLASSIFICATION_TYPE_EUROPEAN_UNION));
+    ASSERT_STR_EQ("UNKNOWN", rid_classification_type_to_string((rid_classification_type_t)99));
+    PASS();
+}
+
+TEST
+test_ua_classification_category_to_string(void) {
+    ASSERT_STR_EQ("RID_UA_CLASSIFICATION_CATEGORY_UNDEFINED", rid_ua_classification_category_to_string(RID_UA_CLASSIFICATION_CATEGORY_UNDEFINED));
+    ASSERT_STR_EQ("RID_UA_CLASSIFICATION_CATEGORY_OPEN", rid_ua_classification_category_to_string(RID_UA_CLASSIFICATION_CATEGORY_OPEN));
+    ASSERT_STR_EQ("RID_UA_CLASSIFICATION_CATEGORY_SPECIFIC", rid_ua_classification_category_to_string(RID_UA_CLASSIFICATION_CATEGORY_SPECIFIC));
+    ASSERT_STR_EQ("RID_UA_CLASSIFICATION_CATEGORY_CERTIFIED", rid_ua_classification_category_to_string(RID_UA_CLASSIFICATION_CATEGORY_CERTIFIED));
+    ASSERT_STR_EQ("UNKNOWN", rid_ua_classification_category_to_string((rid_ua_classification_category_t)99));
+    PASS();
+}
+
+TEST
+test_ua_classification_class_to_string(void) {
+    ASSERT_STR_EQ("RID_UA_CLASSIFICATION_CLASS_UNDEFINED", rid_ua_classification_class_to_string(RID_UA_CLASSIFICATION_CLASS_UNDEFINED));
+    ASSERT_STR_EQ("RID_UA_CLASSIFICATION_CLASS_0", rid_ua_classification_class_to_string(RID_UA_CLASSIFICATION_CLASS_0));
+    ASSERT_STR_EQ("RID_UA_CLASSIFICATION_CLASS_6", rid_ua_classification_class_to_string(RID_UA_CLASSIFICATION_CLASS_6));
+    ASSERT_STR_EQ("UNKNOWN", rid_ua_classification_class_to_string((rid_ua_classification_class_t)99));
+    PASS();
+}
+
 SUITE(system_suite) {
     RUN_TEST(test_set_and_get_operator_location_type);
     RUN_TEST(test_set_operator_location_type_out_of_range);
@@ -641,4 +677,9 @@ SUITE(system_suite) {
     RUN_TEST(test_set_system_timestamp_from_unixtime_at_epoch);
     RUN_TEST(test_set_system_timestamp_null_pointer);
     RUN_TEST(test_set_system_timestamp_from_unixtime_null_pointer);
+
+    RUN_TEST(test_operator_location_type_to_string);
+    RUN_TEST(test_classification_type_to_string);
+    RUN_TEST(test_ua_classification_category_to_string);
+    RUN_TEST(test_ua_classification_class_to_string);
 }
