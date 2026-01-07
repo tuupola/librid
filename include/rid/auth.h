@@ -77,6 +77,23 @@ typedef struct rid_auth {
 int rid_auth_init(rid_auth_t *auth);
 
 /**
+ * @brief Validate an Auth container structure.
+ *
+ * Checks that page_0 fields contain valid values according to ASTM F3411-22a.
+ *
+ * @param auth Pointer to the Auth container structure to validate.
+ *
+ * @retval RID_SUCCESS if all fields are valid.
+ * @retval RID_ERROR_NULL_POINTER if auth is NULL.
+ * @retval RID_ERROR_INVALID_PROTOCOL_VERSION if protocol version is invalid.
+ * @retval RID_ERROR_WRONG_MESSAGE_TYPE if message type is not AUTH.
+ * @retval RID_ERROR_INVALID_PAGE_NUMBER if page_number is invalid.
+ * @retval RID_ERROR_INVALID_LAST_PAGE_INDEX if last_page_index exceeds maximum.
+ * @retval RID_ERROR_NON_EMPTY_SIGNATURE if auth type is NETWORK_REMOTE_ID but signature is not empty.
+ */
+int rid_auth_validate(const rid_auth_t *auth);
+
+/**
  * @brief Get the number of pages used.
  *
  * @param auth Pointer to the authentication data container.

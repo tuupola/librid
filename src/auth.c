@@ -50,6 +50,40 @@ rid_auth_init(rid_auth_t *auth) {
     return RID_SUCCESS;
 }
 
+int
+rid_auth_validate(const rid_auth_t *auth) {
+    if (auth == NULL) {
+        return RID_ERROR_NULL_POINTER;
+    }
+
+    /* Valid protocol versions: 0, 1, 2, or 0x0F (private use) */
+    if (auth->page_0.protocol_version > RID_PROTOCOL_VERSION_2 &&
+        auth->page_0.protocol_version != RID_PROTOCOL_PRIVATE_USE) {
+        return RID_ERROR_INVALID_PROTOCOL_VERSION;
+    }
+
+    if (auth->page_0.message_type != RID_MESSAGE_TYPE_AUTH) {
+        return RID_ERROR_WRONG_MESSAGE_TYPE;
+    }
+
+    if (auth->page_0.page_number != 0) {
+        return RID_ERROR_INVALID_PAGE_NUMBER;
+    }
+
+    if (auth->page_0.last_page_index > RID_AUTH_MAX_PAGE_INDEX) {
+        return RID_ERROR_INVALID_LAST_PAGE_INDEX;
+    }
+
+    /* BMG0180: Network Remote ID requires an empty signature */
+    if (auth->page_0.auth_type == RID_AUTH_TYPE_NETWORK_REMOTE_ID) {
+        if (auth->page_0.length != 0) {
+            return RID_ERROR_NON_EMPTY_SIGNATURE;
+        }
+    }
+
+    return RID_SUCCESS;
+}
+
 uint8_t
 rid_auth_get_page_count(const rid_auth_t *auth) {
     if (NULL == auth) {

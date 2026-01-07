@@ -23,6 +23,102 @@ test_auth_init(void) {
 }
 
 TEST
+test_auth_validate_valid(void) {
+    rid_auth_t auth;
+    rid_auth_init(&auth);
+
+    int status = rid_auth_validate(&auth);
+    ASSERT_EQ(RID_SUCCESS, status);
+
+    PASS();
+}
+
+TEST
+test_auth_validate_null_pointer(void) {
+    int status = rid_auth_validate(NULL);
+    ASSERT_EQ(RID_ERROR_NULL_POINTER, status);
+
+    PASS();
+}
+
+TEST
+test_auth_validate_invalid_protocol_version(void) {
+    rid_auth_t auth;
+    rid_auth_init(&auth);
+
+    auth.page_0.protocol_version = 5;
+    int status = rid_auth_validate(&auth);
+    ASSERT_EQ(RID_ERROR_INVALID_PROTOCOL_VERSION, status);
+
+    /* Private use should be valid */
+    auth.page_0.protocol_version = RID_PROTOCOL_PRIVATE_USE;
+    status = rid_auth_validate(&auth);
+    ASSERT_EQ(RID_SUCCESS, status);
+
+    PASS();
+}
+
+TEST
+test_auth_validate_invalid_message_type(void) {
+    rid_auth_t auth;
+    rid_auth_init(&auth);
+
+    auth.page_0.message_type = RID_MESSAGE_TYPE_BASIC_ID;
+    int status = rid_auth_validate(&auth);
+    ASSERT_EQ(RID_ERROR_WRONG_MESSAGE_TYPE, status);
+
+    PASS();
+}
+
+TEST
+test_auth_validate_invalid_page_number(void) {
+    rid_auth_t auth;
+    rid_auth_init(&auth);
+
+    auth.page_0.page_number = 1;
+    int status = rid_auth_validate(&auth);
+    ASSERT_EQ(RID_ERROR_INVALID_PAGE_NUMBER, status);
+
+    PASS();
+}
+
+TEST
+test_auth_validate_invalid_last_page_index(void) {
+    rid_auth_t auth;
+    rid_auth_init(&auth);
+
+    /* Max is 15 (RID_AUTH_MAX_PAGE_INDEX) */
+    auth.page_0.last_page_index = 16;
+    int status = rid_auth_validate(&auth);
+    ASSERT_EQ(RID_ERROR_INVALID_LAST_PAGE_INDEX, status);
+
+    /* Max valid should pass */
+    auth.page_0.last_page_index = 15;
+    status = rid_auth_validate(&auth);
+    ASSERT_EQ(RID_SUCCESS, status);
+
+    PASS();
+}
+
+TEST
+test_auth_validate_bmg0180(void) {
+    rid_auth_t auth;
+    rid_auth_init(&auth);
+
+    /* Valid: NETWORK_REMOTE_ID with empty signature */
+    rid_auth_set_type(&auth, RID_AUTH_TYPE_NETWORK_REMOTE_ID);
+    int status = rid_auth_validate(&auth);
+    ASSERT_EQ(RID_SUCCESS, status);
+
+    /* Invalid: NETWORK_REMOTE_ID with non-zero length */
+    auth.page_0.length = 1;
+    status = rid_auth_validate(&auth);
+    ASSERT_EQ(RID_ERROR_NON_EMPTY_SIGNATURE, status);
+
+    PASS();
+}
+
+TEST
 test_auth_get_page_count(void) {
     rid_auth_t auth;
 
@@ -342,6 +438,13 @@ test_auth_set_type_network_remote_id_clears_signature(void) {
 
 SUITE(auth_suite) {
     RUN_TEST(test_auth_init);
+    RUN_TEST(test_auth_validate_valid);
+    RUN_TEST(test_auth_validate_null_pointer);
+    RUN_TEST(test_auth_validate_invalid_protocol_version);
+    RUN_TEST(test_auth_validate_invalid_message_type);
+    RUN_TEST(test_auth_validate_invalid_page_number);
+    RUN_TEST(test_auth_validate_invalid_last_page_index);
+    RUN_TEST(test_auth_validate_bmg0180);
     RUN_TEST(test_auth_get_page_count);
     RUN_TEST(test_auth_set_and_get_type);
     RUN_TEST(test_auth_set_type_null_pointer);

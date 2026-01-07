@@ -115,6 +115,12 @@ rid_error_to_string(rid_error_t error) {
             return "RID_ERROR_INVALID_MESSAGE_COUNT";
         case RID_ERROR_INVALID_MESSAGE_SIZE:
             return "RID_ERROR_INVALID_MESSAGE_SIZE";
+        case RID_ERROR_INVALID_LAST_PAGE_INDEX:
+            return "RID_ERROR_INVALID_LAST_PAGE_INDEX";
+        case RID_ERROR_INVALID_PAGE_NUMBER:
+            return "RID_ERROR_INVALID_PAGE_NUMBER";
+        case RID_ERROR_NON_EMPTY_SIGNATURE:
+            return "RID_ERROR_NON_EMPTY_SIGNATURE";
         default:
             return "UNKNOWN";
     }
