@@ -273,6 +273,19 @@ test_operator_id_validate_invalid_message_type(void) {
     PASS();
 }
 
+TEST
+test_operator_id_validate_invalid_operator_id(void) {
+    rid_operator_id_t message;
+
+    rid_operator_id_init(&message);
+    message.operator_id[10] = (char)0xFF;
+
+    int status = rid_operator_id_validate(&message);
+    ASSERT_EQ(RID_ERROR_INVALID_CHARACTER, status);
+
+    PASS();
+}
+
 SUITE(operator_id_suite) {
     RUN_TEST(test_operator_id_init);
     RUN_TEST(test_operator_id_init_null_pointer);
@@ -295,4 +308,5 @@ SUITE(operator_id_suite) {
     RUN_TEST(test_operator_id_validate_null_pointer);
     RUN_TEST(test_operator_id_validate_invalid_protocol_version);
     RUN_TEST(test_operator_id_validate_invalid_message_type);
+    RUN_TEST(test_operator_id_validate_invalid_operator_id);
 }

@@ -96,6 +96,7 @@ int rid_operator_id_init(rid_operator_id_t *message);
  * @retval RID_ERROR_NULL_POINTER if message is NULL.
  * @retval RID_ERROR_INVALID_PROTOCOL_VERSION if protocol version is invalid.
  * @retval RID_ERROR_WRONG_MESSAGE_TYPE if message type is not OPERATOR_ID.
+ * @retval RID_ERROR_INVALID_CHARACTER if operator ID contains non-ASCII characters.
  */
 int rid_operator_id_validate(const rid_operator_id_t *message);
 

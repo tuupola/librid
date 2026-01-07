@@ -66,6 +66,13 @@ rid_operator_id_validate(const rid_operator_id_t *message) {
         return RID_ERROR_WRONG_MESSAGE_TYPE;
     }
 
+    /* Operator ID must be ASCII only */
+    for (size_t i = 0; i < 20; ++i) {
+        if ((unsigned char)message->operator_id[i] > 127) {
+            return RID_ERROR_INVALID_CHARACTER;
+        }
+    }
+
     return RID_SUCCESS;
 }
 
