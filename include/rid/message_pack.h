@@ -47,7 +47,10 @@ SPDX-License-Identifier: MIT
 extern "C" {
 #endif /* __cplusplus */
 
+/** @brief Maximum number of messages in a Message Pack. */
 #define RID_MESSAGE_PACK_MAX_MESSAGES 9
+
+/** @brief Size of a single message in bytes. */
 #define RID_MESSAGE_SIZE 25
 
 /**

@@ -50,26 +50,41 @@ SPDX-License-Identifier: MIT
 extern "C" {
 #endif /* __cplusplus */
 
+/** @brief Maximum valid track direction in degrees. */
 #define RID_TRACK_DIRECTION_MAX 359
+/** @brief Value indicating unknown track direction. */
 #define RID_TRACK_DIRECTION_UNKNOWN 361
+/** @brief Encoded value for unknown track direction. */
 #define RID_TRACK_DIRECTION_UNKNOWN_ENCODED 181
 
+/** @brief Value indicating invalid speed. */
 #define RID_SPEED_INVALID FLT_MAX
+/** @brief Encoded value for invalid speed. */
 #define RID_SPEED_INVALID_ENCODED 255
 
+/** @brief Value indicating invalid vertical speed. */
 #define RID_VERTICAL_SPEED_INVALID 63
+/** @brief Encoded value for invalid vertical speed. */
 #define RID_VERTICAL_SPEED_INVALID_ENCODED 126
 
+/** @brief Value indicating invalid height. */
 #define RID_HEIGHT_INVALID FLT_MAX
+/** @brief Encoded value for invalid height. */
 #define RID_HEIGHT_INVALID_ENCODED 0
 
+/** @brief Value indicating invalid pressure altitude. */
 #define RID_PRESSURE_ALTITUDE_INVALID FLT_MAX
+/** @brief Encoded value for invalid pressure altitude. */
 #define RID_PRESSURE_ALTITUDE_INVALID_ENCODED 0
 
+/** @brief Value indicating invalid geodetic altitude. */
 #define RID_GEODETIC_ALTITUDE_INVALID FLT_MAX
+/** @brief Encoded value for invalid geodetic altitude. */
 #define RID_GEODETIC_ALTITUDE_INVALID_ENCODED 0
 
+/** @brief Value indicating invalid timestamp. */
 #define RID_TIMESTAMP_INVALID 0xFFFF
+/** @brief Maximum valid timestamp in deciseconds (1 hour). */
 #define RID_TIMESTAMP_MAX 36000
 
 /**

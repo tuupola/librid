@@ -80,18 +80,31 @@ __attribute__((__packed__)) rid_system {
     uint8_t reserved_2;
 } rid_system_t;
 
+/** @brief Maximum area count value. */
 #define RID_AREA_COUNT_MAX UINT16_MAX
+
+/** @brief Maximum area radius in meters. */
 #define RID_AREA_RADIUS_MAX 2550
 
+/** @brief Minimum area ceiling altitude in meters. */
 #define RID_AREA_CEILING_MIN -1000.0f
+
+/** @brief Maximum area ceiling altitude in meters. */
 #define RID_AREA_CEILING_MAX 31767.0f
 
+/** @brief Minimum area floor altitude in meters. */
 #define RID_AREA_FLOOR_MIN -1000.0f
+
+/** @brief Maximum area floor altitude in meters. */
 #define RID_AREA_FLOOR_MAX 31767.0f
 
+/** @brief Value indicating invalid operator altitude. */
 #define RID_OPERATOR_ALTITUDE_INVALID FLT_MAX
+
+/** @brief Encoded value for invalid operator altitude. */
 #define RID_OPERATOR_ALTITUDE_INVALID_ENCODED 0
 
+/** @brief Timestamp epoch (2019-01-01 00:00:00 UTC as Unix timestamp). */
 #define RID_SYSTEM_TIMESTAMP_EPOCH 1546300800
 
 /**

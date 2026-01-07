@@ -51,19 +51,19 @@ SPDX-License-Identifier: MIT
 extern "C" {
 #endif /* __cplusplus */
 
-/** Timestamp epoch offset (2019-01-01 00:00:00 UTC as Unix timestamp) */
+/** @brief Timestamp epoch offset (2019-01-01 00:00:00 UTC). */
 #define RID_AUTH_EPOCH_OFFSET 1546300800
 
-/** Auth data size for page 0 */
+/** @brief Auth data size for page 0. */
 #define RID_AUTH_PAGE_0_DATA_SIZE 17
 
-/** Auth data size for pages 1-15 */
+/** @brief Auth data size for pages 1-15. */
 #define RID_AUTH_PAGE_DATA_SIZE 23
 
-/** Maximum number of authentication pages */
+/** @brief Maximum number of authentication pages. */
 #define RID_AUTH_MAX_PAGES 16
 
-/** Maximum page index (0-15) */
+/** @brief Maximum page index (0-15). */
 #define RID_AUTH_MAX_PAGE_INDEX 15
 
 /**
