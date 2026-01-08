@@ -494,6 +494,129 @@ test_basic_id_validate_serial_number_invalid_lowercase(void) {
     PASS();
 }
 
+TEST
+test_basic_id_validate_utm_uuid_valid(void) {
+    rid_basic_id_t message;
+
+    rid_basic_id_init(&message);
+    rid_basic_id_set_type(&message, RID_ID_TYPE_UTM_ASSIGNED_UUID);
+
+    /* Valid UUID v4: 550e8400-e29b-41d4-a716-446655440000 */
+    uint8_t uuid[20] = {
+        0x55, 0x0e, 0x84, 0x00, 0xe2, 0x9b, 0x41, 0xd4,
+        0xa7, 0x16, 0x44, 0x66, 0x55, 0x44, 0x00, 0x00,
+        0x00, 0x00, 0x00, 0x00
+    };
+    memcpy(message.uas_id, uuid, 20);
+
+    int status = rid_basic_id_validate(&message);
+    ASSERT_EQ(RID_SUCCESS, status);
+
+    /* Test all valid versions 1-5 */
+    for (uint8_t v = 1; v <= 5; ++v) {
+        message.uas_id[6] = (v << 4) | 0x0d;
+        status = rid_basic_id_validate(&message);
+        ASSERT_EQ(RID_SUCCESS, status);
+    }
+
+    PASS();
+}
+
+TEST
+test_basic_id_validate_utm_uuid_invalid_version_0(void) {
+    rid_basic_id_t message;
+
+    rid_basic_id_init(&message);
+    rid_basic_id_set_type(&message, RID_ID_TYPE_UTM_ASSIGNED_UUID);
+
+    /* UUID with version 0 (nil UUID) */
+    uint8_t uuid[20] = {
+        0x55, 0x0e, 0x84, 0x00, 0xe2, 0x9b, 0x01, 0xd4,
+        0xa7, 0x16, 0x44, 0x66, 0x55, 0x44, 0x00, 0x00,
+        0x00, 0x00, 0x00, 0x00
+    };
+    memcpy(message.uas_id, uuid, 20);
+
+    int status = rid_basic_id_validate(&message);
+    ASSERT_EQ(RID_ERROR_INVALID_UUID_VERSION, status);
+
+    PASS();
+}
+
+TEST
+test_basic_id_validate_utm_uuid_invalid_version_6(void) {
+    rid_basic_id_t message;
+
+    rid_basic_id_init(&message);
+    rid_basic_id_set_type(&message, RID_ID_TYPE_UTM_ASSIGNED_UUID);
+
+    /* UUID with version 6 (invalid for RFC4122) */
+    uint8_t uuid[20] = {
+        0x55, 0x0e, 0x84, 0x00, 0xe2, 0x9b, 0x61, 0xd4,
+        0xa7, 0x16, 0x44, 0x66, 0x55, 0x44, 0x00, 0x00,
+        0x00, 0x00, 0x00, 0x00
+    };
+    memcpy(message.uas_id, uuid, 20);
+
+    int status = rid_basic_id_validate(&message);
+    ASSERT_EQ(RID_ERROR_INVALID_UUID_VERSION, status);
+
+    PASS();
+}
+
+TEST
+test_basic_id_validate_utm_uuid_invalid_variant(void) {
+    rid_basic_id_t message;
+
+    rid_basic_id_init(&message);
+    rid_basic_id_set_type(&message, RID_ID_TYPE_UTM_ASSIGNED_UUID);
+
+    /* UUID with variant 0b00 (NCS backward compatibility) */
+    uint8_t uuid[20] = {
+        0x55, 0x0e, 0x84, 0x00, 0xe2, 0x9b, 0x41, 0xd4,
+        0x27, 0x16, 0x44, 0x66, 0x55, 0x44, 0x00, 0x00,
+        0x00, 0x00, 0x00, 0x00
+    };
+    memcpy(message.uas_id, uuid, 20);
+
+    int status = rid_basic_id_validate(&message);
+    ASSERT_EQ(RID_ERROR_INVALID_UUID_VARIANT, status);
+
+    /* UUID with variant 0b11 (reserved) */
+    message.uas_id[8] = 0xe7;
+    status = rid_basic_id_validate(&message);
+    ASSERT_EQ(RID_ERROR_INVALID_UUID_VARIANT, status);
+
+    PASS();
+}
+
+TEST
+test_basic_id_validate_utm_uuid_invalid_padding(void) {
+    rid_basic_id_t message;
+
+    rid_basic_id_init(&message);
+    rid_basic_id_set_type(&message, RID_ID_TYPE_UTM_ASSIGNED_UUID);
+
+    /* Valid UUID but with non-zero padding */
+    uint8_t uuid[20] = {
+        0x55, 0x0e, 0x84, 0x00, 0xe2, 0x9b, 0x41, 0xd4,
+        0xa7, 0x16, 0x44, 0x66, 0x55, 0x44, 0x00, 0x00,
+        0x00, 0x00, 0x00, 0x01
+    };
+    memcpy(message.uas_id, uuid, 20);
+
+    int status = rid_basic_id_validate(&message);
+    ASSERT_EQ(RID_ERROR_INVALID_UUID_PADDING, status);
+
+    /* Non-zero in middle of padding */
+    message.uas_id[19] = 0x00;
+    message.uas_id[17] = 0xff;
+    status = rid_basic_id_validate(&message);
+    ASSERT_EQ(RID_ERROR_INVALID_UUID_PADDING, status);
+
+    PASS();
+}
+
 SUITE(basic_id_suite) {
     RUN_TEST(test_basic_id_init);
 
@@ -531,4 +654,9 @@ SUITE(basic_id_suite) {
     RUN_TEST(test_basic_id_validate_serial_number_invalid_i);
     RUN_TEST(test_basic_id_validate_serial_number_invalid_o);
     RUN_TEST(test_basic_id_validate_serial_number_invalid_lowercase);
+    RUN_TEST(test_basic_id_validate_utm_uuid_valid);
+    RUN_TEST(test_basic_id_validate_utm_uuid_invalid_version_0);
+    RUN_TEST(test_basic_id_validate_utm_uuid_invalid_version_6);
+    RUN_TEST(test_basic_id_validate_utm_uuid_invalid_variant);
+    RUN_TEST(test_basic_id_validate_utm_uuid_invalid_padding);
 }

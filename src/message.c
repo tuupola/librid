@@ -121,6 +121,12 @@ rid_error_to_string(rid_error_t error) {
             return "RID_ERROR_INVALID_PAGE_NUMBER";
         case RID_ERROR_NON_EMPTY_SIGNATURE:
             return "RID_ERROR_NON_EMPTY_SIGNATURE";
+        case RID_ERROR_INVALID_UUID_VERSION:
+            return "RID_ERROR_INVALID_UUID_VERSION";
+        case RID_ERROR_INVALID_UUID_VARIANT:
+            return "RID_ERROR_INVALID_UUID_VARIANT";
+        case RID_ERROR_INVALID_UUID_PADDING:
+            return "RID_ERROR_INVALID_UUID_PADDING";
         default:
             return "UNKNOWN";
     }

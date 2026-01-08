@@ -101,6 +101,28 @@ rid_basic_id_validate(const rid_basic_id_t *message) {
         }
     }
 
+    /* Validate UTM UUID format per RFC4122 */
+    if (message->id_type == RID_ID_TYPE_UTM_ASSIGNED_UUID) {
+        /* Check version field (byte 6, high nibble): valid 1-5 */
+        uint8_t version = (message->uas_id[6] >> 4) & 0x0F;
+        if (version < 1 || version > 5) {
+            return RID_ERROR_INVALID_UUID_VERSION;
+        }
+
+        /* Check variant field (byte 8, high 2 bits): must be 0b10 */
+        uint8_t variant = (message->uas_id[8] >> 6) & 0x03;
+        if (variant != 0x02) {
+            return RID_ERROR_INVALID_UUID_VARIANT;
+        }
+
+        /* Check padding bytes (16-19) are zero */
+        for (size_t i = 16; i < 20; ++i) {
+            if (message->uas_id[i] != 0) {
+                return RID_ERROR_INVALID_UUID_PADDING;
+            }
+        }
+    }
+
     return RID_SUCCESS;
 }
 
