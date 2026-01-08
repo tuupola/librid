@@ -121,6 +121,10 @@ int rid_basic_id_init(rid_basic_id_t *message);
  * @retval RID_ERROR_NULL_POINTER if message is NULL.
  * @retval RID_ERROR_INVALID_PROTOCOL_VERSION if protocol version is invalid.
  * @retval RID_ERROR_WRONG_MESSAGE_TYPE if message type is not BASIC_ID.
+ * @retval RID_ERROR_INVALID_CHARACTER if Registration ID or Serial Number contains invalid characters.
+ * @retval RID_ERROR_INVALID_UUID_VERSION if UTM UUID version is not 1-5.
+ * @retval RID_ERROR_INVALID_UUID_VARIANT if UTM UUID variant is not RFC4122.
+ * @retval RID_ERROR_INVALID_UUID_PADDING if UTM UUID padding bytes are non-zero.
  */
 int rid_basic_id_validate(const rid_basic_id_t *message);
 
