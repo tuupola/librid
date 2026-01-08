@@ -425,7 +425,7 @@ uint32_t rid_system_get_timestamp(const rid_system_t *system);
  * @retval RID_SUCCESS on success.
  * @retval RID_ERROR_NULL_POINTER if system is NULL.
  */
-int rid_system_set_timestamp_from_unixtime(rid_system_t *system, uint32_t unixtime);
+int rid_system_set_unixtime(rid_system_t *system, uint32_t unixtime);
 
 /**
  * @brief Initialize a System message with default values.

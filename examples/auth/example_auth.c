@@ -50,7 +50,7 @@ main(void)
 
     rid_auth_init(&auth);
     rid_auth_set_type(&auth, RID_AUTH_TYPE_UAS_ID_SIGNATURE);
-    rid_auth_set_timestamp(&auth, timestamp);
+    rid_auth_set_unixtime(&auth, timestamp);
     rid_auth_set_signature(&auth, signature, sizeof(signature));
 
     /* Get the signature back for verifying*/

@@ -1,4 +1,4 @@
-SUBDIRS = auth basic_id location message message_pack operator_id self_id system
+SUBDIRS = auth basic_id location message message_pack operator_id self_id system validate
 
 all:
 	@for dir in $(SUBDIRS); do \

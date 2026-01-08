@@ -366,7 +366,7 @@ rid_system_get_timestamp(const rid_system_t *system) {
 }
 
 int
-rid_system_set_timestamp_from_unixtime(rid_system_t *system, uint32_t unixtime) {
+rid_system_set_unixtime(rid_system_t *system, uint32_t unixtime) {
     if (system == NULL) {
         return RID_ERROR_NULL_POINTER;
     }

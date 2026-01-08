@@ -547,7 +547,7 @@ test_set_system_timestamp_from_unixtime(void) {
 
     uint32_t unixtime = 1710506445;
 
-    int status = rid_system_set_timestamp_from_unixtime(&system, unixtime);
+    int status = rid_system_set_unixtime(&system, unixtime);
     ASSERT_EQ(RID_SUCCESS, status);
 
     /* Internal value should be offset by RID epoch */
@@ -563,7 +563,7 @@ test_set_system_timestamp_from_unixtime_at_epoch(void) {
 
     uint32_t unixtime = RID_SYSTEM_TIMESTAMP_EPOCH;
 
-    int status = rid_system_set_timestamp_from_unixtime(&system, unixtime);
+    int status = rid_system_set_unixtime(&system, unixtime);
     ASSERT_EQ(RID_SUCCESS, status);
 
     /* Internal value should be 0 at epoch */
@@ -582,7 +582,7 @@ test_set_system_timestamp_null_pointer(void) {
 
 TEST
 test_set_system_timestamp_from_unixtime_null_pointer(void) {
-    int status = rid_system_set_timestamp_from_unixtime(NULL, 1710506445);
+    int status = rid_system_set_unixtime(NULL, 1710506445);
     ASSERT_EQ(RID_ERROR_NULL_POINTER, status);
 
     PASS();
