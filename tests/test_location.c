@@ -1100,27 +1100,27 @@ test_set_timestamp_from_unixtime(void) {
     memset(&location, 0, sizeof(location));
 
     /* Test start of hour (unixtime % 3600 = 0) */
-    int status = rid_location_set_timestamp_from_unixtime(&location, 3600);
+    int status = rid_location_set_unixtime(&location, 3600);
     ASSERT_EQ(RID_SUCCESS, status);
     ASSERT_EQ(0, location.timestamp);
 
     /* Test 800 seconds into hour (800 * 10 = 8000 tenths) */
     memset(&location, 0, sizeof(location));
-    status = rid_location_set_timestamp_from_unixtime(&location, 1700000000);
+    status = rid_location_set_unixtime(&location, 1700000000);
     ASSERT_EQ(RID_SUCCESS, status);
     /* 1700000000 % 3600 = 800, 800 * 10 = 8000 */
     ASSERT_EQ(8000, location.timestamp);
 
     /* Test 1800 seconds into hour (1800 * 10 = 18000 tenths) */
     memset(&location, 0, sizeof(location));
-    status = rid_location_set_timestamp_from_unixtime(&location, 5400);
+    status = rid_location_set_unixtime(&location, 5400);
     ASSERT_EQ(RID_SUCCESS, status);
     /* 5400 % 3600 = 1800, 1800 * 10 = 18000 */
     ASSERT_EQ(18000, location.timestamp);
 
     /* Test 3599 seconds into hour (3599 * 10 = 35990 tenths) */
     memset(&location, 0, sizeof(location));
-    status = rid_location_set_timestamp_from_unixtime(&location, 3599);
+    status = rid_location_set_unixtime(&location, 3599);
     ASSERT_EQ(RID_SUCCESS, status);
     ASSERT_EQ(35990, location.timestamp);
 
@@ -1129,7 +1129,7 @@ test_set_timestamp_from_unixtime(void) {
 
 TEST
 test_set_timestamp_from_unixtime_null_pointer(void) {
-    int status = rid_location_set_timestamp_from_unixtime(NULL, 3600);
+    int status = rid_location_set_unixtime(NULL, 3600);
     ASSERT_EQ(RID_ERROR_NULL_POINTER, status);
 
     PASS();

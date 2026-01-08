@@ -596,7 +596,7 @@ uint16_t rid_location_get_timestamp(const rid_location_t *location);
  * @retval RID_SUCCESS on success.
  * @retval RID_ERROR_NULL_POINTER if location is NULL.
  */
-int rid_location_set_timestamp_from_unixtime(rid_location_t *location, uint32_t unixtime);
+int rid_location_set_unixtime(rid_location_t *location, uint32_t unixtime);
 
 /**
  * @brief Set the timestamp accuracy for a Location message.

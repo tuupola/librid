@@ -558,7 +558,7 @@ rid_location_get_timestamp(const rid_location_t *location) {
 }
 
 int
-rid_location_set_timestamp_from_unixtime(rid_location_t *location, uint32_t unixtime) {
+rid_location_set_unixtime(rid_location_t *location, uint32_t unixtime) {
     if (location == NULL) {
         return RID_ERROR_NULL_POINTER;
     }
