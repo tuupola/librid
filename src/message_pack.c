@@ -181,11 +181,11 @@ rid_message_pack_snprintf(const rid_message_pack_t *pack, char *buffer, size_t b
     }
 
     int written = snprintf(buffer, buffer_size,
-                           "{\"protocol_version\": %u, \"message_type\": %u, "
-                           "\"message_count\": %u, \"messages\": [",
-                           pack->protocol_version,
-                           pack->message_type,
-                           rid_message_pack_get_message_count(pack));
+            "{\"protocol_version\": %u, \"message_type\": %u, "
+            "\"message_count\": %u, \"messages\": [",
+            pack->protocol_version,
+            pack->message_type,
+            rid_message_pack_get_message_count(pack));
 
     if (written < 0) {
         return written;
@@ -213,46 +213,46 @@ rid_message_pack_snprintf(const rid_message_pack_t *pack, char *buffer, size_t b
         switch (type) {
             case RID_MESSAGE_TYPE_BASIC_ID:
                 msg_written = rid_basic_id_snprintf(
-                    (const rid_basic_id_t *)msg,
-                    buffer + pos,
-                    buffer_size - pos
-                );
+                        (const rid_basic_id_t *)msg,
+                        buffer + pos,
+                        buffer_size - pos
+                    );
                 break;
             case RID_MESSAGE_TYPE_LOCATION:
                 msg_written = rid_location_snprintf(
-                    (const rid_location_t *)msg,
-                    buffer + pos,
-                    buffer_size - pos
-                );
+                        (const rid_location_t *)msg,
+                        buffer + pos,
+                        buffer_size - pos
+                    );
                 break;
             case RID_MESSAGE_TYPE_SELF_ID:
                 msg_written = rid_self_id_snprintf(
-                    (const rid_self_id_t *)msg,
-                    buffer + pos,
-                    buffer_size - pos
-                );
+                        (const rid_self_id_t *)msg,
+                        buffer + pos,
+                        buffer_size - pos
+                    );
                 break;
             case RID_MESSAGE_TYPE_SYSTEM:
                 msg_written = rid_system_snprintf(
-                    (const rid_system_t *)msg,
-                    buffer + pos,
-                    buffer_size - pos
-                );
+                        (const rid_system_t *)msg,
+                        buffer + pos,
+                        buffer_size - pos
+                    );
                 break;
             case RID_MESSAGE_TYPE_OPERATOR_ID:
                 msg_written = rid_operator_id_snprintf(
-                    (const rid_operator_id_t *)msg,
-                    buffer + pos,
-                    buffer_size - pos
-                );
+                        (const rid_operator_id_t *)msg,
+                        buffer + pos,
+                        buffer_size - pos
+                    );
                 break;
             default:
                 msg_written = snprintf(
-                    buffer + pos,
-                    buffer_size - pos,
-                    "{\"type\": %u}",
-                    type
-                );
+                        buffer + pos,
+                        buffer_size - pos,
+                        "{\"type\": %u}",
+                        type
+                    );
                 break;
         }
 

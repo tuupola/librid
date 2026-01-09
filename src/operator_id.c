@@ -154,13 +154,13 @@ rid_operator_id_snprintf(const rid_operator_id_t *message, char *buffer, size_t 
     rid_operator_id_get(message, operator_id, sizeof(operator_id));
 
     return snprintf(
-        buffer,
-        buffer_size,
-        "{\"protocol_version\": %u, \"message_type\": %u, "
-        "\"id_type\": %u, \"operator_id\": \"%s\"}",
-        message->protocol_version,
-        message->message_type,
-        rid_operator_id_get_type(message),
-        operator_id
-    );
+            buffer,
+            buffer_size,
+            "{\"protocol_version\": %u, \"message_type\": %u, "
+            "\"id_type\": %u, \"operator_id\": \"%s\"}",
+            message->protocol_version,
+            message->message_type,
+            rid_operator_id_get_type(message),
+            operator_id
+        );
 }

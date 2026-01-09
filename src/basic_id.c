@@ -76,8 +76,8 @@ rid_basic_id_validate(const rid_basic_id_t *message) {
                 break;
             }
             int valid = (c >= 'A' && c <= 'Z') ||
-                        (c >= '0' && c <= '9') ||
-                        (c == '.');
+                (c >= '0' && c <= '9') ||
+                (c == '.');
             if (!valid) {
                 return RID_ERROR_INVALID_CHARACTER;
             }
@@ -93,9 +93,9 @@ rid_basic_id_validate(const rid_basic_id_t *message) {
             }
             /* Valid: A-H, J-N, P-Z, 0-9 (excludes I and O) */
             int valid = (c >= 'A' && c <= 'H') ||
-                        (c >= 'J' && c <= 'N') ||
-                        (c >= 'P' && c <= 'Z') ||
-                        (c >= '0' && c <= '9');
+                (c >= 'J' && c <= 'N') ||
+                (c >= 'P' && c <= 'Z') ||
+                (c >= '0' && c <= '9');
             if (!valid) {
                 return RID_ERROR_INVALID_CHARACTER;
             }
@@ -275,14 +275,14 @@ rid_basic_id_snprintf(const rid_basic_id_t *message, char *buffer, size_t buffer
     rid_basic_id_get_uas_id(message, uas_id, sizeof(uas_id));
 
     return snprintf(
-        buffer,
-        buffer_size,
-        "{\"protocol_version\": %u, \"message_type\": %u, "
-        "\"id_type\": %u, \"ua_type\": %u, \"uas_id\": \"%s\"}",
-        message->protocol_version,
-        message->message_type,
-        rid_basic_id_get_type(message),
-        rid_basic_id_get_ua_type(message),
-        uas_id
-    );
+            buffer,
+            buffer_size,
+            "{\"protocol_version\": %u, \"message_type\": %u, "
+            "\"id_type\": %u, \"ua_type\": %u, \"uas_id\": \"%s\"}",
+            message->protocol_version,
+            message->message_type,
+            rid_basic_id_get_type(message),
+            rid_basic_id_get_ua_type(message),
+            uas_id
+        );
 }

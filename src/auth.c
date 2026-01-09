@@ -264,17 +264,17 @@ rid_auth_snprintf(const rid_auth_t *auth, char *buffer, size_t buffer_size) {
     sig_hex[hex_pos] = '\0';
 
     return snprintf(
-        buffer,
-        buffer_size,
-        "{\"protocol_version\": %u, \"message_type\": %u, "
-        "\"type\": %u, \"page_count\": %u, \"timestamp\": %u, "
-        "\"length\": %u, \"signature\": \"%s\"}",
-        auth->page_0.protocol_version,
-        auth->page_0.message_type,
-        rid_auth_get_type(auth),
-        rid_auth_get_page_count(auth),
-        rid_auth_get_timestamp(auth),
-        sig_length,
-        sig_hex
-    );
+            buffer,
+            buffer_size,
+            "{\"protocol_version\": %u, \"message_type\": %u, "
+            "\"type\": %u, \"page_count\": %u, \"timestamp\": %u, "
+            "\"length\": %u, \"signature\": \"%s\"}",
+            auth->page_0.protocol_version,
+            auth->page_0.message_type,
+            rid_auth_get_type(auth),
+            rid_auth_get_page_count(auth),
+            rid_auth_get_timestamp(auth),
+            sig_length,
+            sig_hex
+        );
 }
