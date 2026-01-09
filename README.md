@@ -1,6 +1,6 @@
 # [WIP] librid
 
-An ASTM F3411 message generating and parsing library written in C programming language.
+An ASTM F3411 message encoding and decoding library written in C programming language.
 
 The library provides struct definitions for all Remote ID messages. It also provides getter and setter functions for all members of the structure. You should not access the struct members directly. Instead use the provided functions which will decode and encode the data to and from the correct wire format.
 
