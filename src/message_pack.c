@@ -37,12 +37,6 @@ SPDX-License-Identifier: MIT
 
 #include "rid/message.h"
 #include "rid/message_pack.h"
-#include "rid/basic_id.h"
-#include "rid/location.h"
-#include "rid/auth.h"
-#include "rid/self_id.h"
-#include "rid/system.h"
-#include "rid/operator_id.h"
 
 int
 rid_message_pack_init(rid_message_pack_t *pack) {
@@ -196,7 +190,6 @@ rid_message_pack_snprintf(const rid_message_pack_t *pack, char *buffer, size_t b
 
     for (uint8_t i = 0; i < count; ++i) {
         const void *msg = rid_message_pack_get_message_at(pack, i);
-        rid_message_type_t type = rid_message_get_type(msg);
 
         if (i > 0 && pos < buffer_size) {
             written = snprintf(buffer + pos, buffer_size - pos, ", ");
@@ -209,53 +202,7 @@ rid_message_pack_snprintf(const rid_message_pack_t *pack, char *buffer, size_t b
             break;
         }
 
-        int msg_written = 0;
-        switch (type) {
-            case RID_MESSAGE_TYPE_BASIC_ID:
-                msg_written = rid_basic_id_snprintf(
-                        (const rid_basic_id_t *)msg,
-                        buffer + pos,
-                        buffer_size - pos
-                    );
-                break;
-            case RID_MESSAGE_TYPE_LOCATION:
-                msg_written = rid_location_snprintf(
-                        (const rid_location_t *)msg,
-                        buffer + pos,
-                        buffer_size - pos
-                    );
-                break;
-            case RID_MESSAGE_TYPE_SELF_ID:
-                msg_written = rid_self_id_snprintf(
-                        (const rid_self_id_t *)msg,
-                        buffer + pos,
-                        buffer_size - pos
-                    );
-                break;
-            case RID_MESSAGE_TYPE_SYSTEM:
-                msg_written = rid_system_snprintf(
-                        (const rid_system_t *)msg,
-                        buffer + pos,
-                        buffer_size - pos
-                    );
-                break;
-            case RID_MESSAGE_TYPE_OPERATOR_ID:
-                msg_written = rid_operator_id_snprintf(
-                        (const rid_operator_id_t *)msg,
-                        buffer + pos,
-                        buffer_size - pos
-                    );
-                break;
-            default:
-                msg_written = snprintf(
-                        buffer + pos,
-                        buffer_size - pos,
-                        "{\"type\": %u}",
-                        type
-                    );
-                break;
-        }
-
+        int msg_written = rid_message_snprintf(msg, buffer + pos, buffer_size - pos);
         if (msg_written > 0) {
             pos += (size_t)msg_written;
         }
