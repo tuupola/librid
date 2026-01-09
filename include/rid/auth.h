@@ -209,6 +209,18 @@ uint8_t rid_auth_get_length(const rid_auth_t *auth);
  */
 int rid_auth_get_signature(const rid_auth_t *auth, uint8_t *buffer, size_t buffer_size);
 
+/**
+ * @brief Format an Auth message as a JSON string.
+ *
+ * @param auth Pointer to the Auth container structure.
+ * @param buffer Buffer to store the JSON string.
+ * @param buffer_size Size of the buffer.
+ *
+ * @return Number of characters written (excluding null terminator),
+ *         or negative value on error.
+ */
+int rid_auth_snprintf(const rid_auth_t *auth, char *buffer, size_t buffer_size);
+
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */

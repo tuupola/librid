@@ -497,6 +497,18 @@ const char *rid_ua_classification_category_to_string(rid_ua_classification_categ
  */
 const char *rid_ua_classification_class_to_string(rid_ua_classification_class_t class);
 
+/**
+ * @brief Format a System message as a JSON string.
+ *
+ * @param system Pointer to the System message structure.
+ * @param buffer Buffer to store the JSON string.
+ * @param buffer_size Size of the buffer.
+ *
+ * @return Number of characters written (excluding null terminator),
+ *         or negative value on error.
+ */
+int rid_system_snprintf(const rid_system_t *system, char *buffer, size_t buffer_size);
+
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */

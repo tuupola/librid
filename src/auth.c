@@ -33,6 +33,7 @@ SPDX-License-Identifier: MIT
 #include <string.h>
 #include <stdint.h>
 #include <stddef.h>
+#include <stdio.h>
 
 #include "rid/message.h"
 #include "rid/auth_page.h"
@@ -242,4 +243,35 @@ rid_auth_get_signature(const rid_auth_t *auth, uint8_t *buffer, size_t buffer_si
     }
 
     return RID_SUCCESS;
+}
+
+int
+rid_auth_snprintf(const rid_auth_t *auth, char *buffer, size_t buffer_size) {
+    if (auth == NULL || buffer == NULL) {
+        return RID_ERROR_NULL_POINTER;
+    }
+
+    uint8_t sig_length = rid_auth_get_length(auth);
+    uint8_t signature[255];
+    rid_auth_get_signature(auth, signature, sizeof(signature));
+
+    /* Convert signature to hex string */
+    char sig_hex[512];
+    size_t hex_pos = 0;
+    for (uint8_t i = 0; i < sig_length && hex_pos < sizeof(sig_hex) - 2; ++i) {
+        hex_pos += snprintf(sig_hex + hex_pos, sizeof(sig_hex) - hex_pos, "%02x", signature[i]);
+    }
+    sig_hex[hex_pos] = '\0';
+
+    return snprintf(
+        buffer,
+        buffer_size,
+        "{\"type\": \"%s\", \"page_count\": %u, \"timestamp\": %u, "
+        "\"length\": %u, \"signature\": \"%s\"}",
+        rid_auth_type_to_string(rid_auth_get_type(auth)),
+        rid_auth_get_page_count(auth),
+        rid_auth_get_timestamp(auth),
+        sig_length,
+        sig_hex
+    );
 }

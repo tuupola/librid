@@ -33,6 +33,7 @@ SPDX-License-Identifier: MIT
 #include <string.h>
 #include <stdint.h>
 #include <stddef.h>
+#include <stdio.h>
 
 #include "rid/message.h"
 #include "rid/basic_id.h"
@@ -262,4 +263,23 @@ rid_ua_type_to_string(rid_ua_type_t type) {
         default:
             return "UNKNOWN";
     }
+}
+
+int
+rid_basic_id_snprintf(const rid_basic_id_t *message, char *buffer, size_t buffer_size) {
+    if (message == NULL || buffer == NULL) {
+        return RID_ERROR_NULL_POINTER;
+    }
+
+    char uas_id[21];
+    rid_basic_id_get_uas_id(message, uas_id, sizeof(uas_id));
+
+    return snprintf(
+        buffer,
+        buffer_size,
+        "{\"id_type\": \"%s\", \"ua_type\": \"%s\", \"uas_id\": \"%s\"}",
+        rid_basic_id_type_to_string(rid_basic_id_get_type(message)),
+        rid_ua_type_to_string(rid_basic_id_get_ua_type(message)),
+        uas_id
+    );
 }

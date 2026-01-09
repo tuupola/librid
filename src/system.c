@@ -33,6 +33,7 @@ SPDX-License-Identifier: MIT
 #include <stddef.h>
 #include <stdint.h>
 #include <string.h>
+#include <stdio.h>
 
 #include "rid/message.h"
 #include "rid/system.h"
@@ -440,4 +441,33 @@ rid_ua_classification_class_to_string(rid_ua_classification_class_t class) {
         default:
             return "UNKNOWN";
     }
+}
+
+int
+rid_system_snprintf(const rid_system_t *system, char *buffer, size_t buffer_size) {
+    if (system == NULL || buffer == NULL) {
+        return RID_ERROR_NULL_POINTER;
+    }
+
+    return snprintf(
+        buffer,
+        buffer_size,
+        "{\"operator_location_type\": \"%s\", \"classification_type\": \"%s\", "
+        "\"ua_classification_category\": \"%s\", \"ua_classification_class\": \"%s\", "
+        "\"operator_latitude\": %f, \"operator_longitude\": %f, \"operator_altitude\": %f, "
+        "\"area_count\": %u, \"area_radius\": %u, \"area_ceiling\": %f, \"area_floor\": %f, "
+        "\"timestamp\": %u}",
+        rid_operator_location_type_to_string(rid_system_get_operator_location_type(system)),
+        rid_classification_type_to_string(rid_system_get_classification_type(system)),
+        rid_ua_classification_category_to_string(rid_system_get_ua_classification_category(system)),
+        rid_ua_classification_class_to_string(rid_system_get_ua_classification_class(system)),
+        rid_system_get_operator_latitude(system),
+        rid_system_get_operator_longitude(system),
+        rid_system_get_operator_altitude(system),
+        rid_system_get_area_count(system),
+        rid_system_get_area_radius(system),
+        rid_system_get_area_ceiling(system),
+        rid_system_get_area_floor(system),
+        rid_system_get_timestamp(system)
+    );
 }

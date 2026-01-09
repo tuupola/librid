@@ -33,6 +33,7 @@ SPDX-License-Identifier: MIT
 #include <string.h>
 #include <stdint.h>
 #include <stddef.h>
+#include <stdio.h>
 
 #include "rid/message.h"
 #include "rid/self_id.h"
@@ -145,4 +146,22 @@ rid_description_type_to_string(rid_description_type_t type) {
         default:
             return "UNKNOWN";
     }
+}
+
+int
+rid_self_id_snprintf(const rid_self_id_t *message, char *buffer, size_t buffer_size) {
+    if (message == NULL || buffer == NULL) {
+        return RID_ERROR_NULL_POINTER;
+    }
+
+    char description[24];
+    rid_self_id_get_description(message, description, sizeof(description));
+
+    return snprintf(
+        buffer,
+        buffer_size,
+        "{\"description_type\": \"%s\", \"description\": \"%s\"}",
+        rid_description_type_to_string(rid_self_id_get_description_type(message)),
+        description
+    );
 }

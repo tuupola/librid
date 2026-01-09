@@ -159,6 +159,18 @@ int rid_operator_id_set(rid_operator_id_t *message, const char *uas_id);
  */
 const char *rid_operator_id_type_to_string(rid_operator_id_type_t type);
 
+/**
+ * @brief Format an Operator ID message as a JSON string.
+ *
+ * @param message Pointer to the Operator ID message structure.
+ * @param buffer Buffer to store the JSON string.
+ * @param buffer_size Size of the buffer.
+ *
+ * @return Number of characters written (excluding null terminator),
+ *         or negative value on error.
+ */
+int rid_operator_id_snprintf(const rid_operator_id_t *message, char *buffer, size_t buffer_size);
+
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */

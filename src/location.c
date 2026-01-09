@@ -33,6 +33,7 @@ SPDX-License-Identifier: MIT
 #include <stddef.h>
 #include <stdint.h>
 #include <string.h>
+#include <stdio.h>
 
 #include "rid/message.h"
 #include "rid/location.h"
@@ -811,4 +812,40 @@ rid_timestamp_accuracy_to_string(rid_timestamp_accuracy_t accuracy) {
         default:
             return "UNKNOWN";
     }
+}
+
+int
+rid_location_snprintf(const rid_location_t *location, char *buffer, size_t buffer_size) {
+    if (location == NULL || buffer == NULL) {
+        return RID_ERROR_NULL_POINTER;
+    }
+
+    return snprintf(
+        buffer,
+        buffer_size,
+        "{\"latitude\": %f, \"longitude\": %f, "
+        "\"geodetic_altitude\": %f, \"pressure_altitude\": %f, "
+        "\"height\": %f, \"height_type\": \"%s\", "
+        "\"speed\": %f, \"vertical_speed\": %f, "
+        "\"track_direction\": %u, \"operational_status\": \"%s\", "
+        "\"horizontal_accuracy\": \"%s\", \"vertical_accuracy\": \"%s\", "
+        "\"speed_accuracy\": \"%s\", \"baro_altitude_accuracy\": \"%s\", "
+        "\"timestamp\": %u, \"timestamp_accuracy\": \"%s\"}",
+        rid_location_get_latitude(location),
+        rid_location_get_longitude(location),
+        rid_location_get_geodetic_altitude(location),
+        rid_location_get_pressure_altitude(location),
+        rid_location_get_height(location),
+        rid_height_type_to_string(rid_location_get_height_type(location)),
+        rid_location_get_speed(location),
+        rid_location_get_vertical_speed(location),
+        rid_location_get_track_direction(location),
+        rid_operational_status_to_string(rid_location_get_operational_status(location)),
+        rid_horizontal_accuracy_to_string(rid_location_get_horizontal_accuracy(location)),
+        rid_vertical_accuracy_to_string(rid_location_get_vertical_accuracy(location)),
+        rid_speed_accuracy_to_string(rid_location_get_speed_accuracy(location)),
+        rid_vertical_accuracy_to_string(rid_location_get_baro_altitude_accuracy(location)),
+        rid_location_get_timestamp(location),
+        rid_timestamp_accuracy_to_string(rid_location_get_timestamp_accuracy(location))
+    );
 }

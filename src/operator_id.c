@@ -33,6 +33,7 @@ SPDX-License-Identifier: MIT
 #include <string.h>
 #include <stdint.h>
 #include <stddef.h>
+#include <stdio.h>
 
 #include "rid/message.h"
 #include "rid/operator_id.h"
@@ -141,4 +142,22 @@ rid_operator_id_type_to_string(rid_operator_id_type_t type) {
         default:
             return "UNKNOWN";
     }
+}
+
+int
+rid_operator_id_snprintf(const rid_operator_id_t *message, char *buffer, size_t buffer_size) {
+    if (message == NULL || buffer == NULL) {
+        return RID_ERROR_NULL_POINTER;
+    }
+
+    char operator_id[21];
+    rid_operator_id_get(message, operator_id, sizeof(operator_id));
+
+    return snprintf(
+        buffer,
+        buffer_size,
+        "{\"id_type\": \"%s\", \"operator_id\": \"%s\"}",
+        rid_operator_id_type_to_string(rid_operator_id_get_type(message)),
+        operator_id
+    );
 }

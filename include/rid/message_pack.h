@@ -167,6 +167,18 @@ int rid_message_pack_delete_message_at(rid_message_pack_t *pack, uint8_t index);
  */
 int rid_message_pack_replace_message_at(rid_message_pack_t *pack, uint8_t index, const void *message);
 
+/**
+ * @brief Format a Message Pack as a JSON string.
+ *
+ * @param pack Pointer to the Message Pack structure.
+ * @param buffer Buffer to store the JSON string.
+ * @param buffer_size Size of the buffer.
+ *
+ * @return Number of characters written (excluding null terminator),
+ *         or negative value on error.
+ */
+int rid_message_pack_snprintf(const rid_message_pack_t *pack, char *buffer, size_t buffer_size);
+
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */
