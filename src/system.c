@@ -452,11 +452,14 @@ rid_system_snprintf(const rid_system_t *system, char *buffer, size_t buffer_size
     return snprintf(
         buffer,
         buffer_size,
-        "{\"operator_location_type\": %u, \"classification_type\": %u, "
+        "{\"protocol_version\": %u, \"message_type\": %u, "
+        "\"operator_location_type\": %u, \"classification_type\": %u, "
         "\"ua_classification_category\": %u, \"ua_classification_class\": %u, "
         "\"operator_latitude\": %f, \"operator_longitude\": %f, \"operator_altitude\": %f, "
         "\"area_count\": %u, \"area_radius\": %u, \"area_ceiling\": %f, \"area_floor\": %f, "
         "\"timestamp\": %u}",
+        system->protocol_version,
+        system->message_type,
         rid_system_get_operator_location_type(system),
         rid_system_get_classification_type(system),
         rid_system_get_ua_classification_category(system),

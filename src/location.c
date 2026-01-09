@@ -823,7 +823,8 @@ rid_location_snprintf(const rid_location_t *location, char *buffer, size_t buffe
     return snprintf(
         buffer,
         buffer_size,
-        "{\"latitude\": %f, \"longitude\": %f, "
+        "{\"protocol_version\": %u, \"message_type\": %u, "
+        "\"latitude\": %f, \"longitude\": %f, "
         "\"geodetic_altitude\": %f, \"pressure_altitude\": %f, "
         "\"height\": %f, \"height_type\": %u, "
         "\"speed\": %f, \"vertical_speed\": %f, "
@@ -831,6 +832,8 @@ rid_location_snprintf(const rid_location_t *location, char *buffer, size_t buffe
         "\"horizontal_accuracy\": %u, \"vertical_accuracy\": %u, "
         "\"speed_accuracy\": %u, \"baro_altitude_accuracy\": %u, "
         "\"timestamp\": %u, \"timestamp_accuracy\": %u}",
+        location->protocol_version,
+        location->message_type,
         rid_location_get_latitude(location),
         rid_location_get_longitude(location),
         rid_location_get_geodetic_altitude(location),

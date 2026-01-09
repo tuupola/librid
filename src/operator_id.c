@@ -156,7 +156,10 @@ rid_operator_id_snprintf(const rid_operator_id_t *message, char *buffer, size_t 
     return snprintf(
         buffer,
         buffer_size,
-        "{\"id_type\": %u, \"operator_id\": \"%s\"}",
+        "{\"protocol_version\": %u, \"message_type\": %u, "
+        "\"id_type\": %u, \"operator_id\": \"%s\"}",
+        message->protocol_version,
+        message->message_type,
         rid_operator_id_get_type(message),
         operator_id
     );
