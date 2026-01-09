@@ -31,8 +31,16 @@ SPDX-License-Identifier: MIT
 */
 
 #include <stdint.h>
+#include <stdio.h>
 
 #include "rid/message.h"
+#include "rid/basic_id.h"
+#include "rid/location.h"
+#include "rid/auth_page.h"
+#include "rid/self_id.h"
+#include "rid/system.h"
+#include "rid/operator_id.h"
+#include "rid/message_pack.h"
 
 rid_message_type_t
 rid_message_get_type(const void *message) {
@@ -129,5 +137,67 @@ rid_error_to_string(rid_error_t error) {
             return "RID_ERROR_INVALID_UUID_PADDING";
         default:
             return "UNKNOWN";
+    }
+}
+
+int
+rid_message_snprintf(const void *message, char *buffer, size_t buffer_size) {
+    if (NULL == message || NULL == buffer) {
+        return RID_ERROR_NULL_POINTER;
+    }
+
+    rid_message_type_t type = rid_message_get_type(message);
+
+    switch (type) {
+        case RID_MESSAGE_TYPE_BASIC_ID:
+            return rid_basic_id_snprintf(
+                (const rid_basic_id_t *)message,
+                buffer,
+                buffer_size
+            );
+        case RID_MESSAGE_TYPE_LOCATION:
+            return rid_location_snprintf(
+                (const rid_location_t *)message,
+                buffer,
+                buffer_size
+            );
+        case RID_MESSAGE_TYPE_AUTH:
+            return rid_auth_page_snprintf(
+                message,
+                buffer,
+                buffer_size
+            );
+        case RID_MESSAGE_TYPE_SELF_ID:
+            return rid_self_id_snprintf(
+                (const rid_self_id_t *)message,
+                buffer,
+                buffer_size
+            );
+        case RID_MESSAGE_TYPE_SYSTEM:
+            return rid_system_snprintf(
+                (const rid_system_t *)message,
+                buffer,
+                buffer_size
+            );
+        case RID_MESSAGE_TYPE_OPERATOR_ID:
+            return rid_operator_id_snprintf(
+                (const rid_operator_id_t *)message,
+                buffer,
+                buffer_size
+            );
+        case RID_MESSAGE_TYPE_MESSAGE_PACK:
+            return rid_message_pack_snprintf(
+                (const rid_message_pack_t *)message,
+                buffer,
+                buffer_size
+            );
+        default:
+            return snprintf(
+                buffer,
+                buffer_size,
+                "{\"protocol_version\": %u, \"message_type\": %u}",
+                rid_message_get_protocol_version(message),
+                type
+            );
     }
 }

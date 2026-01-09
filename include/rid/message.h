@@ -133,6 +133,23 @@ const char *rid_protocol_version_to_string(rid_protocol_version_t version);
  */
 const char *rid_error_to_string(rid_error_t error);
 
+/**
+ * @brief Format any Remote ID message as a JSON string.
+ *
+ * Determines the message type and calls the appropriate type-specific
+ * snprintf function.
+ *
+ * @param message Pointer to any Remote ID message structure.
+ * @param buffer Buffer to store the JSON string.
+ * @param buffer_size Size of the buffer.
+ *
+ * @return Number of characters written (excluding null terminator),
+ *         or negative error code on failure.
+ *
+ * @retval RID_ERROR_NULL_POINTER if message or buffer is NULL.
+ */
+int rid_message_snprintf(const void *message, char *buffer, size_t buffer_size);
+
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */
