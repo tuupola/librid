@@ -277,9 +277,9 @@ rid_basic_id_snprintf(const rid_basic_id_t *message, char *buffer, size_t buffer
     return snprintf(
         buffer,
         buffer_size,
-        "{\"id_type\": \"%s\", \"ua_type\": \"%s\", \"uas_id\": \"%s\"}",
-        rid_basic_id_type_to_string(rid_basic_id_get_type(message)),
-        rid_ua_type_to_string(rid_basic_id_get_ua_type(message)),
+        "{\"id_type\": %u, \"ua_type\": %u, \"uas_id\": \"%s\"}",
+        rid_basic_id_get_type(message),
+        rid_basic_id_get_ua_type(message),
         uas_id
     );
 }

@@ -160,8 +160,8 @@ rid_self_id_snprintf(const rid_self_id_t *message, char *buffer, size_t buffer_s
     return snprintf(
         buffer,
         buffer_size,
-        "{\"description_type\": \"%s\", \"description\": \"%s\"}",
-        rid_description_type_to_string(rid_self_id_get_description_type(message)),
+        "{\"description_type\": %u, \"description\": \"%s\"}",
+        rid_self_id_get_description_type(message),
         description
     );
 }

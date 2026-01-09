@@ -246,8 +246,8 @@ rid_message_pack_snprintf(const rid_message_pack_t *pack, char *buffer, size_t b
                 msg_written = snprintf(
                     buffer + pos,
                     buffer_size - pos,
-                    "{\"type\": \"%s\"}",
-                    rid_message_type_to_string(type)
+                    "{\"type\": %u}",
+                    type
                 );
                 break;
         }

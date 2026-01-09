@@ -266,9 +266,9 @@ rid_auth_snprintf(const rid_auth_t *auth, char *buffer, size_t buffer_size) {
     return snprintf(
         buffer,
         buffer_size,
-        "{\"type\": \"%s\", \"page_count\": %u, \"timestamp\": %u, "
+        "{\"type\": %u, \"page_count\": %u, \"timestamp\": %u, "
         "\"length\": %u, \"signature\": \"%s\"}",
-        rid_auth_type_to_string(rid_auth_get_type(auth)),
+        rid_auth_get_type(auth),
         rid_auth_get_page_count(auth),
         rid_auth_get_timestamp(auth),
         sig_length,
