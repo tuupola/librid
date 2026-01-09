@@ -457,7 +457,7 @@ rid_system_snprintf(const rid_system_t *system, char *buffer, size_t buffer_size
             "\"ua_classification_category\": %u, \"ua_classification_class\": %u, "
             "\"operator_latitude\": %f, \"operator_longitude\": %f, \"operator_altitude\": %f, "
             "\"area_count\": %u, \"area_radius\": %u, \"area_ceiling\": %f, \"area_floor\": %f, "
-            "\"timestamp\": %u}",
+            "\"timestamp\": %lu}",
             rid_message_get_protocol_version(system),
             rid_message_get_type(system),
             rid_system_get_operator_location_type(system),
@@ -471,6 +471,6 @@ rid_system_snprintf(const rid_system_t *system, char *buffer, size_t buffer_size
             rid_system_get_area_radius(system),
             rid_system_get_area_ceiling(system),
             rid_system_get_area_floor(system),
-            rid_system_get_timestamp(system)
+            (unsigned long)rid_system_get_timestamp(system)
         );
 }

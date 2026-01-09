@@ -267,13 +267,13 @@ rid_auth_snprintf(const rid_auth_t *auth, char *buffer, size_t buffer_size) {
             buffer,
             buffer_size,
             "{\"protocol_version\": %u, \"message_type\": %u, "
-            "\"type\": %u, \"page_count\": %u, \"timestamp\": %u, "
+            "\"type\": %u, \"page_count\": %u, \"timestamp\": %lu, "
             "\"length\": %u, \"signature\": \"%s\"}",
             rid_message_get_protocol_version(&auth->page_0),
             rid_message_get_type(&auth->page_0),
             rid_auth_get_type(auth),
             rid_auth_get_page_count(auth),
-            rid_auth_get_timestamp(auth),
+            (unsigned long)rid_auth_get_timestamp(auth),
             sig_length,
             sig_hex
         );
