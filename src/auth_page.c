@@ -33,6 +33,7 @@ SPDX-License-Identifier: MIT
 #include <string.h>
 #include <stdint.h>
 #include <stddef.h>
+#include <stdio.h>
 
 #include "rid/message.h"
 #include "rid/auth_page.h"
@@ -287,5 +288,71 @@ rid_auth_type_to_string(rid_auth_type_t type) {
             return "RID_AUTH_TYPE_SPECIFIC_METHOD";
         default:
             return "UNKNOWN";
+    }
+}
+
+static size_t
+auth_data_to_hex(const uint8_t *data, size_t data_size, char *hex, size_t hex_size) {
+    size_t pos = 0;
+    for (size_t i = 0; i < data_size && pos + 2 < hex_size; ++i) {
+        int written = snprintf(hex + pos, hex_size - pos, "%02x", data[i]);
+        if (written > 0) {
+            pos += (size_t)written;
+        }
+    }
+    return pos;
+}
+
+int
+rid_auth_page_snprintf(const void *message, char *buffer, size_t buffer_size) {
+    if (NULL == message || NULL == buffer) {
+        return RID_ERROR_NULL_POINTER;
+    }
+
+    const rid_auth_page_0_t *page = (const rid_auth_page_0_t *)message;
+    uint8_t page_number = page->page_number;
+
+    if (0 == page_number) {
+        const rid_auth_page_0_t *page_0 = (const rid_auth_page_0_t *)message;
+
+        char auth_hex[RID_AUTH_PAGE_0_DATA_SIZE * 2 + 1];
+        auth_data_to_hex(page_0->auth_data, RID_AUTH_PAGE_0_DATA_SIZE,
+                         auth_hex, sizeof(auth_hex));
+
+        return snprintf(
+            buffer,
+            buffer_size,
+            "{\"protocol_version\": %u, \"message_type\": %u, "
+            "\"page_number\": %u, \"auth_type\": %u, "
+            "\"last_page_index\": %u, \"length\": %u, "
+            "\"timestamp\": %lu, \"auth_data\": \"%s\"}",
+            rid_message_get_protocol_version(page_0),
+            rid_message_get_type(page_0),
+            page_0->page_number,
+            rid_auth_page_0_get_type(page_0),
+            rid_auth_page_0_get_last_page_index(page_0),
+            rid_auth_page_0_get_length(page_0),
+            (unsigned long)rid_auth_page_0_get_timestamp(page_0),
+            auth_hex
+        );
+    } else {
+        const rid_auth_page_x_t *page_x = (const rid_auth_page_x_t *)message;
+
+        char auth_hex[RID_AUTH_PAGE_DATA_SIZE * 2 + 1];
+        auth_data_to_hex(page_x->auth_data, RID_AUTH_PAGE_DATA_SIZE,
+                         auth_hex, sizeof(auth_hex));
+
+        return snprintf(
+            buffer,
+            buffer_size,
+            "{\"protocol_version\": %u, \"message_type\": %u, "
+            "\"page_number\": %u, \"auth_type\": %u, "
+            "\"auth_data\": \"%s\"}",
+            rid_message_get_protocol_version(page_x),
+            rid_message_get_type(page_x),
+            rid_auth_page_x_get_number(page_x),
+            rid_auth_page_x_get_type(page_x),
+            auth_hex
+        );
     }
 }

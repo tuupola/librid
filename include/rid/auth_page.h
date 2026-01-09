@@ -333,6 +333,23 @@ int rid_auth_page_x_get_data(const rid_auth_page_x_t *message, uint8_t *buffer, 
  */
 const char *rid_auth_type_to_string(rid_auth_type_t type);
 
+/**
+ * @brief Format a single AUTH page message as a JSON string.
+ *
+ * Handles both page 0 (rid_auth_page_0_t) and pages 1-15 (rid_auth_page_x_t)
+ * automatically based on the page_number field.
+ *
+ * @param message Pointer to an AUTH page structure (page 0 or pages 1-15).
+ * @param buffer Buffer to store the JSON string.
+ * @param buffer_size Size of the buffer.
+ *
+ * @return Number of characters written (excluding null terminator),
+ *         or negative error code on failure.
+ *
+ * @retval RID_ERROR_NULL_POINTER if message or buffer is NULL.
+ */
+int rid_auth_page_snprintf(const void *message, char *buffer, size_t buffer_size);
+
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */
