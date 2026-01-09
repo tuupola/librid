@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdint.h>
 #include <string.h>
+#include <time.h>
 
 #include <sodium.h>
 
@@ -37,12 +38,12 @@ main(void)
     uint8_t secret_key[crypto_sign_SECRETKEYBYTES];
     crypto_sign_keypair(public_key, secret_key);
 
-    /* Message to sign: UAS ID + timestamp */
+    /* Message to sign: UAS ID + unixtime */
     const char uas_id[] = "1ABCD2345EF678XYZ";
-    uint32_t timestamp = 189014400;
-    uint8_t message[sizeof(uas_id) - 1 + sizeof(timestamp)];
+    uint32_t unixtime = (uint32_t)time(NULL);
+    uint8_t message[sizeof(uas_id) - 1 + sizeof(unixtime)];
     memcpy(message, uas_id, sizeof(uas_id) - 1);
-    memcpy(message + sizeof(uas_id) - 1, &timestamp, sizeof(timestamp));
+    memcpy(message + sizeof(uas_id) - 1, &unixtime, sizeof(unixtime));
 
     /* Create 64 byte detached Ed25519 signature */
     uint8_t signature[crypto_sign_BYTES];
@@ -50,7 +51,7 @@ main(void)
 
     rid_auth_init(&auth);
     rid_auth_set_type(&auth, RID_AUTH_TYPE_UAS_ID_SIGNATURE);
-    rid_auth_set_unixtime(&auth, timestamp);
+    rid_auth_set_unixtime(&auth, unixtime);
     rid_auth_set_signature(&auth, signature, sizeof(signature));
 
     /* Get the signature back for verifying*/
