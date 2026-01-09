@@ -279,8 +279,8 @@ rid_basic_id_snprintf(const rid_basic_id_t *message, char *buffer, size_t buffer
             buffer_size,
             "{\"protocol_version\": %u, \"message_type\": %u, "
             "\"id_type\": %u, \"ua_type\": %u, \"uas_id\": \"%s\"}",
-            message->protocol_version,
-            message->message_type,
+            rid_message_get_protocol_version(message),
+            rid_message_get_type(message),
             rid_basic_id_get_type(message),
             rid_basic_id_get_ua_type(message),
             uas_id

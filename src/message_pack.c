@@ -183,8 +183,8 @@ rid_message_pack_snprintf(const rid_message_pack_t *pack, char *buffer, size_t b
     int written = snprintf(buffer, buffer_size,
             "{\"protocol_version\": %u, \"message_type\": %u, "
             "\"message_count\": %u, \"messages\": [",
-            pack->protocol_version,
-            pack->message_type,
+            rid_message_get_protocol_version(pack),
+            rid_message_get_type(pack),
             rid_message_pack_get_message_count(pack));
 
     if (written < 0) {

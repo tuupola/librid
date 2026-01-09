@@ -162,8 +162,8 @@ rid_self_id_snprintf(const rid_self_id_t *message, char *buffer, size_t buffer_s
             buffer_size,
             "{\"protocol_version\": %u, \"message_type\": %u, "
             "\"description_type\": %u, \"description\": \"%s\"}",
-            message->protocol_version,
-            message->message_type,
+            rid_message_get_protocol_version(message),
+            rid_message_get_type(message),
             rid_self_id_get_description_type(message),
             description
         );

@@ -832,8 +832,8 @@ rid_location_snprintf(const rid_location_t *location, char *buffer, size_t buffe
             "\"horizontal_accuracy\": %u, \"vertical_accuracy\": %u, "
             "\"speed_accuracy\": %u, \"baro_altitude_accuracy\": %u, "
             "\"timestamp\": %u, \"timestamp_accuracy\": %u}",
-            location->protocol_version,
-            location->message_type,
+            rid_message_get_protocol_version(location),
+            rid_message_get_type(location),
             rid_location_get_latitude(location),
             rid_location_get_longitude(location),
             rid_location_get_geodetic_altitude(location),
