@@ -246,7 +246,7 @@ rid_auth_get_signature(const rid_auth_t *auth, uint8_t *buffer, size_t buffer_si
 }
 
 int
-rid_auth_snprintf(const rid_auth_t *auth, char *buffer, size_t buffer_size) {
+rid_auth_to_json(const rid_auth_t *auth, char *buffer, size_t buffer_size) {
     if (auth == NULL || buffer == NULL) {
         return RID_ERROR_NULL_POINTER;
     }

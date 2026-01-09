@@ -170,7 +170,7 @@ const char *rid_description_type_to_string(rid_description_type_t type);
  * @return Number of characters written (excluding null terminator),
  *         or negative value on error.
  */
-int rid_self_id_snprintf(const rid_self_id_t *message, char *buffer, size_t buffer_size);
+int rid_self_id_to_json(const rid_self_id_t *message, char *buffer, size_t buffer_size);
 
 #ifdef __cplusplus
 }

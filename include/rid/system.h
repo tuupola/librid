@@ -507,7 +507,7 @@ const char *rid_ua_classification_class_to_string(rid_ua_classification_class_t 
  * @return Number of characters written (excluding null terminator),
  *         or negative value on error.
  */
-int rid_system_snprintf(const rid_system_t *system, char *buffer, size_t buffer_size);
+int rid_system_to_json(const rid_system_t *system, char *buffer, size_t buffer_size);
 
 #ifdef __cplusplus
 }

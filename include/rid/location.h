@@ -698,7 +698,7 @@ const char *rid_timestamp_accuracy_to_string(rid_timestamp_accuracy_t accuracy);
  * @return Number of characters written (excluding null terminator),
  *         or negative value on error.
  */
-int rid_location_snprintf(const rid_location_t *location, char *buffer, size_t buffer_size);
+int rid_location_to_json(const rid_location_t *location, char *buffer, size_t buffer_size);
 
 #ifdef __cplusplus
 }

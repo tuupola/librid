@@ -169,7 +169,7 @@ const char *rid_operator_id_type_to_string(rid_operator_id_type_t type);
  * @return Number of characters written (excluding null terminator),
  *         or negative value on error.
  */
-int rid_operator_id_snprintf(const rid_operator_id_t *message, char *buffer, size_t buffer_size);
+int rid_operator_id_to_json(const rid_operator_id_t *message, char *buffer, size_t buffer_size);
 
 #ifdef __cplusplus
 }

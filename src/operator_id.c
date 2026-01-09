@@ -145,7 +145,7 @@ rid_operator_id_type_to_string(rid_operator_id_type_t type) {
 }
 
 int
-rid_operator_id_snprintf(const rid_operator_id_t *message, char *buffer, size_t buffer_size) {
+rid_operator_id_to_json(const rid_operator_id_t *message, char *buffer, size_t buffer_size) {
     if (message == NULL || buffer == NULL) {
         return RID_ERROR_NULL_POINTER;
     }

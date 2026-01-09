@@ -219,7 +219,7 @@ int rid_auth_get_signature(const rid_auth_t *auth, uint8_t *buffer, size_t buffe
  * @return Number of characters written (excluding null terminator),
  *         or negative value on error.
  */
-int rid_auth_snprintf(const rid_auth_t *auth, char *buffer, size_t buffer_size);
+int rid_auth_to_json(const rid_auth_t *auth, char *buffer, size_t buffer_size);
 
 #ifdef __cplusplus
 }

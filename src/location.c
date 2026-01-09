@@ -815,7 +815,7 @@ rid_timestamp_accuracy_to_string(rid_timestamp_accuracy_t accuracy) {
 }
 
 int
-rid_location_snprintf(const rid_location_t *location, char *buffer, size_t buffer_size) {
+rid_location_to_json(const rid_location_t *location, char *buffer, size_t buffer_size) {
     if (location == NULL || buffer == NULL) {
         return RID_ERROR_NULL_POINTER;
     }

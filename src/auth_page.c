@@ -304,7 +304,7 @@ auth_data_to_hex(const uint8_t *data, size_t data_size, char *hex, size_t hex_si
 }
 
 int
-rid_auth_page_snprintf(const void *message, char *buffer, size_t buffer_size) {
+rid_auth_page_to_json(const void *message, char *buffer, size_t buffer_size) {
     if (NULL == message || NULL == buffer) {
         return RID_ERROR_NULL_POINTER;
     }

@@ -149,7 +149,7 @@ const char *rid_error_to_string(rid_error_t error);
  *
  * @retval RID_ERROR_NULL_POINTER if message or buffer is NULL.
  */
-int rid_message_snprintf(const void *message, char *buffer, size_t buffer_size);
+int rid_message_to_json(const void *message, char *buffer, size_t buffer_size);
 
 #ifdef __cplusplus
 }

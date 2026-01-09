@@ -444,7 +444,7 @@ rid_ua_classification_class_to_string(rid_ua_classification_class_t class) {
 }
 
 int
-rid_system_snprintf(const rid_system_t *system, char *buffer, size_t buffer_size) {
+rid_system_to_json(const rid_system_t *system, char *buffer, size_t buffer_size) {
     if (system == NULL || buffer == NULL) {
         return RID_ERROR_NULL_POINTER;
     }

@@ -266,7 +266,7 @@ rid_ua_type_to_string(rid_ua_type_t type) {
 }
 
 int
-rid_basic_id_snprintf(const rid_basic_id_t *message, char *buffer, size_t buffer_size) {
+rid_basic_id_to_json(const rid_basic_id_t *message, char *buffer, size_t buffer_size) {
     if (message == NULL || buffer == NULL) {
         return RID_ERROR_NULL_POINTER;
     }

@@ -177,7 +177,7 @@ int rid_message_pack_replace_message_at(rid_message_pack_t *pack, uint8_t index,
  * @return Number of characters written (excluding null terminator),
  *         or negative value on error.
  */
-int rid_message_pack_snprintf(const rid_message_pack_t *pack, char *buffer, size_t buffer_size);
+int rid_message_pack_to_json(const rid_message_pack_t *pack, char *buffer, size_t buffer_size);
 
 #ifdef __cplusplus
 }

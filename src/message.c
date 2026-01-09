@@ -141,7 +141,7 @@ rid_error_to_string(rid_error_t error) {
 }
 
 int
-rid_message_snprintf(const void *message, char *buffer, size_t buffer_size) {
+rid_message_to_json(const void *message, char *buffer, size_t buffer_size) {
     if (NULL == message || NULL == buffer) {
         return RID_ERROR_NULL_POINTER;
     }
@@ -150,43 +150,43 @@ rid_message_snprintf(const void *message, char *buffer, size_t buffer_size) {
 
     switch (type) {
         case RID_MESSAGE_TYPE_BASIC_ID:
-            return rid_basic_id_snprintf(
+            return rid_basic_id_to_json(
                 (const rid_basic_id_t *)message,
                 buffer,
                 buffer_size
             );
         case RID_MESSAGE_TYPE_LOCATION:
-            return rid_location_snprintf(
+            return rid_location_to_json(
                 (const rid_location_t *)message,
                 buffer,
                 buffer_size
             );
         case RID_MESSAGE_TYPE_AUTH:
-            return rid_auth_page_snprintf(
+            return rid_auth_page_to_json(
                 message,
                 buffer,
                 buffer_size
             );
         case RID_MESSAGE_TYPE_SELF_ID:
-            return rid_self_id_snprintf(
+            return rid_self_id_to_json(
                 (const rid_self_id_t *)message,
                 buffer,
                 buffer_size
             );
         case RID_MESSAGE_TYPE_SYSTEM:
-            return rid_system_snprintf(
+            return rid_system_to_json(
                 (const rid_system_t *)message,
                 buffer,
                 buffer_size
             );
         case RID_MESSAGE_TYPE_OPERATOR_ID:
-            return rid_operator_id_snprintf(
+            return rid_operator_id_to_json(
                 (const rid_operator_id_t *)message,
                 buffer,
                 buffer_size
             );
         case RID_MESSAGE_TYPE_MESSAGE_PACK:
-            return rid_message_pack_snprintf(
+            return rid_message_pack_to_json(
                 (const rid_message_pack_t *)message,
                 buffer,
                 buffer_size

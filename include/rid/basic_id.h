@@ -229,7 +229,7 @@ const char *rid_ua_type_to_string(rid_ua_type_t type);
  * @return Number of characters written (excluding null terminator),
  *         or negative value on error.
  */
-int rid_basic_id_snprintf(const rid_basic_id_t *message, char *buffer, size_t buffer_size);
+int rid_basic_id_to_json(const rid_basic_id_t *message, char *buffer, size_t buffer_size);
 
 #ifdef __cplusplus
 }

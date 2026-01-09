@@ -169,7 +169,7 @@ rid_message_pack_replace_message_at(rid_message_pack_t *pack, uint8_t index, con
 }
 
 int
-rid_message_pack_snprintf(const rid_message_pack_t *pack, char *buffer, size_t buffer_size) {
+rid_message_pack_to_json(const rid_message_pack_t *pack, char *buffer, size_t buffer_size) {
     if (pack == NULL || buffer == NULL) {
         return RID_ERROR_NULL_POINTER;
     }
@@ -202,7 +202,7 @@ rid_message_pack_snprintf(const rid_message_pack_t *pack, char *buffer, size_t b
             break;
         }
 
-        int msg_written = rid_message_snprintf(msg, buffer + pos, buffer_size - pos);
+        int msg_written = rid_message_to_json(msg, buffer + pos, buffer_size - pos);
         if (msg_written > 0) {
             pos += (size_t)msg_written;
         }

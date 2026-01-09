@@ -348,7 +348,7 @@ const char *rid_auth_type_to_string(rid_auth_type_t type);
  *
  * @retval RID_ERROR_NULL_POINTER if message or buffer is NULL.
  */
-int rid_auth_page_snprintf(const void *message, char *buffer, size_t buffer_size);
+int rid_auth_page_to_json(const void *message, char *buffer, size_t buffer_size);
 
 #ifdef __cplusplus
 }
