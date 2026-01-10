@@ -683,7 +683,7 @@ test_system_validate_invalid_message_type(void) {
     system.message_type = RID_MESSAGE_TYPE_LOCATION;
 
     int status = rid_system_validate(&system);
-    ASSERT_EQ(RID_ERROR_WRONG_MESSAGE_TYPE, status);
+    ASSERT_EQ(RID_ERROR_UNKNOWN_MESSAGE_TYPE, status);
 
     PASS();
 }
@@ -722,6 +722,38 @@ test_system_validate_invalid_longitude(void) {
     system.operator_longitude = -1800000001;
     status = rid_system_validate(&system);
     ASSERT_EQ(RID_ERROR_INVALID_LONGITUDE, status);
+
+    PASS();
+}
+
+TEST
+test_system_to_json(void) {
+    rid_system_t system;
+    char buffer[1024];
+
+    rid_system_init(&system);
+    rid_system_set_operator_location_type(&system, RID_OPERATOR_LOCATION_TYPE_TAKEOFF);
+    rid_system_set_operator_latitude(&system, 60.2870324);
+    rid_system_set_operator_longitude(&system, 24.5397187);
+
+    int result = rid_system_to_json(&system, buffer, sizeof(buffer));
+    ASSERT(result > 0);
+    ASSERT(strstr(buffer, "\"operator_location_type\":") != NULL);
+    ASSERT(strstr(buffer, "\"operator_latitude\":") != NULL);
+    ASSERT(strstr(buffer, "\"operator_longitude\":") != NULL);
+
+    PASS();
+}
+
+TEST
+test_system_to_json_null(void) {
+    rid_system_t system;
+    char buffer[1024];
+
+    rid_system_init(&system);
+
+    ASSERT_EQ(RID_ERROR_NULL_POINTER, rid_system_to_json(NULL, buffer, sizeof(buffer)));
+    ASSERT_EQ(RID_ERROR_NULL_POINTER, rid_system_to_json(&system, NULL, sizeof(buffer)));
 
     PASS();
 }
@@ -791,4 +823,7 @@ SUITE(system_suite) {
     RUN_TEST(test_system_validate_invalid_message_type);
     RUN_TEST(test_system_validate_invalid_latitude);
     RUN_TEST(test_system_validate_invalid_longitude);
+
+    RUN_TEST(test_system_to_json);
+    RUN_TEST(test_system_to_json_null);
 }

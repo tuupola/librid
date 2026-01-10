@@ -268,7 +268,7 @@ test_operator_id_validate_invalid_message_type(void) {
     message.message_type = RID_MESSAGE_TYPE_LOCATION;
 
     int status = rid_operator_id_validate(&message);
-    ASSERT_EQ(RID_ERROR_WRONG_MESSAGE_TYPE, status);
+    ASSERT_EQ(RID_ERROR_UNKNOWN_MESSAGE_TYPE, status);
 
     PASS();
 }
@@ -282,6 +282,37 @@ test_operator_id_validate_invalid_operator_id(void) {
 
     int status = rid_operator_id_validate(&message);
     ASSERT_EQ(RID_ERROR_INVALID_CHARACTER, status);
+
+    PASS();
+}
+
+TEST
+test_operator_id_to_json(void) {
+    rid_operator_id_t message;
+    char buffer[256];
+
+    rid_operator_id_init(&message);
+    rid_operator_id_set_type(&message, RID_ID_TYPE_OPERATOR_ID);
+    rid_operator_id_set(&message, "FIN87astrdge12k8");
+
+    int result = rid_operator_id_to_json(&message, buffer, sizeof(buffer));
+    ASSERT(result > 0);
+    ASSERT(strstr(buffer, "\"id_type\":") != NULL);
+    ASSERT(strstr(buffer, "\"operator_id\":") != NULL);
+    ASSERT(strstr(buffer, "FIN87astrdge12k8") != NULL);
+
+    PASS();
+}
+
+TEST
+test_operator_id_to_json_null(void) {
+    rid_operator_id_t message;
+    char buffer[256];
+
+    rid_operator_id_init(&message);
+
+    ASSERT_EQ(RID_ERROR_NULL_POINTER, rid_operator_id_to_json(NULL, buffer, sizeof(buffer)));
+    ASSERT_EQ(RID_ERROR_NULL_POINTER, rid_operator_id_to_json(&message, NULL, sizeof(buffer)));
 
     PASS();
 }
@@ -309,4 +340,7 @@ SUITE(operator_id_suite) {
     RUN_TEST(test_operator_id_validate_invalid_protocol_version);
     RUN_TEST(test_operator_id_validate_invalid_message_type);
     RUN_TEST(test_operator_id_validate_invalid_operator_id);
+
+    RUN_TEST(test_operator_id_to_json);
+    RUN_TEST(test_operator_id_to_json_null);
 }

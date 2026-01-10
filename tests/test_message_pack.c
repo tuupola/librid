@@ -6,6 +6,7 @@
 #include "rid/message.h"
 #include "rid/message_pack.h"
 #include "rid/basic_id.h"
+#include "rid/location.h"
 
 /* Captured from a booting DroneTag */
 static uint8_t buffer[] = {
@@ -516,7 +517,7 @@ test_message_pack_validate_invalid_message_type(void) {
     pack.message_type = RID_MESSAGE_TYPE_LOCATION;
 
     int status = rid_message_pack_validate(&pack);
-    ASSERT_EQ(RID_ERROR_WRONG_MESSAGE_TYPE, status);
+    ASSERT_EQ(RID_ERROR_UNKNOWN_MESSAGE_TYPE, status);
 
     PASS();
 }
@@ -551,6 +552,45 @@ test_message_pack_validate_invalid_message_count(void) {
     pack.message_count = UINT8_MAX;
     status = rid_message_pack_validate(&pack);
     ASSERT_EQ(RID_ERROR_INVALID_MESSAGE_COUNT, status);
+
+    PASS();
+}
+
+TEST
+test_message_pack_to_json(void) {
+    rid_message_pack_t pack;
+    rid_basic_id_t basic_id;
+    rid_location_t location;
+    char buffer[2048];
+
+    rid_message_pack_init(&pack);
+    rid_basic_id_init(&basic_id);
+    rid_location_init(&location);
+
+    rid_basic_id_set_uas_id(&basic_id, "1ABCD2345EF678XYZ");
+    rid_location_set_latitude(&location, 60.1699);
+
+    rid_message_pack_add_message(&pack, &basic_id);
+    rid_message_pack_add_message(&pack, &location);
+
+    int result = rid_message_pack_to_json(&pack, buffer, sizeof(buffer));
+    ASSERT(result > 0);
+    ASSERT(strstr(buffer, "\"message_count\": 2") != NULL);
+    ASSERT(strstr(buffer, "\"messages\":") != NULL);
+    ASSERT(strstr(buffer, "1ABCD2345EF678XYZ") != NULL);
+
+    PASS();
+}
+
+TEST
+test_message_pack_to_json_null(void) {
+    rid_message_pack_t pack;
+    char buffer[2048];
+
+    rid_message_pack_init(&pack);
+
+    ASSERT_EQ(RID_ERROR_NULL_POINTER, rid_message_pack_to_json(NULL, buffer, sizeof(buffer)));
+    ASSERT_EQ(RID_ERROR_NULL_POINTER, rid_message_pack_to_json(&pack, NULL, sizeof(buffer)));
 
     PASS();
 }
@@ -590,4 +630,7 @@ SUITE(message_pack_suite) {
     RUN_TEST(test_message_pack_validate_invalid_message_type);
     RUN_TEST(test_message_pack_validate_invalid_message_size);
     RUN_TEST(test_message_pack_validate_invalid_message_count);
+
+    RUN_TEST(test_message_pack_to_json);
+    RUN_TEST(test_message_pack_to_json_null);
 }

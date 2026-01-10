@@ -107,8 +107,8 @@ rid_error_to_string(rid_error_t error) {
             return "RID_ERROR_INVALID_CHARACTER";
         case RID_ERROR_OUT_OF_RANGE:
             return "RID_ERROR_OUT_OF_RANGE";
-        case RID_ERROR_WRONG_MESSAGE_TYPE:
-            return "RID_ERROR_WRONG_MESSAGE_TYPE";
+        case RID_ERROR_UNKNOWN_MESSAGE_TYPE:
+            return "RID_ERROR_UNKNOWN_MESSAGE_TYPE";
         case RID_ERROR_INVALID_LATITUDE:
             return "RID_ERROR_INVALID_LATITUDE";
         case RID_ERROR_INVALID_LONGITUDE:

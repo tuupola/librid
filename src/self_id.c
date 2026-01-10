@@ -64,7 +64,7 @@ rid_self_id_validate(const rid_self_id_t *message) {
     }
 
     if (message->message_type != RID_MESSAGE_TYPE_SELF_ID) {
-        return RID_ERROR_WRONG_MESSAGE_TYPE;
+        return RID_ERROR_UNKNOWN_MESSAGE_TYPE;
     }
 
     /* Description must be ASCII only */

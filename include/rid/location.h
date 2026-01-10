@@ -275,7 +275,7 @@ int rid_location_init(rid_location_t *location);
  * @retval RID_SUCCESS if all fields are valid.
  * @retval RID_ERROR_NULL_POINTER if location is NULL.
  * @retval RID_ERROR_INVALID_PROTOCOL_VERSION if protocol version is invalid.
- * @retval RID_ERROR_WRONG_MESSAGE_TYPE if message type is not LOCATION.
+ * @retval RID_ERROR_UNKNOWN_MESSAGE_TYPE if message type is not LOCATION.
  * @retval RID_ERROR_INVALID_LATITUDE if latitude is out of range.
  * @retval RID_ERROR_INVALID_LONGITUDE if longitude is out of range.
  * @retval RID_ERROR_INVALID_TRACK_DIRECTION if track direction is out of range.

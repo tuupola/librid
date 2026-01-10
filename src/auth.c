@@ -64,7 +64,7 @@ rid_auth_validate(const rid_auth_t *auth) {
     }
 
     if (auth->page_0.message_type != RID_MESSAGE_TYPE_AUTH) {
-        return RID_ERROR_WRONG_MESSAGE_TYPE;
+        return RID_ERROR_UNKNOWN_MESSAGE_TYPE;
     }
 
     if (auth->page_0.page_number != 0) {

@@ -65,7 +65,7 @@ rid_system_validate(const rid_system_t *system) {
     }
 
     if (system->message_type != RID_MESSAGE_TYPE_SYSTEM) {
-        return RID_ERROR_WRONG_MESSAGE_TYPE;
+        return RID_ERROR_UNKNOWN_MESSAGE_TYPE;
     }
 
     /* Operator latitude: encoded as value * 10^7, valid range -90 to +90 degrees */

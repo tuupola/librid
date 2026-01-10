@@ -86,7 +86,7 @@ int rid_auth_init(rid_auth_t *auth);
  * @retval RID_SUCCESS if all fields are valid.
  * @retval RID_ERROR_NULL_POINTER if auth is NULL.
  * @retval RID_ERROR_INVALID_PROTOCOL_VERSION if protocol version is invalid.
- * @retval RID_ERROR_WRONG_MESSAGE_TYPE if message type is not AUTH.
+ * @retval RID_ERROR_UNKNOWN_MESSAGE_TYPE if message type is not AUTH.
  * @retval RID_ERROR_INVALID_PAGE_NUMBER if page_number is invalid.
  * @retval RID_ERROR_INVALID_LAST_PAGE_INDEX if last_page_index exceeds maximum.
  * @retval RID_ERROR_NON_EMPTY_SIGNATURE if auth type is NETWORK_REMOTE_ID but signature is not empty.

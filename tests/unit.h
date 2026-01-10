@@ -12,5 +12,6 @@ extern SUITE(system_suite);
 extern SUITE(message_pack_suite);
 extern SUITE(auth_page_suite);
 extern SUITE(auth_suite);
+extern SUITE(transport_suite);
 
 #endif

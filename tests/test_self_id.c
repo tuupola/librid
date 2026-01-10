@@ -244,7 +244,7 @@ test_self_id_validate_invalid_message_type(void) {
     message.message_type = RID_MESSAGE_TYPE_LOCATION;
 
     int status = rid_self_id_validate(&message);
-    ASSERT_EQ(RID_ERROR_WRONG_MESSAGE_TYPE, status);
+    ASSERT_EQ(RID_ERROR_UNKNOWN_MESSAGE_TYPE, status);
 
     PASS();
 }
@@ -258,6 +258,37 @@ test_self_id_validate_invalid_description(void) {
 
     int status = rid_self_id_validate(&message);
     ASSERT_EQ(RID_ERROR_INVALID_CHARACTER, status);
+
+    PASS();
+}
+
+TEST
+test_self_id_to_json(void) {
+    rid_self_id_t message;
+    char buffer[256];
+
+    rid_self_id_init(&message);
+    rid_self_id_set_description_type(&message, RID_DESCRIPTION_TYPE_TEXT);
+    rid_self_id_set_description(&message, "Welcome to Costco");
+
+    int result = rid_self_id_to_json(&message, buffer, sizeof(buffer));
+    ASSERT(result > 0);
+    ASSERT(strstr(buffer, "\"description_type\":") != NULL);
+    ASSERT(strstr(buffer, "\"description\":") != NULL);
+    ASSERT(strstr(buffer, "Welcome to Costco") != NULL);
+
+    PASS();
+}
+
+TEST
+test_self_id_to_json_null(void) {
+    rid_self_id_t message;
+    char buffer[256];
+
+    rid_self_id_init(&message);
+
+    ASSERT_EQ(RID_ERROR_NULL_POINTER, rid_self_id_to_json(NULL, buffer, sizeof(buffer)));
+    ASSERT_EQ(RID_ERROR_NULL_POINTER, rid_self_id_to_json(&message, NULL, sizeof(buffer)));
 
     PASS();
 }
@@ -283,4 +314,7 @@ SUITE(self_id_suite) {
     RUN_TEST(test_self_id_validate_invalid_protocol_version);
     RUN_TEST(test_self_id_validate_invalid_message_type);
     RUN_TEST(test_self_id_validate_invalid_description);
+
+    RUN_TEST(test_self_id_to_json);
+    RUN_TEST(test_self_id_to_json_null);
 }

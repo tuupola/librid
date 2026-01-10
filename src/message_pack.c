@@ -66,7 +66,7 @@ rid_message_pack_validate(const rid_message_pack_t *pack) {
     }
 
     if (pack->message_type != RID_MESSAGE_TYPE_MESSAGE_PACK) {
-        return RID_ERROR_WRONG_MESSAGE_TYPE;
+        return RID_ERROR_UNKNOWN_MESSAGE_TYPE;
     }
 
     if (pack->message_size != RID_MESSAGE_SIZE) {

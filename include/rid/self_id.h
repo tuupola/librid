@@ -145,7 +145,7 @@ int rid_self_id_init(rid_self_id_t *message);
  * @retval RID_SUCCESS if all fields are valid.
  * @retval RID_ERROR_NULL_POINTER if message is NULL.
  * @retval RID_ERROR_INVALID_PROTOCOL_VERSION if protocol version is invalid.
- * @retval RID_ERROR_WRONG_MESSAGE_TYPE if message type is not SELF_ID.
+ * @retval RID_ERROR_UNKNOWN_MESSAGE_TYPE if message type is not SELF_ID.
  * @retval RID_ERROR_INVALID_CHARACTER if description contains non-ASCII characters.
  */
 int rid_self_id_validate(const rid_self_id_t *message);

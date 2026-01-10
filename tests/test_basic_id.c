@@ -367,7 +367,7 @@ test_basic_id_validate_invalid_message_type(void) {
     message.message_type = RID_MESSAGE_TYPE_LOCATION;
 
     int status = rid_basic_id_validate(&message);
-    ASSERT_EQ(RID_ERROR_WRONG_MESSAGE_TYPE, status);
+    ASSERT_EQ(RID_ERROR_UNKNOWN_MESSAGE_TYPE, status);
 
     PASS();
 }
@@ -617,6 +617,39 @@ test_basic_id_validate_utm_uuid_invalid_padding(void) {
     PASS();
 }
 
+TEST
+test_basic_id_to_json(void) {
+    rid_basic_id_t message;
+    char buffer[256];
+
+    rid_basic_id_init(&message);
+    rid_basic_id_set_type(&message, RID_ID_TYPE_SERIAL_NUMBER);
+    rid_basic_id_set_ua_type(&message, RID_UA_TYPE_HELICOPTER_OR_MULTIROTOR);
+    rid_basic_id_set_uas_id(&message, "1ABCD2345EF678XYZ");
+
+    int result = rid_basic_id_to_json(&message, buffer, sizeof(buffer));
+    ASSERT(result > 0);
+    ASSERT(strstr(buffer, "\"id_type\":") != NULL);
+    ASSERT(strstr(buffer, "\"ua_type\":") != NULL);
+    ASSERT(strstr(buffer, "\"uas_id\":") != NULL);
+    ASSERT(strstr(buffer, "1ABCD2345EF678XYZ") != NULL);
+
+    PASS();
+}
+
+TEST
+test_basic_id_to_json_null(void) {
+    rid_basic_id_t message;
+    char buffer[256];
+
+    rid_basic_id_init(&message);
+
+    ASSERT_EQ(RID_ERROR_NULL_POINTER, rid_basic_id_to_json(NULL, buffer, sizeof(buffer)));
+    ASSERT_EQ(RID_ERROR_NULL_POINTER, rid_basic_id_to_json(&message, NULL, sizeof(buffer)));
+
+    PASS();
+}
+
 SUITE(basic_id_suite) {
     RUN_TEST(test_basic_id_init);
 
@@ -659,4 +692,7 @@ SUITE(basic_id_suite) {
     RUN_TEST(test_basic_id_validate_utm_uuid_invalid_version_6);
     RUN_TEST(test_basic_id_validate_utm_uuid_invalid_variant);
     RUN_TEST(test_basic_id_validate_utm_uuid_invalid_padding);
+
+    RUN_TEST(test_basic_id_to_json);
+    RUN_TEST(test_basic_id_to_json_null);
 }

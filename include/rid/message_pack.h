@@ -91,7 +91,7 @@ int rid_message_pack_init(rid_message_pack_t *pack);
  * @retval RID_SUCCESS if all fields are valid.
  * @retval RID_ERROR_NULL_POINTER if pack is NULL.
  * @retval RID_ERROR_INVALID_PROTOCOL_VERSION if protocol version is invalid.
- * @retval RID_ERROR_WRONG_MESSAGE_TYPE if message type is not MESSAGE_PACK.
+ * @retval RID_ERROR_UNKNOWN_MESSAGE_TYPE if message type is not MESSAGE_PACK.
  * @retval RID_ERROR_INVALID_MESSAGE_SIZE if message_size is not 25.
  * @retval RID_ERROR_INVALID_MESSAGE_COUNT if message_count exceeds maximum.
  */

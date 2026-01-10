@@ -1,7 +1,9 @@
 #include <stdint.h>
+#include <string.h>
 
 #include "greatest.h"
 #include "rid/message.h"
+#include "rid/basic_id.h"
 #include "rid/auth_page.h"
 #include "rid/auth.h"
 
@@ -65,7 +67,7 @@ test_auth_validate_invalid_message_type(void) {
 
     auth.page_0.message_type = RID_MESSAGE_TYPE_BASIC_ID;
     int status = rid_auth_validate(&auth);
-    ASSERT_EQ(RID_ERROR_WRONG_MESSAGE_TYPE, status);
+    ASSERT_EQ(RID_ERROR_UNKNOWN_MESSAGE_TYPE, status);
 
     PASS();
 }
@@ -436,6 +438,146 @@ test_auth_set_type_network_remote_id_clears_signature(void) {
     PASS();
 }
 
+TEST
+test_auth_to_json(void) {
+    rid_auth_t auth;
+    char buffer[1024];
+
+    rid_auth_init(&auth);
+    rid_auth_set_type(&auth, RID_AUTH_TYPE_UAS_ID_SIGNATURE);
+
+    uint8_t signature[] = {0xDE, 0xAD, 0xBE, 0xEF};
+    rid_auth_set_signature(&auth, signature, sizeof(signature));
+
+    int result = rid_auth_to_json(&auth, buffer, sizeof(buffer));
+    ASSERT(result > 0);
+    ASSERT(strstr(buffer, "\"type\":") != NULL);
+    ASSERT(strstr(buffer, "\"page_count\":") != NULL);
+    ASSERT(strstr(buffer, "\"signature\":") != NULL);
+    ASSERT(strstr(buffer, "deadbeef") != NULL);
+
+    PASS();
+}
+
+TEST
+test_auth_to_json_null(void) {
+    rid_auth_t auth;
+    char buffer[1024];
+
+    rid_auth_init(&auth);
+
+    ASSERT_EQ(RID_ERROR_NULL_POINTER, rid_auth_to_json(NULL, buffer, sizeof(buffer)));
+    ASSERT_EQ(RID_ERROR_NULL_POINTER, rid_auth_to_json(&auth, NULL, sizeof(buffer)));
+
+    PASS();
+}
+
+TEST
+test_auth_page_to_json_page_0(void) {
+    rid_auth_page_0_t page;
+    char buffer[512];
+
+    rid_auth_page_0_init(&page);
+    rid_auth_page_0_set_type(&page, RID_AUTH_TYPE_UAS_ID_SIGNATURE);
+    rid_auth_page_0_set_timestamp(&page, 98765);
+    rid_auth_page_0_set_last_page_index(&page, 2);
+    rid_auth_page_0_set_length(&page, 63);
+
+    uint8_t data[] = {0xCA, 0xFE, 0xBA, 0xBE};
+    rid_auth_page_0_set_data(&page, data, sizeof(data));
+
+    int result = rid_auth_page_to_json(&page, buffer, sizeof(buffer));
+    ASSERT(result > 0);
+    ASSERT(strstr(buffer, "\"page_number\": 0") != NULL);
+    ASSERT(strstr(buffer, "\"auth_type\": 1") != NULL);
+    ASSERT(strstr(buffer, "\"last_page_index\": 2") != NULL);
+    ASSERT(strstr(buffer, "\"length\": 63") != NULL);
+    ASSERT(strstr(buffer, "\"timestamp\":") != NULL);
+    ASSERT(strstr(buffer, "cafebabe") != NULL);
+
+    PASS();
+}
+
+TEST
+test_auth_page_to_json_page_x(void) {
+    rid_auth_page_x_t page;
+    char buffer[512];
+
+    rid_auth_page_x_init(&page, 5);
+    rid_auth_page_x_set_type(&page, RID_AUTH_TYPE_MESSAGE_SET_SIGNATURE);
+
+    uint8_t data[] = {0xDE, 0xAD, 0xBE, 0xEF};
+    rid_auth_page_x_set_data(&page, data, sizeof(data));
+
+    int result = rid_auth_page_to_json(&page, buffer, sizeof(buffer));
+    ASSERT(result > 0);
+    ASSERT(strstr(buffer, "\"page_number\": 5") != NULL);
+    ASSERT(strstr(buffer, "\"auth_type\": 3") != NULL);
+    ASSERT(strstr(buffer, "deadbeef") != NULL);
+
+    PASS();
+}
+
+TEST
+test_auth_page_to_json_null_pointer(void) {
+    rid_auth_page_0_t page;
+    char buffer[256];
+
+    rid_auth_page_0_init(&page);
+
+    ASSERT_EQ(RID_ERROR_NULL_POINTER, rid_auth_page_to_json(NULL, buffer, sizeof(buffer)));
+    ASSERT_EQ(RID_ERROR_NULL_POINTER, rid_auth_page_to_json(&page, NULL, sizeof(buffer)));
+
+    PASS();
+}
+
+TEST
+test_message_to_json_basic_id(void) {
+    rid_basic_id_t message;
+    char buffer[256];
+
+    rid_basic_id_init(&message);
+    rid_basic_id_set_uas_id(&message, "BRAWNDO001");
+
+    int result = rid_message_to_json(&message, buffer, sizeof(buffer));
+    ASSERT(result > 0);
+    ASSERT(strstr(buffer, "\"message_type\": 0") != NULL);
+    ASSERT(strstr(buffer, "BRAWNDO001") != NULL);
+
+    PASS();
+}
+
+TEST
+test_message_to_json_auth_page(void) {
+    rid_auth_page_0_t page;
+    char buffer[512];
+
+    rid_auth_page_0_init(&page);
+    rid_auth_page_0_set_type(&page, RID_AUTH_TYPE_UAS_ID_SIGNATURE);
+    rid_auth_page_0_set_timestamp(&page, 12345);
+
+    int result = rid_message_to_json(&page, buffer, sizeof(buffer));
+    ASSERT(result > 0);
+    ASSERT(strstr(buffer, "\"message_type\": 2") != NULL);
+    ASSERT(strstr(buffer, "\"page_number\": 0") != NULL);
+    ASSERT(strstr(buffer, "\"timestamp\":") != NULL);
+
+    PASS();
+}
+
+TEST
+test_message_to_json_null_pointer(void) {
+    rid_basic_id_t message;
+    char buffer[256];
+
+    rid_basic_id_init(&message);
+
+    ASSERT_EQ(RID_ERROR_NULL_POINTER, rid_message_to_json(NULL, buffer, sizeof(buffer)));
+    ASSERT_EQ(RID_ERROR_NULL_POINTER, rid_message_to_json(&message, NULL, sizeof(buffer)));
+
+    PASS();
+}
+
 SUITE(auth_suite) {
     RUN_TEST(test_auth_init);
     RUN_TEST(test_auth_validate_valid);
@@ -467,4 +609,15 @@ SUITE(auth_suite) {
     RUN_TEST(test_auth_get_signature_buffer_too_small);
     RUN_TEST(test_auth_signature_preserves_type);
     RUN_TEST(test_auth_set_type_network_remote_id_clears_signature);
+
+    RUN_TEST(test_auth_to_json);
+    RUN_TEST(test_auth_to_json_null);
+
+    RUN_TEST(test_auth_page_to_json_page_0);
+    RUN_TEST(test_auth_page_to_json_page_x);
+    RUN_TEST(test_auth_page_to_json_null_pointer);
+
+    RUN_TEST(test_message_to_json_basic_id);
+    RUN_TEST(test_message_to_json_auth_page);
+    RUN_TEST(test_message_to_json_null_pointer);
 }

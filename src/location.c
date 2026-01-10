@@ -74,7 +74,7 @@ rid_location_validate(const rid_location_t *location) {
     }
 
     if (location->message_type != RID_MESSAGE_TYPE_LOCATION) {
-        return RID_ERROR_WRONG_MESSAGE_TYPE;
+        return RID_ERROR_UNKNOWN_MESSAGE_TYPE;
     }
 
     /* Encoded latitude range: -900000000 to 900000000 */

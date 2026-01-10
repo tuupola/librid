@@ -1392,7 +1392,7 @@ test_validate_invalid_message_type(void) {
     location.message_type = RID_MESSAGE_TYPE_BASIC_ID;
 
     int status = rid_location_validate(&location);
-    ASSERT_EQ(RID_ERROR_WRONG_MESSAGE_TYPE, status);
+    ASSERT_EQ(RID_ERROR_UNKNOWN_MESSAGE_TYPE, status);
 
     PASS();
 }
@@ -1474,6 +1474,40 @@ test_validate_invalid_timestamp(void) {
     location.timestamp = RID_TIMESTAMP_INVALID;
     status = rid_location_validate(&location);
     ASSERT_EQ(RID_SUCCESS, status);
+
+    PASS();
+}
+
+TEST
+test_location_to_json(void) {
+    rid_location_t location;
+    char buffer[1024];
+
+    rid_location_init(&location);
+    rid_location_set_latitude(&location, 60.1699);
+    rid_location_set_longitude(&location, 24.9384);
+    rid_location_set_speed(&location, 15.5f);
+    rid_location_set_geodetic_altitude(&location, 120.5f);
+
+    int result = rid_location_to_json(&location, buffer, sizeof(buffer));
+    ASSERT(result > 0);
+    ASSERT(strstr(buffer, "\"latitude\":") != NULL);
+    ASSERT(strstr(buffer, "\"longitude\":") != NULL);
+    ASSERT(strstr(buffer, "\"speed\":") != NULL);
+    ASSERT(strstr(buffer, "\"geodetic_altitude\":") != NULL);
+
+    PASS();
+}
+
+TEST
+test_location_to_json_null(void) {
+    rid_location_t location;
+    char buffer[1024];
+
+    rid_location_init(&location);
+
+    ASSERT_EQ(RID_ERROR_NULL_POINTER, rid_location_to_json(NULL, buffer, sizeof(buffer)));
+    ASSERT_EQ(RID_ERROR_NULL_POINTER, rid_location_to_json(&location, NULL, sizeof(buffer)));
 
     PASS();
 }
@@ -1574,4 +1608,7 @@ SUITE(location_suite) {
     RUN_TEST(test_validate_invalid_longitude);
     RUN_TEST(test_validate_invalid_track_direction);
     RUN_TEST(test_validate_invalid_timestamp);
+
+    RUN_TEST(test_location_to_json);
+    RUN_TEST(test_location_to_json_null);
 }

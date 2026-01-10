@@ -64,7 +64,7 @@ rid_operator_id_validate(const rid_operator_id_t *message) {
     }
 
     if (message->message_type != RID_MESSAGE_TYPE_OPERATOR_ID) {
-        return RID_ERROR_WRONG_MESSAGE_TYPE;
+        return RID_ERROR_UNKNOWN_MESSAGE_TYPE;
     }
 
     /* Operator ID must be ASCII only */
