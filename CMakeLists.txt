@@ -10,6 +10,7 @@ if(ESP_PLATFORM)
              "src/auth_page.c"
              "src/operator_id.c"
              "src/self_id.c"
+             "src/transport.c"
         INCLUDE_DIRS "include"
     )
 else()
@@ -33,6 +34,7 @@ else()
         src/auth_page.c
         src/operator_id.c
         src/self_id.c
+        src/transport.c
     )
 
     target_include_directories(rid PUBLIC include)

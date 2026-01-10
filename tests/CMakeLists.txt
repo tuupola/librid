@@ -9,6 +9,7 @@ add_executable(test_runner
     test_message_pack.c
     test_auth_page.c
     test_auth.c
+    test_transport.c
 )
 
 target_include_directories(test_runner PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
