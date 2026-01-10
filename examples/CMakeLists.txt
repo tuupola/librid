@@ -1,6 +1,9 @@
 add_executable(example_basic_id basic_id/example_basic_id.c)
 target_link_libraries(example_basic_id rid)
 
+add_executable(example_json json/example_json.c)
+target_link_libraries(example_json rid)
+
 add_executable(example_location location/example_location.c)
 target_link_libraries(example_location rid)
 
@@ -18,6 +21,9 @@ target_link_libraries(example_self_id rid)
 
 add_executable(example_system system/example_system.c)
 target_link_libraries(example_system rid)
+
+add_executable(example_validate validate/example_validate.c)
+target_link_libraries(example_validate rid)
 
 add_executable(example_auth_page auth_page/example_auth_page.c)
 target_link_libraries(example_auth_page rid)
