@@ -25,6 +25,10 @@ target_link_libraries(example_system rid)
 add_executable(example_validate validate/example_validate.c)
 target_link_libraries(example_validate rid)
 
+add_executable(rid_cli cli/example_cli.c)
+target_link_libraries(rid_cli rid)
+set_target_properties(rid_cli PROPERTIES OUTPUT_NAME rid)
+
 add_executable(example_auth_page auth_page/example_auth_page.c)
 target_link_libraries(example_auth_page rid)
 
