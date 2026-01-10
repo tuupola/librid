@@ -7,11 +7,11 @@ $ make run
 ## Output
 
 ```
-12 20 2d 3e 04 b8 32 dd  23 40 4c dd 0e 00 00 c1
+12 20 2d 3e 04 20 bd 5c  25 40 1c 19 0d 00 00 c1
 08 34 08 4a 03 39 30 01  00
 
-Latitude:   60.1699
-Longitude:  24.9384
+Latitude:   62.6835
+Longitude:  21.9749
 Altitude:   120.5 m
 Height:     50.0 m
 Speed:      15.5 m/s

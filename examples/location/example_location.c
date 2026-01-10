@@ -28,8 +28,8 @@ main(void)
     rid_location_init(&location);
     rid_location_set_operational_status(&location, RID_OPERATIONAL_STATUS_AIRBORNE);
     rid_location_set_height_type(&location, RID_HEIGHT_TYPE_ABOVE_TAKEOFF);
-    rid_location_set_latitude(&location, 60.1699);
-    rid_location_set_longitude(&location, 24.9384);
+    rid_location_set_latitude(&location, 62.683472);
+    rid_location_set_longitude(&location, 21.974944);
     rid_location_set_geodetic_altitude(&location, 120.5f);
     rid_location_set_height(&location, 50.0f);
     rid_location_set_speed(&location, 15.5f);
