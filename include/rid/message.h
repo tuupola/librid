@@ -135,6 +135,21 @@ const char *rid_protocol_version_to_string(rid_protocol_version_t version);
 const char *rid_error_to_string(rid_error_t error);
 
 /**
+ * @brief Validate any Remote ID message.
+ *
+ * Dispatches to the appropriate type-specific validation function
+ * based on the message type field.
+ *
+ * @param message Pointer to the message structure to validate.
+ *
+ * @retval RID_SUCCESS if validation passes.
+ * @retval RID_ERROR_NULL_POINTER if message is NULL.
+ * @retval RID_ERROR_UNKNOWN_MESSAGE_TYPE if message type is not recognized.
+ * @retval Other error codes from type-specific validators.
+ */
+int rid_message_validate(const void *message);
+
+/**
  * @brief Format any Remote ID message as a JSON string.
  *
  * Determines the message type and calls the appropriate type-specific

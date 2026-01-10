@@ -141,6 +141,35 @@ rid_error_to_string(rid_error_t error) {
 }
 
 int
+rid_message_validate(const void *message) {
+    if (NULL == message) {
+        return RID_ERROR_NULL_POINTER;
+    }
+
+    rid_message_type_t type = rid_message_get_type(message);
+
+    switch (type) {
+        case RID_MESSAGE_TYPE_BASIC_ID:
+            return rid_basic_id_validate((const rid_basic_id_t *)message);
+        case RID_MESSAGE_TYPE_LOCATION:
+            return rid_location_validate((const rid_location_t *)message);
+        case RID_MESSAGE_TYPE_AUTH:
+            /* TODO: No page-level validator yet */
+            return RID_SUCCESS;
+        case RID_MESSAGE_TYPE_SELF_ID:
+            return rid_self_id_validate((const rid_self_id_t *)message);
+        case RID_MESSAGE_TYPE_SYSTEM:
+            return rid_system_validate((const rid_system_t *)message);
+        case RID_MESSAGE_TYPE_OPERATOR_ID:
+            return rid_operator_id_validate((const rid_operator_id_t *)message);
+        case RID_MESSAGE_TYPE_MESSAGE_PACK:
+            return rid_message_pack_validate((const rid_message_pack_t *)message);
+        default:
+            return RID_ERROR_UNKNOWN_MESSAGE_TYPE;
+    }
+}
+
+int
 rid_message_to_json(const void *message, char *buffer, size_t buffer_size) {
     if (NULL == message || NULL == buffer) {
         return RID_ERROR_NULL_POINTER;
