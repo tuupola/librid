@@ -7,7 +7,7 @@ jobs:
       - name: Install dependencies
         run: |
           apt-get update
-          apt-get install -y gcc make cmake
+          apt-get install -y gcc make cmake libsodium-dev
       - name: Configure
         run: cmake -B build -DRID_BUILD_EXAMPLES=ON
       - name: Build
@@ -24,5 +24,6 @@ jobs:
           ./example_message_pack
           ./example_json
           ./example_auth_page
+          ./example_auth
           ./example_validate
           ./rid_cli --decode 12202d3e0420bd5c25401c190d0000c10834084a0339300100
