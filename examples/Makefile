@@ -1,4 +1,4 @@
-SUBDIRS = auth basic_id location message message_pack operator_id self_id json system validate
+SUBDIRS = $(patsubst %/Makefile,%,$(wildcard */Makefile))
 
 all:
 	@for dir in $(SUBDIRS); do \
