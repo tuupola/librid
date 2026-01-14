@@ -438,7 +438,7 @@ rid_location_set_operational_status(rid_location_t *location, rid_operational_st
         return RID_ERROR_NULL_POINTER;
     }
 
-    if (status > RID_OPERATIONAL_STATUS_RESERVED_15) {
+    if (status > RID_OPERATIONAL_STATUS_MAX) {
         return RID_ERROR_OUT_OF_RANGE;
     }
 
@@ -458,7 +458,7 @@ rid_location_set_speed_accuracy(rid_location_t *location, rid_speed_accuracy_t a
         return RID_ERROR_NULL_POINTER;
     }
 
-    if (accuracy > RID_SPEED_ACCURACY_RESERVED_15) {
+    if (accuracy > RID_SPEED_ACCURACY_MAX) {
         return RID_ERROR_OUT_OF_RANGE;
     }
 
@@ -478,7 +478,7 @@ rid_location_set_horizontal_accuracy(rid_location_t *location, rid_horizontal_ac
         return RID_ERROR_NULL_POINTER;
     }
 
-    if (accuracy > RID_HORIZONTAL_ACCURACY_RESERVED_15) {
+    if (accuracy > RID_HORIZONTAL_ACCURACY_MAX) {
         return RID_ERROR_OUT_OF_RANGE;
     }
 
@@ -498,7 +498,7 @@ rid_location_set_vertical_accuracy(rid_location_t *location, rid_vertical_accura
         return RID_ERROR_NULL_POINTER;
     }
 
-    if (accuracy > RID_VERTICAL_ACCURACY_RESERVED_15) {
+    if (accuracy > RID_VERTICAL_ACCURACY_MAX) {
         return RID_ERROR_OUT_OF_RANGE;
     }
 
@@ -518,7 +518,7 @@ rid_location_set_baro_altitude_accuracy(rid_location_t *location, rid_vertical_a
         return RID_ERROR_NULL_POINTER;
     }
 
-    if (accuracy > RID_VERTICAL_ACCURACY_RESERVED_15) {
+    if (accuracy > RID_VERTICAL_ACCURACY_MAX) {
         return RID_ERROR_OUT_OF_RANGE;
     }
 
@@ -627,28 +627,6 @@ rid_operational_status_to_string(rid_operational_status_t status) {
             return "RID_OPERATIONAL_STATUS_EMERGENCY";
         case RID_OPERATIONAL_STATUS_REMOTE_ID_SYSTEM_FAILURE:
             return "RID_OPERATIONAL_STATUS_REMOTE_ID_SYSTEM_FAILURE";
-        case RID_OPERATIONAL_STATUS_RESERVED_5:
-            return "RID_OPERATIONAL_STATUS_RESERVED_5";
-        case RID_OPERATIONAL_STATUS_RESERVED_6:
-            return "RID_OPERATIONAL_STATUS_RESERVED_6";
-        case RID_OPERATIONAL_STATUS_RESERVED_7:
-            return "RID_OPERATIONAL_STATUS_RESERVED_7";
-        case RID_OPERATIONAL_STATUS_RESERVED_8:
-            return "RID_OPERATIONAL_STATUS_RESERVED_8";
-        case RID_OPERATIONAL_STATUS_RESERVED_9:
-            return "RID_OPERATIONAL_STATUS_RESERVED_9";
-        case RID_OPERATIONAL_STATUS_RESERVED_10:
-            return "RID_OPERATIONAL_STATUS_RESERVED_10";
-        case RID_OPERATIONAL_STATUS_RESERVED_11:
-            return "RID_OPERATIONAL_STATUS_RESERVED_11";
-        case RID_OPERATIONAL_STATUS_RESERVED_12:
-            return "RID_OPERATIONAL_STATUS_RESERVED_12";
-        case RID_OPERATIONAL_STATUS_RESERVED_13:
-            return "RID_OPERATIONAL_STATUS_RESERVED_13";
-        case RID_OPERATIONAL_STATUS_RESERVED_14:
-            return "RID_OPERATIONAL_STATUS_RESERVED_14";
-        case RID_OPERATIONAL_STATUS_RESERVED_15:
-            return "RID_OPERATIONAL_STATUS_RESERVED_15";
         default:
             return "UNKNOWN";
     }
@@ -683,12 +661,6 @@ rid_horizontal_accuracy_to_string(rid_horizontal_accuracy_t accuracy) {
             return "RID_HORIZONTAL_ACCURACY_3M";
         case RID_HORIZONTAL_ACCURACY_1M:
             return "RID_HORIZONTAL_ACCURACY_1M";
-        case RID_HORIZONTAL_ACCURACY_RESERVED_13:
-            return "RID_HORIZONTAL_ACCURACY_RESERVED_13";
-        case RID_HORIZONTAL_ACCURACY_RESERVED_14:
-            return "RID_HORIZONTAL_ACCURACY_RESERVED_14";
-        case RID_HORIZONTAL_ACCURACY_RESERVED_15:
-            return "RID_HORIZONTAL_ACCURACY_RESERVED_15";
         default:
             return "UNKNOWN";
     }
@@ -711,24 +683,6 @@ rid_vertical_accuracy_to_string(rid_vertical_accuracy_t accuracy) {
             return "RID_VERTICAL_ACCURACY_3M";
         case RID_VERTICAL_ACCURACY_1M:
             return "RID_VERTICAL_ACCURACY_1M";
-        case RID_VERTICAL_ACCURACY_RESERVED_7:
-            return "RID_VERTICAL_ACCURACY_RESERVED_7";
-        case RID_VERTICAL_ACCURACY_RESERVED_8:
-            return "RID_VERTICAL_ACCURACY_RESERVED_8";
-        case RID_VERTICAL_ACCURACY_RESERVED_9:
-            return "RID_VERTICAL_ACCURACY_RESERVED_9";
-        case RID_VERTICAL_ACCURACY_RESERVED_10:
-            return "RID_VERTICAL_ACCURACY_RESERVED_10";
-        case RID_VERTICAL_ACCURACY_RESERVED_11:
-            return "RID_VERTICAL_ACCURACY_RESERVED_11";
-        case RID_VERTICAL_ACCURACY_RESERVED_12:
-            return "RID_VERTICAL_ACCURACY_RESERVED_12";
-        case RID_VERTICAL_ACCURACY_RESERVED_13:
-            return "RID_VERTICAL_ACCURACY_RESERVED_13";
-        case RID_VERTICAL_ACCURACY_RESERVED_14:
-            return "RID_VERTICAL_ACCURACY_RESERVED_14";
-        case RID_VERTICAL_ACCURACY_RESERVED_15:
-            return "RID_VERTICAL_ACCURACY_RESERVED_15";
         default:
             return "UNKNOWN";
     }
@@ -747,28 +701,6 @@ rid_speed_accuracy_to_string(rid_speed_accuracy_t accuracy) {
             return "RID_SPEED_ACCURACY_1MS";
         case RID_SPEED_ACCURACY_03MS:
             return "RID_SPEED_ACCURACY_03MS";
-        case RID_SPEED_ACCURACY_RESERVED_5:
-            return "RID_SPEED_ACCURACY_RESERVED_5";
-        case RID_SPEED_ACCURACY_RESERVED_6:
-            return "RID_SPEED_ACCURACY_RESERVED_6";
-        case RID_SPEED_ACCURACY_RESERVED_7:
-            return "RID_SPEED_ACCURACY_RESERVED_7";
-        case RID_SPEED_ACCURACY_RESERVED_8:
-            return "RID_SPEED_ACCURACY_RESERVED_8";
-        case RID_SPEED_ACCURACY_RESERVED_9:
-            return "RID_SPEED_ACCURACY_RESERVED_9";
-        case RID_SPEED_ACCURACY_RESERVED_10:
-            return "RID_SPEED_ACCURACY_RESERVED_10";
-        case RID_SPEED_ACCURACY_RESERVED_11:
-            return "RID_SPEED_ACCURACY_RESERVED_11";
-        case RID_SPEED_ACCURACY_RESERVED_12:
-            return "RID_SPEED_ACCURACY_RESERVED_12";
-        case RID_SPEED_ACCURACY_RESERVED_13:
-            return "RID_SPEED_ACCURACY_RESERVED_13";
-        case RID_SPEED_ACCURACY_RESERVED_14:
-            return "RID_SPEED_ACCURACY_RESERVED_14";
-        case RID_SPEED_ACCURACY_RESERVED_15:
-            return "RID_SPEED_ACCURACY_RESERVED_15";
         default:
             return "UNKNOWN";
     }

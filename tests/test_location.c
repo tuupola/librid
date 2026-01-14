@@ -629,14 +629,14 @@ test_set_and_gte_operational_status(void) {
     result = rid_location_get_operational_status(&location);
     ASSERT_EQ(RID_OPERATIONAL_STATUS_REMOTE_ID_SYSTEM_FAILURE, result);
 
-    /* Test RID_OPERATIONAL_STATUS_RESERVED_15  */
+    /* Test RID_OPERATIONAL_STATUS_MAX */
     memset(&location, 0, sizeof(location));
-    status = rid_location_set_operational_status(&location, RID_OPERATIONAL_STATUS_RESERVED_15);
+    status = rid_location_set_operational_status(&location, RID_OPERATIONAL_STATUS_MAX);
     ASSERT_EQ(RID_SUCCESS, status);
     ASSERT_EQ(15, location.operational_status);
 
     result = rid_location_get_operational_status(&location);
-    ASSERT_EQ(RID_OPERATIONAL_STATUS_RESERVED_15, result);
+    ASSERT_EQ(RID_OPERATIONAL_STATUS_MAX, result);
 
     PASS();
 }
@@ -713,14 +713,14 @@ test_set_and_get_speed_accuracy(void) {
     result = rid_location_get_speed_accuracy(&location);
     ASSERT_EQ(RID_SPEED_ACCURACY_03MS, result);
 
-    /* Test RID_SPEED_ACCURACY_RESERVED_15 */
+    /* Test RID_SPEED_ACCURACY_MAX */
     memset(&location, 0, sizeof(location));
-    status = rid_location_set_speed_accuracy(&location, RID_SPEED_ACCURACY_RESERVED_15);
+    status = rid_location_set_speed_accuracy(&location, RID_SPEED_ACCURACY_MAX);
     ASSERT_EQ(RID_SUCCESS, status);
     ASSERT_EQ(15, location.speed_accuracy);
 
     result = rid_location_get_speed_accuracy(&location);
-    ASSERT_EQ(RID_SPEED_ACCURACY_RESERVED_15, result);
+    ASSERT_EQ(RID_SPEED_ACCURACY_MAX, result);
 
     PASS();
 }
@@ -797,14 +797,14 @@ test_set_and_get_horizontal_accuracy(void) {
     result = rid_location_get_horizontal_accuracy(&location);
     ASSERT_EQ(RID_HORIZONTAL_ACCURACY_1M, result);
 
-    /* Test RID_HORIZONTAL_ACCURACY_RESERVED_15 */
+    /* Test RID_HORIZONTAL_ACCURACY_MAX */
     memset(&location, 0, sizeof(location));
-    status = rid_location_set_horizontal_accuracy(&location, RID_HORIZONTAL_ACCURACY_RESERVED_15);
+    status = rid_location_set_horizontal_accuracy(&location, RID_HORIZONTAL_ACCURACY_MAX);
     ASSERT_EQ(RID_SUCCESS, status);
     ASSERT_EQ(15, location.horizontal_accuracy);
 
     result = rid_location_get_horizontal_accuracy(&location);
-    ASSERT_EQ(RID_HORIZONTAL_ACCURACY_RESERVED_15, result);
+    ASSERT_EQ(RID_HORIZONTAL_ACCURACY_MAX, result);
 
     PASS();
 }
@@ -899,14 +899,14 @@ test_set_and_get_vertical_accuracy(void) {
     result = rid_location_get_vertical_accuracy(&location);
     ASSERT_EQ(RID_VERTICAL_ACCURACY_1M, result);
 
-    /* Test RID_VERTICAL_ACCURACY_RESERVED_15 */
+    /* Test RID_VERTICAL_ACCURACY_MAX */
     memset(&location, 0, sizeof(location));
-    status = rid_location_set_vertical_accuracy(&location, RID_VERTICAL_ACCURACY_RESERVED_15);
+    status = rid_location_set_vertical_accuracy(&location, RID_VERTICAL_ACCURACY_MAX);
     ASSERT_EQ(RID_SUCCESS, status);
     ASSERT_EQ(15, location.vertical_accuracy);
 
     result = rid_location_get_vertical_accuracy(&location);
-    ASSERT_EQ(RID_VERTICAL_ACCURACY_RESERVED_15, result);
+    ASSERT_EQ(RID_VERTICAL_ACCURACY_MAX, result);
 
     PASS();
 }
@@ -1001,14 +1001,14 @@ test_set_and_get_baro_altitude_accuracy(void) {
     result = rid_location_get_baro_altitude_accuracy(&location);
     ASSERT_EQ(RID_VERTICAL_ACCURACY_1M, result);
 
-    /* Test RID_VERTICAL_ACCURACY_RESERVED_15 */
+    /* Test RID_VERTICAL_ACCURACY_MAX */
     memset(&location, 0, sizeof(location));
-    status = rid_location_set_baro_altitude_accuracy(&location, RID_VERTICAL_ACCURACY_RESERVED_15);
+    status = rid_location_set_baro_altitude_accuracy(&location, RID_VERTICAL_ACCURACY_MAX);
     ASSERT_EQ(RID_SUCCESS, status);
     ASSERT_EQ(15, location.baro_altitude_accuracy);
 
     result = rid_location_get_baro_altitude_accuracy(&location);
-    ASSERT_EQ(RID_VERTICAL_ACCURACY_RESERVED_15, result);
+    ASSERT_EQ(RID_VERTICAL_ACCURACY_MAX, result);
 
     PASS();
 }
