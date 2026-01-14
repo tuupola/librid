@@ -40,6 +40,11 @@ SPDX-License-Identifier: MIT
  * Authentication messages support multi-page transmission with up to 16 pages
  * (0-15). Page 0 has a different structure than pages 1-15.
  *
+ * @note For typical use cases, you should use the higher-level API in auth.h
+ * instead which manages multi-page authentication data automatically.
+ *
+ * @see auth.h
+ *
  * Example usage:
  * @snippet auth_page/example_auth_page.c full_example
  */

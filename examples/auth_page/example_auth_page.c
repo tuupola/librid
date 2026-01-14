@@ -1,3 +1,9 @@
+/*
+ * Note: For typical use cases, you should use the higher-level API in auth.h
+ * instead which manages multi-page authentication data automatically. This
+ * example is provided for completeness sake.
+ */
+
 #include <stdio.h>
 #include <stdint.h>
 
@@ -65,7 +71,7 @@ main(void)
     printf("Timestamp:       %u\n", rid_auth_page_0_get_timestamp(&page_0));
     printf("\n");
 
-    /* page 1-15 example */
+    /* page 1 example */
     rid_auth_page_x_init(&page_1, 1);
     rid_auth_page_x_set_type(&page_1, RID_AUTH_TYPE_MESSAGE_SET_SIGNATURE);
     rid_auth_page_x_set_data(&page_1, page_1_data, sizeof(page_1_data));
