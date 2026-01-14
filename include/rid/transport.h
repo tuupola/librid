@@ -53,6 +53,9 @@ extern "C" {
 #define RID_TRANSPORT_WIFI_BEACON_MAX_PAYLOAD           250
 /** @} */
 
+/** @brief Time Unit in microseconds per ASTM F3411-22a. */
+#define RID_TRANSPORT_TIME_UNIT_US  1024
+
 /** @name Transport OUI Values
  *
  *  Organizationally Unique Identifiers for each transport.
