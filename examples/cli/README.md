@@ -4,16 +4,21 @@ Decode hex-encoded Remote ID messages to JSON.
 
 ```
 $ make
-$ ./rid --decode <hex_string>
+$ ./rid <hex_string>
+$ ./rid < file.hex
 ```
+
+## Supported Formats
+
+- **25 bytes**: Remote ID message
+- **27 bytes**: Application Code + Counter + Remote ID message
 
 ## Example
 
 ```
-$ ./rid --decode 12202d3e0420bd5c25401c190d0000c10834084a0339300100 | jq
+$ ./rid 12202d3e0420bd5c25401c190d0000c10834084a0339300100 | jq
+$ echo "12202d3e0420bd5c25401c190d0000c10834084a0339300100" | ./rid | jq
 ```
-
-## Output
 
 ```json
 {
@@ -37,3 +42,21 @@ $ ./rid --decode 12202d3e0420bd5c25401c190d0000c10834084a0339300100 | jq
   "timestamp_accuracy": 1
 }
 ```
+
+## Remote ID Scanner
+
+You can create a poor man's Remote ID scanner if your computer supports bluetooth.
+First start scanning with `bluetoothctl`.
+
+```
+$ bluetoothctl
+[bluetoothctl]> scan le
+```
+
+Keep `bluetoothctl` running and on another terminal capture messages with `btmon`
+and feed them to this example CLI.
+
+```
+$ sudo btmon | grep -i -A 1 "0xfffa" | grep -oP 'Data\[\d+\]: \K[0-9a-f]+' | ./rid
+```
+

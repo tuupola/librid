@@ -66,6 +66,12 @@ extern "C" {
 #define RID_TRANSPORT_WIFI_BEACON_OUI       0xFA0BBC
 /** @} */
 
+/** @name Bluetooth Constants
+ *  @{
+ */
+#define RID_TRANSPORT_BLUETOOTH_APP_CODE    0x0D
+/** @} */
+
 /** @name Wi-Fi NAN Constants
  *  @{
  */

@@ -51,6 +51,7 @@ extern "C" {
 #include "rid/self_id.h"
 #include "rid/system.h"
 #include "rid/message_pack.h"
+#include "rid/transport.h"
 
 #ifdef __cplusplus
 }
