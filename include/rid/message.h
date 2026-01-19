@@ -48,6 +48,9 @@ SPDX-License-Identifier: MIT
 extern "C" {
 #endif /* __cplusplus */
 
+/** @brief Size of a single message in bytes. */
+#define RID_MESSAGE_SIZE 25
+
 typedef enum {
     RID_SUCCESS = 0,
     RID_ERROR_NULL_POINTER = -1,

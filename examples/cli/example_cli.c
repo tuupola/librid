@@ -4,8 +4,7 @@
 
 #include "rid/rid.h"
 
-#define RID_MESSAGE_LENGTH 25
-#define RID_BTMON_LENGTH 27
+#define BTMON_HEADER_SIZE  2    /* App code + counter */
 
 static int
 hex_to_bytes(const char *hex, uint8_t *bytes, size_t max_length)
@@ -43,7 +42,7 @@ strip_newline(char *str)
 static int
 decode_and_print(const char *hex_string)
 {
-    uint8_t buffer[256];
+    uint8_t buffer[RID_MESSAGE_PACK_MAX_SIZE + BTMON_HEADER_SIZE];
     int length = hex_to_bytes(hex_string, buffer, sizeof(buffer));
     if (length < 0) {
         fprintf(stderr, "Error: Invalid hex string\n");
@@ -53,19 +52,24 @@ decode_and_print(const char *hex_string)
     uint8_t *message = buffer;
     int counter = -1;
 
-    if (length == RID_BTMON_LENGTH) {
-        /* btmon format: app_code (1) + counter (1) + message (25) */
-        if (buffer[0] != RID_TRANSPORT_BLUETOOTH_APP_CODE) {
-            fprintf(stderr, "Error: Invalid application code 0x%02X, expected 0x%02X\n",
-                    buffer[0], RID_TRANSPORT_BLUETOOTH_APP_CODE);
-            return 1;
-        }
-        counter = buffer[1];
-        message = buffer + 2;
-    } else if (length != RID_MESSAGE_LENGTH) {
-        fprintf(stderr, "Error: Expected %d or %d bytes, got %d\n",
-                RID_MESSAGE_LENGTH, RID_BTMON_LENGTH, length);
+    if (length < RID_MESSAGE_SIZE) {
+        fprintf(stderr, "Error: Expected at least %d bytes, got %d\n",
+            RID_MESSAGE_SIZE, length);
         return 1;
+    }
+
+    if (length > RID_MESSAGE_PACK_MAX_SIZE + BTMON_HEADER_SIZE) {
+        fprintf(stderr, "Error: Expected at most %d bytes, got %d\n",
+            RID_MESSAGE_PACK_MAX_SIZE + BTMON_HEADER_SIZE, length);
+        return 1;
+    }
+
+    /* Check for btmon input which has the extra two byte header */
+    if (buffer[0] == RID_TRANSPORT_BLUETOOTH_APP_CODE) {
+        /* Counter is the second byte */
+        counter = buffer[1];
+        /* Message starts at third byte */
+        message = buffer + 2;
     }
 
     int rc = rid_message_validate(message);

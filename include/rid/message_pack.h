@@ -41,6 +41,7 @@ SPDX-License-Identifier: MIT
  * @snippet message_pack/example_message_pack.c full_example
  */
 
+#include <stddef.h>
 #include <stdint.h>
 
 #ifdef __cplusplus
@@ -50,8 +51,11 @@ extern "C" {
 /** @brief Maximum number of messages in a Message Pack. */
 #define RID_MESSAGE_PACK_MAX_MESSAGES 9
 
-/** @brief Size of a single message in bytes. */
-#define RID_MESSAGE_SIZE 25
+/** @brief Minimum size of a Message Pack in bytes (header + 1 message). */
+#define RID_MESSAGE_PACK_MIN_SIZE 28
+
+/** @brief Maximum size of a Message Pack in bytes (header + 9 messages). */
+#define RID_MESSAGE_PACK_MAX_SIZE 228
 
 /**
  * @brief Message Pack structure per ASTM F3411-22a.
