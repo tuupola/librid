@@ -4,6 +4,11 @@ An ASTM F3411 message encoding and decoding library written in C programming lan
 
 The library provides struct definitions for all Remote ID messages. It also provides getter and setter functions for all members of the structure. You should not access the struct members directly. Instead use the provided functions which will decode and encode the data to and from the correct wire format.
 
+## Important
+
+This is a read only mirror of the repository. Actual developing happens elsewhere. I do monitor the bug reports, feature requests and any discussion here though.
+
+
 # Message types
 ## Basic ID (0x00)
 Provides UAS identification (serial number, registration ID, or UUID) and characterizes the aircraft type.
