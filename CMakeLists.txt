@@ -41,6 +41,22 @@ else()
 
     target_include_directories(rid PUBLIC include)
 
+    include(GNUInstallDirs)
+
+    install(TARGETS rid
+        LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+        ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
+    )
+
+    install(DIRECTORY include/rid DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
+
+    add_custom_target(uninstall
+        COMMAND echo "Removing ${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_INCLUDEDIR}/rid"
+        COMMAND rm -rf ${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_INCLUDEDIR}/rid
+        COMMAND echo "Removing ${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_LIBDIR}/librid*"
+        COMMAND rm -f ${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_LIBDIR}/librid*
+    )
+
     if(RID_BUILD_EXAMPLES)
         add_subdirectory(examples)
     endif()

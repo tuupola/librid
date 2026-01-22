@@ -126,6 +126,40 @@ $ make
 $ ctest
 ```
 
+# Installation
+
+Build and install a static library.
+
+```
+$ mkdir build && cd build
+$ cmake ..
+$ make
+$ sudo make install
+```
+
+Or install to a custom location.
+
+```
+$ cmake -DCMAKE_INSTALL_PREFIX=/opt/librid ..
+$ make
+$ make install
+```
+
+Build and install a shared library.
+
+```
+$ cmake -DBUILD_SHARED_LIBS=ON ..
+$ make
+$ sudo make install
+```
+
+# Uninstall
+
+```
+$ cd build
+$ sudo make uninstall
+```
+
 # License
 
 The MIT License (MIT). Please see [License File](LICENSE) for more information.
