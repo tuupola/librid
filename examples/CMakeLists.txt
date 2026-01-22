@@ -1,6 +1,9 @@
 add_executable(example_basic_id basic_id/example_basic_id.c)
 target_link_libraries(example_basic_id rid)
 
+add_executable(example_version version/example_version.c)
+target_link_libraries(example_version rid)
+
 add_executable(example_json json/example_json.c)
 target_link_libraries(example_json rid)
 

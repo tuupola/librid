@@ -11,11 +11,12 @@ if(ESP_PLATFORM)
              "src/operator_id.c"
              "src/self_id.c"
              "src/transport.c"
+             "src/version.c"
         INCLUDE_DIRS "include"
     )
 else()
     cmake_minimum_required(VERSION 3.10)
-    project(librid VERSION 0.0.0 LANGUAGES C)
+    project(librid LANGUAGES C)
 
     set(CMAKE_C_STANDARD 99)
     set(CMAKE_C_STANDARD_REQUIRED ON)
@@ -35,6 +36,7 @@ else()
         src/operator_id.c
         src/self_id.c
         src/transport.c
+        src/version.c
     )
 
     target_include_directories(rid PUBLIC include)

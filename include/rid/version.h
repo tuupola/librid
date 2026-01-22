@@ -2,7 +2,7 @@
 
 MIT License
 
-Copyright (c) 2025-2026 Mika Tuupola
+Copyright (c) 2026 Mika Tuupola
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -30,32 +30,34 @@ SPDX-License-Identifier: MIT
 
 */
 
-#ifndef RID_H
-#define RID_H
+#ifndef RID_VERSION_H
+#define RID_VERSION_H
 
 /**
- * @file rid.h
- * @brief Convenience header to include all the other headers.
+ * @file version.h
+ * @brief Library version information.
+ *
+ * @see https://semver.org/
  */
 
 #ifdef __cplusplus
 extern "C" {
 #endif /* __cplusplus */
 
-#include "rid/message.h"
-#include "rid/basic_id.h"
-#include "rid/location.h"
-#include "rid/auth_page.h"
-#include "rid/auth.h"
-#include "rid/operator_id.h"
-#include "rid/self_id.h"
-#include "rid/system.h"
-#include "rid/message_pack.h"
-#include "rid/transport.h"
-#include "rid/version.h"
+#define RID_VERSION_MAJOR 0
+#define RID_VERSION_MINOR 1
+#define RID_VERSION_PATCH 0
+#define RID_VERSION_STRING "0.1.0-dev"
+
+/**
+ * @brief Get the library version as a string.
+ *
+ * @return Version string in "major.minor.patch" format.
+ */
+const char *rid_version_to_string(void);
 
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */
 
-#endif /* RID_H */
+#endif /* RID_VERSION_H */
