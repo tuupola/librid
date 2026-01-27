@@ -316,11 +316,14 @@ uint16_t rid_location_get_track_direction(const rid_location_t *location);
 /**
  * @brief Set the ground speed for a Location message.
  *
+ * Values above 254.25 m/s are clamped to 254.25 m/s.
+ *
  * @param location Pointer to the Location message structure.
- * @param speed_ms Speed in meters per second.
+ * @param speed_ms Speed in meters per second (0 to 254.25).
  *
  * @retval RID_SUCCESS on success.
  * @retval RID_ERROR_NULL_POINTER if location is NULL.
+ * @retval RID_ERROR_OUT_OF_RANGE if speed_ms is negative.
  */
 int rid_location_set_speed(rid_location_t *location, float speed_ms);
 
