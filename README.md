@@ -131,7 +131,7 @@ This library rounds all float values before encoding them to the wire format. OD
 | Area Ceiling | 0.5 m | (uint16_t)(((altitude + 1000) / 0.5) + 0.5) | (uint16_t)((altitude + 1000) / 0.5) |
 | Area Floor | 0.5 m | (uint16_t)(((altitude + 1000) / 0.5) + 0.5) | (uint16_t)((altitude + 1000) / 0.5) |
 
-## Clamp Instead of Fail
+## Clamp Instead of Reject
 
 According to ASTM F3411-22, the ground speed in a Location message must be clamped to a maximum of 254.25 m/s. The vertical speed must be clamped to either -62 m/s or 62 m/s depending on direction.
 
