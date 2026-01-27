@@ -38,23 +38,28 @@ main(void)
     uint8_t secret_key[crypto_sign_SECRETKEYBYTES];
     crypto_sign_keypair(public_key, secret_key);
 
-    /* Message to sign: UAS ID + unixtime */
+    /* Initialize auth message and set the timestamp from unixtime */
+    rid_auth_init(&auth);
+    rid_auth_set_type(&auth, RID_AUTH_TYPE_UAS_ID_SIGNATURE);
+    rid_auth_set_unixtime(&auth, (uint32_t)time(NULL));
+
+    /* Message to sign: UAS ID + auth message timestamp  */
     const char uas_id[] = "1ABCD2345EF678XYZ";
-    uint32_t unixtime = (uint32_t)time(NULL);
-    uint8_t message[sizeof(uas_id) - 1 + sizeof(unixtime)];
+    uint32_t timestamp = rid_auth_get_timestamp(&auth);
+    uint8_t message[sizeof(uas_id) - 1 + sizeof(timestamp)];
     memcpy(message, uas_id, sizeof(uas_id) - 1);
-    memcpy(message + sizeof(uas_id) - 1, &unixtime, sizeof(unixtime));
+    memcpy(message + sizeof(uas_id) - 1, &timestamp, sizeof(timestamp));
 
     /* Create 64 byte detached Ed25519 signature */
     uint8_t signature[crypto_sign_BYTES];
     crypto_sign_detached(signature, NULL, message, sizeof(message), secret_key);
 
-    rid_auth_init(&auth);
-    rid_auth_set_type(&auth, RID_AUTH_TYPE_UAS_ID_SIGNATURE);
-    rid_auth_set_unixtime(&auth, unixtime);
+    /* Set the signature in the auth message */
     rid_auth_set_signature(&auth, signature, sizeof(signature));
 
-    /* Get the signature back for verifying*/
+    /* In real life a scanner would capture the Remote ID message here */
+
+    /* Get the signature and verify */
     uint8_t retrieved[crypto_sign_BYTES];
     rid_auth_get_signature(&auth, retrieved, sizeof(retrieved));
 
