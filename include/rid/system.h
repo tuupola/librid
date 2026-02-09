@@ -415,7 +415,7 @@ int rid_system_set_timestamp(rid_system_t *system, uint32_t timestamp);
 uint32_t rid_system_get_timestamp(const rid_system_t *system);
 
 /**
- * @brief Set the timestamp for a System message from Unix time.
+ * @brief Set the timestamp for a System message from Unix timestamp.
  *
  * Converts Unix timestamp to RID epoch and stores.
  *
@@ -426,6 +426,18 @@ uint32_t rid_system_get_timestamp(const rid_system_t *system);
  * @retval RID_ERROR_NULL_POINTER if system is NULL.
  */
 int rid_system_set_unixtime(rid_system_t *system, uint32_t unixtime);
+
+/**
+ * @brief Get the timestamp as Unix timestamp.
+ *
+ * Get RID timestamp as Unix timestamp.
+ *
+ * @param system Pointer to the System message structure.
+ *
+ * @return Unix timestamp (seconds since 1970-01-01 00:00:00 UTC),
+ *         or 0 if system is NULL.
+ */
+uint32_t rid_system_get_unixtime(const rid_system_t *system);
 
 /**
  * @brief Initialize a System message with default values.

@@ -377,6 +377,15 @@ rid_system_set_unixtime(rid_system_t *system, uint32_t unixtime) {
     return RID_SUCCESS;
 }
 
+uint32_t
+rid_system_get_unixtime(const rid_system_t *system) {
+    if (NULL == system) {
+        return 0;
+    }
+
+    return system->timestamp + RID_SYSTEM_TIMESTAMP_EPOCH;
+}
+
 const char *
 rid_operator_location_type_to_string(rid_operator_location_type_t type) {
     switch (type) {

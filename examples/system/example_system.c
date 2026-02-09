@@ -66,6 +66,7 @@ main(void)
     printf("UA category:        %u\n", rid_system_get_ua_classification_category(&system));
     printf("Operator altitude:  %.1f m\n", rid_system_get_operator_altitude(&system));
     printf("Timestamp:          %u\n", rid_system_get_timestamp(&system));
+    printf("Unixtime:           %u\n", rid_system_get_unixtime(&system));
     /* [full_example] */
 
     return 0;

@@ -541,33 +541,21 @@ test_set_and_get_system_timestamp(void) {
 }
 
 TEST
-test_set_system_timestamp_from_unixtime(void) {
+test_system_set_and_get_unixtime(void) {
     rid_system_t system;
-    memset(&system, 0, sizeof(system));
+    rid_system_init(&system);
 
-    uint32_t unixtime = 1710506445;
-
-    int status = rid_system_set_unixtime(&system, unixtime);
+    /* 2019-01-01 00:00:00 UTC = epoch, should give 0 */
+    int status = rid_system_set_unixtime(&system, 1546300800);
     ASSERT_EQ(RID_SUCCESS, status);
+    ASSERT_EQ(0, rid_system_get_timestamp(&system));
+    ASSERT_EQ(1546300800, rid_system_get_unixtime(&system));
 
-    /* Internal value should be offset by RID epoch */
-    ASSERT_EQ(unixtime - RID_SYSTEM_TIMESTAMP_EPOCH, system.timestamp);
-
-    PASS();
-}
-
-TEST
-test_set_system_timestamp_from_unixtime_at_epoch(void) {
-    rid_system_t system;
-    memset(&system, 0, sizeof(system));
-
-    uint32_t unixtime = RID_SYSTEM_TIMESTAMP_EPOCH;
-
-    int status = rid_system_set_unixtime(&system, unixtime);
+    /* 2019-01-01 00:01:40 UTC = 100 seconds after epoch */
+    status = rid_system_set_unixtime(&system, 1546300900);
     ASSERT_EQ(RID_SUCCESS, status);
-
-    /* Internal value should be 0 at epoch */
-    ASSERT_EQ(0, system.timestamp);
+    ASSERT_EQ(100, rid_system_get_timestamp(&system));
+    ASSERT_EQ(1546300900, rid_system_get_unixtime(&system));
 
     PASS();
 }
@@ -584,6 +572,13 @@ TEST
 test_set_system_timestamp_from_unixtime_null_pointer(void) {
     int status = rid_system_set_unixtime(NULL, 1710506445);
     ASSERT_EQ(RID_ERROR_NULL_POINTER, status);
+
+    PASS();
+}
+
+TEST
+test_get_system_unixtime_null_pointer(void) {
+    ASSERT_EQ(0, rid_system_get_unixtime(NULL));
 
     PASS();
 }
@@ -807,10 +802,10 @@ SUITE(system_suite) {
     RUN_TEST(test_set_area_floor_null_pointer);
 
     RUN_TEST(test_set_and_get_system_timestamp);
-    RUN_TEST(test_set_system_timestamp_from_unixtime);
-    RUN_TEST(test_set_system_timestamp_from_unixtime_at_epoch);
+    RUN_TEST(test_system_set_and_get_unixtime);
     RUN_TEST(test_set_system_timestamp_null_pointer);
     RUN_TEST(test_set_system_timestamp_from_unixtime_null_pointer);
+    RUN_TEST(test_get_system_unixtime_null_pointer);
 
     RUN_TEST(test_operator_location_type_to_string);
     RUN_TEST(test_classification_type_to_string);

@@ -185,6 +185,7 @@ uint16_t area_radius = rid_system_get_area_radius(&system);
 float area_ceiling = rid_system_get_area_ceiling(&system);
 float area_floor = rid_system_get_area_floor(&system);
 uint32_t timestamp = rid_system_get_timestamp(&system);
+uint32_t unixtime = rid_system_get_unixtime(&system);
 
 const char *operator_location_type_string = rid_operator_location_type_to_string(operator_location_type);
 const char *classification_type_string = rid_classification_type_to_string(classification_type);
