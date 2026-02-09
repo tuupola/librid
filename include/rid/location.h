@@ -592,16 +592,6 @@ int rid_location_set_timestamp_accuracy(rid_location_t *location, rid_timestamp_
 rid_timestamp_accuracy_t rid_location_get_timestamp_accuracy(const rid_location_t *location);
 
 /**
- * @brief Convert EW direction to string representation.
- *
- * @param direction The EW direction to convert.
- *
- * @return String representation of the EW direction.
- *         Returns "UNKNOWN" for invalid values.
- */
-const char *rid_ew_direction_to_string(rid_ew_direction_t direction);
-
-/**
  * @brief Convert height type to string representation.
  *
  * @param type The height type to convert.

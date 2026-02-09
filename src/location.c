@@ -591,18 +591,6 @@ rid_location_get_timestamp_accuracy(const rid_location_t *location) {
 }
 
 const char *
-rid_ew_direction_to_string(rid_ew_direction_t direction) {
-    switch (direction) {
-        case RID_EW_DIRECTION_EAST:
-            return "RID_EW_DIRECTION_EAST";
-        case RID_EW_DIRECTION_WEST:
-            return "RID_EW_DIRECTION_WEST";
-        default:
-            return "UNKNOWN";
-    }
-}
-
-const char *
 rid_height_type_to_string(rid_height_type_t type) {
     switch (type) {
         case RID_HEIGHT_TYPE_ABOVE_TAKEOFF:

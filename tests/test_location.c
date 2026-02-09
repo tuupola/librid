@@ -1269,14 +1269,6 @@ test_location_init(void) {
 }
 
 TEST
-test_ew_direction_to_string(void) {
-    ASSERT_STR_EQ("RID_EW_DIRECTION_EAST", rid_ew_direction_to_string(RID_EW_DIRECTION_EAST));
-    ASSERT_STR_EQ("RID_EW_DIRECTION_WEST", rid_ew_direction_to_string(RID_EW_DIRECTION_WEST));
-    ASSERT_STR_EQ("UNKNOWN", rid_ew_direction_to_string((rid_ew_direction_t)99));
-    PASS();
-}
-
-TEST
 test_height_type_to_string(void) {
     ASSERT_STR_EQ("RID_HEIGHT_TYPE_ABOVE_TAKEOFF", rid_height_type_to_string(RID_HEIGHT_TYPE_ABOVE_TAKEOFF));
     ASSERT_STR_EQ("RID_HEIGHT_TYPE_AGL", rid_height_type_to_string(RID_HEIGHT_TYPE_AGL));
@@ -1592,7 +1584,6 @@ SUITE(location_suite) {
     RUN_TEST(test_timestamp_accuracy_out_of_range);
     RUN_TEST(test_set_timestamp_accuracy_null_pointer);
 
-    RUN_TEST(test_ew_direction_to_string);
     RUN_TEST(test_height_type_to_string);
     RUN_TEST(test_operational_status_to_string);
     RUN_TEST(test_horizontal_accuracy_to_string);
