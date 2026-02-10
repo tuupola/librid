@@ -8,7 +8,6 @@ The library provides struct definitions for all Remote ID messages. It also prov
 
 This is a read only mirror of the repository. Actual developing happens elsewhere. I do monitor the bug reports, feature requests and any discussion here though.
 
-
 # Message types
 ## Basic ID (0x00)
 Provides UAS identification (serial number, registration ID, or UUID) and characterizes the aircraft type.
@@ -246,6 +245,39 @@ rid_message_pack_to_json(&pack, json, sizeof(json));
 ```
 
 See [examples/message_pack/](examples/message_pack/) for usage example.
+
+# Differences to Opendrone ID
+
+This library is mostly byte compatible to the OpenDrone ID which is considered the reference implementation. There are a couple of differences though.
+
+## Round Instead of Truncate
+
+This library rounds all float values before encoding them to the wire format. ODID, on the other hand, truncates the float values. This causes small differences in the output. I argue that rounding is the correct approach because truncating introduces small errors when doing an encode-decode roundtrip.
+
+| Field | Resolution | librid Formula | ODID Formula |
+|-------|------------|----------------|--------------|
+| Latitude | 1e-7 degrees | (int32_t)((degrees * 1e7) ± 0.5) | (int32_t)(degrees * 1e7) |
+| Longitude | 1e-7 degrees | (int32_t)((degrees * 1e7) ± 0.5) | (int32_t)(degrees * 1e7) |
+| Pressure Altitude | 0.5 m | (uint16_t)(((altitude + 1000) / 0.5) + 0.5) | (uint16_t)((altitude + 1000) / 0.5) |
+| Geodetic Altitude | 0.5 m | (uint16_t)(((altitude + 1000) / 0.5) + 0.5) | (uint16_t)((altitude + 1000) / 0.5) |
+| Height | 0.5 m | (uint16_t)(((h + 1000) / 0.5) + 0.5) | (uint16_t)((h + 1000) / 0.5) |
+| Horizontal Speed | 0.25 m/s | (uint8_t)((speed / 0.25) + 0.5) | (uint8_t)(speed / 0.25) |
+| Vertical Speed | 0.5 m/s | (int8_t)((speed / 0.5) ± 0.5) | (int8_t)(speed / 0.5) |
+| Operator Latitude | 1e-7 degrees | (int32_t)((degrees * 1e7) ± 0.5) | (int32_t)(degrees * 1e7) |
+| Operator Longitude | 1e-7 degrees | (int32_t)((degrees * 1e7) ± 0.5) | (int32_t)(degrees * 1e7) |
+| Operator Altitude | 0.5 m | (uint16_t)(((altitude + 1000) / 0.5) + 0.5) | (uint16_t)((altitude + 1000) / 0.5) |
+| Area Ceiling | 0.5 m | (uint16_t)(((altitude + 1000) / 0.5) + 0.5) | (uint16_t)((altitude + 1000) / 0.5) |
+| Area Floor | 0.5 m | (uint16_t)(((altitude + 1000) / 0.5) + 0.5) | (uint16_t)((altitude + 1000) / 0.5) |
+
+## Clamp Instead of Reject
+
+According to ASTM F3411-22, the ground speed in a Location message must be clamped to a maximum of 254.25 m/s. The vertical speed must be clamped to either -62 m/s or 62 m/s depending on direction.
+
+_"Ground speed of flight. This value is provided in meters per second with a minimum resolution of 0.25 m/s. Special Values: Invalid, No Value, or Unknown: 255 m/s, if speed is >= 254.25 m/s: 254.25 m/s"_
+
+_"Vertical speed upward relative to the WGS-84 datum, meters per second. Special Values: Invalid, No Value, or Unknown: 63 m/s, if speed is >= 62 m/s: 62 m/s, if speed is <= -62 m/s: -62 m/s"_
+
+ODID rejects any input value outside the valid bounds. Instead of rejecting this library clamps the values as specified in the standard.
 
 # Build examples
 
