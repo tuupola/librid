@@ -1,4 +1,4 @@
-# [WIP] librid
+# librid
 
 An ASTM F3411 message encoding and decoding library written in C programming language.
 
