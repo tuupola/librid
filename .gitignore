@@ -1,7 +1,8 @@
+.cache/
 build/
 docs/
 tmp/
 specs/
 *.o
 Doxyfile.dist
-
+compile_commands.json
