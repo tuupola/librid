@@ -41,8 +41,8 @@ SPDX-License-Identifier: MIT
  * @snippet message/example_message.c full_example
  */
 
-#include <stdint.h>
 #include <stddef.h>
+#include <stdint.h>
 
 #ifdef __cplusplus
 extern "C" {
@@ -80,8 +80,7 @@ typedef enum {
  * All messages are 25 bytes with a common header. Cast to specific
  * message type after checking message_type field.
  */
-typedef struct
-__attribute__((__packed__)) rid_message {
+typedef struct __attribute__((__packed__)) rid_message {
     uint8_t protocol_version: 4;
     uint8_t message_type: 4;
     uint8_t body[24];

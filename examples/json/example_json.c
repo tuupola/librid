@@ -2,13 +2,11 @@
 
 #include "rid/basic_id.h"
 #include "rid/location.h"
-#include "rid/self_id.h"
-#include "rid/operator_id.h"
 #include "rid/message_pack.h"
+#include "rid/operator_id.h"
+#include "rid/self_id.h"
 
-int
-main(void)
-{
+int main(void) {
     char buffer[2048];
 
     rid_message_pack_t pack;

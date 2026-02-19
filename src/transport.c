@@ -32,8 +32,7 @@ SPDX-License-Identifier: MIT
 
 #include "rid/transport.h"
 
-const char *
-rid_transport_to_string(rid_transport_t transport) {
+const char *rid_transport_to_string(rid_transport_t transport) {
     switch (transport) {
         case RID_TRANSPORT_BLUETOOTH_LEGACY:
             return "RID_TRANSPORT_BLUETOOTH_LEGACY";

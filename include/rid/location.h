@@ -41,8 +41,8 @@ SPDX-License-Identifier: MIT
  * @snippet location/example_location.c full_example
  */
 
-#include <stdint.h>
 #include <float.h>
+#include <stdint.h>
 
 #include "rid/message.h"
 
@@ -186,10 +186,9 @@ typedef enum rid_timestamp_accuracy {
 /**
  * @brief Location message structure per ASTM F3411-22a.
  */
-typedef struct
-__attribute__((__packed__)) rid_location {
+typedef struct __attribute__((__packed__)) rid_location {
     uint8_t protocol_version: 4;
-    uint8_t message_type : 4;
+    uint8_t message_type: 4;
 
     uint8_t speed_multiplier: 1;
     uint8_t ew_direction: 1;

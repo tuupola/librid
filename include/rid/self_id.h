@@ -41,8 +41,8 @@ SPDX-License-Identifier: MIT
  * @snippet self_id/example_self_id.c full_example
  */
 
-#include <stdint.h>
 #include <stddef.h>
+#include <stdint.h>
 
 #include "rid/message.h"
 
@@ -53,10 +53,9 @@ extern "C" {
 /**
  * @brief Self ID message structure per ASTM F3411-22a.
  */
-typedef struct
-__attribute__((__packed__)) rid_self_id {
+typedef struct __attribute__((__packed__)) rid_self_id {
     uint8_t protocol_version: 4;
-    uint8_t message_type : 4;
+    uint8_t message_type: 4;
     uint8_t description_type;
     char description[23];
 } rid_self_id_t;

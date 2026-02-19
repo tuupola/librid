@@ -62,8 +62,7 @@ extern "C" {
  *
  * Contains up to 9 concatenated messages of 25 bytes each.
  */
-typedef struct
-__attribute__((__packed__)) rid_message_pack {
+typedef struct __attribute__((__packed__)) rid_message_pack {
     uint8_t protocol_version: 4;
     uint8_t message_type: 4;
     uint8_t message_size;

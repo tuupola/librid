@@ -1,5 +1,5 @@
-#include <stdio.h>
 #include <stdint.h>
+#include <stdio.h>
 #include <string.h>
 #include <time.h>
 
@@ -7,9 +7,7 @@
 
 #include "rid/auth.h"
 
-static void
-hexdump(const void *data, size_t size)
-{
+static void hexdump(const void *data, size_t size) {
     const uint8_t *bytes = (const uint8_t *)data;
 
     for (size_t i = 0; i < size; ++i) {
@@ -23,9 +21,7 @@ hexdump(const void *data, size_t size)
     printf("\n\n");
 }
 
-int
-main(void)
-{
+int main(void) {
     if (sodium_init() < 0) {
         return 1;
     }

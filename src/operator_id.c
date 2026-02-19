@@ -30,16 +30,15 @@ SPDX-License-Identifier: MIT
 
 */
 
-#include <string.h>
-#include <stdint.h>
 #include <stddef.h>
+#include <stdint.h>
 #include <stdio.h>
+#include <string.h>
 
 #include "rid/message.h"
 #include "rid/operator_id.h"
 
-int
-rid_operator_id_init(rid_operator_id_t *message) {
+int rid_operator_id_init(rid_operator_id_t *message) {
     if (message == NULL) {
         return RID_ERROR_NULL_POINTER;
     }
@@ -51,8 +50,7 @@ rid_operator_id_init(rid_operator_id_t *message) {
     return RID_SUCCESS;
 }
 
-int
-rid_operator_id_validate(const rid_operator_id_t *message) {
+int rid_operator_id_validate(const rid_operator_id_t *message) {
     if (message == NULL) {
         return RID_ERROR_NULL_POINTER;
     }
@@ -77,13 +75,11 @@ rid_operator_id_validate(const rid_operator_id_t *message) {
     return RID_SUCCESS;
 }
 
-rid_operator_id_type_t
-rid_operator_id_get_type(const rid_operator_id_t *message) {
+rid_operator_id_type_t rid_operator_id_get_type(const rid_operator_id_t *message) {
     return (rid_operator_id_type_t)message->id_type;
 }
 
-int
-rid_operator_id_set_type(rid_operator_id_t *message, rid_operator_id_type_t type) {
+int rid_operator_id_set_type(rid_operator_id_t *message, rid_operator_id_type_t type) {
     if (message == NULL) {
         return RID_ERROR_NULL_POINTER;
     }
@@ -93,8 +89,7 @@ rid_operator_id_set_type(rid_operator_id_t *message, rid_operator_id_type_t type
     return RID_SUCCESS;
 }
 
-int
-rid_operator_id_get(const rid_operator_id_t *message, char *buffer, size_t buffer_size) {
+int rid_operator_id_get(const rid_operator_id_t *message, char *buffer, size_t buffer_size) {
     if (message == NULL || buffer == NULL) {
         return RID_ERROR_NULL_POINTER;
     }
@@ -109,8 +104,7 @@ rid_operator_id_get(const rid_operator_id_t *message, char *buffer, size_t buffe
     return RID_SUCCESS;
 }
 
-int
-rid_operator_id_set(rid_operator_id_t *message, const char *operator_id) {
+int rid_operator_id_set(rid_operator_id_t *message, const char *operator_id) {
     if (message == NULL || operator_id == NULL) {
         return RID_ERROR_NULL_POINTER;
     }
@@ -134,8 +128,7 @@ rid_operator_id_set(rid_operator_id_t *message, const char *operator_id) {
     return RID_SUCCESS;
 }
 
-const char *
-rid_operator_id_type_to_string(rid_operator_id_type_t type) {
+const char *rid_operator_id_type_to_string(rid_operator_id_type_t type) {
     switch (type) {
         case RID_ID_TYPE_OPERATOR_ID:
             return "RID_ID_TYPE_OPERATOR_ID";
@@ -144,8 +137,7 @@ rid_operator_id_type_to_string(rid_operator_id_type_t type) {
     }
 }
 
-int
-rid_operator_id_to_json(const rid_operator_id_t *message, char *buffer, size_t buffer_size) {
+int rid_operator_id_to_json(const rid_operator_id_t *message, char *buffer, size_t buffer_size) {
     if (message == NULL || buffer == NULL) {
         return RID_ERROR_NULL_POINTER;
     }
@@ -154,13 +146,13 @@ rid_operator_id_to_json(const rid_operator_id_t *message, char *buffer, size_t b
     rid_operator_id_get(message, operator_id, sizeof(operator_id));
 
     return snprintf(
-            buffer,
-            buffer_size,
-            "{\"protocol_version\": %u, \"message_type\": %u, "
-            "\"id_type\": %u, \"operator_id\": \"%s\"}",
-            rid_message_get_protocol_version(message),
-            rid_message_get_type(message),
-            rid_operator_id_get_type(message),
-            operator_id
-        );
+        buffer,
+        buffer_size,
+        "{\"protocol_version\": %u, \"message_type\": %u, "
+        "\"id_type\": %u, \"operator_id\": \"%s\"}",
+        rid_message_get_protocol_version(message),
+        rid_message_get_type(message),
+        rid_operator_id_get_type(message),
+        operator_id
+    );
 }

@@ -49,8 +49,8 @@ SPDX-License-Identifier: MIT
  * @snippet auth_page/example_auth_page.c full_example
  */
 
-#include <stdint.h>
 #include <stddef.h>
+#include <stdint.h>
 
 #ifdef __cplusplus
 extern "C" {
@@ -96,8 +96,7 @@ typedef enum rid_auth_page_0_type {
  *
  * Page 0 contains header information including timestamp and total length.
  */
-typedef struct
-__attribute__((__packed__)) rid_auth_page_0 {
+typedef struct __attribute__((__packed__)) rid_auth_page_0 {
     uint8_t protocol_version: 4;
     uint8_t message_type: 4;
     uint8_t page_number: 4;
@@ -113,8 +112,7 @@ __attribute__((__packed__)) rid_auth_page_0 {
  *
  * Pages 1-15 contain only auth type, page number, and authentication data.
  */
-typedef struct
-__attribute__((__packed__)) rid_auth_page_x {
+typedef struct __attribute__((__packed__)) rid_auth_page_x {
     uint8_t protocol_version: 4;
     uint8_t message_type: 4;
     uint8_t page_number: 4;

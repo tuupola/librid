@@ -4,14 +4,12 @@
  * example is provided for completeness sake.
  */
 
-#include <stdio.h>
 #include <stdint.h>
+#include <stdio.h>
 
 #include "rid/auth_page.h"
 
-static void
-hexdump(const void *data, size_t size)
-{
+static void hexdump(const void *data, size_t size) {
     const uint8_t *bytes = (const uint8_t *)data;
 
     for (size_t i = 0; i < size; ++i) {
@@ -25,9 +23,7 @@ hexdump(const void *data, size_t size)
     printf("\n\n");
 }
 
-int
-main(void)
-{
+int main(void) {
     /* [full_example] */
     rid_auth_page_0_t page_0;
     rid_auth_page_x_t page_1;

@@ -50,10 +50,9 @@ extern "C" {
 /**
  * @brief Basic ID message structure per ASTM F3411-22a.
  */
-typedef struct
-__attribute__((__packed__)) rid_basic_id {
+typedef struct __attribute__((__packed__)) rid_basic_id {
     uint8_t protocol_version: 4;
-    uint8_t message_type : 4;
+    uint8_t message_type: 4;
     uint8_t ua_type: 4;
     uint8_t id_type: 4;
     char uas_id[20];

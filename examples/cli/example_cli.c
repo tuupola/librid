@@ -1,14 +1,12 @@
+#include <stdint.h>
 #include <stdio.h>
 #include <string.h>
-#include <stdint.h>
 
 #include "rid/rid.h"
 
-#define BTMON_HEADER_SIZE  2    /* App code + counter */
+#define BTMON_HEADER_SIZE 2 /* App code + counter */
 
-static int
-hex_to_bytes(const char *hex, uint8_t *bytes, size_t max_length)
-{
+static int hex_to_bytes(const char *hex, uint8_t *bytes, size_t max_length) {
     size_t hex_length = strlen(hex);
     if (hex_length % 2 != 0) {
         return -1;
@@ -30,18 +28,14 @@ hex_to_bytes(const char *hex, uint8_t *bytes, size_t max_length)
     return (int)byte_length;
 }
 
-static void
-strip_newline(char *str)
-{
+static void strip_newline(char *str) {
     size_t length = strlen(str);
     if (length > 0 && str[length - 1] == '\n') {
         str[length - 1] = '\0';
     }
 }
 
-static int
-decode_and_print(const char *hex_string)
-{
+static int decode_and_print(const char *hex_string) {
     uint8_t buffer[RID_MESSAGE_PACK_MAX_SIZE + BTMON_HEADER_SIZE];
     int length = hex_to_bytes(hex_string, buffer, sizeof(buffer));
     if (length < 0) {
@@ -53,14 +47,12 @@ decode_and_print(const char *hex_string)
     int counter = -1;
 
     if (length < RID_MESSAGE_SIZE) {
-        fprintf(stderr, "Error: Expected at least %d bytes, got %d\n",
-            RID_MESSAGE_SIZE, length);
+        fprintf(stderr, "Error: Expected at least %d bytes, got %d\n", RID_MESSAGE_SIZE, length);
         return 1;
     }
 
     if (length > RID_MESSAGE_PACK_MAX_SIZE + BTMON_HEADER_SIZE) {
-        fprintf(stderr, "Error: Expected at most %d bytes, got %d\n",
-            RID_MESSAGE_PACK_MAX_SIZE + BTMON_HEADER_SIZE, length);
+        fprintf(stderr, "Error: Expected at most %d bytes, got %d\n", RID_MESSAGE_PACK_MAX_SIZE + BTMON_HEADER_SIZE, length);
         return 1;
     }
 
@@ -97,9 +89,7 @@ decode_and_print(const char *hex_string)
     return 0;
 }
 
-int
-main(int argc, char *argv[])
-{
+int main(int argc, char *argv[]) {
     char hex_input[512];
     const char *hex_string = NULL;
 

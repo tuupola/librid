@@ -30,17 +30,16 @@ SPDX-License-Identifier: MIT
 
 */
 
-#include <string.h>
-#include <stdint.h>
 #include <stddef.h>
+#include <stdint.h>
 #include <stdio.h>
+#include <string.h>
 
-#include "rid/message.h"
-#include "rid/auth_page.h"
 #include "rid/auth.h"
+#include "rid/auth_page.h"
+#include "rid/message.h"
 
-int
-rid_auth_init(rid_auth_t *auth) {
+int rid_auth_init(rid_auth_t *auth) {
     if (NULL == auth) {
         return RID_ERROR_NULL_POINTER;
     }
@@ -51,8 +50,7 @@ rid_auth_init(rid_auth_t *auth) {
     return RID_SUCCESS;
 }
 
-int
-rid_auth_validate(const rid_auth_t *auth) {
+int rid_auth_validate(const rid_auth_t *auth) {
     if (auth == NULL) {
         return RID_ERROR_NULL_POINTER;
     }
@@ -85,8 +83,7 @@ rid_auth_validate(const rid_auth_t *auth) {
     return RID_SUCCESS;
 }
 
-uint8_t
-rid_auth_get_page_count(const rid_auth_t *auth) {
+uint8_t rid_auth_get_page_count(const rid_auth_t *auth) {
     if (NULL == auth) {
         return 0;
     }
@@ -94,8 +91,7 @@ rid_auth_get_page_count(const rid_auth_t *auth) {
     return rid_auth_page_0_get_last_page_index(&auth->page_0) + 1;
 }
 
-int
-rid_auth_set_type(rid_auth_t *auth, rid_auth_type_t type) {
+int rid_auth_set_type(rid_auth_t *auth, rid_auth_type_t type) {
     if (NULL == auth) {
         return RID_ERROR_NULL_POINTER;
     }
@@ -111,8 +107,7 @@ rid_auth_set_type(rid_auth_t *auth, rid_auth_type_t type) {
     return rid_auth_page_0_set_type(&auth->page_0, type);
 }
 
-rid_auth_type_t
-rid_auth_get_type(const rid_auth_t *auth) {
+rid_auth_type_t rid_auth_get_type(const rid_auth_t *auth) {
     if (NULL == auth) {
         return RID_AUTH_TYPE_NONE;
     }
@@ -120,8 +115,7 @@ rid_auth_get_type(const rid_auth_t *auth) {
     return rid_auth_page_0_get_type(&auth->page_0);
 }
 
-int
-rid_auth_set_timestamp(rid_auth_t *auth, uint32_t timestamp) {
+int rid_auth_set_timestamp(rid_auth_t *auth, uint32_t timestamp) {
     if (NULL == auth) {
         return RID_ERROR_NULL_POINTER;
     }
@@ -129,8 +123,7 @@ rid_auth_set_timestamp(rid_auth_t *auth, uint32_t timestamp) {
     return rid_auth_page_0_set_timestamp(&auth->page_0, timestamp);
 }
 
-uint32_t
-rid_auth_get_timestamp(const rid_auth_t *auth) {
+uint32_t rid_auth_get_timestamp(const rid_auth_t *auth) {
     if (NULL == auth) {
         return 0;
     }
@@ -138,8 +131,7 @@ rid_auth_get_timestamp(const rid_auth_t *auth) {
     return rid_auth_page_0_get_timestamp(&auth->page_0);
 }
 
-int
-rid_auth_set_unixtime(rid_auth_t *auth, uint32_t unixtime) {
+int rid_auth_set_unixtime(rid_auth_t *auth, uint32_t unixtime) {
     if (NULL == auth) {
         return RID_ERROR_NULL_POINTER;
     }
@@ -151,8 +143,7 @@ rid_auth_set_unixtime(rid_auth_t *auth, uint32_t unixtime) {
     return rid_auth_page_0_set_timestamp(&auth->page_0, unixtime - RID_AUTH_EPOCH_OFFSET);
 }
 
-uint32_t
-rid_auth_get_unixtime(const rid_auth_t *auth) {
+uint32_t rid_auth_get_unixtime(const rid_auth_t *auth) {
     if (NULL == auth) {
         return 0;
     }
@@ -160,8 +151,7 @@ rid_auth_get_unixtime(const rid_auth_t *auth) {
     return rid_auth_page_0_get_timestamp(&auth->page_0) + RID_AUTH_EPOCH_OFFSET;
 }
 
-int
-rid_auth_set_signature(rid_auth_t *auth, const uint8_t *signature, size_t size) {
+int rid_auth_set_signature(rid_auth_t *auth, const uint8_t *signature, size_t size) {
     if (NULL == auth || NULL == signature) {
         return RID_ERROR_NULL_POINTER;
     }
@@ -194,7 +184,8 @@ rid_auth_set_signature(rid_auth_t *auth, const uint8_t *signature, size_t size) 
         rid_auth_page_x_set_type(&auth->page_x[i], auth->page_0.auth_type);
 
         size_t page_bytes = (remaining_size < RID_AUTH_PAGE_DATA_SIZE)
-            ? remaining_size : RID_AUTH_PAGE_DATA_SIZE;
+            ? remaining_size
+            : RID_AUTH_PAGE_DATA_SIZE;
         rid_auth_page_x_set_data(&auth->page_x[i], remaining_data, page_bytes);
 
         remaining_data += page_bytes;
@@ -204,8 +195,7 @@ rid_auth_set_signature(rid_auth_t *auth, const uint8_t *signature, size_t size) 
     return RID_SUCCESS;
 }
 
-uint8_t
-rid_auth_get_length(const rid_auth_t *auth) {
+uint8_t rid_auth_get_length(const rid_auth_t *auth) {
     if (NULL == auth) {
         return 0;
     }
@@ -213,8 +203,7 @@ rid_auth_get_length(const rid_auth_t *auth) {
     return rid_auth_page_0_get_length(&auth->page_0);
 }
 
-int
-rid_auth_get_signature(const rid_auth_t *auth, uint8_t *buffer, size_t buffer_size) {
+int rid_auth_get_signature(const rid_auth_t *auth, uint8_t *buffer, size_t buffer_size) {
     if (NULL == auth || NULL == buffer) {
         return RID_ERROR_NULL_POINTER;
     }
@@ -235,7 +224,8 @@ rid_auth_get_signature(const rid_auth_t *auth, uint8_t *buffer, size_t buffer_si
 
     for (uint8_t i = 0; i < last_page_index && remaining_size > 0; ++i) {
         size_t page_bytes = (remaining_size < RID_AUTH_PAGE_DATA_SIZE)
-            ? remaining_size : RID_AUTH_PAGE_DATA_SIZE;
+            ? remaining_size
+            : RID_AUTH_PAGE_DATA_SIZE;
         memcpy(remaining_buffer, auth->page_x[i].auth_data, page_bytes);
 
         remaining_buffer += page_bytes;
@@ -245,8 +235,7 @@ rid_auth_get_signature(const rid_auth_t *auth, uint8_t *buffer, size_t buffer_si
     return RID_SUCCESS;
 }
 
-int
-rid_auth_to_json(const rid_auth_t *auth, char *buffer, size_t buffer_size) {
+int rid_auth_to_json(const rid_auth_t *auth, char *buffer, size_t buffer_size) {
     if (auth == NULL || buffer == NULL) {
         return RID_ERROR_NULL_POINTER;
     }
@@ -264,17 +253,17 @@ rid_auth_to_json(const rid_auth_t *auth, char *buffer, size_t buffer_size) {
     sig_hex[hex_pos] = '\0';
 
     return snprintf(
-            buffer,
-            buffer_size,
-            "{\"protocol_version\": %u, \"message_type\": %u, "
-            "\"type\": %u, \"page_count\": %u, \"timestamp\": %lu, "
-            "\"length\": %u, \"signature\": \"%s\"}",
-            rid_message_get_protocol_version(&auth->page_0),
-            rid_message_get_type(&auth->page_0),
-            rid_auth_get_type(auth),
-            rid_auth_get_page_count(auth),
-            (unsigned long)rid_auth_get_timestamp(auth),
-            sig_length,
-            sig_hex
-        );
+        buffer,
+        buffer_size,
+        "{\"protocol_version\": %u, \"message_type\": %u, "
+        "\"type\": %u, \"page_count\": %u, \"timestamp\": %lu, "
+        "\"length\": %u, \"signature\": \"%s\"}",
+        rid_message_get_protocol_version(&auth->page_0),
+        rid_message_get_type(&auth->page_0),
+        rid_auth_get_type(auth),
+        rid_auth_get_page_count(auth),
+        (unsigned long)rid_auth_get_timestamp(auth),
+        sig_length,
+        sig_hex
+    );
 }

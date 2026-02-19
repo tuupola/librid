@@ -41,9 +41,9 @@ SPDX-License-Identifier: MIT
  * @snippet system/example_system.c full_example
  */
 
-#include <stdint.h>
-#include <stddef.h>
 #include <float.h>
+#include <stddef.h>
+#include <stdint.h>
 
 #include "rid/message.h"
 
@@ -54,10 +54,9 @@ extern "C" {
 /**
  * @brief System message structure per ASTM F3411-22a.
  */
-typedef struct
-__attribute__((__packed__)) rid_system {
+typedef struct __attribute__((__packed__)) rid_system {
     uint8_t protocol_version: 4;
-    uint8_t message_type : 4;
+    uint8_t message_type: 4;
 
     uint8_t operator_location_type: 2;
     uint8_t classification_type: 3;

@@ -32,14 +32,13 @@ SPDX-License-Identifier: MIT
 
 #include <stddef.h>
 #include <stdint.h>
-#include <string.h>
 #include <stdio.h>
+#include <string.h>
 
 #include "rid/message.h"
 #include "rid/system.h"
 
-int
-rid_system_init(rid_system_t *system) {
+int rid_system_init(rid_system_t *system) {
     if (system == NULL) {
         return RID_ERROR_NULL_POINTER;
     }
@@ -52,8 +51,7 @@ rid_system_init(rid_system_t *system) {
     return RID_SUCCESS;
 }
 
-int
-rid_system_validate(const rid_system_t *system) {
+int rid_system_validate(const rid_system_t *system) {
     if (system == NULL) {
         return RID_ERROR_NULL_POINTER;
     }
@@ -83,8 +81,7 @@ rid_system_validate(const rid_system_t *system) {
     return RID_SUCCESS;
 }
 
-int
-rid_system_set_operator_location_type(rid_system_t *system, rid_operator_location_type_t type) {
+int rid_system_set_operator_location_type(rid_system_t *system, rid_operator_location_type_t type) {
     if (system == NULL) {
         return RID_ERROR_NULL_POINTER;
     }
@@ -98,13 +95,11 @@ rid_system_set_operator_location_type(rid_system_t *system, rid_operator_locatio
     return RID_SUCCESS;
 }
 
-rid_operator_location_type_t
-rid_system_get_operator_location_type(const rid_system_t *system) {
+rid_operator_location_type_t rid_system_get_operator_location_type(const rid_system_t *system) {
     return (rid_operator_location_type_t)system->operator_location_type;
 }
 
-int
-rid_system_set_classification_type(rid_system_t *system, rid_classification_type_t type) {
+int rid_system_set_classification_type(rid_system_t *system, rid_classification_type_t type) {
     if (system == NULL) {
         return RID_ERROR_NULL_POINTER;
     }
@@ -118,13 +113,11 @@ rid_system_set_classification_type(rid_system_t *system, rid_classification_type
     return RID_SUCCESS;
 }
 
-rid_classification_type_t
-rid_system_get_classification_type(const rid_system_t *system) {
+rid_classification_type_t rid_system_get_classification_type(const rid_system_t *system) {
     return (rid_classification_type_t)system->classification_type;
 }
 
-int
-rid_system_set_ua_classification_category(rid_system_t *system, rid_ua_classification_category_t category) {
+int rid_system_set_ua_classification_category(rid_system_t *system, rid_ua_classification_category_t category) {
     if (system == NULL) {
         return RID_ERROR_NULL_POINTER;
     }
@@ -138,13 +131,11 @@ rid_system_set_ua_classification_category(rid_system_t *system, rid_ua_classific
     return RID_SUCCESS;
 }
 
-rid_ua_classification_category_t
-rid_system_get_ua_classification_category(const rid_system_t *system) {
+rid_ua_classification_category_t rid_system_get_ua_classification_category(const rid_system_t *system) {
     return (rid_ua_classification_category_t)system->ua_classification_category;
 }
 
-int
-rid_system_set_ua_classification_class(rid_system_t *system, rid_ua_classification_class_t class) {
+int rid_system_set_ua_classification_class(rid_system_t *system, rid_ua_classification_class_t class) {
     if (system == NULL) {
         return RID_ERROR_NULL_POINTER;
     }
@@ -153,18 +144,16 @@ rid_system_set_ua_classification_class(rid_system_t *system, rid_ua_classificati
         return RID_ERROR_OUT_OF_RANGE;
     }
 
-    system->ua_classification_class = (uint8_t)class;
+    system->ua_classification_class = (uint8_t) class;
 
     return RID_SUCCESS;
 }
 
-rid_ua_classification_class_t
-rid_system_get_ua_classification_class(const rid_system_t *system) {
+rid_ua_classification_class_t rid_system_get_ua_classification_class(const rid_system_t *system) {
     return (rid_ua_classification_class_t)system->ua_classification_class;
 }
 
-int
-rid_system_set_operator_latitude(rid_system_t *system, double degrees) {
+int rid_system_set_operator_latitude(rid_system_t *system, double degrees) {
     if (system == NULL) {
         return RID_ERROR_NULL_POINTER;
     }
@@ -189,13 +178,11 @@ rid_system_set_operator_latitude(rid_system_t *system, double degrees) {
     return RID_SUCCESS;
 }
 
-double
-rid_system_get_operator_latitude(const rid_system_t *system) {
+double rid_system_get_operator_latitude(const rid_system_t *system) {
     return (double)system->operator_latitude / 10000000.0;
 }
 
-int
-rid_system_set_operator_longitude(rid_system_t *system, double degrees) {
+int rid_system_set_operator_longitude(rid_system_t *system, double degrees) {
     if (system == NULL) {
         return RID_ERROR_NULL_POINTER;
     }
@@ -220,13 +207,11 @@ rid_system_set_operator_longitude(rid_system_t *system, double degrees) {
     return RID_SUCCESS;
 }
 
-double
-rid_system_get_operator_longitude(const rid_system_t *system) {
+double rid_system_get_operator_longitude(const rid_system_t *system) {
     return (double)system->operator_longitude / 10000000.0;
 }
 
-int
-rid_system_set_operator_altitude(rid_system_t *system, float altitude) {
+int rid_system_set_operator_altitude(rid_system_t *system, float altitude) {
     if (system == NULL) {
         return RID_ERROR_NULL_POINTER;
     }
@@ -253,13 +238,11 @@ rid_system_set_operator_altitude(rid_system_t *system, float altitude) {
     return RID_SUCCESS;
 }
 
-float
-rid_system_get_operator_altitude(const rid_system_t *system) {
+float rid_system_get_operator_altitude(const rid_system_t *system) {
     return ((float)system->operator_altitude * 0.5f) - 1000.0f;
 }
 
-int
-rid_system_set_area_count(rid_system_t *system, uint16_t count) {
+int rid_system_set_area_count(rid_system_t *system, uint16_t count) {
     if (system == NULL) {
         return RID_ERROR_NULL_POINTER;
     }
@@ -269,13 +252,11 @@ rid_system_set_area_count(rid_system_t *system, uint16_t count) {
     return RID_SUCCESS;
 }
 
-uint16_t
-rid_system_get_area_count(const rid_system_t *system) {
+uint16_t rid_system_get_area_count(const rid_system_t *system) {
     return system->area_count;
 }
 
-int
-rid_system_set_area_radius(rid_system_t *system, uint16_t meters) {
+int rid_system_set_area_radius(rid_system_t *system, uint16_t meters) {
     if (system == NULL) {
         return RID_ERROR_NULL_POINTER;
     }
@@ -294,13 +275,11 @@ rid_system_set_area_radius(rid_system_t *system, uint16_t meters) {
     return RID_SUCCESS;
 }
 
-uint16_t
-rid_system_get_area_radius(const rid_system_t *system) {
+uint16_t rid_system_get_area_radius(const rid_system_t *system) {
     return (uint16_t)system->area_radius * 10;
 }
 
-int
-rid_system_set_area_ceiling(rid_system_t *system, float altitude) {
+int rid_system_set_area_ceiling(rid_system_t *system, float altitude) {
     if (system == NULL) {
         return RID_ERROR_NULL_POINTER;
     }
@@ -320,13 +299,11 @@ rid_system_set_area_ceiling(rid_system_t *system, float altitude) {
     return RID_SUCCESS;
 }
 
-float
-rid_system_get_area_ceiling(const rid_system_t *system) {
+float rid_system_get_area_ceiling(const rid_system_t *system) {
     return ((float)system->area_ceiling * 0.5f) - 1000.0f;
 }
 
-int
-rid_system_set_area_floor(rid_system_t *system, float altitude) {
+int rid_system_set_area_floor(rid_system_t *system, float altitude) {
     if (system == NULL) {
         return RID_ERROR_NULL_POINTER;
     }
@@ -345,13 +322,11 @@ rid_system_set_area_floor(rid_system_t *system, float altitude) {
     return RID_SUCCESS;
 }
 
-float
-rid_system_get_area_floor(const rid_system_t *system) {
+float rid_system_get_area_floor(const rid_system_t *system) {
     return ((float)system->area_floor * 0.5f) - 1000.0f;
 }
 
-int
-rid_system_set_timestamp(rid_system_t *system, uint32_t timestamp) {
+int rid_system_set_timestamp(rid_system_t *system, uint32_t timestamp) {
     if (system == NULL) {
         return RID_ERROR_NULL_POINTER;
     }
@@ -361,13 +336,11 @@ rid_system_set_timestamp(rid_system_t *system, uint32_t timestamp) {
     return RID_SUCCESS;
 }
 
-uint32_t
-rid_system_get_timestamp(const rid_system_t *system) {
+uint32_t rid_system_get_timestamp(const rid_system_t *system) {
     return system->timestamp;
 }
 
-int
-rid_system_set_unixtime(rid_system_t *system, uint32_t unixtime) {
+int rid_system_set_unixtime(rid_system_t *system, uint32_t unixtime) {
     if (system == NULL) {
         return RID_ERROR_NULL_POINTER;
     }
@@ -377,8 +350,7 @@ rid_system_set_unixtime(rid_system_t *system, uint32_t unixtime) {
     return RID_SUCCESS;
 }
 
-uint32_t
-rid_system_get_unixtime(const rid_system_t *system) {
+uint32_t rid_system_get_unixtime(const rid_system_t *system) {
     if (NULL == system) {
         return 0;
     }
@@ -386,8 +358,7 @@ rid_system_get_unixtime(const rid_system_t *system) {
     return system->timestamp + RID_SYSTEM_TIMESTAMP_EPOCH;
 }
 
-const char *
-rid_operator_location_type_to_string(rid_operator_location_type_t type) {
+const char *rid_operator_location_type_to_string(rid_operator_location_type_t type) {
     switch (type) {
         case RID_OPERATOR_LOCATION_TYPE_TAKEOFF:
             return "RID_OPERATOR_LOCATION_TYPE_TAKEOFF";
@@ -400,8 +371,7 @@ rid_operator_location_type_to_string(rid_operator_location_type_t type) {
     }
 }
 
-const char *
-rid_classification_type_to_string(rid_classification_type_t type) {
+const char *rid_classification_type_to_string(rid_classification_type_t type) {
     switch (type) {
         case RID_CLASSIFICATION_TYPE_UNDECLARED:
             return "RID_CLASSIFICATION_TYPE_UNDECLARED";
@@ -412,8 +382,7 @@ rid_classification_type_to_string(rid_classification_type_t type) {
     }
 }
 
-const char *
-rid_ua_classification_category_to_string(rid_ua_classification_category_t category) {
+const char *rid_ua_classification_category_to_string(rid_ua_classification_category_t category) {
     switch (category) {
         case RID_UA_CLASSIFICATION_CATEGORY_UNDEFINED:
             return "RID_UA_CLASSIFICATION_CATEGORY_UNDEFINED";
@@ -428,8 +397,7 @@ rid_ua_classification_category_to_string(rid_ua_classification_category_t catego
     }
 }
 
-const char *
-rid_ua_classification_class_to_string(rid_ua_classification_class_t class) {
+const char *rid_ua_classification_class_to_string(rid_ua_classification_class_t class) {
     switch (class) {
         case RID_UA_CLASSIFICATION_CLASS_UNDEFINED:
             return "RID_UA_CLASSIFICATION_CLASS_UNDEFINED";
@@ -452,34 +420,33 @@ rid_ua_classification_class_to_string(rid_ua_classification_class_t class) {
     }
 }
 
-int
-rid_system_to_json(const rid_system_t *system, char *buffer, size_t buffer_size) {
+int rid_system_to_json(const rid_system_t *system, char *buffer, size_t buffer_size) {
     if (system == NULL || buffer == NULL) {
         return RID_ERROR_NULL_POINTER;
     }
 
     return snprintf(
-            buffer,
-            buffer_size,
-            "{\"protocol_version\": %u, \"message_type\": %u, "
-            "\"operator_location_type\": %u, \"classification_type\": %u, "
-            "\"ua_classification_category\": %u, \"ua_classification_class\": %u, "
-            "\"operator_latitude\": %f, \"operator_longitude\": %f, \"operator_altitude\": %f, "
-            "\"area_count\": %u, \"area_radius\": %u, \"area_ceiling\": %f, \"area_floor\": %f, "
-            "\"timestamp\": %lu}",
-            rid_message_get_protocol_version(system),
-            rid_message_get_type(system),
-            rid_system_get_operator_location_type(system),
-            rid_system_get_classification_type(system),
-            rid_system_get_ua_classification_category(system),
-            rid_system_get_ua_classification_class(system),
-            rid_system_get_operator_latitude(system),
-            rid_system_get_operator_longitude(system),
-            rid_system_get_operator_altitude(system),
-            rid_system_get_area_count(system),
-            rid_system_get_area_radius(system),
-            rid_system_get_area_ceiling(system),
-            rid_system_get_area_floor(system),
-            (unsigned long)rid_system_get_timestamp(system)
-        );
+        buffer,
+        buffer_size,
+        "{\"protocol_version\": %u, \"message_type\": %u, "
+        "\"operator_location_type\": %u, \"classification_type\": %u, "
+        "\"ua_classification_category\": %u, \"ua_classification_class\": %u, "
+        "\"operator_latitude\": %f, \"operator_longitude\": %f, \"operator_altitude\": %f, "
+        "\"area_count\": %u, \"area_radius\": %u, \"area_ceiling\": %f, \"area_floor\": %f, "
+        "\"timestamp\": %lu}",
+        rid_message_get_protocol_version(system),
+        rid_message_get_type(system),
+        rid_system_get_operator_location_type(system),
+        rid_system_get_classification_type(system),
+        rid_system_get_ua_classification_category(system),
+        rid_system_get_ua_classification_class(system),
+        rid_system_get_operator_latitude(system),
+        rid_system_get_operator_longitude(system),
+        rid_system_get_operator_altitude(system),
+        rid_system_get_area_count(system),
+        rid_system_get_area_radius(system),
+        rid_system_get_area_ceiling(system),
+        rid_system_get_area_floor(system),
+        (unsigned long)rid_system_get_timestamp(system)
+    );
 }

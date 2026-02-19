@@ -30,16 +30,15 @@ SPDX-License-Identifier: MIT
 
 */
 
-#include <string.h>
-#include <stdint.h>
 #include <stddef.h>
+#include <stdint.h>
 #include <stdio.h>
+#include <string.h>
 
-#include "rid/message.h"
 #include "rid/basic_id.h"
+#include "rid/message.h"
 
-int
-rid_basic_id_init(rid_basic_id_t *message) {
+int rid_basic_id_init(rid_basic_id_t *message) {
     if (message == NULL) {
         return RID_ERROR_NULL_POINTER;
     }
@@ -52,8 +51,7 @@ rid_basic_id_init(rid_basic_id_t *message) {
     return RID_SUCCESS;
 }
 
-int
-rid_basic_id_validate(const rid_basic_id_t *message) {
+int rid_basic_id_validate(const rid_basic_id_t *message) {
     if (message == NULL) {
         return RID_ERROR_NULL_POINTER;
     }
@@ -127,8 +125,7 @@ rid_basic_id_validate(const rid_basic_id_t *message) {
     return RID_SUCCESS;
 }
 
-int
-rid_basic_id_set_type(rid_basic_id_t *message, rid_basic_id_type_t type) {
+int rid_basic_id_set_type(rid_basic_id_t *message, rid_basic_id_type_t type) {
     if (message == NULL) {
         return RID_ERROR_NULL_POINTER;
     }
@@ -142,16 +139,14 @@ rid_basic_id_set_type(rid_basic_id_t *message, rid_basic_id_type_t type) {
     return RID_SUCCESS;
 }
 
-rid_basic_id_type_t
-rid_basic_id_get_type(const rid_basic_id_t *message) {
+rid_basic_id_type_t rid_basic_id_get_type(const rid_basic_id_t *message) {
     if (message == NULL) {
         return RID_ID_TYPE_NONE;
     }
     return (rid_basic_id_type_t)message->id_type;
 }
 
-int
-rid_basic_id_set_ua_type(rid_basic_id_t *message, rid_ua_type_t type) {
+int rid_basic_id_set_ua_type(rid_basic_id_t *message, rid_ua_type_t type) {
     if (NULL == message) {
         return RID_ERROR_NULL_POINTER;
     }
@@ -165,16 +160,14 @@ rid_basic_id_set_ua_type(rid_basic_id_t *message, rid_ua_type_t type) {
     return RID_SUCCESS;
 }
 
-rid_ua_type_t
-rid_basic_id_get_ua_type(const rid_basic_id_t *message) {
+rid_ua_type_t rid_basic_id_get_ua_type(const rid_basic_id_t *message) {
     if (message == NULL) {
         return RID_UA_TYPE_NONE;
     }
     return (rid_ua_type_t)message->ua_type;
 }
 
-int
-rid_basic_id_set_uas_id(rid_basic_id_t *message, const char *uas_id) {
+int rid_basic_id_set_uas_id(rid_basic_id_t *message, const char *uas_id) {
     if (message == NULL || uas_id == NULL) {
         return RID_ERROR_NULL_POINTER;
     }
@@ -191,8 +184,7 @@ rid_basic_id_set_uas_id(rid_basic_id_t *message, const char *uas_id) {
     return RID_SUCCESS;
 }
 
-int
-rid_basic_id_get_uas_id(const rid_basic_id_t *message, char *buffer, size_t buffer_size) {
+int rid_basic_id_get_uas_id(const rid_basic_id_t *message, char *buffer, size_t buffer_size) {
     if (message == NULL || buffer == NULL) {
         return RID_ERROR_NULL_POINTER;
     }
@@ -207,8 +199,7 @@ rid_basic_id_get_uas_id(const rid_basic_id_t *message, char *buffer, size_t buff
     return RID_SUCCESS;
 }
 
-const char *
-rid_basic_id_type_to_string(rid_basic_id_type_t type) {
+const char *rid_basic_id_type_to_string(rid_basic_id_type_t type) {
     switch (type) {
         case RID_ID_TYPE_NONE:
             return "RID_ID_TYPE_NONE";
@@ -225,8 +216,7 @@ rid_basic_id_type_to_string(rid_basic_id_type_t type) {
     }
 }
 
-const char *
-rid_ua_type_to_string(rid_ua_type_t type) {
+const char *rid_ua_type_to_string(rid_ua_type_t type) {
     switch (type) {
         case RID_UA_TYPE_NONE:
             return "RID_UA_TYPE_NONE";
@@ -265,8 +255,7 @@ rid_ua_type_to_string(rid_ua_type_t type) {
     }
 }
 
-int
-rid_basic_id_to_json(const rid_basic_id_t *message, char *buffer, size_t buffer_size) {
+int rid_basic_id_to_json(const rid_basic_id_t *message, char *buffer, size_t buffer_size) {
     if (message == NULL || buffer == NULL) {
         return RID_ERROR_NULL_POINTER;
     }
@@ -275,14 +264,14 @@ rid_basic_id_to_json(const rid_basic_id_t *message, char *buffer, size_t buffer_
     rid_basic_id_get_uas_id(message, uas_id, sizeof(uas_id));
 
     return snprintf(
-            buffer,
-            buffer_size,
-            "{\"protocol_version\": %u, \"message_type\": %u, "
-            "\"id_type\": %u, \"ua_type\": %u, \"uas_id\": \"%s\"}",
-            rid_message_get_protocol_version(message),
-            rid_message_get_type(message),
-            rid_basic_id_get_type(message),
-            rid_basic_id_get_ua_type(message),
-            uas_id
-        );
+        buffer,
+        buffer_size,
+        "{\"protocol_version\": %u, \"message_type\": %u, "
+        "\"id_type\": %u, \"ua_type\": %u, \"uas_id\": \"%s\"}",
+        rid_message_get_protocol_version(message),
+        rid_message_get_type(message),
+        rid_basic_id_get_type(message),
+        rid_basic_id_get_ua_type(message),
+        uas_id
+    );
 }

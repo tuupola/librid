@@ -32,7 +32,6 @@ SPDX-License-Identifier: MIT
 
 #include "rid/version.h"
 
-const char *
-rid_version_to_string(void) {
+const char *rid_version_to_string(void) {
     return RID_VERSION_STRING;
 }

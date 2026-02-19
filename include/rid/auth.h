@@ -44,8 +44,8 @@ SPDX-License-Identifier: MIT
  * @snippet auth/example_auth.c full_example
  */
 
-#include <stdint.h>
 #include <stddef.h>
+#include <stdint.h>
 
 #include "rid/auth_page.h"
 

@@ -1,13 +1,11 @@
-#include <stdio.h>
 #include <stdint.h>
+#include <stdio.h>
 #include <string.h>
 
-#include "rid/message.h"
 #include "rid/basic_id.h"
+#include "rid/message.h"
 
-int
-main(void)
-{
+int main(void) {
     /* [full_example] */
     rid_basic_id_t message;
     int status;

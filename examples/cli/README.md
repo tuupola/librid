@@ -57,6 +57,20 @@ Keep `bluetoothctl` running and on another terminal capture messages with `btmon
 and feed them to this example CLI.
 
 ```
-$ sudo btmon | grep -i -A 1 "0xfffa" | grep -oP 'Data\[\d+\]: \K[0-9a-f]+' | ./rid
+$ sudo tshark -q -l -i bluetooth0 -Y "btcommon.eir_ad.entry.uuid_16 == 0xfffa" -T fields -e btcommon.eir_ad.entry.service_data | ./rid | jq
 ```
 
+```
+$ sudo btmon | grep -i -A 1 "0xfffa" | grep -oP '^\s+Data: \K[0-9a-f]+' | ./rid | jq
+```
+
+
+
+```
+$ sudo tshark -i bluetooth0 \
+  -Y "btcommon.eir_ad.entry.uuid_16 == 0xfffa" \
+  -T fields \
+  -e bthci_evt.bd_addr \
+  -e btcommon.eir_ad.entry.service_data \
+  -E separator=,
+```

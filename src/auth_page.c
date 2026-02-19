@@ -30,16 +30,15 @@ SPDX-License-Identifier: MIT
 
 */
 
-#include <string.h>
-#include <stdint.h>
 #include <stddef.h>
+#include <stdint.h>
 #include <stdio.h>
+#include <string.h>
 
-#include "rid/message.h"
 #include "rid/auth_page.h"
+#include "rid/message.h"
 
-int
-rid_auth_page_0_init(rid_auth_page_0_t *message) {
+int rid_auth_page_0_init(rid_auth_page_0_t *message) {
     if (NULL == message) {
         return RID_ERROR_NULL_POINTER;
     }
@@ -53,8 +52,7 @@ rid_auth_page_0_init(rid_auth_page_0_t *message) {
     return RID_SUCCESS;
 }
 
-int
-rid_auth_page_x_init(rid_auth_page_x_t *message, uint8_t page_number) {
+int rid_auth_page_x_init(rid_auth_page_x_t *message, uint8_t page_number) {
     if (NULL == message) {
         return RID_ERROR_NULL_POINTER;
     }
@@ -72,8 +70,7 @@ rid_auth_page_x_init(rid_auth_page_x_t *message, uint8_t page_number) {
     return RID_SUCCESS;
 }
 
-int
-rid_auth_page_0_set_type(rid_auth_page_0_t *message, rid_auth_type_t type) {
+int rid_auth_page_0_set_type(rid_auth_page_0_t *message, rid_auth_type_t type) {
     if (NULL == message) {
         return RID_ERROR_NULL_POINTER;
     }
@@ -87,8 +84,7 @@ rid_auth_page_0_set_type(rid_auth_page_0_t *message, rid_auth_type_t type) {
     return RID_SUCCESS;
 }
 
-rid_auth_type_t
-rid_auth_page_0_get_type(const rid_auth_page_0_t *message) {
+rid_auth_type_t rid_auth_page_0_get_type(const rid_auth_page_0_t *message) {
     if (NULL == message) {
         return RID_AUTH_TYPE_NONE;
     }
@@ -96,8 +92,7 @@ rid_auth_page_0_get_type(const rid_auth_page_0_t *message) {
     return (rid_auth_type_t)message->auth_type;
 }
 
-int
-rid_auth_page_0_set_last_page_index(rid_auth_page_0_t *message, uint8_t index) {
+int rid_auth_page_0_set_last_page_index(rid_auth_page_0_t *message, uint8_t index) {
     if (NULL == message) {
         return RID_ERROR_NULL_POINTER;
     }
@@ -111,8 +106,7 @@ rid_auth_page_0_set_last_page_index(rid_auth_page_0_t *message, uint8_t index) {
     return RID_SUCCESS;
 }
 
-uint8_t
-rid_auth_page_0_get_last_page_index(const rid_auth_page_0_t *message) {
+uint8_t rid_auth_page_0_get_last_page_index(const rid_auth_page_0_t *message) {
     if (NULL == message) {
         return 0;
     }
@@ -121,8 +115,7 @@ rid_auth_page_0_get_last_page_index(const rid_auth_page_0_t *message) {
     return message->last_page_index & 0x0F;
 }
 
-int
-rid_auth_page_0_set_length(rid_auth_page_0_t *message, uint8_t length) {
+int rid_auth_page_0_set_length(rid_auth_page_0_t *message, uint8_t length) {
     if (NULL == message) {
         return RID_ERROR_NULL_POINTER;
     }
@@ -132,8 +125,7 @@ rid_auth_page_0_set_length(rid_auth_page_0_t *message, uint8_t length) {
     return RID_SUCCESS;
 }
 
-uint8_t
-rid_auth_page_0_get_length(const rid_auth_page_0_t *message) {
+uint8_t rid_auth_page_0_get_length(const rid_auth_page_0_t *message) {
     if (NULL == message) {
         return 0;
     }
@@ -141,8 +133,7 @@ rid_auth_page_0_get_length(const rid_auth_page_0_t *message) {
     return message->length;
 }
 
-int
-rid_auth_page_0_set_timestamp(rid_auth_page_0_t *message, uint32_t timestamp) {
+int rid_auth_page_0_set_timestamp(rid_auth_page_0_t *message, uint32_t timestamp) {
     if (NULL == message) {
         return RID_ERROR_NULL_POINTER;
     }
@@ -152,8 +143,7 @@ rid_auth_page_0_set_timestamp(rid_auth_page_0_t *message, uint32_t timestamp) {
     return RID_SUCCESS;
 }
 
-uint32_t
-rid_auth_page_0_get_timestamp(const rid_auth_page_0_t *message) {
+uint32_t rid_auth_page_0_get_timestamp(const rid_auth_page_0_t *message) {
     if (NULL == message) {
         return 0;
     }
@@ -161,8 +151,7 @@ rid_auth_page_0_get_timestamp(const rid_auth_page_0_t *message) {
     return message->timestamp;
 }
 
-int
-rid_auth_page_0_set_data(rid_auth_page_0_t *message, const uint8_t *data, size_t size) {
+int rid_auth_page_0_set_data(rid_auth_page_0_t *message, const uint8_t *data, size_t size) {
     if (NULL == message || NULL == data) {
         return RID_ERROR_NULL_POINTER;
     }
@@ -177,8 +166,7 @@ rid_auth_page_0_set_data(rid_auth_page_0_t *message, const uint8_t *data, size_t
     return RID_SUCCESS;
 }
 
-int
-rid_auth_page_0_get_data(const rid_auth_page_0_t *message, uint8_t *buffer, size_t buffer_size) {
+int rid_auth_page_0_get_data(const rid_auth_page_0_t *message, uint8_t *buffer, size_t buffer_size) {
     if (NULL == message || NULL == buffer) {
         return RID_ERROR_NULL_POINTER;
     }
@@ -192,8 +180,7 @@ rid_auth_page_0_get_data(const rid_auth_page_0_t *message, uint8_t *buffer, size
     return RID_SUCCESS;
 }
 
-int
-rid_auth_page_x_set_type(rid_auth_page_x_t *message, rid_auth_type_t type) {
+int rid_auth_page_x_set_type(rid_auth_page_x_t *message, rid_auth_type_t type) {
     if (NULL == message) {
         return RID_ERROR_NULL_POINTER;
     }
@@ -207,8 +194,7 @@ rid_auth_page_x_set_type(rid_auth_page_x_t *message, rid_auth_type_t type) {
     return RID_SUCCESS;
 }
 
-rid_auth_type_t
-rid_auth_page_x_get_type(const rid_auth_page_x_t *message) {
+rid_auth_type_t rid_auth_page_x_get_type(const rid_auth_page_x_t *message) {
     if (NULL == message) {
         return RID_AUTH_TYPE_NONE;
     }
@@ -216,8 +202,7 @@ rid_auth_page_x_get_type(const rid_auth_page_x_t *message) {
     return (rid_auth_type_t)message->auth_type;
 }
 
-int
-rid_auth_page_x_set_number(rid_auth_page_x_t *message, uint8_t page_number) {
+int rid_auth_page_x_set_number(rid_auth_page_x_t *message, uint8_t page_number) {
     if (NULL == message) {
         return RID_ERROR_NULL_POINTER;
     }
@@ -231,8 +216,7 @@ rid_auth_page_x_set_number(rid_auth_page_x_t *message, uint8_t page_number) {
     return RID_SUCCESS;
 }
 
-uint8_t
-rid_auth_page_x_get_number(const rid_auth_page_x_t *message) {
+uint8_t rid_auth_page_x_get_number(const rid_auth_page_x_t *message) {
     if (NULL == message) {
         return 0;
     }
@@ -240,8 +224,7 @@ rid_auth_page_x_get_number(const rid_auth_page_x_t *message) {
     return message->page_number;
 }
 
-int
-rid_auth_page_x_set_data(rid_auth_page_x_t *message, const uint8_t *data, size_t size) {
+int rid_auth_page_x_set_data(rid_auth_page_x_t *message, const uint8_t *data, size_t size) {
     if (NULL == message || NULL == data) {
         return RID_ERROR_NULL_POINTER;
     }
@@ -256,8 +239,7 @@ rid_auth_page_x_set_data(rid_auth_page_x_t *message, const uint8_t *data, size_t
     return RID_SUCCESS;
 }
 
-int
-rid_auth_page_x_get_data(const rid_auth_page_x_t *message, uint8_t *buffer, size_t buffer_size) {
+int rid_auth_page_x_get_data(const rid_auth_page_x_t *message, uint8_t *buffer, size_t buffer_size) {
     if (NULL == message || NULL == buffer) {
         return RID_ERROR_NULL_POINTER;
     }
@@ -271,8 +253,7 @@ rid_auth_page_x_get_data(const rid_auth_page_x_t *message, uint8_t *buffer, size
     return RID_SUCCESS;
 }
 
-const char *
-rid_auth_type_to_string(rid_auth_type_t type) {
+const char *rid_auth_type_to_string(rid_auth_type_t type) {
     switch (type) {
         case RID_AUTH_TYPE_NONE:
             return "RID_AUTH_TYPE_NONE";
@@ -291,8 +272,7 @@ rid_auth_type_to_string(rid_auth_type_t type) {
     }
 }
 
-static size_t
-auth_data_to_hex(const uint8_t *data, size_t data_size, char *hex, size_t hex_size) {
+static size_t auth_data_to_hex(const uint8_t *data, size_t data_size, char *hex, size_t hex_size) {
     size_t pos = 0;
     for (size_t i = 0; i < data_size && pos + 2 < hex_size; ++i) {
         int written = snprintf(hex + pos, hex_size - pos, "%02x", data[i]);
@@ -303,8 +283,7 @@ auth_data_to_hex(const uint8_t *data, size_t data_size, char *hex, size_t hex_si
     return pos;
 }
 
-int
-rid_auth_page_to_json(const void *message, char *buffer, size_t buffer_size) {
+int rid_auth_page_to_json(const void *message, char *buffer, size_t buffer_size) {
     if (NULL == message || NULL == buffer) {
         return RID_ERROR_NULL_POINTER;
     }
@@ -316,8 +295,7 @@ rid_auth_page_to_json(const void *message, char *buffer, size_t buffer_size) {
         const rid_auth_page_0_t *page_0 = (const rid_auth_page_0_t *)message;
 
         char auth_hex[RID_AUTH_PAGE_0_DATA_SIZE * 2 + 1];
-        auth_data_to_hex(page_0->auth_data, RID_AUTH_PAGE_0_DATA_SIZE,
-                         auth_hex, sizeof(auth_hex));
+        auth_data_to_hex(page_0->auth_data, RID_AUTH_PAGE_0_DATA_SIZE, auth_hex, sizeof(auth_hex));
 
         return snprintf(
             buffer,
@@ -339,8 +317,7 @@ rid_auth_page_to_json(const void *message, char *buffer, size_t buffer_size) {
         const rid_auth_page_x_t *page_x = (const rid_auth_page_x_t *)message;
 
         char auth_hex[RID_AUTH_PAGE_DATA_SIZE * 2 + 1];
-        auth_data_to_hex(page_x->auth_data, RID_AUTH_PAGE_DATA_SIZE,
-                         auth_hex, sizeof(auth_hex));
+        auth_data_to_hex(page_x->auth_data, RID_AUTH_PAGE_DATA_SIZE, auth_hex, sizeof(auth_hex));
 
         return snprintf(
             buffer,

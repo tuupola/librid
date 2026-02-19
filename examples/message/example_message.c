@@ -1,11 +1,9 @@
-#include <stdio.h>
 #include <stdint.h>
+#include <stdio.h>
 
 #include "rid/message.h"
 
-int
-main(void)
-{
+int main(void) {
     /* [full_example] */
     uint8_t buffer[] = {
         0xe3, 0xd2, 0x27, 0xcf, 0xfd, 0x7f, 0x00, 0x00,

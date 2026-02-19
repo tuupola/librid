@@ -30,16 +30,15 @@ SPDX-License-Identifier: MIT
 
 */
 
-#include <string.h>
-#include <stdint.h>
 #include <stddef.h>
+#include <stdint.h>
 #include <stdio.h>
+#include <string.h>
 
 #include "rid/message.h"
 #include "rid/self_id.h"
 
-int
-rid_self_id_init(rid_self_id_t *message) {
+int rid_self_id_init(rid_self_id_t *message) {
     if (message == NULL) {
         return RID_ERROR_NULL_POINTER;
     }
@@ -51,8 +50,7 @@ rid_self_id_init(rid_self_id_t *message) {
     return RID_SUCCESS;
 }
 
-int
-rid_self_id_validate(const rid_self_id_t *message) {
+int rid_self_id_validate(const rid_self_id_t *message) {
     if (message == NULL) {
         return RID_ERROR_NULL_POINTER;
     }
@@ -77,13 +75,11 @@ rid_self_id_validate(const rid_self_id_t *message) {
     return RID_SUCCESS;
 }
 
-rid_description_type_t
-rid_self_id_get_description_type(const rid_self_id_t *message) {
+rid_description_type_t rid_self_id_get_description_type(const rid_self_id_t *message) {
     return (rid_description_type_t)message->description_type;
 }
 
-int
-rid_self_id_set_description_type(rid_self_id_t *message, rid_description_type_t type) {
+int rid_self_id_set_description_type(rid_self_id_t *message, rid_description_type_t type) {
     if (message == NULL) {
         return RID_ERROR_NULL_POINTER;
     }
@@ -93,8 +89,7 @@ rid_self_id_set_description_type(rid_self_id_t *message, rid_description_type_t 
     return RID_SUCCESS;
 }
 
-int
-rid_self_id_get_description(const rid_self_id_t *message, char *buffer, size_t buffer_size) {
+int rid_self_id_get_description(const rid_self_id_t *message, char *buffer, size_t buffer_size) {
     if (message == NULL || buffer == NULL) {
         return RID_ERROR_NULL_POINTER;
     }
@@ -109,8 +104,7 @@ rid_self_id_get_description(const rid_self_id_t *message, char *buffer, size_t b
     return RID_SUCCESS;
 }
 
-int
-rid_self_id_set_description(rid_self_id_t *message, const char *description) {
+int rid_self_id_set_description(rid_self_id_t *message, const char *description) {
     if (message == NULL || description == NULL) {
         return RID_ERROR_NULL_POINTER;
     }
@@ -134,8 +128,7 @@ rid_self_id_set_description(rid_self_id_t *message, const char *description) {
     return RID_SUCCESS;
 }
 
-const char *
-rid_description_type_to_string(rid_description_type_t type) {
+const char *rid_description_type_to_string(rid_description_type_t type) {
     switch (type) {
         case RID_DESCRIPTION_TYPE_TEXT:
             return "RID_DESCRIPTION_TYPE_TEXT";
@@ -148,8 +141,7 @@ rid_description_type_to_string(rid_description_type_t type) {
     }
 }
 
-int
-rid_self_id_to_json(const rid_self_id_t *message, char *buffer, size_t buffer_size) {
+int rid_self_id_to_json(const rid_self_id_t *message, char *buffer, size_t buffer_size) {
     if (message == NULL || buffer == NULL) {
         return RID_ERROR_NULL_POINTER;
     }
@@ -158,13 +150,13 @@ rid_self_id_to_json(const rid_self_id_t *message, char *buffer, size_t buffer_si
     rid_self_id_get_description(message, description, sizeof(description));
 
     return snprintf(
-            buffer,
-            buffer_size,
-            "{\"protocol_version\": %u, \"message_type\": %u, "
-            "\"description_type\": %u, \"description\": \"%s\"}",
-            rid_message_get_protocol_version(message),
-            rid_message_get_type(message),
-            rid_self_id_get_description_type(message),
-            description
-        );
+        buffer,
+        buffer_size,
+        "{\"protocol_version\": %u, \"message_type\": %u, "
+        "\"description_type\": %u, \"description\": \"%s\"}",
+        rid_message_get_protocol_version(message),
+        rid_message_get_type(message),
+        rid_self_id_get_description_type(message),
+        description
+    );
 }

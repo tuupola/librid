@@ -33,29 +33,26 @@ SPDX-License-Identifier: MIT
 #include <stdint.h>
 #include <stdio.h>
 
-#include "rid/message.h"
+#include "rid/auth_page.h"
 #include "rid/basic_id.h"
 #include "rid/location.h"
-#include "rid/auth_page.h"
+#include "rid/message.h"
+#include "rid/message_pack.h"
+#include "rid/operator_id.h"
 #include "rid/self_id.h"
 #include "rid/system.h"
-#include "rid/operator_id.h"
-#include "rid/message_pack.h"
 
-rid_message_type_t
-rid_message_get_type(const void *message) {
+rid_message_type_t rid_message_get_type(const void *message) {
     rid_message_t *msg = (rid_message_t *)message;
     return (rid_message_type_t)msg->message_type;
 }
 
-rid_protocol_version_t
-rid_message_get_protocol_version(const void *message) {
+rid_protocol_version_t rid_message_get_protocol_version(const void *message) {
     rid_message_t *msg = (rid_message_t *)message;
     return msg->protocol_version;
 }
 
-const char *
-rid_message_type_to_string(rid_message_type_t type) {
+const char *rid_message_type_to_string(rid_message_type_t type) {
     switch (type) {
         case RID_MESSAGE_TYPE_BASIC_ID:
             return "RID_MESSAGE_TYPE_BASIC_ID";
@@ -76,8 +73,7 @@ rid_message_type_to_string(rid_message_type_t type) {
     }
 }
 
-const char *
-rid_protocol_version_to_string(rid_protocol_version_t version) {
+const char *rid_protocol_version_to_string(rid_protocol_version_t version) {
     switch (version) {
         case RID_PROTOCOL_VERSION_0:
             return "RID_PROTOCOL_VERSION_0";
@@ -92,8 +88,7 @@ rid_protocol_version_to_string(rid_protocol_version_t version) {
     }
 }
 
-const char *
-rid_error_to_string(rid_error_t error) {
+const char *rid_error_to_string(rid_error_t error) {
     switch (error) {
         case RID_SUCCESS:
             return "RID_SUCCESS";
@@ -140,8 +135,7 @@ rid_error_to_string(rid_error_t error) {
     }
 }
 
-int
-rid_message_validate(const void *message) {
+int rid_message_validate(const void *message) {
     if (NULL == message) {
         return RID_ERROR_NULL_POINTER;
     }
@@ -169,8 +163,7 @@ rid_message_validate(const void *message) {
     }
 }
 
-int
-rid_message_to_json(const void *message, char *buffer, size_t buffer_size) {
+int rid_message_to_json(const void *message, char *buffer, size_t buffer_size) {
     if (NULL == message || NULL == buffer) {
         return RID_ERROR_NULL_POINTER;
     }

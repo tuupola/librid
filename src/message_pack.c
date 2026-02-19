@@ -30,16 +30,15 @@ SPDX-License-Identifier: MIT
 
 */
 
-#include <string.h>
-#include <stdint.h>
 #include <stddef.h>
+#include <stdint.h>
 #include <stdio.h>
+#include <string.h>
 
 #include "rid/message.h"
 #include "rid/message_pack.h"
 
-int
-rid_message_pack_init(rid_message_pack_t *pack) {
+int rid_message_pack_init(rid_message_pack_t *pack) {
     if (pack == NULL) {
         return RID_ERROR_NULL_POINTER;
     }
@@ -53,8 +52,7 @@ rid_message_pack_init(rid_message_pack_t *pack) {
     return RID_SUCCESS;
 }
 
-int
-rid_message_pack_validate(const rid_message_pack_t *pack) {
+int rid_message_pack_validate(const rid_message_pack_t *pack) {
     if (pack == NULL) {
         return RID_ERROR_NULL_POINTER;
     }
@@ -80,8 +78,7 @@ rid_message_pack_validate(const rid_message_pack_t *pack) {
     return RID_SUCCESS;
 }
 
-int
-rid_message_pack_set_message_count(rid_message_pack_t *pack, uint8_t count) {
+int rid_message_pack_set_message_count(rid_message_pack_t *pack, uint8_t count) {
     if (pack == NULL) {
         return RID_ERROR_NULL_POINTER;
     }
@@ -95,16 +92,14 @@ rid_message_pack_set_message_count(rid_message_pack_t *pack, uint8_t count) {
     return RID_SUCCESS;
 }
 
-uint8_t
-rid_message_pack_get_message_count(const rid_message_pack_t *pack) {
+uint8_t rid_message_pack_get_message_count(const rid_message_pack_t *pack) {
     if (pack == NULL) {
         return 0;
     }
     return pack->message_count;
 }
 
-int
-rid_message_pack_add_message(rid_message_pack_t *pack, const void *message) {
+int rid_message_pack_add_message(rid_message_pack_t *pack, const void *message) {
     if (pack == NULL || message == NULL) {
         return RID_ERROR_NULL_POINTER;
     }
@@ -120,8 +115,7 @@ rid_message_pack_add_message(rid_message_pack_t *pack, const void *message) {
     return RID_SUCCESS;
 }
 
-const void *
-rid_message_pack_get_message_at(const rid_message_pack_t *pack, uint8_t index) {
+const void *rid_message_pack_get_message_at(const rid_message_pack_t *pack, uint8_t index) {
     if (pack == NULL || index >= pack->message_count) {
         return NULL;
     }
@@ -130,8 +124,7 @@ rid_message_pack_get_message_at(const rid_message_pack_t *pack, uint8_t index) {
     return &pack->messages[offset];
 }
 
-int
-rid_message_pack_delete_message_at(rid_message_pack_t *pack, uint8_t index) {
+int rid_message_pack_delete_message_at(rid_message_pack_t *pack, uint8_t index) {
     if (pack == NULL) {
         return RID_ERROR_NULL_POINTER;
     }
@@ -152,8 +145,7 @@ rid_message_pack_delete_message_at(rid_message_pack_t *pack, uint8_t index) {
     return RID_SUCCESS;
 }
 
-int
-rid_message_pack_replace_message_at(rid_message_pack_t *pack, uint8_t index, const void *message) {
+int rid_message_pack_replace_message_at(rid_message_pack_t *pack, uint8_t index, const void *message) {
     if (pack == NULL || message == NULL) {
         return RID_ERROR_NULL_POINTER;
     }
@@ -168,18 +160,19 @@ rid_message_pack_replace_message_at(rid_message_pack_t *pack, uint8_t index, con
     return RID_SUCCESS;
 }
 
-int
-rid_message_pack_to_json(const rid_message_pack_t *pack, char *buffer, size_t buffer_size) {
+int rid_message_pack_to_json(const rid_message_pack_t *pack, char *buffer, size_t buffer_size) {
     if (pack == NULL || buffer == NULL) {
         return RID_ERROR_NULL_POINTER;
     }
 
-    int written = snprintf(buffer, buffer_size,
-            "{\"protocol_version\": %u, \"message_type\": %u, "
-            "\"message_count\": %u, \"messages\": [",
-            rid_message_get_protocol_version(pack),
-            rid_message_get_type(pack),
-            rid_message_pack_get_message_count(pack));
+    int written = snprintf(
+        buffer, buffer_size,
+        "{\"protocol_version\": %u, \"message_type\": %u, "
+        "\"message_count\": %u, \"messages\": [",
+        rid_message_get_protocol_version(pack),
+        rid_message_get_type(pack),
+        rid_message_pack_get_message_count(pack)
+    );
 
     if (written < 0) {
         return written;

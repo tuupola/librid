@@ -32,14 +32,13 @@ SPDX-License-Identifier: MIT
 
 #include <stddef.h>
 #include <stdint.h>
-#include <string.h>
 #include <stdio.h>
+#include <string.h>
 
-#include "rid/message.h"
 #include "rid/location.h"
+#include "rid/message.h"
 
-int
-rid_location_init(rid_location_t *location) {
+int rid_location_init(rid_location_t *location) {
     if (location == NULL) {
         return RID_ERROR_NULL_POINTER;
     }
@@ -61,8 +60,7 @@ rid_location_init(rid_location_t *location) {
     return RID_SUCCESS;
 }
 
-int
-rid_location_validate(const rid_location_t *location) {
+int rid_location_validate(const rid_location_t *location) {
     if (location == NULL) {
         return RID_ERROR_NULL_POINTER;
     }
@@ -101,8 +99,7 @@ rid_location_validate(const rid_location_t *location) {
     return RID_SUCCESS;
 }
 
-int
-rid_location_set_track_direction(rid_location_t *location, uint16_t degrees) {
+int rid_location_set_track_direction(rid_location_t *location, uint16_t degrees) {
     if (location == NULL) {
         return RID_ERROR_NULL_POINTER;
     }
@@ -134,8 +131,7 @@ rid_location_set_track_direction(rid_location_t *location, uint16_t degrees) {
     return RID_SUCCESS;
 }
 
-uint16_t
-rid_location_get_track_direction(const rid_location_t *location) {
+uint16_t rid_location_get_track_direction(const rid_location_t *location) {
 
     /* Unknown or invalid */
     if (location->track_direction == RID_TRACK_DIRECTION_UNKNOWN_ENCODED) {
@@ -150,8 +146,7 @@ rid_location_get_track_direction(const rid_location_t *location) {
     }
 }
 
-int
-rid_location_set_speed(rid_location_t *location, float speed_ms) {
+int rid_location_set_speed(rid_location_t *location, float speed_ms) {
     if (location == NULL) {
         return RID_ERROR_NULL_POINTER;
     }
@@ -195,8 +190,7 @@ rid_location_set_speed(rid_location_t *location, float speed_ms) {
     return RID_SUCCESS;
 }
 
-float
-rid_location_get_speed(const rid_location_t *location) {
+float rid_location_get_speed(const rid_location_t *location) {
 
     /* Invalid or unknown speed */
     if (location->speed == 255 && location->speed_multiplier == 1) {
@@ -212,8 +206,7 @@ rid_location_get_speed(const rid_location_t *location) {
     }
 }
 
-int
-rid_location_set_vertical_speed(rid_location_t *location, float speed_ms) {
+int rid_location_set_vertical_speed(rid_location_t *location, float speed_ms) {
     if (location == NULL) {
         return RID_ERROR_NULL_POINTER;
     }
@@ -241,8 +234,7 @@ rid_location_set_vertical_speed(rid_location_t *location, float speed_ms) {
     return RID_SUCCESS;
 }
 
-float
-rid_location_get_vertical_speed(const rid_location_t *location) {
+float rid_location_get_vertical_speed(const rid_location_t *location) {
 
     if (location->vertical_speed == RID_VERTICAL_SPEED_INVALID_ENCODED) {
         return RID_VERTICAL_SPEED_INVALID;
@@ -251,8 +243,7 @@ rid_location_get_vertical_speed(const rid_location_t *location) {
     return (float)location->vertical_speed * 0.5f;
 }
 
-int
-rid_location_set_latitude(rid_location_t *location, double degrees) {
+int rid_location_set_latitude(rid_location_t *location, double degrees) {
     if (location == NULL) {
         return RID_ERROR_NULL_POINTER;
     }
@@ -277,13 +268,11 @@ rid_location_set_latitude(rid_location_t *location, double degrees) {
     return RID_SUCCESS;
 }
 
-double
-rid_location_get_latitude(const rid_location_t *location) {
+double rid_location_get_latitude(const rid_location_t *location) {
     return (double)location->latitude / 10000000.0;
 }
 
-int
-rid_location_set_longitude(rid_location_t *location, double degrees) {
+int rid_location_set_longitude(rid_location_t *location, double degrees) {
     if (location == NULL) {
         return RID_ERROR_NULL_POINTER;
     }
@@ -308,13 +297,11 @@ rid_location_set_longitude(rid_location_t *location, double degrees) {
     return RID_SUCCESS;
 }
 
-double
-rid_location_get_longitude(const rid_location_t *location) {
+double rid_location_get_longitude(const rid_location_t *location) {
     return (double)location->longitude / 10000000.0;
 }
 
-int
-rid_location_set_height(rid_location_t *location, float height_m) {
+int rid_location_set_height(rid_location_t *location, float height_m) {
     if (location == NULL) {
         return RID_ERROR_NULL_POINTER;
     }
@@ -341,13 +328,11 @@ rid_location_set_height(rid_location_t *location, float height_m) {
     return RID_SUCCESS;
 }
 
-float
-rid_location_get_height(const rid_location_t *location) {
+float rid_location_get_height(const rid_location_t *location) {
     return ((float)location->height * 0.5f) - 1000.0f;
 }
 
-int
-rid_location_set_pressure_altitude(rid_location_t *location, float altitude_m) {
+int rid_location_set_pressure_altitude(rid_location_t *location, float altitude_m) {
     if (location == NULL) {
         return RID_ERROR_NULL_POINTER;
     }
@@ -374,13 +359,11 @@ rid_location_set_pressure_altitude(rid_location_t *location, float altitude_m) {
     return RID_SUCCESS;
 }
 
-float
-rid_location_get_pressure_altitude(const rid_location_t *location) {
+float rid_location_get_pressure_altitude(const rid_location_t *location) {
     return ((float)location->pressure_altitude * 0.5f) - 1000.0f;
 }
 
-int
-rid_location_set_geodetic_altitude(rid_location_t *location, float altitude_m) {
+int rid_location_set_geodetic_altitude(rid_location_t *location, float altitude_m) {
     if (location == NULL) {
         return RID_ERROR_NULL_POINTER;
     }
@@ -407,13 +390,11 @@ rid_location_set_geodetic_altitude(rid_location_t *location, float altitude_m) {
     return RID_SUCCESS;
 }
 
-float
-rid_location_get_geodetic_altitude(const rid_location_t *location) {
+float rid_location_get_geodetic_altitude(const rid_location_t *location) {
     return ((float)location->geodetic_altitude * 0.5f) - 1000.0f;
 }
 
-int
-rid_location_set_height_type(rid_location_t *location, rid_height_type_t type) {
+int rid_location_set_height_type(rid_location_t *location, rid_height_type_t type) {
     if (location == NULL) {
         return RID_ERROR_NULL_POINTER;
     }
@@ -427,13 +408,11 @@ rid_location_set_height_type(rid_location_t *location, rid_height_type_t type) {
     return RID_SUCCESS;
 }
 
-rid_height_type_t
-rid_location_get_height_type(const rid_location_t *location) {
+rid_height_type_t rid_location_get_height_type(const rid_location_t *location) {
     return (rid_height_type_t)location->height_type;
 }
 
-int
-rid_location_set_operational_status(rid_location_t *location, rid_operational_status_t status) {
+int rid_location_set_operational_status(rid_location_t *location, rid_operational_status_t status) {
     if (location == NULL) {
         return RID_ERROR_NULL_POINTER;
     }
@@ -447,13 +426,11 @@ rid_location_set_operational_status(rid_location_t *location, rid_operational_st
     return RID_SUCCESS;
 }
 
-rid_operational_status_t
-rid_location_get_operational_status(const rid_location_t *location) {
+rid_operational_status_t rid_location_get_operational_status(const rid_location_t *location) {
     return (rid_operational_status_t)location->operational_status;
 }
 
-int
-rid_location_set_speed_accuracy(rid_location_t *location, rid_speed_accuracy_t accuracy) {
+int rid_location_set_speed_accuracy(rid_location_t *location, rid_speed_accuracy_t accuracy) {
     if (location == NULL) {
         return RID_ERROR_NULL_POINTER;
     }
@@ -467,13 +444,11 @@ rid_location_set_speed_accuracy(rid_location_t *location, rid_speed_accuracy_t a
     return RID_SUCCESS;
 }
 
-rid_speed_accuracy_t
-rid_location_get_speed_accuracy(const rid_location_t *location) {
+rid_speed_accuracy_t rid_location_get_speed_accuracy(const rid_location_t *location) {
     return (rid_speed_accuracy_t)location->speed_accuracy;
 }
 
-int
-rid_location_set_horizontal_accuracy(rid_location_t *location, rid_horizontal_accuracy_t accuracy) {
+int rid_location_set_horizontal_accuracy(rid_location_t *location, rid_horizontal_accuracy_t accuracy) {
     if (location == NULL) {
         return RID_ERROR_NULL_POINTER;
     }
@@ -487,13 +462,11 @@ rid_location_set_horizontal_accuracy(rid_location_t *location, rid_horizontal_ac
     return RID_SUCCESS;
 }
 
-rid_horizontal_accuracy_t
-rid_location_get_horizontal_accuracy(const rid_location_t *location) {
+rid_horizontal_accuracy_t rid_location_get_horizontal_accuracy(const rid_location_t *location) {
     return (rid_horizontal_accuracy_t)location->horizontal_accuracy;
 }
 
-int
-rid_location_set_vertical_accuracy(rid_location_t *location, rid_vertical_accuracy_t accuracy) {
+int rid_location_set_vertical_accuracy(rid_location_t *location, rid_vertical_accuracy_t accuracy) {
     if (location == NULL) {
         return RID_ERROR_NULL_POINTER;
     }
@@ -507,13 +480,11 @@ rid_location_set_vertical_accuracy(rid_location_t *location, rid_vertical_accura
     return RID_SUCCESS;
 }
 
-rid_vertical_accuracy_t
-rid_location_get_vertical_accuracy(const rid_location_t *location) {
+rid_vertical_accuracy_t rid_location_get_vertical_accuracy(const rid_location_t *location) {
     return (rid_vertical_accuracy_t)location->vertical_accuracy;
 }
 
-int
-rid_location_set_baro_altitude_accuracy(rid_location_t *location, rid_vertical_accuracy_t accuracy) {
+int rid_location_set_baro_altitude_accuracy(rid_location_t *location, rid_vertical_accuracy_t accuracy) {
     if (location == NULL) {
         return RID_ERROR_NULL_POINTER;
     }
@@ -527,13 +498,11 @@ rid_location_set_baro_altitude_accuracy(rid_location_t *location, rid_vertical_a
     return RID_SUCCESS;
 }
 
-rid_vertical_accuracy_t
-rid_location_get_baro_altitude_accuracy(const rid_location_t *location) {
+rid_vertical_accuracy_t rid_location_get_baro_altitude_accuracy(const rid_location_t *location) {
     return (rid_vertical_accuracy_t)location->baro_altitude_accuracy;
 }
 
-int
-rid_location_set_timestamp(rid_location_t *location, uint16_t deciseconds) {
+int rid_location_set_timestamp(rid_location_t *location, uint16_t deciseconds) {
     if (location == NULL) {
         return RID_ERROR_NULL_POINTER;
     }
@@ -553,13 +522,11 @@ rid_location_set_timestamp(rid_location_t *location, uint16_t deciseconds) {
     return RID_SUCCESS;
 }
 
-uint16_t
-rid_location_get_timestamp(const rid_location_t *location) {
+uint16_t rid_location_get_timestamp(const rid_location_t *location) {
     return location->timestamp;
 }
 
-int
-rid_location_set_unixtime(rid_location_t *location, uint32_t unixtime) {
+int rid_location_set_unixtime(rid_location_t *location, uint32_t unixtime) {
     if (location == NULL) {
         return RID_ERROR_NULL_POINTER;
     }
@@ -570,8 +537,7 @@ rid_location_set_unixtime(rid_location_t *location, uint32_t unixtime) {
     return rid_location_set_timestamp(location, deciseconds);
 }
 
-int
-rid_location_set_timestamp_accuracy(rid_location_t *location, rid_timestamp_accuracy_t accuracy) {
+int rid_location_set_timestamp_accuracy(rid_location_t *location, rid_timestamp_accuracy_t accuracy) {
     if (location == NULL) {
         return RID_ERROR_NULL_POINTER;
     }
@@ -585,13 +551,11 @@ rid_location_set_timestamp_accuracy(rid_location_t *location, rid_timestamp_accu
     return RID_SUCCESS;
 }
 
-rid_timestamp_accuracy_t
-rid_location_get_timestamp_accuracy(const rid_location_t *location) {
+rid_timestamp_accuracy_t rid_location_get_timestamp_accuracy(const rid_location_t *location) {
     return (rid_timestamp_accuracy_t)location->timestamp_accuracy;
 }
 
-const char *
-rid_height_type_to_string(rid_height_type_t type) {
+const char *rid_height_type_to_string(rid_height_type_t type) {
     switch (type) {
         case RID_HEIGHT_TYPE_ABOVE_TAKEOFF:
             return "RID_HEIGHT_TYPE_ABOVE_TAKEOFF";
@@ -602,8 +566,7 @@ rid_height_type_to_string(rid_height_type_t type) {
     }
 }
 
-const char *
-rid_operational_status_to_string(rid_operational_status_t status) {
+const char *rid_operational_status_to_string(rid_operational_status_t status) {
     switch (status) {
         case RID_OPERATIONAL_STATUS_UNDECLARED:
             return "RID_OPERATIONAL_STATUS_UNDECLARED";
@@ -620,8 +583,7 @@ rid_operational_status_to_string(rid_operational_status_t status) {
     }
 }
 
-const char *
-rid_horizontal_accuracy_to_string(rid_horizontal_accuracy_t accuracy) {
+const char *rid_horizontal_accuracy_to_string(rid_horizontal_accuracy_t accuracy) {
     switch (accuracy) {
         case RID_HORIZONTAL_ACCURACY_UNKNOWN:
             return "RID_HORIZONTAL_ACCURACY_UNKNOWN";
@@ -654,8 +616,7 @@ rid_horizontal_accuracy_to_string(rid_horizontal_accuracy_t accuracy) {
     }
 }
 
-const char *
-rid_vertical_accuracy_to_string(rid_vertical_accuracy_t accuracy) {
+const char *rid_vertical_accuracy_to_string(rid_vertical_accuracy_t accuracy) {
     switch (accuracy) {
         case RID_VERTICAL_ACCURACY_UNKNOWN:
             return "RID_VERTICAL_ACCURACY_UNKNOWN";
@@ -676,8 +637,7 @@ rid_vertical_accuracy_to_string(rid_vertical_accuracy_t accuracy) {
     }
 }
 
-const char *
-rid_speed_accuracy_to_string(rid_speed_accuracy_t accuracy) {
+const char *rid_speed_accuracy_to_string(rid_speed_accuracy_t accuracy) {
     switch (accuracy) {
         case RID_SPEED_ACCURACY_UNKNOWN:
             return "RID_SPEED_ACCURACY_UNKNOWN";
@@ -694,8 +654,7 @@ rid_speed_accuracy_to_string(rid_speed_accuracy_t accuracy) {
     }
 }
 
-const char *
-rid_timestamp_accuracy_to_string(rid_timestamp_accuracy_t accuracy) {
+const char *rid_timestamp_accuracy_to_string(rid_timestamp_accuracy_t accuracy) {
     switch (accuracy) {
         case RID_TIMESTAMP_ACCURACY_UNKNOWN:
             return "RID_TIMESTAMP_ACCURACY_UNKNOWN";
@@ -734,41 +693,40 @@ rid_timestamp_accuracy_to_string(rid_timestamp_accuracy_t accuracy) {
     }
 }
 
-int
-rid_location_to_json(const rid_location_t *location, char *buffer, size_t buffer_size) {
+int rid_location_to_json(const rid_location_t *location, char *buffer, size_t buffer_size) {
     if (location == NULL || buffer == NULL) {
         return RID_ERROR_NULL_POINTER;
     }
 
     return snprintf(
-            buffer,
-            buffer_size,
-            "{\"protocol_version\": %u, \"message_type\": %u, "
-            "\"latitude\": %f, \"longitude\": %f, "
-            "\"geodetic_altitude\": %f, \"pressure_altitude\": %f, "
-            "\"height\": %f, \"height_type\": %u, "
-            "\"speed\": %f, \"vertical_speed\": %f, "
-            "\"track_direction\": %u, \"operational_status\": %u, "
-            "\"horizontal_accuracy\": %u, \"vertical_accuracy\": %u, "
-            "\"speed_accuracy\": %u, \"baro_altitude_accuracy\": %u, "
-            "\"timestamp\": %u, \"timestamp_accuracy\": %u}",
-            rid_message_get_protocol_version(location),
-            rid_message_get_type(location),
-            rid_location_get_latitude(location),
-            rid_location_get_longitude(location),
-            rid_location_get_geodetic_altitude(location),
-            rid_location_get_pressure_altitude(location),
-            rid_location_get_height(location),
-            rid_location_get_height_type(location),
-            rid_location_get_speed(location),
-            rid_location_get_vertical_speed(location),
-            rid_location_get_track_direction(location),
-            rid_location_get_operational_status(location),
-            rid_location_get_horizontal_accuracy(location),
-            rid_location_get_vertical_accuracy(location),
-            rid_location_get_speed_accuracy(location),
-            rid_location_get_baro_altitude_accuracy(location),
-            rid_location_get_timestamp(location),
-            rid_location_get_timestamp_accuracy(location)
-        );
+        buffer,
+        buffer_size,
+        "{\"protocol_version\": %u, \"message_type\": %u, "
+        "\"latitude\": %f, \"longitude\": %f, "
+        "\"geodetic_altitude\": %f, \"pressure_altitude\": %f, "
+        "\"height\": %f, \"height_type\": %u, "
+        "\"speed\": %f, \"vertical_speed\": %f, "
+        "\"track_direction\": %u, \"operational_status\": %u, "
+        "\"horizontal_accuracy\": %u, \"vertical_accuracy\": %u, "
+        "\"speed_accuracy\": %u, \"baro_altitude_accuracy\": %u, "
+        "\"timestamp\": %u, \"timestamp_accuracy\": %u}",
+        rid_message_get_protocol_version(location),
+        rid_message_get_type(location),
+        rid_location_get_latitude(location),
+        rid_location_get_longitude(location),
+        rid_location_get_geodetic_altitude(location),
+        rid_location_get_pressure_altitude(location),
+        rid_location_get_height(location),
+        rid_location_get_height_type(location),
+        rid_location_get_speed(location),
+        rid_location_get_vertical_speed(location),
+        rid_location_get_track_direction(location),
+        rid_location_get_operational_status(location),
+        rid_location_get_horizontal_accuracy(location),
+        rid_location_get_vertical_accuracy(location),
+        rid_location_get_speed_accuracy(location),
+        rid_location_get_baro_altitude_accuracy(location),
+        rid_location_get_timestamp(location),
+        rid_location_get_timestamp_accuracy(location)
+    );
 }

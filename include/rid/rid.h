@@ -42,15 +42,15 @@ SPDX-License-Identifier: MIT
 extern "C" {
 #endif /* __cplusplus */
 
-#include "rid/message.h"
+#include "rid/auth.h"
+#include "rid/auth_page.h"
 #include "rid/basic_id.h"
 #include "rid/location.h"
-#include "rid/auth_page.h"
-#include "rid/auth.h"
+#include "rid/message.h"
+#include "rid/message_pack.h"
 #include "rid/operator_id.h"
 #include "rid/self_id.h"
 #include "rid/system.h"
-#include "rid/message_pack.h"
 #include "rid/transport.h"
 #include "rid/version.h"
 

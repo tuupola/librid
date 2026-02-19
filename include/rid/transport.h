@@ -47,43 +47,43 @@ extern "C" {
  *  Maximum payload sizes in bytes for each transport method.
  *  @{
  */
-#define RID_TRANSPORT_BLUETOOTH_LEGACY_MAX_PAYLOAD      25
-#define RID_TRANSPORT_BLUETOOTH_LONG_RANGE_MAX_PAYLOAD  255
-#define RID_TRANSPORT_WIFI_NAN_MAX_PAYLOAD              255
-#define RID_TRANSPORT_WIFI_BEACON_MAX_PAYLOAD           250
+#define RID_TRANSPORT_BLUETOOTH_LEGACY_MAX_PAYLOAD 25
+#define RID_TRANSPORT_BLUETOOTH_LONG_RANGE_MAX_PAYLOAD 255
+#define RID_TRANSPORT_WIFI_NAN_MAX_PAYLOAD 255
+#define RID_TRANSPORT_WIFI_BEACON_MAX_PAYLOAD 250
 /** @} */
 
 /** @brief Time Unit in microseconds per ASTM F3411-22a. */
-#define RID_TRANSPORT_TIME_UNIT_US  1024
+#define RID_TRANSPORT_TIME_UNIT_US 1024
 
 /** @name Transport OUI Values
  *
  *  Organizationally Unique Identifiers for each transport.
  *  @{
  */
-#define RID_TRANSPORT_BLUETOOTH_OUI         0xFFFA
-#define RID_TRANSPORT_WIFI_NAN_OUI          0x506F9A
-#define RID_TRANSPORT_WIFI_BEACON_OUI       0xFA0BBC
+#define RID_TRANSPORT_BLUETOOTH_OUI 0xFFFA
+#define RID_TRANSPORT_WIFI_NAN_OUI 0x506F9A
+#define RID_TRANSPORT_WIFI_BEACON_OUI 0xFA0BBC
 /** @} */
 
 /** @name Bluetooth Constants
  *  @{
  */
-#define RID_TRANSPORT_BLUETOOTH_APP_CODE    0x0D
+#define RID_TRANSPORT_BLUETOOTH_APP_CODE 0x0D
 /** @} */
 
 /** @name Wi-Fi NAN Constants
  *  @{
  */
-#define RID_TRANSPORT_WIFI_NAN_CLUSTER_ID   0x506F9A0100FFULL
-#define RID_TRANSPORT_WIFI_NAN_CHANNEL_2G   6
-#define RID_TRANSPORT_WIFI_NAN_CHANNEL_5G   149
+#define RID_TRANSPORT_WIFI_NAN_CLUSTER_ID 0x506F9A0100FFULL
+#define RID_TRANSPORT_WIFI_NAN_CHANNEL_2G 6
+#define RID_TRANSPORT_WIFI_NAN_CHANNEL_5G 149
 /** @} */
 
 /** @name Wi-Fi Beacon Constants
  *  @{
  */
-#define RID_TRANSPORT_WIFI_BEACON_VENDOR_TYPE   0x0D
+#define RID_TRANSPORT_WIFI_BEACON_VENDOR_TYPE 0x0D
 /** @} */
 
 /**
