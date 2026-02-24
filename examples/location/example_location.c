@@ -61,13 +61,13 @@ int main(void) {
     printf("Height Type:         %s\n", rid_height_type_to_string(height_type));
     printf("Status:              %s\n", rid_operational_status_to_string(status));
     printf("Direction:           %u deg\n", direction);
-    printf("Speed:               %.1f m/s\n", speed);
-    printf("Vertical Speed:      %.1f m/s\n", vspeed);
+    printf("Speed:               %.1f m/s\n", (double)speed);
+    printf("Vertical Speed:      %.1f m/s\n", (double)vspeed);
     printf("Latitude:            %.6f\n", latitude);
     printf("Longitude:           %.6f\n", longitude);
-    printf("Pressure Alt:        %.1f m\n", pressure_alt);
-    printf("Geodetic Alt:        %.1f m\n", geodetic_alt);
-    printf("Height:              %.1f m\n", height);
+    printf("Pressure Alt:        %.1f m\n", (double)pressure_alt);
+    printf("Geodetic Alt:        %.1f m\n", (double)geodetic_alt);
+    printf("Height:              %.1f m\n", (double)height);
     printf("Horizontal Accuracy: %s\n", rid_horizontal_accuracy_to_string(h_accuracy));
     printf("Vertical Accuracy:   %s\n", rid_vertical_accuracy_to_string(v_accuracy));
     printf("Speed Accuracy:      %s\n", rid_speed_accuracy_to_string(s_accuracy));

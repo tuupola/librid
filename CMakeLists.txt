@@ -40,6 +40,7 @@ else()
     )
 
     target_include_directories(rid PUBLIC include)
+    target_compile_options(rid PRIVATE -Wall -Wextra -Wdouble-promotion)
 
     include(GNUInstallDirs)
 

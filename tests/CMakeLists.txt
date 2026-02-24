@@ -13,6 +13,7 @@ add_executable(test_runner
 )
 
 target_include_directories(test_runner PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
+target_compile_options(test_runner PRIVATE -Werror=double-promotion)
 target_link_libraries(test_runner rid)
 
 add_test(NAME unit_tests COMMAND test_runner)

@@ -1,5 +1,5 @@
 CC = gcc
-CFLAGS = -Wall -Wextra -std=c99 -I../include -I.
+CFLAGS = -Wall -Wextra -Wdouble-promotion -Werror=double-promotion -std=c99 -I../include -I.
 LDFLAGS =
 
 # Source files

@@ -56,11 +56,11 @@ int main(void) {
     printf("Operator longitude: %.6f\n", rid_system_get_operator_longitude(&system));
     printf("Area count:         %u\n", rid_system_get_area_count(&system));
     printf("Area radius:        %u m\n", rid_system_get_area_radius(&system));
-    printf("Area ceiling:       %.1f m\n", rid_system_get_area_ceiling(&system));
-    printf("Area floor:         %.1f m\n", rid_system_get_area_floor(&system));
+    printf("Area ceiling:       %.1f m\n", (double)rid_system_get_area_ceiling(&system));
+    printf("Area floor:         %.1f m\n", (double)rid_system_get_area_floor(&system));
     printf("UA class:           %u\n", rid_system_get_ua_classification_class(&system));
     printf("UA category:        %u\n", rid_system_get_ua_classification_category(&system));
-    printf("Operator altitude:  %.1f m\n", rid_system_get_operator_altitude(&system));
+    printf("Operator altitude:  %.1f m\n", (double)rid_system_get_operator_altitude(&system));
     printf("Timestamp:          %u\n", rid_system_get_timestamp(&system));
     printf("Unixtime:           %u\n", rid_system_get_unixtime(&system));
     /* [full_example] */

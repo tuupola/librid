@@ -442,11 +442,11 @@ int rid_system_to_json(const rid_system_t *system, char *buffer, size_t buffer_s
         rid_system_get_ua_classification_class(system),
         rid_system_get_operator_latitude(system),
         rid_system_get_operator_longitude(system),
-        rid_system_get_operator_altitude(system),
+        (double)rid_system_get_operator_altitude(system),
         rid_system_get_area_count(system),
         rid_system_get_area_radius(system),
-        rid_system_get_area_ceiling(system),
-        rid_system_get_area_floor(system),
+        (double)rid_system_get_area_ceiling(system),
+        (double)rid_system_get_area_floor(system),
         (unsigned long)rid_system_get_timestamp(system)
     );
 }
