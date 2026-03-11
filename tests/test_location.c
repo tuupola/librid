@@ -1,11 +1,10 @@
 #include <string.h>
 
 #include "greatest.h"
-#include "rid/message.h"
 #include "rid/location.h"
+#include "rid/message.h"
 
-TEST
-test_set_and_get_track_direction(void) {
+TEST test_set_and_get_track_direction(void) {
     /* Test all valid directions 0-359 */
     for (uint16_t degrees = 0; degrees <= RID_TRACK_DIRECTION_MAX; degrees++) {
         rid_location_t location;
@@ -21,8 +20,7 @@ test_set_and_get_track_direction(void) {
     PASS();
 }
 
-TEST
-test_track_direction_unknown(void) {
+TEST test_track_direction_unknown(void) {
     rid_location_t location;
     memset(&location, 0, sizeof(location));
 
@@ -36,8 +34,7 @@ test_track_direction_unknown(void) {
     PASS();
 }
 
-TEST
-test_track_direction_out_of_range(void) {
+TEST test_track_direction_out_of_range(void) {
     rid_location_t location;
     memset(&location, 0, sizeof(location));
 
@@ -52,16 +49,14 @@ test_track_direction_out_of_range(void) {
     PASS();
 }
 
-TEST
-test_set_track_direction_null_pointer(void) {
+TEST test_set_track_direction_null_pointer(void) {
     int status = rid_location_set_track_direction(NULL, 45);
     ASSERT_EQ(RID_ERROR_NULL_POINTER, status);
 
     PASS();
 }
 
-TEST
-test_set_and_get_speed_slow(void) {
+TEST test_set_and_get_speed_slow(void) {
     rid_location_t location;
 
     float test_speeds[] = {0.0f, 10.5f, 25.25f, 50.0f, 63.5f};
@@ -83,8 +78,7 @@ test_set_and_get_speed_slow(void) {
     PASS();
 }
 
-TEST
-test_set_and_get_speed_fast(void) {
+TEST test_set_and_get_speed_fast(void) {
     rid_location_t location;
 
     float test_speeds[] = {64.0f, 100.0f, 150.5f, 200.0f, 254.0f};
@@ -106,8 +100,7 @@ test_set_and_get_speed_fast(void) {
     PASS();
 }
 
-TEST
-test_speed_boundary_transition(void) {
+TEST test_speed_boundary_transition(void) {
     rid_location_t location;
     memset(&location, 0, sizeof(location));
 
@@ -129,8 +122,7 @@ test_speed_boundary_transition(void) {
     PASS();
 }
 
-TEST
-test_maximum_speed(void) {
+TEST test_maximum_speed(void) {
     rid_location_t location;
     memset(&location, 0, sizeof(location));
 
@@ -146,8 +138,7 @@ test_maximum_speed(void) {
     PASS();
 }
 
-TEST
-test_negative_speed(void) {
+TEST test_negative_speed(void) {
     rid_location_t location;
     memset(&location, 0, sizeof(location));
 
@@ -158,8 +149,7 @@ test_negative_speed(void) {
     PASS();
 }
 
-TEST
-test_invalid_speed(void) {
+TEST test_invalid_speed(void) {
     rid_location_t location;
     memset(&location, 0, sizeof(location));
 
@@ -176,16 +166,14 @@ test_invalid_speed(void) {
     PASS();
 }
 
-TEST
-test_set_speed_null_pointer(void) {
+TEST test_set_speed_null_pointer(void) {
     int status = rid_location_set_speed(NULL, 50.0f);
     ASSERT_EQ(RID_ERROR_NULL_POINTER, status);
 
     PASS();
 }
 
-TEST
-test_set_and_get_vertical_speed(void) {
+TEST test_set_and_get_vertical_speed(void) {
     rid_location_t location;
 
     float test_speeds[] = {0.0f, 7.5f, 30.0f, 62.0f, -7.5f, -30.0f, -62.0f};
@@ -203,8 +191,7 @@ test_set_and_get_vertical_speed(void) {
     PASS();
 }
 
-TEST
-test_vertical_speed_clamping(void) {
+TEST test_vertical_speed_clamping(void) {
     rid_location_t location;
     memset(&location, 0, sizeof(location));
 
@@ -224,8 +211,7 @@ test_vertical_speed_clamping(void) {
     PASS();
 }
 
-TEST
-test_vertical_speed_invalid(void) {
+TEST test_vertical_speed_invalid(void) {
     rid_location_t location;
     memset(&location, 0, sizeof(location));
 
@@ -241,16 +227,14 @@ test_vertical_speed_invalid(void) {
     PASS();
 }
 
-TEST
-test_set_vertical_speed_null_pointer(void) {
+TEST test_set_vertical_speed_null_pointer(void) {
     int status = rid_location_set_vertical_speed(NULL, 10.5f);
     ASSERT_EQ(RID_ERROR_NULL_POINTER, status);
 
     PASS();
 }
 
-TEST
-test_set_and_get_latitude(void) {
+TEST test_set_and_get_latitude(void) {
     rid_location_t location;
 
     double test_latitudes[] = {0.0, 45.5, 60.123456, -45.5, -90.0, 90.0};
@@ -271,8 +255,7 @@ test_set_and_get_latitude(void) {
     PASS();
 }
 
-TEST
-test_set_and_get_longitude(void) {
+TEST test_set_and_get_longitude(void) {
     rid_location_t location;
 
     double test_longitudes[] = {0.0, 90.5, 120.987654, -90.5, -180.0, 180.0};
@@ -293,8 +276,7 @@ test_set_and_get_longitude(void) {
     PASS();
 }
 
-TEST
-test_latitude_out_of_range(void) {
+TEST test_latitude_out_of_range(void) {
     rid_location_t location;
     memset(&location, 0, sizeof(location));
 
@@ -309,16 +291,14 @@ test_latitude_out_of_range(void) {
     PASS();
 }
 
-TEST
-test_set_latitude_null_pointer(void) {
+TEST test_set_latitude_null_pointer(void) {
     int status = rid_location_set_latitude(NULL, 45.5);
     ASSERT_EQ(RID_ERROR_NULL_POINTER, status);
 
     PASS();
 }
 
-TEST
-test_longitude_out_of_range(void) {
+TEST test_longitude_out_of_range(void) {
     rid_location_t location;
     memset(&location, 0, sizeof(location));
 
@@ -333,16 +313,14 @@ test_longitude_out_of_range(void) {
     PASS();
 }
 
-TEST
-test_set_longitude_null_pointer(void) {
+TEST test_set_longitude_null_pointer(void) {
     int status = rid_location_set_longitude(NULL, 90.5);
     ASSERT_EQ(RID_ERROR_NULL_POINTER, status);
 
     PASS();
 }
 
-TEST
-test_set_and_get_height(void) {
+TEST test_set_and_get_height(void) {
     rid_location_t location;
 
     float test_heights[] = {0.0f, 10.5f, 100.0f, 500.0f, -100.0f, -500.0f, -1000.0f, 31767.0f};
@@ -363,8 +341,7 @@ test_set_and_get_height(void) {
     PASS();
 }
 
-TEST
-test_height_out_of_range(void) {
+TEST test_height_out_of_range(void) {
     rid_location_t location;
     memset(&location, 0, sizeof(location));
 
@@ -379,8 +356,7 @@ test_height_out_of_range(void) {
     PASS();
 }
 
-TEST
-test_height_invalid(void) {
+TEST test_height_invalid(void) {
     rid_location_t location;
     memset(&location, 0, sizeof(location));
 
@@ -398,16 +374,14 @@ test_height_invalid(void) {
     PASS();
 }
 
-TEST
-test_set_height_null_pointer(void) {
+TEST test_set_height_null_pointer(void) {
     int status = rid_location_set_height(NULL, 100.0f);
     ASSERT_EQ(RID_ERROR_NULL_POINTER, status);
 
     PASS();
 }
 
-TEST
-test_set_and_get_pressure_altitude(void) {
+TEST test_set_and_get_pressure_altitude(void) {
     rid_location_t location;
 
     float test_altitudes[] = {0.0f, 10.5f, 100.0f, 500.0f, -100.0f, -500.0f, -1000.0f, 31767.0f};
@@ -428,8 +402,7 @@ test_set_and_get_pressure_altitude(void) {
     PASS();
 }
 
-TEST
-test_pressure_altitude_out_of_range(void) {
+TEST test_pressure_altitude_out_of_range(void) {
     rid_location_t location;
     memset(&location, 0, sizeof(location));
 
@@ -444,8 +417,7 @@ test_pressure_altitude_out_of_range(void) {
     PASS();
 }
 
-TEST
-test_pressure_altitude_invalid(void) {
+TEST test_pressure_altitude_invalid(void) {
     rid_location_t location;
     memset(&location, 0, sizeof(location));
 
@@ -461,16 +433,14 @@ test_pressure_altitude_invalid(void) {
     PASS();
 }
 
-TEST
-test_set_pressure_altitude_null_pointer(void) {
+TEST test_set_pressure_altitude_null_pointer(void) {
     int status = rid_location_set_pressure_altitude(NULL, 100.0f);
     ASSERT_EQ(RID_ERROR_NULL_POINTER, status);
 
     PASS();
 }
 
-TEST
-test_set_and_get_geodetic_altitude(void) {
+TEST test_set_and_get_geodetic_altitude(void) {
     rid_location_t location;
 
     float test_altitudes[] = {0.0f, 10.5f, 100.0f, 500.0f, -100.0f, -500.0f, -1000.0f, 31767.0f};
@@ -491,8 +461,7 @@ test_set_and_get_geodetic_altitude(void) {
     PASS();
 }
 
-TEST
-test_geodetic_altitude_out_of_range(void) {
+TEST test_geodetic_altitude_out_of_range(void) {
     rid_location_t location;
     memset(&location, 0, sizeof(location));
 
@@ -507,8 +476,7 @@ test_geodetic_altitude_out_of_range(void) {
     PASS();
 }
 
-TEST
-test_geodetic_altitude_invalid(void) {
+TEST test_geodetic_altitude_invalid(void) {
     rid_location_t location;
     memset(&location, 0, sizeof(location));
 
@@ -524,16 +492,14 @@ test_geodetic_altitude_invalid(void) {
     PASS();
 }
 
-TEST
-test_set_geodetic_altitude_null_pointer(void) {
+TEST test_set_geodetic_altitude_null_pointer(void) {
     int status = rid_location_set_geodetic_altitude(NULL, 100.0f);
     ASSERT_EQ(RID_ERROR_NULL_POINTER, status);
 
     PASS();
 }
 
-TEST
-test_set_and_get_height_type(void) {
+TEST test_set_and_get_height_type(void) {
     rid_location_t location;
     memset(&location, 0, sizeof(location));
 
@@ -557,8 +523,7 @@ test_set_and_get_height_type(void) {
     PASS();
 }
 
-TEST
-test_height_type_out_of_range(void) {
+TEST test_height_type_out_of_range(void) {
     rid_location_t location;
     memset(&location, 0, sizeof(location));
 
@@ -572,16 +537,14 @@ test_height_type_out_of_range(void) {
     PASS();
 }
 
-TEST
-test_set_height_type_null_pointer(void) {
+TEST test_set_height_type_null_pointer(void) {
     int status = rid_location_set_height_type(NULL, RID_HEIGHT_TYPE_ABOVE_TAKEOFF);
     ASSERT_EQ(RID_ERROR_NULL_POINTER, status);
 
     PASS();
 }
 
-TEST
-test_set_and_gte_operational_status(void) {
+TEST test_set_and_gte_operational_status(void) {
     rid_location_t location;
     memset(&location, 0, sizeof(location));
 
@@ -641,8 +604,7 @@ test_set_and_gte_operational_status(void) {
     PASS();
 }
 
-TEST
-test_operational_status_out_of_range(void) {
+TEST test_operational_status_out_of_range(void) {
     rid_location_t location;
     memset(&location, 0, sizeof(location));
 
@@ -656,16 +618,14 @@ test_operational_status_out_of_range(void) {
     PASS();
 }
 
-TEST
-test_set_operational_status_null_pointer(void) {
+TEST test_set_operational_status_null_pointer(void) {
     int status = rid_location_set_operational_status(NULL, RID_OPERATIONAL_STATUS_AIRBORNE);
     ASSERT_EQ(RID_ERROR_NULL_POINTER, status);
 
     PASS();
 }
 
-TEST
-test_set_and_get_speed_accuracy(void) {
+TEST test_set_and_get_speed_accuracy(void) {
     rid_location_t location;
     memset(&location, 0, sizeof(location));
 
@@ -725,8 +685,7 @@ test_set_and_get_speed_accuracy(void) {
     PASS();
 }
 
-TEST
-test_speed_accuracy_out_of_range(void) {
+TEST test_speed_accuracy_out_of_range(void) {
     rid_location_t location;
     memset(&location, 0, sizeof(location));
 
@@ -740,16 +699,14 @@ test_speed_accuracy_out_of_range(void) {
     PASS();
 }
 
-TEST
-test_set_speed_accuracy_null_pointer(void) {
+TEST test_set_speed_accuracy_null_pointer(void) {
     int status = rid_location_set_speed_accuracy(NULL, RID_SPEED_ACCURACY_1MS);
     ASSERT_EQ(RID_ERROR_NULL_POINTER, status);
 
     PASS();
 }
 
-TEST
-test_set_and_get_horizontal_accuracy(void) {
+TEST test_set_and_get_horizontal_accuracy(void) {
     rid_location_t location;
     memset(&location, 0, sizeof(location));
 
@@ -809,8 +766,7 @@ test_set_and_get_horizontal_accuracy(void) {
     PASS();
 }
 
-TEST
-test_horizontal_accuracy_out_of_range(void) {
+TEST test_horizontal_accuracy_out_of_range(void) {
     rid_location_t location;
     memset(&location, 0, sizeof(location));
 
@@ -824,16 +780,14 @@ test_horizontal_accuracy_out_of_range(void) {
     PASS();
 }
 
-TEST
-test_set_horizontal_accuracy_null_pointer(void) {
+TEST test_set_horizontal_accuracy_null_pointer(void) {
     int status = rid_location_set_horizontal_accuracy(NULL, RID_HORIZONTAL_ACCURACY_1M);
     ASSERT_EQ(RID_ERROR_NULL_POINTER, status);
 
     PASS();
 }
 
-TEST
-test_set_and_get_vertical_accuracy(void) {
+TEST test_set_and_get_vertical_accuracy(void) {
     rid_location_t location;
     memset(&location, 0, sizeof(location));
 
@@ -911,8 +865,7 @@ test_set_and_get_vertical_accuracy(void) {
     PASS();
 }
 
-TEST
-test_vertical_accuracy_out_of_range(void) {
+TEST test_vertical_accuracy_out_of_range(void) {
     rid_location_t location;
     memset(&location, 0, sizeof(location));
 
@@ -926,16 +879,14 @@ test_vertical_accuracy_out_of_range(void) {
     PASS();
 }
 
-TEST
-test_set_vertical_accuracy_null_pointer(void) {
+TEST test_set_vertical_accuracy_null_pointer(void) {
     int status = rid_location_set_vertical_accuracy(NULL, RID_VERTICAL_ACCURACY_1M);
     ASSERT_EQ(RID_ERROR_NULL_POINTER, status);
 
     PASS();
 }
 
-TEST
-test_set_and_get_baro_altitude_accuracy(void) {
+TEST test_set_and_get_baro_altitude_accuracy(void) {
     rid_location_t location;
     memset(&location, 0, sizeof(location));
 
@@ -1013,8 +964,7 @@ test_set_and_get_baro_altitude_accuracy(void) {
     PASS();
 }
 
-TEST
-test_baro_altitude_accuracy_out_of_range(void) {
+TEST test_baro_altitude_accuracy_out_of_range(void) {
     rid_location_t location;
     memset(&location, 0, sizeof(location));
 
@@ -1028,16 +978,14 @@ test_baro_altitude_accuracy_out_of_range(void) {
     PASS();
 }
 
-TEST
-test_set_baro_altitude_accuracy_null_pointer(void) {
+TEST test_set_baro_altitude_accuracy_null_pointer(void) {
     int status = rid_location_set_baro_altitude_accuracy(NULL, RID_VERTICAL_ACCURACY_1M);
     ASSERT_EQ(RID_ERROR_NULL_POINTER, status);
 
     PASS();
 }
 
-TEST
-test_set_and_get_timestamp(void) {
+TEST test_set_and_get_timestamp(void) {
     rid_location_t location;
 
     /* Test valid timestamps */
@@ -1056,8 +1004,7 @@ test_set_and_get_timestamp(void) {
     PASS();
 }
 
-TEST
-test_timestamp_invalid(void) {
+TEST test_timestamp_invalid(void) {
     rid_location_t location;
     memset(&location, 0, sizeof(location));
 
@@ -1071,8 +1018,7 @@ test_timestamp_invalid(void) {
     PASS();
 }
 
-TEST
-test_timestamp_out_of_range(void) {
+TEST test_timestamp_out_of_range(void) {
     rid_location_t location;
     memset(&location, 0, sizeof(location));
 
@@ -1086,16 +1032,14 @@ test_timestamp_out_of_range(void) {
     PASS();
 }
 
-TEST
-test_set_timestamp_null_pointer(void) {
+TEST test_set_timestamp_null_pointer(void) {
     int status = rid_location_set_timestamp(NULL, 1800);
     ASSERT_EQ(RID_ERROR_NULL_POINTER, status);
 
     PASS();
 }
 
-TEST
-test_set_timestamp_from_unixtime(void) {
+TEST test_set_timestamp_from_unixtime(void) {
     rid_location_t location;
     memset(&location, 0, sizeof(location));
 
@@ -1127,16 +1071,14 @@ test_set_timestamp_from_unixtime(void) {
     PASS();
 }
 
-TEST
-test_set_timestamp_from_unixtime_null_pointer(void) {
+TEST test_set_timestamp_from_unixtime_null_pointer(void) {
     int status = rid_location_set_unixtime(NULL, 3600);
     ASSERT_EQ(RID_ERROR_NULL_POINTER, status);
 
     PASS();
 }
 
-TEST
-test_set_and_get_timestamp_accuracy(void) {
+TEST test_set_and_get_timestamp_accuracy(void) {
     rid_location_t location;
     memset(&location, 0, sizeof(location));
 
@@ -1187,8 +1129,7 @@ test_set_and_get_timestamp_accuracy(void) {
     PASS();
 }
 
-TEST
-test_timestamp_accuracy_out_of_range(void) {
+TEST test_timestamp_accuracy_out_of_range(void) {
     rid_location_t location;
     memset(&location, 0, sizeof(location));
 
@@ -1202,16 +1143,14 @@ test_timestamp_accuracy_out_of_range(void) {
     PASS();
 }
 
-TEST
-test_set_timestamp_accuracy_null_pointer(void) {
+TEST test_set_timestamp_accuracy_null_pointer(void) {
     int status = rid_location_set_timestamp_accuracy(NULL, RID_TIMESTAMP_ACCURACY_1_0S);
     ASSERT_EQ(RID_ERROR_NULL_POINTER, status);
 
     PASS();
 }
 
-TEST
-test_location_init(void) {
+TEST test_location_init(void) {
     rid_location_t location;
 
     int status = rid_location_init(NULL);
@@ -1268,16 +1207,14 @@ test_location_init(void) {
     PASS();
 }
 
-TEST
-test_height_type_to_string(void) {
+TEST test_height_type_to_string(void) {
     ASSERT_STR_EQ("RID_HEIGHT_TYPE_ABOVE_TAKEOFF", rid_height_type_to_string(RID_HEIGHT_TYPE_ABOVE_TAKEOFF));
     ASSERT_STR_EQ("RID_HEIGHT_TYPE_AGL", rid_height_type_to_string(RID_HEIGHT_TYPE_AGL));
     ASSERT_STR_EQ("UNKNOWN", rid_height_type_to_string((rid_height_type_t)99));
     PASS();
 }
 
-TEST
-test_operational_status_to_string(void) {
+TEST test_operational_status_to_string(void) {
     ASSERT_STR_EQ("RID_OPERATIONAL_STATUS_UNDECLARED", rid_operational_status_to_string(RID_OPERATIONAL_STATUS_UNDECLARED));
     ASSERT_STR_EQ("RID_OPERATIONAL_STATUS_GROUND", rid_operational_status_to_string(RID_OPERATIONAL_STATUS_GROUND));
     ASSERT_STR_EQ("RID_OPERATIONAL_STATUS_AIRBORNE", rid_operational_status_to_string(RID_OPERATIONAL_STATUS_AIRBORNE));
@@ -1287,8 +1224,7 @@ test_operational_status_to_string(void) {
     PASS();
 }
 
-TEST
-test_horizontal_accuracy_to_string(void) {
+TEST test_horizontal_accuracy_to_string(void) {
     ASSERT_STR_EQ("RID_HORIZONTAL_ACCURACY_UNKNOWN", rid_horizontal_accuracy_to_string(RID_HORIZONTAL_ACCURACY_UNKNOWN));
     ASSERT_STR_EQ("RID_HORIZONTAL_ACCURACY_18520M", rid_horizontal_accuracy_to_string(RID_HORIZONTAL_ACCURACY_18520M));
     ASSERT_STR_EQ("RID_HORIZONTAL_ACCURACY_1M", rid_horizontal_accuracy_to_string(RID_HORIZONTAL_ACCURACY_1M));
@@ -1296,8 +1232,7 @@ test_horizontal_accuracy_to_string(void) {
     PASS();
 }
 
-TEST
-test_vertical_accuracy_to_string(void) {
+TEST test_vertical_accuracy_to_string(void) {
     ASSERT_STR_EQ("RID_VERTICAL_ACCURACY_UNKNOWN", rid_vertical_accuracy_to_string(RID_VERTICAL_ACCURACY_UNKNOWN));
     ASSERT_STR_EQ("RID_VERTICAL_ACCURACY_150M", rid_vertical_accuracy_to_string(RID_VERTICAL_ACCURACY_150M));
     ASSERT_STR_EQ("RID_VERTICAL_ACCURACY_1M", rid_vertical_accuracy_to_string(RID_VERTICAL_ACCURACY_1M));
@@ -1305,8 +1240,7 @@ test_vertical_accuracy_to_string(void) {
     PASS();
 }
 
-TEST
-test_speed_accuracy_to_string(void) {
+TEST test_speed_accuracy_to_string(void) {
     ASSERT_STR_EQ("RID_SPEED_ACCURACY_UNKNOWN", rid_speed_accuracy_to_string(RID_SPEED_ACCURACY_UNKNOWN));
     ASSERT_STR_EQ("RID_SPEED_ACCURACY_10MS", rid_speed_accuracy_to_string(RID_SPEED_ACCURACY_10MS));
     ASSERT_STR_EQ("RID_SPEED_ACCURACY_03MS", rid_speed_accuracy_to_string(RID_SPEED_ACCURACY_03MS));
@@ -1314,8 +1248,7 @@ test_speed_accuracy_to_string(void) {
     PASS();
 }
 
-TEST
-test_timestamp_accuracy_to_string(void) {
+TEST test_timestamp_accuracy_to_string(void) {
     ASSERT_STR_EQ("RID_TIMESTAMP_ACCURACY_UNKNOWN", rid_timestamp_accuracy_to_string(RID_TIMESTAMP_ACCURACY_UNKNOWN));
     ASSERT_STR_EQ("RID_TIMESTAMP_ACCURACY_0_1S", rid_timestamp_accuracy_to_string(RID_TIMESTAMP_ACCURACY_0_1S));
     ASSERT_STR_EQ("RID_TIMESTAMP_ACCURACY_1_5S", rid_timestamp_accuracy_to_string(RID_TIMESTAMP_ACCURACY_1_5S));
@@ -1323,8 +1256,7 @@ test_timestamp_accuracy_to_string(void) {
     PASS();
 }
 
-TEST
-test_validate_valid_message(void) {
+TEST test_validate_valid_message(void) {
     rid_location_t location;
 
     rid_location_init(&location);
@@ -1337,16 +1269,14 @@ test_validate_valid_message(void) {
     PASS();
 }
 
-TEST
-test_validate_null_pointer(void) {
+TEST test_validate_null_pointer(void) {
     int status = rid_location_validate(NULL);
     ASSERT_EQ(RID_ERROR_NULL_POINTER, status);
 
     PASS();
 }
 
-TEST
-test_validate_invalid_protocol_version(void) {
+TEST test_validate_invalid_protocol_version(void) {
     rid_location_t location;
 
     rid_location_init(&location);
@@ -1376,8 +1306,7 @@ test_validate_invalid_protocol_version(void) {
     PASS();
 }
 
-TEST
-test_validate_invalid_message_type(void) {
+TEST test_validate_invalid_message_type(void) {
     rid_location_t location;
 
     rid_location_init(&location);
@@ -1389,8 +1318,7 @@ test_validate_invalid_message_type(void) {
     PASS();
 }
 
-TEST
-test_validate_invalid_latitude(void) {
+TEST test_validate_invalid_latitude(void) {
     rid_location_t location;
 
     rid_location_init(&location);
@@ -1408,8 +1336,7 @@ test_validate_invalid_latitude(void) {
     PASS();
 }
 
-TEST
-test_validate_invalid_longitude(void) {
+TEST test_validate_invalid_longitude(void) {
     rid_location_t location;
 
     rid_location_init(&location);
@@ -1427,8 +1354,7 @@ test_validate_invalid_longitude(void) {
     PASS();
 }
 
-TEST
-test_validate_invalid_track_direction(void) {
+TEST test_validate_invalid_track_direction(void) {
     rid_location_t location;
 
     rid_location_init(&location);
@@ -1446,8 +1372,7 @@ test_validate_invalid_track_direction(void) {
     PASS();
 }
 
-TEST
-test_validate_invalid_timestamp(void) {
+TEST test_validate_invalid_timestamp(void) {
     rid_location_t location;
 
     rid_location_init(&location);
@@ -1470,8 +1395,7 @@ test_validate_invalid_timestamp(void) {
     PASS();
 }
 
-TEST
-test_location_to_json(void) {
+TEST test_location_to_json(void) {
     rid_location_t location;
     char buffer[1024];
 
@@ -1491,8 +1415,7 @@ test_location_to_json(void) {
     PASS();
 }
 
-TEST
-test_location_to_json_null(void) {
+TEST test_location_to_json_null(void) {
     rid_location_t location;
     char buffer[1024];
 

@@ -2,13 +2,12 @@
 #include <string.h>
 
 #include "greatest.h"
-#include "rid/message.h"
-#include "rid/basic_id.h"
-#include "rid/auth_page.h"
 #include "rid/auth.h"
+#include "rid/auth_page.h"
+#include "rid/basic_id.h"
+#include "rid/message.h"
 
-TEST
-test_auth_init(void) {
+TEST test_auth_init(void) {
     rid_auth_t auth;
 
     int status = rid_auth_init(NULL);
@@ -24,8 +23,7 @@ test_auth_init(void) {
     PASS();
 }
 
-TEST
-test_auth_validate_valid(void) {
+TEST test_auth_validate_valid(void) {
     rid_auth_t auth;
     rid_auth_init(&auth);
 
@@ -35,16 +33,14 @@ test_auth_validate_valid(void) {
     PASS();
 }
 
-TEST
-test_auth_validate_null_pointer(void) {
+TEST test_auth_validate_null_pointer(void) {
     int status = rid_auth_validate(NULL);
     ASSERT_EQ(RID_ERROR_NULL_POINTER, status);
 
     PASS();
 }
 
-TEST
-test_auth_validate_invalid_protocol_version(void) {
+TEST test_auth_validate_invalid_protocol_version(void) {
     rid_auth_t auth;
     rid_auth_init(&auth);
 
@@ -60,8 +56,7 @@ test_auth_validate_invalid_protocol_version(void) {
     PASS();
 }
 
-TEST
-test_auth_validate_invalid_message_type(void) {
+TEST test_auth_validate_invalid_message_type(void) {
     rid_auth_t auth;
     rid_auth_init(&auth);
 
@@ -72,8 +67,7 @@ test_auth_validate_invalid_message_type(void) {
     PASS();
 }
 
-TEST
-test_auth_validate_invalid_page_number(void) {
+TEST test_auth_validate_invalid_page_number(void) {
     rid_auth_t auth;
     rid_auth_init(&auth);
 
@@ -84,8 +78,7 @@ test_auth_validate_invalid_page_number(void) {
     PASS();
 }
 
-TEST
-test_auth_validate_invalid_last_page_index(void) {
+TEST test_auth_validate_invalid_last_page_index(void) {
     rid_auth_t auth;
     rid_auth_init(&auth);
 
@@ -102,8 +95,7 @@ test_auth_validate_invalid_last_page_index(void) {
     PASS();
 }
 
-TEST
-test_auth_validate_bmg0180(void) {
+TEST test_auth_validate_bmg0180(void) {
     rid_auth_t auth;
     rid_auth_init(&auth);
 
@@ -120,8 +112,7 @@ test_auth_validate_bmg0180(void) {
     PASS();
 }
 
-TEST
-test_auth_get_page_count(void) {
+TEST test_auth_get_page_count(void) {
     rid_auth_t auth;
 
     ASSERT_EQ(0, rid_auth_get_page_count(NULL));
@@ -132,8 +123,7 @@ test_auth_get_page_count(void) {
     PASS();
 }
 
-TEST
-test_auth_set_and_get_type(void) {
+TEST test_auth_set_and_get_type(void) {
     rid_auth_t auth;
     rid_auth_init(&auth);
 
@@ -148,23 +138,20 @@ test_auth_set_and_get_type(void) {
     PASS();
 }
 
-TEST
-test_auth_set_type_null_pointer(void) {
+TEST test_auth_set_type_null_pointer(void) {
     int status = rid_auth_set_type(NULL, RID_AUTH_TYPE_UAS_ID_SIGNATURE);
     ASSERT_EQ(RID_ERROR_NULL_POINTER, status);
 
     PASS();
 }
 
-TEST
-test_auth_get_type_null_pointer(void) {
+TEST test_auth_get_type_null_pointer(void) {
     ASSERT_EQ(RID_AUTH_TYPE_NONE, rid_auth_get_type(NULL));
 
     PASS();
 }
 
-TEST
-test_auth_set_and_get_timestamp(void) {
+TEST test_auth_set_and_get_timestamp(void) {
     rid_auth_t auth;
     rid_auth_init(&auth);
 
@@ -179,23 +166,20 @@ test_auth_set_and_get_timestamp(void) {
     PASS();
 }
 
-TEST
-test_auth_set_timestamp_null_pointer(void) {
+TEST test_auth_set_timestamp_null_pointer(void) {
     int status = rid_auth_set_timestamp(NULL, 12345);
     ASSERT_EQ(RID_ERROR_NULL_POINTER, status);
 
     PASS();
 }
 
-TEST
-test_auth_get_timestamp_null_pointer(void) {
+TEST test_auth_get_timestamp_null_pointer(void) {
     ASSERT_EQ(0, rid_auth_get_timestamp(NULL));
 
     PASS();
 }
 
-TEST
-test_auth_set_and_get_unixtime(void) {
+TEST test_auth_set_and_get_unixtime(void) {
     rid_auth_t auth;
     rid_auth_init(&auth);
 
@@ -214,16 +198,14 @@ test_auth_set_and_get_unixtime(void) {
     PASS();
 }
 
-TEST
-test_auth_set_unixtime_null_pointer(void) {
+TEST test_auth_set_unixtime_null_pointer(void) {
     int status = rid_auth_set_unixtime(NULL, 1546300800);
     ASSERT_EQ(RID_ERROR_NULL_POINTER, status);
 
     PASS();
 }
 
-TEST
-test_auth_set_unixtime_before_epoch(void) {
+TEST test_auth_set_unixtime_before_epoch(void) {
     rid_auth_t auth;
     rid_auth_init(&auth);
 
@@ -234,15 +216,13 @@ test_auth_set_unixtime_before_epoch(void) {
     PASS();
 }
 
-TEST
-test_auth_get_unixtime_null_pointer(void) {
+TEST test_auth_get_unixtime_null_pointer(void) {
     ASSERT_EQ(0, rid_auth_get_unixtime(NULL));
 
     PASS();
 }
 
-TEST
-test_auth_set_and_get_signature_short(void) {
+TEST test_auth_set_and_get_signature_short(void) {
     rid_auth_t auth;
     rid_auth_init(&auth);
 
@@ -261,8 +241,7 @@ test_auth_set_and_get_signature_short(void) {
     PASS();
 }
 
-TEST
-test_auth_set_and_get_signature_full_page_0(void) {
+TEST test_auth_set_and_get_signature_full_page_0(void) {
     rid_auth_t auth;
     rid_auth_init(&auth);
 
@@ -284,8 +263,7 @@ test_auth_set_and_get_signature_full_page_0(void) {
     PASS();
 }
 
-TEST
-test_auth_set_and_get_signature_two_pages(void) {
+TEST test_auth_set_and_get_signature_two_pages(void) {
     rid_auth_t auth;
     rid_auth_init(&auth);
     rid_auth_set_type(&auth, RID_AUTH_TYPE_UAS_ID_SIGNATURE);
@@ -308,8 +286,7 @@ test_auth_set_and_get_signature_two_pages(void) {
     PASS();
 }
 
-TEST
-test_auth_set_and_get_signature_max_size(void) {
+TEST test_auth_set_and_get_signature_max_size(void) {
     rid_auth_t auth;
     rid_auth_init(&auth);
     rid_auth_set_type(&auth, RID_AUTH_TYPE_SPECIFIC_METHOD);
@@ -332,8 +309,7 @@ test_auth_set_and_get_signature_max_size(void) {
     PASS();
 }
 
-TEST
-test_auth_set_signature_null_pointer(void) {
+TEST test_auth_set_signature_null_pointer(void) {
     rid_auth_t auth;
     rid_auth_init(&auth);
 
@@ -348,8 +324,7 @@ test_auth_set_signature_null_pointer(void) {
     PASS();
 }
 
-TEST
-test_auth_set_signature_too_large(void) {
+TEST test_auth_set_signature_too_large(void) {
     rid_auth_t auth;
     rid_auth_init(&auth);
 
@@ -361,15 +336,13 @@ test_auth_set_signature_too_large(void) {
     PASS();
 }
 
-TEST
-test_auth_get_length_null_pointer(void) {
+TEST test_auth_get_length_null_pointer(void) {
     ASSERT_EQ(0, rid_auth_get_length(NULL));
 
     PASS();
 }
 
-TEST
-test_auth_get_signature_null_pointer(void) {
+TEST test_auth_get_signature_null_pointer(void) {
     rid_auth_t auth;
     rid_auth_init(&auth);
 
@@ -384,8 +357,7 @@ test_auth_get_signature_null_pointer(void) {
     PASS();
 }
 
-TEST
-test_auth_get_signature_buffer_too_small(void) {
+TEST test_auth_get_signature_buffer_too_small(void) {
     rid_auth_t auth;
     rid_auth_init(&auth);
 
@@ -400,8 +372,7 @@ test_auth_get_signature_buffer_too_small(void) {
     PASS();
 }
 
-TEST
-test_auth_signature_preserves_type(void) {
+TEST test_auth_signature_preserves_type(void) {
     rid_auth_t auth;
     rid_auth_init(&auth);
     rid_auth_set_type(&auth, RID_AUTH_TYPE_OPERATOR_ID_SIGNATURE);
@@ -415,8 +386,7 @@ test_auth_signature_preserves_type(void) {
     PASS();
 }
 
-TEST
-test_auth_set_type_network_remote_id_clears_signature(void) {
+TEST test_auth_set_type_network_remote_id_clears_signature(void) {
     rid_auth_t auth;
     rid_auth_init(&auth);
 
@@ -438,8 +408,7 @@ test_auth_set_type_network_remote_id_clears_signature(void) {
     PASS();
 }
 
-TEST
-test_auth_to_json(void) {
+TEST test_auth_to_json(void) {
     rid_auth_t auth;
     char buffer[1024];
 
@@ -459,8 +428,7 @@ test_auth_to_json(void) {
     PASS();
 }
 
-TEST
-test_auth_to_json_null(void) {
+TEST test_auth_to_json_null(void) {
     rid_auth_t auth;
     char buffer[1024];
 
@@ -472,8 +440,7 @@ test_auth_to_json_null(void) {
     PASS();
 }
 
-TEST
-test_auth_page_to_json_page_0(void) {
+TEST test_auth_page_to_json_page_0(void) {
     rid_auth_page_0_t page;
     char buffer[512];
 
@@ -498,8 +465,7 @@ test_auth_page_to_json_page_0(void) {
     PASS();
 }
 
-TEST
-test_auth_page_to_json_page_x(void) {
+TEST test_auth_page_to_json_page_x(void) {
     rid_auth_page_x_t page;
     char buffer[512];
 
@@ -518,8 +484,7 @@ test_auth_page_to_json_page_x(void) {
     PASS();
 }
 
-TEST
-test_auth_page_to_json_null_pointer(void) {
+TEST test_auth_page_to_json_null_pointer(void) {
     rid_auth_page_0_t page;
     char buffer[256];
 
@@ -531,8 +496,7 @@ test_auth_page_to_json_null_pointer(void) {
     PASS();
 }
 
-TEST
-test_message_to_json_basic_id(void) {
+TEST test_message_to_json_basic_id(void) {
     rid_basic_id_t message;
     char buffer[256];
 
@@ -547,8 +511,7 @@ test_message_to_json_basic_id(void) {
     PASS();
 }
 
-TEST
-test_message_to_json_auth_page(void) {
+TEST test_message_to_json_auth_page(void) {
     rid_auth_page_0_t page;
     char buffer[512];
 
@@ -565,8 +528,7 @@ test_message_to_json_auth_page(void) {
     PASS();
 }
 
-TEST
-test_message_to_json_null_pointer(void) {
+TEST test_message_to_json_null_pointer(void) {
     rid_basic_id_t message;
     char buffer[256];
 

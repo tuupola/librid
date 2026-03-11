@@ -5,8 +5,7 @@
 #include "rid/message.h"
 #include "rid/system.h"
 
-TEST
-test_set_and_get_operator_location_type(void) {
+TEST test_set_and_get_operator_location_type(void) {
     rid_operator_location_type_t types[] = {
         RID_OPERATOR_LOCATION_TYPE_TAKEOFF,
         RID_OPERATOR_LOCATION_TYPE_DYNAMIC,
@@ -28,9 +27,7 @@ test_set_and_get_operator_location_type(void) {
     PASS();
 }
 
-
-TEST
-test_set_operator_location_type_out_of_range(void) {
+TEST test_set_operator_location_type_out_of_range(void) {
     rid_system_t system;
     memset(&system, 0, sizeof(system));
 
@@ -43,16 +40,14 @@ test_set_operator_location_type_out_of_range(void) {
     PASS();
 }
 
-TEST
-test_set_operator_location_type_null_pointer(void) {
+TEST test_set_operator_location_type_null_pointer(void) {
     int status = rid_system_set_operator_location_type(NULL, RID_OPERATOR_LOCATION_TYPE_TAKEOFF);
     ASSERT_EQ(RID_ERROR_NULL_POINTER, status);
 
     PASS();
 }
 
-TEST
-test_set_and_get_classification_type(void) {
+TEST test_set_and_get_classification_type(void) {
     rid_classification_type_t types[] = {
         RID_CLASSIFICATION_TYPE_UNDECLARED,
         RID_CLASSIFICATION_TYPE_EUROPEAN_UNION
@@ -73,9 +68,7 @@ test_set_and_get_classification_type(void) {
     PASS();
 }
 
-
-TEST
-test_set_classification_type_out_of_range(void) {
+TEST test_set_classification_type_out_of_range(void) {
     rid_system_t system;
     memset(&system, 0, sizeof(system));
 
@@ -88,16 +81,14 @@ test_set_classification_type_out_of_range(void) {
     PASS();
 }
 
-TEST
-test_set_classification_type_null_pointer(void) {
+TEST test_set_classification_type_null_pointer(void) {
     int status = rid_system_set_classification_type(NULL, RID_CLASSIFICATION_TYPE_UNDECLARED);
     ASSERT_EQ(RID_ERROR_NULL_POINTER, status);
 
     PASS();
 }
 
-TEST
-test_set_and_get_ua_classification_category(void) {
+TEST test_set_and_get_ua_classification_category(void) {
     rid_ua_classification_category_t categories[] = {
         RID_UA_CLASSIFICATION_CATEGORY_UNDEFINED,
         RID_UA_CLASSIFICATION_CATEGORY_OPEN,
@@ -120,9 +111,7 @@ test_set_and_get_ua_classification_category(void) {
     PASS();
 }
 
-
-TEST
-test_set_ua_classification_category_out_of_range(void) {
+TEST test_set_ua_classification_category_out_of_range(void) {
     rid_system_t system;
     memset(&system, 0, sizeof(system));
 
@@ -135,16 +124,14 @@ test_set_ua_classification_category_out_of_range(void) {
     PASS();
 }
 
-TEST
-test_set_ua_classification_category_null_pointer(void) {
+TEST test_set_ua_classification_category_null_pointer(void) {
     int status = rid_system_set_ua_classification_category(NULL, RID_UA_CLASSIFICATION_CATEGORY_OPEN);
     ASSERT_EQ(RID_ERROR_NULL_POINTER, status);
 
     PASS();
 }
 
-TEST
-test_set_and_get_ua_classification_class(void) {
+TEST test_set_and_get_ua_classification_class(void) {
     rid_ua_classification_class_t classes[] = {
         RID_UA_CLASSIFICATION_CLASS_UNDEFINED,
         RID_UA_CLASSIFICATION_CLASS_0,
@@ -171,8 +158,7 @@ test_set_and_get_ua_classification_class(void) {
     PASS();
 }
 
-TEST
-test_set_ua_classification_class_out_of_range(void) {
+TEST test_set_ua_classification_class_out_of_range(void) {
     rid_system_t system;
     memset(&system, 0, sizeof(system));
 
@@ -185,16 +171,14 @@ test_set_ua_classification_class_out_of_range(void) {
     PASS();
 }
 
-TEST
-test_set_ua_classification_class_null_pointer(void) {
+TEST test_set_ua_classification_class_null_pointer(void) {
     int status = rid_system_set_ua_classification_class(NULL, RID_UA_CLASSIFICATION_CLASS_0);
     ASSERT_EQ(RID_ERROR_NULL_POINTER, status);
 
     PASS();
 }
 
-TEST
-test_set_and_get_operator_latitude(void) {
+TEST test_set_and_get_operator_latitude(void) {
     rid_system_t system;
     double test_values[] = {0.0, 45.5, 60.123456, -45.5, -90.0, 90.0};
 
@@ -208,15 +192,15 @@ test_set_and_get_operator_latitude(void) {
 
         /* Allow for small precision difference (11mm at equator) */
         double diff = result - test_values[i];
-        if (diff < 0) diff = -diff;
+        if (diff < 0)
+            diff = -diff;
         ASSERT(diff < 0.0000001);
     }
 
     PASS();
 }
 
-TEST
-test_set_operator_latitude_out_of_range(void) {
+TEST test_set_operator_latitude_out_of_range(void) {
     rid_system_t system;
     memset(&system, 0, sizeof(system));
 
@@ -231,16 +215,14 @@ test_set_operator_latitude_out_of_range(void) {
     PASS();
 }
 
-TEST
-test_set_operator_latitude_null_pointer(void) {
+TEST test_set_operator_latitude_null_pointer(void) {
     int status = rid_system_set_operator_latitude(NULL, 45.0);
     ASSERT_EQ(RID_ERROR_NULL_POINTER, status);
 
     PASS();
 }
 
-TEST
-test_set_and_get_operator_longitude(void) {
+TEST test_set_and_get_operator_longitude(void) {
     rid_system_t system;
     double test_values[] = {0.0, 90.5, 120.123456, -90.5, -180.0, 180.0};
 
@@ -254,15 +236,15 @@ test_set_and_get_operator_longitude(void) {
 
         /* Allow for small precision difference (11mm at equator) */
         double diff = result - test_values[i];
-        if (diff < 0) diff = -diff;
+        if (diff < 0)
+            diff = -diff;
         ASSERT(diff < 0.0000001);
     }
 
     PASS();
 }
 
-TEST
-test_set_operator_longitude_out_of_range(void) {
+TEST test_set_operator_longitude_out_of_range(void) {
     rid_system_t system;
     memset(&system, 0, sizeof(system));
 
@@ -277,16 +259,14 @@ test_set_operator_longitude_out_of_range(void) {
     PASS();
 }
 
-TEST
-test_set_operator_longitude_null_pointer(void) {
+TEST test_set_operator_longitude_null_pointer(void) {
     int status = rid_system_set_operator_longitude(NULL, 90.0);
     ASSERT_EQ(RID_ERROR_NULL_POINTER, status);
 
     PASS();
 }
 
-TEST
-test_set_and_get_operator_altitude(void) {
+TEST test_set_and_get_operator_altitude(void) {
     rid_system_t system;
     float test_altitudes[] = {0.0f, 10.5f, 100.0f, 500.0f, -100.0f, -500.0f, -1000.0f, 31767.0f};
 
@@ -306,16 +286,14 @@ test_set_and_get_operator_altitude(void) {
     PASS();
 }
 
-TEST
-test_set_operator_altitude_null_pointer(void) {
+TEST test_set_operator_altitude_null_pointer(void) {
     int status = rid_system_set_operator_altitude(NULL, 100.0f);
     ASSERT_EQ(RID_ERROR_NULL_POINTER, status);
 
     PASS();
 }
 
-TEST
-test_set_operator_altitude_out_of_range(void) {
+TEST test_set_operator_altitude_out_of_range(void) {
     rid_system_t system;
     memset(&system, 0, sizeof(system));
 
@@ -330,8 +308,7 @@ test_set_operator_altitude_out_of_range(void) {
     PASS();
 }
 
-TEST
-test_set_operator_altitude_invalid(void) {
+TEST test_set_operator_altitude_invalid(void) {
     rid_system_t system;
     memset(&system, 0, sizeof(system));
 
@@ -347,8 +324,7 @@ test_set_operator_altitude_invalid(void) {
     PASS();
 }
 
-TEST
-test_system_init(void) {
+TEST test_system_init(void) {
     rid_system_t system;
 
     int status = rid_system_init(&system);
@@ -361,16 +337,14 @@ test_system_init(void) {
     PASS();
 }
 
-TEST
-test_system_init_null_pointer(void) {
+TEST test_system_init_null_pointer(void) {
     int status = rid_system_init(NULL);
     ASSERT_EQ(RID_ERROR_NULL_POINTER, status);
 
     PASS();
 }
 
-TEST
-test_set_and_get_area_count(void) {
+TEST test_set_and_get_area_count(void) {
     rid_system_t system;
     memset(&system, 0, sizeof(system));
 
@@ -387,16 +361,14 @@ test_set_and_get_area_count(void) {
     PASS();
 }
 
-TEST
-test_set_area_count_null_pointer(void) {
+TEST test_set_area_count_null_pointer(void) {
     int status = rid_system_set_area_count(NULL, 1);
     ASSERT_EQ(RID_ERROR_NULL_POINTER, status);
 
     PASS();
 }
 
-TEST
-test_set_and_get_area_radius(void) {
+TEST test_set_and_get_area_radius(void) {
     rid_system_t system;
     memset(&system, 0, sizeof(system));
 
@@ -414,8 +386,7 @@ test_set_and_get_area_radius(void) {
     PASS();
 }
 
-TEST
-test_set_area_radius_out_of_range(void) {
+TEST test_set_area_radius_out_of_range(void) {
     rid_system_t system;
     memset(&system, 0, sizeof(system));
 
@@ -428,16 +399,14 @@ test_set_area_radius_out_of_range(void) {
     PASS();
 }
 
-TEST
-test_set_area_radius_null_pointer(void) {
+TEST test_set_area_radius_null_pointer(void) {
     int status = rid_system_set_area_radius(NULL, 100);
     ASSERT_EQ(RID_ERROR_NULL_POINTER, status);
 
     PASS();
 }
 
-TEST
-test_set_and_get_area_ceiling(void) {
+TEST test_set_and_get_area_ceiling(void) {
     rid_system_t system;
     float test_values[] = {-1000.0f, 0.0f, 100.0f, 1000.0f, 31767.0f};
 
@@ -457,8 +426,7 @@ test_set_and_get_area_ceiling(void) {
     PASS();
 }
 
-TEST
-test_set_area_ceiling_out_of_range(void) {
+TEST test_set_area_ceiling_out_of_range(void) {
     rid_system_t system;
     memset(&system, 0, sizeof(system));
 
@@ -471,16 +439,14 @@ test_set_area_ceiling_out_of_range(void) {
     PASS();
 }
 
-TEST
-test_set_area_ceiling_null_pointer(void) {
+TEST test_set_area_ceiling_null_pointer(void) {
     int status = rid_system_set_area_ceiling(NULL, 100.0f);
     ASSERT_EQ(RID_ERROR_NULL_POINTER, status);
 
     PASS();
 }
 
-TEST
-test_set_and_get_area_floor(void) {
+TEST test_set_and_get_area_floor(void) {
     rid_system_t system;
     float test_values[] = {-1000.0f, 0.0f, 100.0f, 1000.0f, 31767.0f};
 
@@ -500,8 +466,7 @@ test_set_and_get_area_floor(void) {
     PASS();
 }
 
-TEST
-test_set_area_floor_out_of_range(void) {
+TEST test_set_area_floor_out_of_range(void) {
     rid_system_t system;
     memset(&system, 0, sizeof(system));
 
@@ -514,16 +479,14 @@ test_set_area_floor_out_of_range(void) {
     PASS();
 }
 
-TEST
-test_set_area_floor_null_pointer(void) {
+TEST test_set_area_floor_null_pointer(void) {
     int status = rid_system_set_area_floor(NULL, 100.0f);
     ASSERT_EQ(RID_ERROR_NULL_POINTER, status);
 
     PASS();
 }
 
-TEST
-test_set_and_get_system_timestamp(void) {
+TEST test_set_and_get_system_timestamp(void) {
     rid_system_t system;
     memset(&system, 0, sizeof(system));
 
@@ -540,8 +503,7 @@ test_set_and_get_system_timestamp(void) {
     PASS();
 }
 
-TEST
-test_system_set_and_get_unixtime(void) {
+TEST test_system_set_and_get_unixtime(void) {
     rid_system_t system;
     rid_system_init(&system);
 
@@ -560,31 +522,27 @@ test_system_set_and_get_unixtime(void) {
     PASS();
 }
 
-TEST
-test_set_system_timestamp_null_pointer(void) {
+TEST test_set_system_timestamp_null_pointer(void) {
     int status = rid_system_set_timestamp(NULL, 164205645);
     ASSERT_EQ(RID_ERROR_NULL_POINTER, status);
 
     PASS();
 }
 
-TEST
-test_set_system_timestamp_from_unixtime_null_pointer(void) {
+TEST test_set_system_timestamp_from_unixtime_null_pointer(void) {
     int status = rid_system_set_unixtime(NULL, 1710506445);
     ASSERT_EQ(RID_ERROR_NULL_POINTER, status);
 
     PASS();
 }
 
-TEST
-test_get_system_unixtime_null_pointer(void) {
+TEST test_get_system_unixtime_null_pointer(void) {
     ASSERT_EQ(0, rid_system_get_unixtime(NULL));
 
     PASS();
 }
 
-TEST
-test_operator_location_type_to_string(void) {
+TEST test_operator_location_type_to_string(void) {
     ASSERT_STR_EQ("RID_OPERATOR_LOCATION_TYPE_TAKEOFF", rid_operator_location_type_to_string(RID_OPERATOR_LOCATION_TYPE_TAKEOFF));
     ASSERT_STR_EQ("RID_OPERATOR_LOCATION_TYPE_DYNAMIC", rid_operator_location_type_to_string(RID_OPERATOR_LOCATION_TYPE_DYNAMIC));
     ASSERT_STR_EQ("RID_OPERATOR_LOCATION_TYPE_FIXED", rid_operator_location_type_to_string(RID_OPERATOR_LOCATION_TYPE_FIXED));
@@ -592,16 +550,14 @@ test_operator_location_type_to_string(void) {
     PASS();
 }
 
-TEST
-test_classification_type_to_string(void) {
+TEST test_classification_type_to_string(void) {
     ASSERT_STR_EQ("RID_CLASSIFICATION_TYPE_UNDECLARED", rid_classification_type_to_string(RID_CLASSIFICATION_TYPE_UNDECLARED));
     ASSERT_STR_EQ("RID_CLASSIFICATION_TYPE_EUROPEAN_UNION", rid_classification_type_to_string(RID_CLASSIFICATION_TYPE_EUROPEAN_UNION));
     ASSERT_STR_EQ("UNKNOWN", rid_classification_type_to_string((rid_classification_type_t)99));
     PASS();
 }
 
-TEST
-test_ua_classification_category_to_string(void) {
+TEST test_ua_classification_category_to_string(void) {
     ASSERT_STR_EQ("RID_UA_CLASSIFICATION_CATEGORY_UNDEFINED", rid_ua_classification_category_to_string(RID_UA_CLASSIFICATION_CATEGORY_UNDEFINED));
     ASSERT_STR_EQ("RID_UA_CLASSIFICATION_CATEGORY_OPEN", rid_ua_classification_category_to_string(RID_UA_CLASSIFICATION_CATEGORY_OPEN));
     ASSERT_STR_EQ("RID_UA_CLASSIFICATION_CATEGORY_SPECIFIC", rid_ua_classification_category_to_string(RID_UA_CLASSIFICATION_CATEGORY_SPECIFIC));
@@ -610,8 +566,7 @@ test_ua_classification_category_to_string(void) {
     PASS();
 }
 
-TEST
-test_ua_classification_class_to_string(void) {
+TEST test_ua_classification_class_to_string(void) {
     ASSERT_STR_EQ("RID_UA_CLASSIFICATION_CLASS_UNDEFINED", rid_ua_classification_class_to_string(RID_UA_CLASSIFICATION_CLASS_UNDEFINED));
     ASSERT_STR_EQ("RID_UA_CLASSIFICATION_CLASS_0", rid_ua_classification_class_to_string(RID_UA_CLASSIFICATION_CLASS_0));
     ASSERT_STR_EQ("RID_UA_CLASSIFICATION_CLASS_6", rid_ua_classification_class_to_string(RID_UA_CLASSIFICATION_CLASS_6));
@@ -619,8 +574,7 @@ test_ua_classification_class_to_string(void) {
     PASS();
 }
 
-TEST
-test_system_validate_valid_message(void) {
+TEST test_system_validate_valid_message(void) {
     rid_system_t system;
 
     rid_system_init(&system);
@@ -631,16 +585,14 @@ test_system_validate_valid_message(void) {
     PASS();
 }
 
-TEST
-test_system_validate_null_pointer(void) {
+TEST test_system_validate_null_pointer(void) {
     int status = rid_system_validate(NULL);
     ASSERT_EQ(RID_ERROR_NULL_POINTER, status);
 
     PASS();
 }
 
-TEST
-test_system_validate_invalid_protocol_version(void) {
+TEST test_system_validate_invalid_protocol_version(void) {
     rid_system_t system;
 
     rid_system_init(&system);
@@ -670,8 +622,7 @@ test_system_validate_invalid_protocol_version(void) {
     PASS();
 }
 
-TEST
-test_system_validate_invalid_message_type(void) {
+TEST test_system_validate_invalid_message_type(void) {
     rid_system_t system;
 
     rid_system_init(&system);
@@ -683,8 +634,7 @@ test_system_validate_invalid_message_type(void) {
     PASS();
 }
 
-TEST
-test_system_validate_invalid_latitude(void) {
+TEST test_system_validate_invalid_latitude(void) {
     rid_system_t system;
 
     rid_system_init(&system);
@@ -702,8 +652,7 @@ test_system_validate_invalid_latitude(void) {
     PASS();
 }
 
-TEST
-test_system_validate_invalid_longitude(void) {
+TEST test_system_validate_invalid_longitude(void) {
     rid_system_t system;
 
     rid_system_init(&system);
@@ -721,8 +670,7 @@ test_system_validate_invalid_longitude(void) {
     PASS();
 }
 
-TEST
-test_system_to_json(void) {
+TEST test_system_to_json(void) {
     rid_system_t system;
     char buffer[1024];
 
@@ -740,8 +688,7 @@ test_system_to_json(void) {
     PASS();
 }
 
-TEST
-test_system_to_json_null(void) {
+TEST test_system_to_json_null(void) {
     rid_system_t system;
     char buffer[1024];
 

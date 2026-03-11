@@ -4,8 +4,7 @@
 #include "rid/message.h"
 #include "rid/self_id.h"
 
-TEST
-test_set_and_get_description_type(void) {
+TEST test_set_and_get_description_type(void) {
     rid_description_type_t types[] = {
         RID_DESCRIPTION_TYPE_TEXT,
         RID_DESCRIPTION_TYPE_EMERGENCY,
@@ -27,16 +26,14 @@ test_set_and_get_description_type(void) {
     PASS();
 }
 
-TEST
-test_set_description_type_null_pointer(void) {
+TEST test_set_description_type_null_pointer(void) {
     int status = rid_self_id_set_description_type(NULL, RID_DESCRIPTION_TYPE_TEXT);
     ASSERT_EQ(RID_ERROR_NULL_POINTER, status);
 
     PASS();
 }
 
-TEST
-test_set_and_get_description(void) {
+TEST test_set_and_get_description(void) {
     const char *test_descriptions[] = {
         "Kakotron:Survey",
         "12345678901234567890123",
@@ -64,8 +61,7 @@ test_set_and_get_description(void) {
     PASS();
 }
 
-TEST
-test_set_description_must_be_ascii(void) {
+TEST test_set_description_must_be_ascii(void) {
     rid_self_id_t message;
     int status;
 
@@ -86,8 +82,7 @@ test_set_description_must_be_ascii(void) {
     PASS();
 }
 
-TEST
-test_set_description_too_long(void) {
+TEST test_set_description_too_long(void) {
     rid_self_id_t message;
     int status;
 
@@ -100,8 +95,7 @@ test_set_description_too_long(void) {
     PASS();
 }
 
-TEST
-test_set_description_null_pointer(void) {
+TEST test_set_description_null_pointer(void) {
     int status;
     rid_self_id_t message;
     memset(&message, 0, sizeof(message));
@@ -115,8 +109,7 @@ test_set_description_null_pointer(void) {
     PASS();
 }
 
-TEST
-test_get_description_null_pointer(void) {
+TEST test_get_description_null_pointer(void) {
     int status;
     rid_self_id_t message;
     char buffer[24];
@@ -132,8 +125,7 @@ test_get_description_null_pointer(void) {
     PASS();
 }
 
-TEST
-test_get_description_buffer_too_small(void) {
+TEST test_get_description_buffer_too_small(void) {
     rid_self_id_t message;
     int status;
     char buffer[10];
@@ -147,8 +139,7 @@ test_get_description_buffer_too_small(void) {
     PASS();
 }
 
-TEST
-test_self_id_init(void) {
+TEST test_self_id_init(void) {
     rid_self_id_t message;
     int status;
 
@@ -168,16 +159,14 @@ test_self_id_init(void) {
     PASS();
 }
 
-TEST
-test_self_id_init_null_pointer(void) {
+TEST test_self_id_init_null_pointer(void) {
     int status = rid_self_id_init(NULL);
     ASSERT_EQ(RID_ERROR_NULL_POINTER, status);
 
     PASS();
 }
 
-TEST
-test_description_type_to_string(void) {
+TEST test_description_type_to_string(void) {
     ASSERT_STR_EQ("RID_DESCRIPTION_TYPE_TEXT", rid_description_type_to_string(RID_DESCRIPTION_TYPE_TEXT));
     ASSERT_STR_EQ("RID_DESCRIPTION_TYPE_EMERGENCY", rid_description_type_to_string(RID_DESCRIPTION_TYPE_EMERGENCY));
     ASSERT_STR_EQ("RID_DESCRIPTION_TYPE_EXTENDED_STATUS", rid_description_type_to_string(RID_DESCRIPTION_TYPE_EXTENDED_STATUS));
@@ -185,8 +174,7 @@ test_description_type_to_string(void) {
     PASS();
 }
 
-TEST
-test_self_id_validate_valid_message(void) {
+TEST test_self_id_validate_valid_message(void) {
     rid_self_id_t message;
 
     rid_self_id_init(&message);
@@ -197,16 +185,14 @@ test_self_id_validate_valid_message(void) {
     PASS();
 }
 
-TEST
-test_self_id_validate_null_pointer(void) {
+TEST test_self_id_validate_null_pointer(void) {
     int status = rid_self_id_validate(NULL);
     ASSERT_EQ(RID_ERROR_NULL_POINTER, status);
 
     PASS();
 }
 
-TEST
-test_self_id_validate_invalid_protocol_version(void) {
+TEST test_self_id_validate_invalid_protocol_version(void) {
     rid_self_id_t message;
 
     rid_self_id_init(&message);
@@ -236,8 +222,7 @@ test_self_id_validate_invalid_protocol_version(void) {
     PASS();
 }
 
-TEST
-test_self_id_validate_invalid_message_type(void) {
+TEST test_self_id_validate_invalid_message_type(void) {
     rid_self_id_t message;
 
     rid_self_id_init(&message);
@@ -249,8 +234,7 @@ test_self_id_validate_invalid_message_type(void) {
     PASS();
 }
 
-TEST
-test_self_id_validate_invalid_description(void) {
+TEST test_self_id_validate_invalid_description(void) {
     rid_self_id_t message;
 
     rid_self_id_init(&message);
@@ -262,8 +246,7 @@ test_self_id_validate_invalid_description(void) {
     PASS();
 }
 
-TEST
-test_self_id_to_json(void) {
+TEST test_self_id_to_json(void) {
     rid_self_id_t message;
     char buffer[256];
 
@@ -280,8 +263,7 @@ test_self_id_to_json(void) {
     PASS();
 }
 
-TEST
-test_self_id_to_json_null(void) {
+TEST test_self_id_to_json_null(void) {
     rid_self_id_t message;
     char buffer[256];
 

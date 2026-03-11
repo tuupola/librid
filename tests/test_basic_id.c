@@ -2,8 +2,8 @@
 #include <string.h>
 
 #include "greatest.h"
-#include "rid/message.h"
 #include "rid/basic_id.h"
+#include "rid/message.h"
 
 /* Real life captured message */
 static uint8_t buffer[] = {
@@ -12,8 +12,7 @@ static uint8_t buffer[] = {
     0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
 };
 
-TEST
-test_basic_id_init(void) {
+TEST test_basic_id_init(void) {
     rid_basic_id_t message;
 
     int status = rid_basic_id_init(NULL);
@@ -43,8 +42,7 @@ test_basic_id_init(void) {
     PASS();
 }
 
-TEST
-test_set_and_get_basic_id_type(void) {
+TEST test_set_and_get_basic_id_type(void) {
     rid_basic_id_type_t types[] = {
         RID_ID_TYPE_NONE,
         RID_ID_TYPE_SERIAL_NUMBER,
@@ -68,8 +66,7 @@ test_set_and_get_basic_id_type(void) {
     PASS();
 }
 
-TEST
-test_set_basic_id_type_out_of_range(void) {
+TEST test_set_basic_id_type_out_of_range(void) {
     rid_basic_id_t message;
     memset(&message, 0, sizeof(message));
 
@@ -82,24 +79,21 @@ test_set_basic_id_type_out_of_range(void) {
     PASS();
 }
 
-TEST
-test_set_basic_id_type_null_pointer(void) {
+TEST test_set_basic_id_type_null_pointer(void) {
     int status = rid_basic_id_set_type(NULL, RID_ID_TYPE_SERIAL_NUMBER);
     ASSERT_EQ(RID_ERROR_NULL_POINTER, status);
 
     PASS();
 }
 
-TEST
-test_get_basic_id_type_null_pointer(void) {
+TEST test_get_basic_id_type_null_pointer(void) {
     rid_basic_id_type_t type = rid_basic_id_get_type(NULL);
     ASSERT_EQ(RID_ID_TYPE_NONE, type);
 
     PASS();
 }
 
-TEST
-test_set_and_get_ua_type(void) {
+TEST test_set_and_get_ua_type(void) {
     rid_ua_type_t types[] = {
         RID_UA_TYPE_NONE,
         RID_UA_TYPE_AEROPLANE_OR_FIXED_WING,
@@ -134,8 +128,7 @@ test_set_and_get_ua_type(void) {
     PASS();
 }
 
-TEST
-test_set_ua_type_out_of_range(void) {
+TEST test_set_ua_type_out_of_range(void) {
     rid_basic_id_t message;
     memset(&message, 0, sizeof(message));
 
@@ -148,24 +141,21 @@ test_set_ua_type_out_of_range(void) {
     PASS();
 }
 
-TEST
-test_set_ua_type_null_pointer(void) {
+TEST test_set_ua_type_null_pointer(void) {
     int status = rid_basic_id_set_ua_type(NULL, RID_UA_TYPE_AEROPLANE_OR_FIXED_WING);
     ASSERT_EQ(RID_ERROR_NULL_POINTER, status);
 
     PASS();
 }
 
-TEST
-test_get_ua_type_null_pointer(void) {
+TEST test_get_ua_type_null_pointer(void) {
     rid_ua_type_t type = rid_basic_id_get_ua_type(NULL);
     ASSERT_EQ(RID_UA_TYPE_NONE, type);
 
     PASS();
 }
 
-TEST
-test_set_and_get_uas_id(void) {
+TEST test_set_and_get_uas_id(void) {
     const char *test_ids[] = {
         "ABC123",
         "12345678901234567890",
@@ -193,16 +183,14 @@ test_set_and_get_uas_id(void) {
     PASS();
 }
 
-TEST
-test_set_uas_id_null_pointer_message(void) {
+TEST test_set_uas_id_null_pointer_message(void) {
     int status = rid_basic_id_set_uas_id(NULL, "TEST");
     ASSERT_EQ(RID_ERROR_NULL_POINTER, status);
 
     PASS();
 }
 
-TEST
-test_set_uas_id_null_pointer_id(void) {
+TEST test_set_uas_id_null_pointer_id(void) {
     rid_basic_id_t message;
     memset(&message, 0, sizeof(message));
 
@@ -212,8 +200,7 @@ test_set_uas_id_null_pointer_id(void) {
     PASS();
 }
 
-TEST
-test_get_uas_id_null_pointer_message(void) {
+TEST test_get_uas_id_null_pointer_message(void) {
     char buffer[21];
     int status = rid_basic_id_get_uas_id(NULL, buffer, sizeof(buffer));
     ASSERT_EQ(RID_ERROR_NULL_POINTER, status);
@@ -221,8 +208,7 @@ test_get_uas_id_null_pointer_message(void) {
     PASS();
 }
 
-TEST
-test_get_uas_id_null_pointer_buffer(void) {
+TEST test_get_uas_id_null_pointer_buffer(void) {
     rid_basic_id_t message;
     rid_basic_id_init(&message);
 
@@ -232,8 +218,7 @@ test_get_uas_id_null_pointer_buffer(void) {
     PASS();
 }
 
-TEST
-test_set_uas_id_too_long(void) {
+TEST test_set_uas_id_too_long(void) {
     rid_basic_id_t message;
     rid_basic_id_init(&message);
 
@@ -248,8 +233,7 @@ test_set_uas_id_too_long(void) {
     PASS();
 }
 
-TEST
-test_get_uas_id_buffer_too_small(void) {
+TEST test_get_uas_id_buffer_too_small(void) {
     rid_basic_id_t message;
     rid_basic_id_init(&message);
     rid_basic_id_set_uas_id(&message, "TEST-DRONE-001");
@@ -261,8 +245,7 @@ test_get_uas_id_buffer_too_small(void) {
     PASS();
 }
 
-TEST
-test_decode_basic_id_buffer(void) {
+TEST test_decode_basic_id_buffer(void) {
     rid_basic_id_t *message = (rid_basic_id_t *)buffer;
 
     ASSERT_EQ(RID_UA_TYPE_NONE, rid_basic_id_get_ua_type(message));
@@ -275,8 +258,7 @@ test_decode_basic_id_buffer(void) {
     PASS();
 }
 
-TEST
-test_basic_id_type_to_string(void) {
+TEST test_basic_id_type_to_string(void) {
     ASSERT_STR_EQ("RID_ID_TYPE_NONE", rid_basic_id_type_to_string(RID_ID_TYPE_NONE));
     ASSERT_STR_EQ("RID_ID_TYPE_SERIAL_NUMBER", rid_basic_id_type_to_string(RID_ID_TYPE_SERIAL_NUMBER));
     ASSERT_STR_EQ("RID_ID_TYPE_CAA_REGISTRATION_ID", rid_basic_id_type_to_string(RID_ID_TYPE_CAA_REGISTRATION_ID));
@@ -286,8 +268,7 @@ test_basic_id_type_to_string(void) {
     PASS();
 }
 
-TEST
-test_ua_type_to_string(void) {
+TEST test_ua_type_to_string(void) {
     ASSERT_STR_EQ("RID_UA_TYPE_NONE", rid_ua_type_to_string(RID_UA_TYPE_NONE));
     ASSERT_STR_EQ("RID_UA_TYPE_AEROPLANE_OR_FIXED_WING", rid_ua_type_to_string(RID_UA_TYPE_AEROPLANE_OR_FIXED_WING));
     ASSERT_STR_EQ("RID_UA_TYPE_HELICOPTER_OR_MULTIROTOR", rid_ua_type_to_string(RID_UA_TYPE_HELICOPTER_OR_MULTIROTOR));
@@ -308,8 +289,7 @@ test_ua_type_to_string(void) {
     PASS();
 }
 
-TEST
-test_basic_id_validate_valid_message(void) {
+TEST test_basic_id_validate_valid_message(void) {
     rid_basic_id_t message;
 
     rid_basic_id_init(&message);
@@ -320,16 +300,14 @@ test_basic_id_validate_valid_message(void) {
     PASS();
 }
 
-TEST
-test_basic_id_validate_null_pointer(void) {
+TEST test_basic_id_validate_null_pointer(void) {
     int status = rid_basic_id_validate(NULL);
     ASSERT_EQ(RID_ERROR_NULL_POINTER, status);
 
     PASS();
 }
 
-TEST
-test_basic_id_validate_invalid_protocol_version(void) {
+TEST test_basic_id_validate_invalid_protocol_version(void) {
     rid_basic_id_t message;
 
     rid_basic_id_init(&message);
@@ -359,8 +337,7 @@ test_basic_id_validate_invalid_protocol_version(void) {
     PASS();
 }
 
-TEST
-test_basic_id_validate_invalid_message_type(void) {
+TEST test_basic_id_validate_invalid_message_type(void) {
     rid_basic_id_t message;
 
     rid_basic_id_init(&message);
@@ -372,8 +349,7 @@ test_basic_id_validate_invalid_message_type(void) {
     PASS();
 }
 
-TEST
-test_basic_id_validate_registration_id_valid(void) {
+TEST test_basic_id_validate_registration_id_valid(void) {
     rid_basic_id_t message;
 
     rid_basic_id_init(&message);
@@ -394,8 +370,7 @@ test_basic_id_validate_registration_id_valid(void) {
     PASS();
 }
 
-TEST
-test_basic_id_validate_registration_id_invalid_lowercase(void) {
+TEST test_basic_id_validate_registration_id_invalid_lowercase(void) {
     rid_basic_id_t message;
 
     rid_basic_id_init(&message);
@@ -408,8 +383,7 @@ test_basic_id_validate_registration_id_invalid_lowercase(void) {
     PASS();
 }
 
-TEST
-test_basic_id_validate_registration_id_invalid_char(void) {
+TEST test_basic_id_validate_registration_id_invalid_char(void) {
     rid_basic_id_t message;
 
     rid_basic_id_init(&message);
@@ -430,8 +404,7 @@ test_basic_id_validate_registration_id_invalid_char(void) {
     PASS();
 }
 
-TEST
-test_basic_id_validate_serial_number_valid(void) {
+TEST test_basic_id_validate_serial_number_valid(void) {
     rid_basic_id_t message;
 
     rid_basic_id_init(&message);
@@ -452,8 +425,7 @@ test_basic_id_validate_serial_number_valid(void) {
     PASS();
 }
 
-TEST
-test_basic_id_validate_serial_number_invalid_i(void) {
+TEST test_basic_id_validate_serial_number_invalid_i(void) {
     rid_basic_id_t message;
 
     rid_basic_id_init(&message);
@@ -466,8 +438,7 @@ test_basic_id_validate_serial_number_invalid_i(void) {
     PASS();
 }
 
-TEST
-test_basic_id_validate_serial_number_invalid_o(void) {
+TEST test_basic_id_validate_serial_number_invalid_o(void) {
     rid_basic_id_t message;
 
     rid_basic_id_init(&message);
@@ -480,8 +451,7 @@ test_basic_id_validate_serial_number_invalid_o(void) {
     PASS();
 }
 
-TEST
-test_basic_id_validate_serial_number_invalid_lowercase(void) {
+TEST test_basic_id_validate_serial_number_invalid_lowercase(void) {
     rid_basic_id_t message;
 
     rid_basic_id_init(&message);
@@ -494,8 +464,7 @@ test_basic_id_validate_serial_number_invalid_lowercase(void) {
     PASS();
 }
 
-TEST
-test_basic_id_validate_utm_uuid_valid(void) {
+TEST test_basic_id_validate_utm_uuid_valid(void) {
     rid_basic_id_t message;
 
     rid_basic_id_init(&message);
@@ -522,8 +491,7 @@ test_basic_id_validate_utm_uuid_valid(void) {
     PASS();
 }
 
-TEST
-test_basic_id_validate_utm_uuid_invalid_version_0(void) {
+TEST test_basic_id_validate_utm_uuid_invalid_version_0(void) {
     rid_basic_id_t message;
 
     rid_basic_id_init(&message);
@@ -543,8 +511,7 @@ test_basic_id_validate_utm_uuid_invalid_version_0(void) {
     PASS();
 }
 
-TEST
-test_basic_id_validate_utm_uuid_invalid_version_6(void) {
+TEST test_basic_id_validate_utm_uuid_invalid_version_6(void) {
     rid_basic_id_t message;
 
     rid_basic_id_init(&message);
@@ -564,8 +531,7 @@ test_basic_id_validate_utm_uuid_invalid_version_6(void) {
     PASS();
 }
 
-TEST
-test_basic_id_validate_utm_uuid_invalid_variant(void) {
+TEST test_basic_id_validate_utm_uuid_invalid_variant(void) {
     rid_basic_id_t message;
 
     rid_basic_id_init(&message);
@@ -590,8 +556,7 @@ test_basic_id_validate_utm_uuid_invalid_variant(void) {
     PASS();
 }
 
-TEST
-test_basic_id_validate_utm_uuid_invalid_padding(void) {
+TEST test_basic_id_validate_utm_uuid_invalid_padding(void) {
     rid_basic_id_t message;
 
     rid_basic_id_init(&message);
@@ -617,8 +582,7 @@ test_basic_id_validate_utm_uuid_invalid_padding(void) {
     PASS();
 }
 
-TEST
-test_basic_id_to_json(void) {
+TEST test_basic_id_to_json(void) {
     rid_basic_id_t message;
     char buffer[256];
 
@@ -637,8 +601,7 @@ test_basic_id_to_json(void) {
     PASS();
 }
 
-TEST
-test_basic_id_to_json_null(void) {
+TEST test_basic_id_to_json_null(void) {
     rid_basic_id_t message;
     char buffer[256];
 

@@ -12,8 +12,7 @@ static uint8_t buffer[] = {
     0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
 };
 
-TEST
-test_set_and_get_operator_id_type(void) {
+TEST test_set_and_get_operator_id_type(void) {
     rid_operator_id_type_t types[] = {
         RID_ID_TYPE_OPERATOR_ID
     };
@@ -33,16 +32,14 @@ test_set_and_get_operator_id_type(void) {
     PASS();
 }
 
-TEST
-test_set_operator_id_type_null_pointer(void) {
+TEST test_set_operator_id_type_null_pointer(void) {
     int status = rid_operator_id_set_type(NULL, RID_ID_TYPE_OPERATOR_ID);
     ASSERT_EQ(RID_ERROR_NULL_POINTER, status);
 
     PASS();
 }
 
-TEST
-test_set_and_get_operator_id(void) {
+TEST test_set_and_get_operator_id(void) {
     const char *test_ids[] = {
         "ABC123",
         "12345678901234567890",
@@ -70,8 +67,7 @@ test_set_and_get_operator_id(void) {
     PASS();
 }
 
-TEST
-test_set_operator_id_must_be_ascii(void) {
+TEST test_set_operator_id_must_be_ascii(void) {
     rid_operator_id_t message;
     int status;
 
@@ -92,8 +88,7 @@ test_set_operator_id_must_be_ascii(void) {
     PASS();
 }
 
-TEST
-test_set_operator_id_too_long(void) {
+TEST test_set_operator_id_too_long(void) {
     rid_operator_id_t message;
     memset(&message, 0, sizeof(message));
 
@@ -112,8 +107,7 @@ test_set_operator_id_too_long(void) {
     PASS();
 }
 
-TEST
-test_set_operator_id_null_pointer(void) {
+TEST test_set_operator_id_null_pointer(void) {
     int status;
     rid_operator_id_t message;
     memset(&message, 0, sizeof(message));
@@ -127,8 +121,7 @@ test_set_operator_id_null_pointer(void) {
     PASS();
 }
 
-TEST
-test_decode_operator_id_buffer(void) {
+TEST test_decode_operator_id_buffer(void) {
     rid_operator_id_t *message = (rid_operator_id_t *)buffer;
 
     ASSERT_EQ(RID_ID_TYPE_OPERATOR_ID, rid_operator_id_get_type(message));
@@ -141,8 +134,7 @@ test_decode_operator_id_buffer(void) {
     PASS();
 }
 
-TEST
-test_get_operator_id_null_pointer(void) {
+TEST test_get_operator_id_null_pointer(void) {
     int status;
     rid_operator_id_t message;
     char buf[21];
@@ -158,8 +150,7 @@ test_get_operator_id_null_pointer(void) {
     PASS();
 }
 
-TEST
-test_get_operator_id_buffer_too_small(void) {
+TEST test_get_operator_id_buffer_too_small(void) {
     rid_operator_id_t message;
     int status;
     char buf[10];
@@ -173,8 +164,7 @@ test_get_operator_id_buffer_too_small(void) {
     PASS();
 }
 
-TEST
-test_operator_id_init(void) {
+TEST test_operator_id_init(void) {
     rid_operator_id_t message;
     int status;
 
@@ -194,23 +184,20 @@ test_operator_id_init(void) {
     PASS();
 }
 
-TEST
-test_operator_id_init_null_pointer(void) {
+TEST test_operator_id_init_null_pointer(void) {
     int status = rid_operator_id_init(NULL);
     ASSERT_EQ(RID_ERROR_NULL_POINTER, status);
 
     PASS();
 }
 
-TEST
-test_operator_id_type_to_string(void) {
+TEST test_operator_id_type_to_string(void) {
     ASSERT_STR_EQ("RID_ID_TYPE_OPERATOR_ID", rid_operator_id_type_to_string(RID_ID_TYPE_OPERATOR_ID));
     ASSERT_STR_EQ("UNKNOWN", rid_operator_id_type_to_string((rid_operator_id_type_t)99));
     PASS();
 }
 
-TEST
-test_operator_id_validate_valid_message(void) {
+TEST test_operator_id_validate_valid_message(void) {
     rid_operator_id_t message;
 
     rid_operator_id_init(&message);
@@ -221,16 +208,14 @@ test_operator_id_validate_valid_message(void) {
     PASS();
 }
 
-TEST
-test_operator_id_validate_null_pointer(void) {
+TEST test_operator_id_validate_null_pointer(void) {
     int status = rid_operator_id_validate(NULL);
     ASSERT_EQ(RID_ERROR_NULL_POINTER, status);
 
     PASS();
 }
 
-TEST
-test_operator_id_validate_invalid_protocol_version(void) {
+TEST test_operator_id_validate_invalid_protocol_version(void) {
     rid_operator_id_t message;
 
     rid_operator_id_init(&message);
@@ -260,8 +245,7 @@ test_operator_id_validate_invalid_protocol_version(void) {
     PASS();
 }
 
-TEST
-test_operator_id_validate_invalid_message_type(void) {
+TEST test_operator_id_validate_invalid_message_type(void) {
     rid_operator_id_t message;
 
     rid_operator_id_init(&message);
@@ -273,8 +257,7 @@ test_operator_id_validate_invalid_message_type(void) {
     PASS();
 }
 
-TEST
-test_operator_id_validate_invalid_operator_id(void) {
+TEST test_operator_id_validate_invalid_operator_id(void) {
     rid_operator_id_t message;
 
     rid_operator_id_init(&message);
@@ -286,8 +269,7 @@ test_operator_id_validate_invalid_operator_id(void) {
     PASS();
 }
 
-TEST
-test_operator_id_to_json(void) {
+TEST test_operator_id_to_json(void) {
     rid_operator_id_t message;
     char buffer[256];
 
@@ -304,8 +286,7 @@ test_operator_id_to_json(void) {
     PASS();
 }
 
-TEST
-test_operator_id_to_json_null(void) {
+TEST test_operator_id_to_json_null(void) {
     rid_operator_id_t message;
     char buffer[256];
 

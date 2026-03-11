@@ -3,10 +3,10 @@
 #include <string.h>
 
 #include "greatest.h"
-#include "rid/message.h"
-#include "rid/message_pack.h"
 #include "rid/basic_id.h"
 #include "rid/location.h"
+#include "rid/message.h"
+#include "rid/message_pack.h"
 
 /* Captured from a booting DroneTag */
 static uint8_t buffer[] = {
@@ -21,8 +21,7 @@ static uint8_t buffer[] = {
     0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
 };
 
-TEST
-test_message_pack_init(void) {
+TEST test_message_pack_init(void) {
     rid_message_pack_t message;
 
     int status = rid_message_pack_init(NULL);
@@ -43,14 +42,12 @@ test_message_pack_init(void) {
     PASS();
 }
 
-TEST
-test_message_pack_size(void) {
+TEST test_message_pack_size(void) {
     ASSERT_EQ(228, sizeof(rid_message_pack_t));
     PASS();
 }
 
-TEST
-test_set_and_get_count(void) {
+TEST test_set_and_get_count(void) {
     rid_message_pack_t message;
     rid_message_pack_init(&message);
 
@@ -63,22 +60,19 @@ test_set_and_get_count(void) {
     PASS();
 }
 
-TEST
-test_set_count_null_pointer(void) {
+TEST test_set_count_null_pointer(void) {
     int status = rid_message_pack_set_message_count(NULL, 1);
     ASSERT_EQ(RID_ERROR_NULL_POINTER, status);
     PASS();
 }
 
-TEST
-test_get_count_null_pointer(void) {
+TEST test_get_count_null_pointer(void) {
     uint8_t count = rid_message_pack_get_message_count(NULL);
     ASSERT_EQ(0, count);
     PASS();
 }
 
-TEST
-test_set_count_out_of_range(void) {
+TEST test_set_count_out_of_range(void) {
     rid_message_pack_t message;
     rid_message_pack_init(&message);
 
@@ -91,8 +85,7 @@ test_set_count_out_of_range(void) {
     PASS();
 }
 
-TEST
-test_decode_message_pack_buffer(void) {
+TEST test_decode_message_pack_buffer(void) {
     rid_message_pack_t *message = (rid_message_pack_t *)buffer;
 
     ASSERT_EQ(RID_PROTOCOL_VERSION_2, rid_message_get_protocol_version(message));
@@ -104,8 +97,7 @@ test_decode_message_pack_buffer(void) {
     PASS();
 }
 
-TEST
-test_add_message(void) {
+TEST test_add_message(void) {
     rid_message_pack_t pack;
     rid_basic_id_t basic_id;
 
@@ -122,8 +114,7 @@ test_add_message(void) {
     PASS();
 }
 
-TEST
-test_add_message_multiple(void) {
+TEST test_add_message_multiple(void) {
     rid_message_pack_t pack;
     rid_basic_id_t basic_id;
 
@@ -144,8 +135,7 @@ test_add_message_multiple(void) {
     PASS();
 }
 
-TEST
-test_add_message_pack_full(void) {
+TEST test_add_message_pack_full(void) {
     rid_message_pack_t pack;
     rid_basic_id_t basic_id;
 
@@ -165,8 +155,7 @@ test_add_message_pack_full(void) {
     PASS();
 }
 
-TEST
-test_add_message_null_pointer(void) {
+TEST test_add_message_null_pointer(void) {
     rid_message_pack_t pack;
     rid_basic_id_t basic_id;
 
@@ -185,8 +174,7 @@ test_add_message_null_pointer(void) {
     PASS();
 }
 
-TEST
-test_get_message_at(void) {
+TEST test_get_message_at(void) {
     rid_message_pack_t pack;
     rid_basic_id_t basic_id;
     char uas_id[21];
@@ -213,16 +201,14 @@ test_get_message_at(void) {
     PASS();
 }
 
-TEST
-test_get_message_at_null_pointer(void) {
+TEST test_get_message_at_null_pointer(void) {
     const void *msg = rid_message_pack_get_message_at(NULL, 0);
     ASSERT(msg == NULL);
 
     PASS();
 }
 
-TEST
-test_get_message_at_out_of_range(void) {
+TEST test_get_message_at_out_of_range(void) {
     rid_message_pack_t pack;
     rid_basic_id_t basic_id;
 
@@ -242,8 +228,7 @@ test_get_message_at_out_of_range(void) {
     PASS();
 }
 
-TEST
-test_delete_message_at(void) {
+TEST test_delete_message_at(void) {
     rid_message_pack_t pack;
     rid_basic_id_t basic_id;
     char uas_id[21];
@@ -284,8 +269,7 @@ test_delete_message_at(void) {
     PASS();
 }
 
-TEST
-test_delete_message_at_first(void) {
+TEST test_delete_message_at_first(void) {
     rid_message_pack_t pack;
     rid_basic_id_t basic_id;
     char uas_id[21];
@@ -314,8 +298,7 @@ test_delete_message_at_first(void) {
     PASS();
 }
 
-TEST
-test_delete_message_at_last(void) {
+TEST test_delete_message_at_last(void) {
     rid_message_pack_t pack;
     rid_basic_id_t basic_id;
     char uas_id[21];
@@ -344,16 +327,14 @@ test_delete_message_at_last(void) {
     PASS();
 }
 
-TEST
-test_delete_message_at_null_pointer(void) {
+TEST test_delete_message_at_null_pointer(void) {
     int status = rid_message_pack_delete_message_at(NULL, 0);
     ASSERT_EQ(RID_ERROR_NULL_POINTER, status);
 
     PASS();
 }
 
-TEST
-test_delete_message_at_out_of_range(void) {
+TEST test_delete_message_at_out_of_range(void) {
     rid_message_pack_t pack;
     rid_basic_id_t basic_id;
 
@@ -375,8 +356,7 @@ test_delete_message_at_out_of_range(void) {
     PASS();
 }
 
-TEST
-test_replace_message_at(void) {
+TEST test_replace_message_at(void) {
     rid_message_pack_t pack;
     rid_basic_id_t basic_id;
     char uas_id[21];
@@ -414,8 +394,7 @@ test_replace_message_at(void) {
     PASS();
 }
 
-TEST
-test_replace_message_at_null_pointer(void) {
+TEST test_replace_message_at_null_pointer(void) {
     rid_message_pack_t pack;
     rid_basic_id_t basic_id;
 
@@ -435,8 +414,7 @@ test_replace_message_at_null_pointer(void) {
     PASS();
 }
 
-TEST
-test_replace_message_at_out_of_range(void) {
+TEST test_replace_message_at_out_of_range(void) {
     rid_message_pack_t pack;
     rid_basic_id_t basic_id;
 
@@ -458,8 +436,7 @@ test_replace_message_at_out_of_range(void) {
     PASS();
 }
 
-TEST
-test_message_pack_validate_valid(void) {
+TEST test_message_pack_validate_valid(void) {
     rid_message_pack_t pack;
 
     rid_message_pack_init(&pack);
@@ -470,16 +447,14 @@ test_message_pack_validate_valid(void) {
     PASS();
 }
 
-TEST
-test_message_pack_validate_null_pointer(void) {
+TEST test_message_pack_validate_null_pointer(void) {
     int status = rid_message_pack_validate(NULL);
     ASSERT_EQ(RID_ERROR_NULL_POINTER, status);
 
     PASS();
 }
 
-TEST
-test_message_pack_validate_invalid_protocol_version(void) {
+TEST test_message_pack_validate_invalid_protocol_version(void) {
     rid_message_pack_t pack;
 
     rid_message_pack_init(&pack);
@@ -509,8 +484,7 @@ test_message_pack_validate_invalid_protocol_version(void) {
     PASS();
 }
 
-TEST
-test_message_pack_validate_invalid_message_type(void) {
+TEST test_message_pack_validate_invalid_message_type(void) {
     rid_message_pack_t pack;
 
     rid_message_pack_init(&pack);
@@ -522,8 +496,7 @@ test_message_pack_validate_invalid_message_type(void) {
     PASS();
 }
 
-TEST
-test_message_pack_validate_invalid_message_size(void) {
+TEST test_message_pack_validate_invalid_message_size(void) {
     rid_message_pack_t pack;
 
     rid_message_pack_init(&pack);
@@ -539,8 +512,7 @@ test_message_pack_validate_invalid_message_size(void) {
     PASS();
 }
 
-TEST
-test_message_pack_validate_invalid_message_count(void) {
+TEST test_message_pack_validate_invalid_message_count(void) {
     rid_message_pack_t pack;
 
     rid_message_pack_init(&pack);
@@ -556,8 +528,7 @@ test_message_pack_validate_invalid_message_count(void) {
     PASS();
 }
 
-TEST
-test_message_pack_to_json(void) {
+TEST test_message_pack_to_json(void) {
     rid_message_pack_t pack;
     rid_basic_id_t basic_id;
     rid_location_t location;
@@ -582,8 +553,7 @@ test_message_pack_to_json(void) {
     PASS();
 }
 
-TEST
-test_message_pack_to_json_null(void) {
+TEST test_message_pack_to_json_null(void) {
     rid_message_pack_t pack;
     char buffer[2048];
 

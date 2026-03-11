@@ -2,11 +2,10 @@
 #include <string.h>
 
 #include "greatest.h"
-#include "rid/message.h"
 #include "rid/auth_page.h"
+#include "rid/message.h"
 
-TEST
-test_auth_init(void) {
+TEST test_auth_init(void) {
     rid_auth_page_0_t message;
 
     int status = rid_auth_page_0_init(NULL);
@@ -30,8 +29,7 @@ test_auth_init(void) {
     PASS();
 }
 
-TEST
-test_auth_page_init(void) {
+TEST test_auth_page_init(void) {
     rid_auth_page_x_t message;
 
     int status = rid_auth_page_x_init(NULL, 1);
@@ -57,8 +55,7 @@ test_auth_page_init(void) {
     PASS();
 }
 
-TEST
-test_set_and_get_auth_type(void) {
+TEST test_set_and_get_auth_type(void) {
     rid_auth_type_t types[] = {
         RID_AUTH_TYPE_NONE,
         RID_AUTH_TYPE_UAS_ID_SIGNATURE,
@@ -82,8 +79,7 @@ test_set_and_get_auth_type(void) {
     PASS();
 }
 
-TEST
-test_set_and_get_auth_type_null_pointer(void) {
+TEST test_set_and_get_auth_type_null_pointer(void) {
     int status = rid_auth_page_0_set_type(NULL, RID_AUTH_TYPE_UAS_ID_SIGNATURE);
     ASSERT_EQ(RID_ERROR_NULL_POINTER, status);
 
@@ -93,8 +89,7 @@ test_set_and_get_auth_type_null_pointer(void) {
     PASS();
 }
 
-TEST
-test_set_auth_type_out_of_range(void) {
+TEST test_set_auth_type_out_of_range(void) {
     rid_auth_page_0_t message;
     rid_auth_page_0_init(&message);
 
@@ -107,8 +102,7 @@ test_set_auth_type_out_of_range(void) {
     PASS();
 }
 
-TEST
-test_set_and_get_auth_last_page_index(void) {
+TEST test_set_and_get_auth_last_page_index(void) {
     rid_auth_page_0_t message;
     rid_auth_page_0_init(&message);
 
@@ -123,8 +117,7 @@ test_set_and_get_auth_last_page_index(void) {
     PASS();
 }
 
-TEST
-test_set_and_get_auth_last_page_index_null_pointer(void) {
+TEST test_set_and_get_auth_last_page_index_null_pointer(void) {
     int status = rid_auth_page_0_set_last_page_index(NULL, 5);
     ASSERT_EQ(RID_ERROR_NULL_POINTER, status);
 
@@ -134,8 +127,7 @@ test_set_and_get_auth_last_page_index_null_pointer(void) {
     PASS();
 }
 
-TEST
-test_set_auth_last_page_index_out_of_range(void) {
+TEST test_set_auth_last_page_index_out_of_range(void) {
     rid_auth_page_0_t message;
     rid_auth_page_0_init(&message);
 
@@ -148,8 +140,7 @@ test_set_auth_last_page_index_out_of_range(void) {
     PASS();
 }
 
-TEST
-test_get_auth_last_page_index_reserved_bits(void) {
+TEST test_get_auth_last_page_index_reserved_bits(void) {
     rid_auth_page_0_t message;
     rid_auth_page_0_init(&message);
 
@@ -170,8 +161,7 @@ test_get_auth_last_page_index_reserved_bits(void) {
     PASS();
 }
 
-TEST
-test_set_and_get_auth_length(void) {
+TEST test_set_and_get_auth_length(void) {
     rid_auth_page_0_t message;
     rid_auth_page_0_init(&message);
 
@@ -188,8 +178,7 @@ test_set_and_get_auth_length(void) {
     PASS();
 }
 
-TEST
-test_set_and_get_auth_length_null_pointer(void) {
+TEST test_set_and_get_auth_length_null_pointer(void) {
     int status = rid_auth_page_0_set_length(NULL, 42);
     ASSERT_EQ(RID_ERROR_NULL_POINTER, status);
 
@@ -199,8 +188,7 @@ test_set_and_get_auth_length_null_pointer(void) {
     PASS();
 }
 
-TEST
-test_set_and_get_auth_timestamp(void) {
+TEST test_set_and_get_auth_timestamp(void) {
     rid_auth_page_0_t message;
     rid_auth_page_0_init(&message);
 
@@ -217,8 +205,7 @@ test_set_and_get_auth_timestamp(void) {
     PASS();
 }
 
-TEST
-test_set_and_get_auth_timestamp_null_pointer(void) {
+TEST test_set_and_get_auth_timestamp_null_pointer(void) {
     int status = rid_auth_page_0_set_timestamp(NULL, 12345);
     ASSERT_EQ(RID_ERROR_NULL_POINTER, status);
 
@@ -228,8 +215,7 @@ test_set_and_get_auth_timestamp_null_pointer(void) {
     PASS();
 }
 
-TEST
-test_set_and_get_auth_data(void) {
+TEST test_set_and_get_auth_data(void) {
     rid_auth_page_0_t message;
     rid_auth_page_0_init(&message);
 
@@ -251,8 +237,7 @@ test_set_and_get_auth_data(void) {
     PASS();
 }
 
-TEST
-test_set_auth_data_partial(void) {
+TEST test_set_auth_data_partial(void) {
     rid_auth_page_0_t message;
     rid_auth_page_0_init(&message);
 
@@ -275,8 +260,7 @@ test_set_auth_data_partial(void) {
     PASS();
 }
 
-TEST
-test_set_and_get_auth_data_null_pointer(void) {
+TEST test_set_and_get_auth_data_null_pointer(void) {
     rid_auth_page_0_t message;
     rid_auth_page_0_init(&message);
     uint8_t data[4] = {0};
@@ -297,8 +281,7 @@ test_set_and_get_auth_data_null_pointer(void) {
     PASS();
 }
 
-TEST
-test_set_auth_data_too_large(void) {
+TEST test_set_auth_data_too_large(void) {
     rid_auth_page_0_t message;
     rid_auth_page_0_init(&message);
     uint8_t data[RID_AUTH_PAGE_0_DATA_SIZE + 1] = {0};
@@ -309,8 +292,7 @@ test_set_auth_data_too_large(void) {
     PASS();
 }
 
-TEST
-test_get_auth_data_buffer_too_small(void) {
+TEST test_get_auth_data_buffer_too_small(void) {
     rid_auth_page_0_t message;
     rid_auth_page_0_init(&message);
     uint8_t buffer[RID_AUTH_PAGE_0_DATA_SIZE - 1];
@@ -321,8 +303,7 @@ test_get_auth_data_buffer_too_small(void) {
     PASS();
 }
 
-TEST
-test_set_and_get_auth_page_type(void) {
+TEST test_set_and_get_auth_page_type(void) {
     rid_auth_page_x_t message;
     rid_auth_page_x_init(&message, 1);
 
@@ -344,8 +325,7 @@ test_set_and_get_auth_page_type(void) {
     PASS();
 }
 
-TEST
-test_set_and_get_auth_page_type_null_pointer(void) {
+TEST test_set_and_get_auth_page_type_null_pointer(void) {
     int status = rid_auth_page_x_set_type(NULL, RID_AUTH_TYPE_UAS_ID_SIGNATURE);
     ASSERT_EQ(RID_ERROR_NULL_POINTER, status);
 
@@ -355,8 +335,7 @@ test_set_and_get_auth_page_type_null_pointer(void) {
     PASS();
 }
 
-TEST
-test_set_auth_page_type_out_of_range(void) {
+TEST test_set_auth_page_type_out_of_range(void) {
     rid_auth_page_x_t message;
     rid_auth_page_x_init(&message, 1);
 
@@ -366,8 +345,7 @@ test_set_auth_page_type_out_of_range(void) {
     PASS();
 }
 
-TEST
-test_set_and_get_auth_page_number(void) {
+TEST test_set_and_get_auth_page_number(void) {
     rid_auth_page_x_t message;
     rid_auth_page_x_init(&message, 1);
 
@@ -382,8 +360,7 @@ test_set_and_get_auth_page_number(void) {
     PASS();
 }
 
-TEST
-test_set_and_get_auth_page_number_null_pointer(void) {
+TEST test_set_and_get_auth_page_number_null_pointer(void) {
     int status = rid_auth_page_x_set_number(NULL, 5);
     ASSERT_EQ(RID_ERROR_NULL_POINTER, status);
 
@@ -393,8 +370,7 @@ test_set_and_get_auth_page_number_null_pointer(void) {
     PASS();
 }
 
-TEST
-test_set_auth_page_number_out_of_range(void) {
+TEST test_set_auth_page_number_out_of_range(void) {
     rid_auth_page_x_t message;
     rid_auth_page_x_init(&message, 1);
 
@@ -409,8 +385,7 @@ test_set_auth_page_number_out_of_range(void) {
     PASS();
 }
 
-TEST
-test_set_and_get_auth_page_data(void) {
+TEST test_set_and_get_auth_page_data(void) {
     rid_auth_page_x_t message;
     rid_auth_page_x_init(&message, 1);
 
@@ -432,8 +407,7 @@ test_set_and_get_auth_page_data(void) {
     PASS();
 }
 
-TEST
-test_set_and_get_auth_page_data_null_pointer(void) {
+TEST test_set_and_get_auth_page_data_null_pointer(void) {
     rid_auth_page_x_t message;
     rid_auth_page_x_init(&message, 1);
     uint8_t data[4] = {0};
@@ -454,8 +428,7 @@ test_set_and_get_auth_page_data_null_pointer(void) {
     PASS();
 }
 
-TEST
-test_set_auth_page_data_too_large(void) {
+TEST test_set_auth_page_data_too_large(void) {
     rid_auth_page_x_t message;
     rid_auth_page_x_init(&message, 1);
     uint8_t data[RID_AUTH_PAGE_DATA_SIZE + 1] = {0};
@@ -466,8 +439,7 @@ test_set_auth_page_data_too_large(void) {
     PASS();
 }
 
-TEST
-test_get_auth_page_data_buffer_too_small(void) {
+TEST test_get_auth_page_data_buffer_too_small(void) {
     rid_auth_page_x_t message;
     rid_auth_page_x_init(&message, 1);
     uint8_t buffer[RID_AUTH_PAGE_DATA_SIZE - 1];
@@ -478,8 +450,7 @@ test_get_auth_page_data_buffer_too_small(void) {
     PASS();
 }
 
-TEST
-test_auth_type_to_string(void) {
+TEST test_auth_type_to_string(void) {
     ASSERT_STR_EQ("RID_AUTH_TYPE_NONE", rid_auth_type_to_string(RID_AUTH_TYPE_NONE));
     ASSERT_STR_EQ("RID_AUTH_TYPE_UAS_ID_SIGNATURE", rid_auth_type_to_string(RID_AUTH_TYPE_UAS_ID_SIGNATURE));
     ASSERT_STR_EQ("RID_AUTH_TYPE_OPERATOR_ID_SIGNATURE", rid_auth_type_to_string(RID_AUTH_TYPE_OPERATOR_ID_SIGNATURE));
