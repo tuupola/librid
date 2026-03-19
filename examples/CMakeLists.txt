@@ -44,3 +44,18 @@ if(PkgConfig_FOUND)
         target_include_directories(example_auth PRIVATE ${SODIUM_INCLUDE_DIRS})
     endif()
 endif()
+
+if(CMAKE_VERSION VERSION_GREATER_EQUAL "3.14")
+    include(FetchContent)
+    FetchContent_Declare(
+        mavlink
+        GIT_REPOSITORY https://github.com/mavlink/c_library_v2.git
+        GIT_TAG master
+        GIT_SHALLOW TRUE
+    )
+    FetchContent_MakeAvailable(mavlink)
+
+    add_executable(example_mavlink mavlink/example_mavlink.c)
+    target_link_libraries(example_mavlink rid)
+    target_include_directories(example_mavlink PRIVATE ${mavlink_SOURCE_DIR})
+endif()
