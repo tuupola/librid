@@ -8,11 +8,6 @@ $ ./rid <hex_string>
 $ ./rid < file.hex
 ```
 
-## Supported Formats
-
-- **25 bytes**: Remote ID message
-- **27 bytes**: Application Code + Counter + Remote ID message
-
 ## Example
 
 ```
@@ -58,11 +53,21 @@ Keep `bluetoothctl` running and on another terminal capture messages with `tshar
 and feed them to the example CLI.
 
 ```
-$ sudo tshark -q -l -i bluetooth0 \
+$ tshark -q -l -i bluetooth-monitor \
   -Y "btcommon.eir_ad.entry.uuid_16 == 0xfffa" \
   -T fields -e btcommon.eir_ad.entry.service_data | \
   ./rid | jq
 ```
+
+If you have buffering problems try with `stdbuf`.
+
+```
+$ stdbuf -oL tshark -i bluetooth-monitor \
+  -Y "btcommon.eir_ad.entry.uuid_16 == 0xfffa" \
+  -T fields -e btcommon.eir_ad.entry.service_data | \
+  ./rid | jq
+```
+
 ```json
 {
   "counter": 216,
