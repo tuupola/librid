@@ -20,6 +20,16 @@ else()
 
     set(CMAKE_C_STANDARD 99)
     set(CMAKE_C_STANDARD_REQUIRED ON)
+    set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+
+    add_custom_target(compile_commands_symlink ALL
+        COMMAND ${CMAKE_COMMAND} -E create_symlink
+                ${CMAKE_BINARY_DIR}/compile_commands.json
+                ${CMAKE_SOURCE_DIR}/compile_commands.json
+        DEPENDS ${CMAKE_BINARY_DIR}/compile_commands.json
+        COMMENT "Creating compile_commands.json symlink"
+        WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+    )
 
     option(RID_BUILD_EXAMPLES "Build example programs" OFF)
     option(RID_BUILD_TESTS "Build unit tests" OFF)
