@@ -35,7 +35,7 @@ static void strip_newline(char *str) {
     }
 }
 
-static int decode_and_print(const char *hex_string) {
+static int decode_and_print(const char *hex_string, int force) {
     uint8_t buffer[RID_MESSAGE_PACK_MAX_SIZE + BTMON_HEADER_SIZE];
     int length = hex_to_bytes(hex_string, buffer, sizeof(buffer));
     if (length < 0) {
@@ -66,8 +66,12 @@ static int decode_and_print(const char *hex_string) {
 
     int rc = rid_message_validate(message);
     if (rc < 0) {
-        fprintf(stderr, "Error: %s\n", rid_error_to_string(rc));
-        return 1;
+        if (force) {
+            fprintf(stderr, "Warning: %s\n", rid_error_to_string(rc));
+        } else {
+            fprintf(stderr, "Error: %s\n", rid_error_to_string(rc));
+            return 1;
+        }
     }
 
     char json[4096];
@@ -93,23 +97,32 @@ int main(int argc, char *argv[]) {
     char hex_input[512];
     const char *hex_string = NULL;
 
-    /* Handle --help / -h */
-    if (argc == 2 && (strcmp(argv[1], "--help") == 0 || strcmp(argv[1], "-h") == 0)) {
-        printf("Usage: %s [<hex_string>]\n", argv[0]);
-        return 0;
+    int force = 0;
+    int hex_arg_index = 1;
+
+    /* Handle --help / -h and --force / -f */
+    for (int i = 1; i < argc; ++i) {
+        if (strcmp(argv[i], "--help") == 0 || strcmp(argv[i], "-h") == 0) {
+            printf("Usage: %s [-f|--force] [<hex_string>]\n", argv[0]);
+            return 0;
+        } else if (strcmp(argv[i], "--force") == 0 || strcmp(argv[i], "-f") == 0) {
+            force = 1;
+        } else {
+            hex_arg_index = i;
+        }
     }
 
     /* Determine hex_string source */
-    if (argc == 2) {
-        hex_string = argv[1];
-    } else if (argc > 2) {
-        fprintf(stderr, "Usage: %s [<hex_string>]\n", argv[0]);
+    if (hex_arg_index >= 1 && hex_arg_index < argc) {
+        hex_string = argv[hex_arg_index];
+    } else if (argc > 2 && hex_arg_index == 1) {
+        fprintf(stderr, "Usage: %s [-f|--force] [<hex_string>]\n", argv[0]);
         return 1;
     }
 
     /* If hex_string provided, decode and exit */
     if (hex_string != NULL) {
-        return decode_and_print(hex_string);
+        return decode_and_print(hex_string, force);
     }
 
     /* Read hex strings from stdin in a loop */
@@ -118,7 +131,7 @@ int main(int argc, char *argv[]) {
         if (hex_input[0] == '\0') {
             continue;
         }
-        decode_and_print(hex_input);
+        decode_and_print(hex_input, force);
     }
 
     return 0;
