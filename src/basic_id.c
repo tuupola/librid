@@ -95,7 +95,7 @@ int rid_basic_id_validate(const rid_basic_id_t *message) {
                 (c >= 'P' && c <= 'Z') ||
                 (c >= '0' && c <= '9');
             if (!valid) {
-                return RID_ERROR_INVALID_CHARACTER;
+                return RID_ERROR_INVALID_SERIAL_NUMBER;
             }
         }
     }

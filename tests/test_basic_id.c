@@ -433,7 +433,7 @@ TEST test_basic_id_validate_serial_number_invalid_i(void) {
     rid_basic_id_set_uas_id(&message, "ABC123I456");
 
     int status = rid_basic_id_validate(&message);
-    ASSERT_EQ(RID_ERROR_INVALID_CHARACTER, status);
+    ASSERT_EQ(RID_ERROR_INVALID_SERIAL_NUMBER, status);
 
     PASS();
 }
@@ -446,7 +446,7 @@ TEST test_basic_id_validate_serial_number_invalid_o(void) {
     rid_basic_id_set_uas_id(&message, "ABC123O456");
 
     int status = rid_basic_id_validate(&message);
-    ASSERT_EQ(RID_ERROR_INVALID_CHARACTER, status);
+    ASSERT_EQ(RID_ERROR_INVALID_SERIAL_NUMBER, status);
 
     PASS();
 }
@@ -459,7 +459,7 @@ TEST test_basic_id_validate_serial_number_invalid_lowercase(void) {
     rid_basic_id_set_uas_id(&message, "abc123");
 
     int status = rid_basic_id_validate(&message);
-    ASSERT_EQ(RID_ERROR_INVALID_CHARACTER, status);
+    ASSERT_EQ(RID_ERROR_INVALID_SERIAL_NUMBER, status);
 
     PASS();
 }
