@@ -78,20 +78,6 @@ int rid_message_pack_validate(const rid_message_pack_t *pack) {
     return RID_SUCCESS;
 }
 
-int rid_message_pack_set_message_count(rid_message_pack_t *pack, uint8_t count) {
-    if (pack == NULL) {
-        return RID_ERROR_NULL_POINTER;
-    }
-
-    if (count > RID_MESSAGE_PACK_MAX_MESSAGES) {
-        return RID_ERROR_OUT_OF_RANGE;
-    }
-
-    pack->message_count = count;
-
-    return RID_SUCCESS;
-}
-
 uint8_t rid_message_pack_get_message_count(const rid_message_pack_t *pack) {
     if (pack == NULL) {
         return 0;

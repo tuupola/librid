@@ -101,18 +101,6 @@ int rid_message_pack_init(rid_message_pack_t *pack);
 int rid_message_pack_validate(const rid_message_pack_t *pack);
 
 /**
- * @brief Set the message count for a Message Pack.
- *
- * @param pack Pointer to the Message Pack structure.
- * @param count The number of messages (0-9).
- *
- * @retval RID_SUCCESS on success.
- * @retval RID_ERROR_NULL_POINTER if pack is NULL.
- * @retval RID_ERROR_OUT_OF_RANGE if count exceeds RID_MESSAGE_PACK_MAX_MESSAGES.
- */
-int rid_message_pack_set_message_count(rid_message_pack_t *pack, uint8_t count);
-
-/**
  * @brief Get the message count from a Message Pack.
  *
  * @param pack Pointer to the Message Pack structure.
