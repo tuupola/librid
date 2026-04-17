@@ -1,6 +1,7 @@
 #include <stdint.h>
 #include <stdio.h>
 
+#include "rid/message.h"
 #include "rid/rid.h"
 
 static void hexdump(const void *data, size_t size) {
@@ -43,13 +44,15 @@ int main(void) {
     rid_message_pack_add_message(&pack, &operator_id);
     rid_message_pack_add_message(&pack, &system);
 
-    hexdump(&pack, sizeof(pack));
+    printf("%s:\n", rid_message_type_to_string(rid_message_get_type(&pack)));
+    hexdump(&pack, rid_message_pack_get_size(&pack));
 
     uint8_t count = rid_message_pack_get_message_count(&pack);
 
     for (uint8_t i = 0; i < count; i++) {
         const rid_message_t *message = rid_message_pack_get_message_at(&pack, i);
         if (message) {
+            printf("%s:\n", rid_message_type_to_string(rid_message_get_type(message)));
             hexdump(&message, sizeof(rid_message_t));
         }
     }

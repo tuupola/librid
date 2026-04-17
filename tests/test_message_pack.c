@@ -7,6 +7,8 @@
 #include "rid/location.h"
 #include "rid/message.h"
 #include "rid/message_pack.h"
+#include "rid/operator_id.h"
+#include "rid/self_id.h"
 
 /* Captured from a booting DroneTag */
 static uint8_t buffer[] = {
@@ -50,6 +52,42 @@ TEST test_message_pack_size(void) {
 TEST test_get_count_null_pointer(void) {
     uint8_t count = rid_message_pack_get_message_count(NULL);
     ASSERT_EQ(0, count);
+    PASS();
+}
+
+TEST test_message_pack_get_size_null_pointer(void) {
+    size_t size = rid_message_pack_get_size(NULL);
+    ASSERT_EQ(0, size);
+    PASS();
+}
+
+TEST test_message_pack_get_size_empty(void) {
+    rid_message_pack_t pack;
+    rid_message_pack_init(&pack);
+    ASSERT_EQ(RID_MESSAGE_PACK_HEADER_SIZE, rid_message_pack_get_size(&pack));
+    PASS();
+}
+
+TEST test_message_pack_get_size(void) {
+    rid_message_pack_t pack;
+    rid_basic_id_t basic_id;
+    rid_operator_id_t operator_id;
+    rid_self_id_t self_id;
+
+    rid_message_pack_init(&pack);
+    rid_basic_id_init(&basic_id);
+    rid_operator_id_init(&operator_id);
+    rid_self_id_init(&self_id);
+
+    rid_message_pack_add_message(&pack, &basic_id);
+    ASSERT_EQ(28, rid_message_pack_get_size(&pack));
+
+    rid_message_pack_add_message(&pack, &operator_id);
+    ASSERT_EQ(53, rid_message_pack_get_size(&pack));
+
+    rid_message_pack_add_message(&pack, &self_id);
+    ASSERT_EQ(78, rid_message_pack_get_size(&pack));
+
     PASS();
 }
 
@@ -538,6 +576,9 @@ SUITE(message_pack_suite) {
     RUN_TEST(test_message_pack_size);
 
     RUN_TEST(test_get_count_null_pointer);
+    RUN_TEST(test_message_pack_get_size_null_pointer);
+    RUN_TEST(test_message_pack_get_size_empty);
+    RUN_TEST(test_message_pack_get_size);
     RUN_TEST(test_decode_message_pack_buffer);
 
     RUN_TEST(test_add_message);

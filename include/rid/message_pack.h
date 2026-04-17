@@ -51,6 +51,9 @@ extern "C" {
 /** @brief Maximum number of messages in a Message Pack. */
 #define RID_MESSAGE_PACK_MAX_MESSAGES 9
 
+/** @brief Header size of a Message Pack in bytes. */
+#define RID_MESSAGE_PACK_HEADER_SIZE 3
+
 /** @brief Minimum size of a Message Pack in bytes (header + 1 message). */
 #define RID_MESSAGE_PACK_MIN_SIZE 28
 
@@ -108,6 +111,15 @@ int rid_message_pack_validate(const rid_message_pack_t *pack);
  * @return The message count, or 0 if pack is NULL.
  */
 uint8_t rid_message_pack_get_message_count(const rid_message_pack_t *pack);
+
+/**
+ * @brief Get the size of a Message Pack in bytes.
+ *
+ * @param pack Pointer to the Message Pack structure.
+ *
+ * @return The size in bytes or 0 if pack is NULL.
+ */
+size_t rid_message_pack_get_size(const rid_message_pack_t *pack);
 
 /**
  * @brief Add a message to a Message Pack.

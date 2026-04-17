@@ -238,6 +238,7 @@ rid_message_pack_delete_message_at(&pack, 1);
 rid_message_pack_validate(&pack);
 
 uint8_t count = rid_message_pack_get_message_count(&pack);
+size_t size = rid_message_pack_get_size(&pack);
 const void *message = rid_message_pack_get_message_at(&pack, 0);
 
 rid_message_pack_to_json(&pack, json, sizeof(json));
