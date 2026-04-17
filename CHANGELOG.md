@@ -4,6 +4,20 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ## [0.3.0](https://github.com/tuupola/librid/compare/0.2.0...master) - unreleased
 
+### Added
+
+- The `rid_message_pack_get_size()` function to get Message Pack size in bytes. ([#21](https://github.com/tuupola/librid/commit/06bf138))
+- CMake now creates `compile_commands.json` file by default. ([#16](https://github.com/tuupola/librid/commit/3322e4d))
+- MAVlink encode/decode roundtrip to examples. ([#15](https://github.com/tuupola/librid/commit/9f0d7f5))
+
+### Removed
+
+- The `rid_message_pack_set_message_count()` function from public API. Message count is set automatically. ([#17](https://github.com/tuupola/librid/commit/7b694cc))
+
+### Changed
+
+- The `RID_ERROR_INVALID_SERIAL_NUMBER` error is now returned when Basic ID serial number validation fails. ([#19](https://github.com/tuupola/librid/commit/ce37c91))
+
 ## [0.2.0](https://github.com/tuupola/librid/compare/0.1.0...0.2.0) - 2026-03-11
 
 ### Added
