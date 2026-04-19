@@ -132,6 +132,8 @@ const char *rid_error_to_string(rid_error_t error) {
             return "RID_ERROR_INVALID_UUID_PADDING";
         case RID_ERROR_INVALID_SERIAL_NUMBER:
             return "RID_ERROR_INVALID_SERIAL_NUMBER";
+        case RID_ERROR_INVALID_CAA_REGISTRATION_ID:
+            return "RID_ERROR_INVALID_CAA_REGISTRATION_ID";
         default:
             return "UNKNOWN";
     }

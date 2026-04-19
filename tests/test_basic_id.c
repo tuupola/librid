@@ -378,7 +378,7 @@ TEST test_basic_id_validate_registration_id_invalid_lowercase(void) {
     rid_basic_id_set_uas_id(&message, "FIN.abc123");
 
     int status = rid_basic_id_validate(&message);
-    ASSERT_EQ(RID_ERROR_INVALID_CHARACTER, status);
+    ASSERT_EQ(RID_ERROR_INVALID_CAA_REGISTRATION_ID, status);
 
     PASS();
 }
@@ -391,15 +391,15 @@ TEST test_basic_id_validate_registration_id_invalid_char(void) {
 
     rid_basic_id_set_uas_id(&message, "FIN-ABC123");
     int status = rid_basic_id_validate(&message);
-    ASSERT_EQ(RID_ERROR_INVALID_CHARACTER, status);
+    ASSERT_EQ(RID_ERROR_INVALID_CAA_REGISTRATION_ID, status);
 
     rid_basic_id_set_uas_id(&message, "FIN_ABC123");
     status = rid_basic_id_validate(&message);
-    ASSERT_EQ(RID_ERROR_INVALID_CHARACTER, status);
+    ASSERT_EQ(RID_ERROR_INVALID_CAA_REGISTRATION_ID, status);
 
     rid_basic_id_set_uas_id(&message, "FIN ABC123");
     status = rid_basic_id_validate(&message);
-    ASSERT_EQ(RID_ERROR_INVALID_CHARACTER, status);
+    ASSERT_EQ(RID_ERROR_INVALID_CAA_REGISTRATION_ID, status);
 
     PASS();
 }

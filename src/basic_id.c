@@ -77,7 +77,7 @@ int rid_basic_id_validate(const rid_basic_id_t *message) {
                 (c >= '0' && c <= '9') ||
                 (c == '.');
             if (!valid) {
-                return RID_ERROR_INVALID_CHARACTER;
+                return RID_ERROR_INVALID_CAA_REGISTRATION_ID;
             }
         }
     }
