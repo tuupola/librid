@@ -255,13 +255,38 @@ const char *rid_ua_type_to_string(rid_ua_type_t type) {
     }
 }
 
+static void uuid_to_string(const unsigned char uuid[16], char *buffer, size_t buffer_size) {
+    if (buffer_size < 37) {
+        return;
+    }
+
+    /* clang-format off */
+    snprintf(
+        buffer, buffer_size,
+        "%02x%02x%02x%02x-%02x%02x-%02x%02x-%02x%02x-%02x%02x%02x%02x%02x%02x",
+        uuid[0], uuid[1], uuid[2],  uuid[3],
+        uuid[4], uuid[5],
+        uuid[6], uuid[7],
+        uuid[8], uuid[9],
+        uuid[10], uuid[11], uuid[12], uuid[13], uuid[14], uuid[15]
+    );
+    /* clang-format on */
+}
+
 int rid_basic_id_to_json(const rid_basic_id_t *message, char *buffer, size_t buffer_size) {
     if (message == NULL || buffer == NULL) {
         return RID_ERROR_NULL_POINTER;
     }
 
-    char uas_id[21];
-    rid_basic_id_get_uas_id(message, uas_id, sizeof(uas_id));
+    char uas_id[37];
+
+    if (rid_basic_id_get_type(message) == RID_ID_TYPE_UTM_ASSIGNED_UUID) {
+        char raw[21];
+        rid_basic_id_get_uas_id(message, raw, sizeof(raw));
+        uuid_to_string((const unsigned char *)raw, uas_id, sizeof(uas_id));
+    } else {
+        rid_basic_id_get_uas_id(message, uas_id, sizeof(uas_id));
+    }
 
     return snprintf(
         buffer,

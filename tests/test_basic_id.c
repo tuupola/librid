@@ -613,6 +613,30 @@ TEST test_basic_id_to_json_null(void) {
     PASS();
 }
 
+TEST test_basic_id_to_json_uuid(void) {
+    rid_basic_id_t message;
+    char json[256];
+
+    rid_basic_id_init(&message);
+    rid_basic_id_set_type(&message, RID_ID_TYPE_UTM_ASSIGNED_UUID);
+    rid_basic_id_set_ua_type(&message, RID_UA_TYPE_HELICOPTER_OR_MULTIROTOR);
+
+    uint8_t uuid[20] = {
+        0x55, 0x0e, 0x84, 0x00, 0xe2, 0x9b, 0x41, 0xd4,
+        0xa7, 0x16, 0x44, 0x66, 0x55, 0x44, 0x00, 0x00,
+        0x00, 0x00, 0x00, 0x00
+    };
+    memcpy(message.uas_id, uuid, 20);
+
+    int result = rid_basic_id_to_json(&message, json, sizeof(json));
+    ASSERT(result > 0);
+    ASSERT(strstr(json, "\"id_type\": 3") != NULL);
+    ASSERT(strstr(json, "\"ua_type\": 2") != NULL);
+    ASSERT(strstr(json, "550e8400-e29b-41d4-a716-446655440000") != NULL);
+
+    PASS();
+}
+
 SUITE(basic_id_suite) {
     RUN_TEST(test_basic_id_init);
 
@@ -658,4 +682,5 @@ SUITE(basic_id_suite) {
 
     RUN_TEST(test_basic_id_to_json);
     RUN_TEST(test_basic_id_to_json_null);
+    RUN_TEST(test_basic_id_to_json_uuid);
 }
