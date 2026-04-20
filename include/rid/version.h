@@ -45,9 +45,9 @@ extern "C" {
 #endif /* __cplusplus */
 
 #define RID_VERSION_MAJOR 0
-#define RID_VERSION_MINOR 3
+#define RID_VERSION_MINOR 4
 #define RID_VERSION_PATCH 0
-#define RID_VERSION_STRING "0.3.0"
+#define RID_VERSION_STRING "0.4.0-dev"
 
 /**
  * @brief Get the library version as a string.
