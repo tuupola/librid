@@ -133,6 +133,15 @@ size_t rid_message_pack_get_size(const rid_message_pack_t *pack);
 size_t rid_message_pack_get_messages_size(const rid_message_pack_t *pack);
 
 /**
+ * @brief Get a pointer to the messages array in a Message Pack.
+ *
+ * @param pack Pointer to the Message Pack structure.
+ *
+ * @return Pointer to the messages array, or NULL if pack is NULL.
+ */
+const void *rid_message_pack_get_messages(const rid_message_pack_t *pack);
+
+/**
  * @brief Add a message to a Message Pack.
  *
  * @param pack Pointer to the Message Pack structure.

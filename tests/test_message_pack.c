@@ -127,6 +127,29 @@ TEST test_message_pack_get_messages_size(void) {
     PASS();
 }
 
+TEST test_message_pack_get_messages_null_pointer(void) {
+    const void *ptr = rid_message_pack_get_messages(NULL);
+    ASSERT(ptr == NULL);
+    PASS();
+}
+
+TEST test_message_pack_get_messages(void) {
+    rid_message_pack_t pack;
+    rid_basic_id_t basic_id;
+
+    rid_message_pack_init(&pack);
+    rid_basic_id_init(&basic_id);
+    rid_basic_id_set_uas_id(&basic_id, "TEST123");
+
+    rid_message_pack_add_message(&pack, &basic_id);
+
+    const void *ptr = rid_message_pack_get_messages(&pack);
+    ASSERT(ptr != NULL);
+    ASSERT_EQ(&pack.messages, ptr);
+
+    PASS();
+}
+
 TEST test_decode_message_pack_buffer(void) {
     rid_message_pack_t *message = (rid_message_pack_t *)buffer;
 
@@ -673,6 +696,8 @@ SUITE(message_pack_suite) {
     RUN_TEST(test_message_pack_get_messages_size_null_pointer);
     RUN_TEST(test_message_pack_get_messages_size_empty);
     RUN_TEST(test_message_pack_get_messages_size);
+    RUN_TEST(test_message_pack_get_messages_null_pointer);
+    RUN_TEST(test_message_pack_get_messages);
     RUN_TEST(test_decode_message_pack_buffer);
 
     RUN_TEST(test_add_message);
