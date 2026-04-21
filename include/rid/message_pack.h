@@ -124,6 +124,15 @@ uint8_t rid_message_pack_get_message_count(const rid_message_pack_t *pack);
 size_t rid_message_pack_get_size(const rid_message_pack_t *pack);
 
 /**
+ * @brief Get the combined size of messages in a Message Pack in bytes.
+ *
+ * @param pack Pointer to the Message Pack structure.
+ *
+ * @return The combined messages size in bytes or 0 if pack is NULL.
+ */
+size_t rid_message_pack_get_messages_size(const rid_message_pack_t *pack);
+
+/**
  * @brief Add a message to a Message Pack.
  *
  * @param pack Pointer to the Message Pack structure.

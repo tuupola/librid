@@ -92,6 +92,13 @@ size_t rid_message_pack_get_size(const rid_message_pack_t *pack) {
     return RID_MESSAGE_PACK_HEADER_SIZE + (pack->message_count * RID_MESSAGE_SIZE);
 }
 
+size_t rid_message_pack_get_messages_size(const rid_message_pack_t *pack) {
+    if (pack == NULL) {
+        return 0;
+    }
+    return pack->message_count * RID_MESSAGE_SIZE;
+}
+
 int rid_message_pack_add_message(rid_message_pack_t *pack, const void *message) {
     if (pack == NULL || message == NULL) {
         return RID_ERROR_NULL_POINTER;

@@ -91,6 +91,42 @@ TEST test_message_pack_get_size(void) {
     PASS();
 }
 
+TEST test_message_pack_get_messages_size_null_pointer(void) {
+    size_t size = rid_message_pack_get_messages_size(NULL);
+    ASSERT_EQ(0, size);
+    PASS();
+}
+
+TEST test_message_pack_get_messages_size_empty(void) {
+    rid_message_pack_t pack;
+    rid_message_pack_init(&pack);
+    ASSERT_EQ(0, rid_message_pack_get_messages_size(&pack));
+    PASS();
+}
+
+TEST test_message_pack_get_messages_size(void) {
+    rid_message_pack_t pack;
+    rid_basic_id_t basic_id;
+    rid_operator_id_t operator_id;
+    rid_self_id_t self_id;
+
+    rid_message_pack_init(&pack);
+    rid_basic_id_init(&basic_id);
+    rid_operator_id_init(&operator_id);
+    rid_self_id_init(&self_id);
+
+    rid_message_pack_add_message(&pack, &basic_id);
+    ASSERT_EQ(25, rid_message_pack_get_messages_size(&pack));
+
+    rid_message_pack_add_message(&pack, &operator_id);
+    ASSERT_EQ(50, rid_message_pack_get_messages_size(&pack));
+
+    rid_message_pack_add_message(&pack, &self_id);
+    ASSERT_EQ(75, rid_message_pack_get_messages_size(&pack));
+
+    PASS();
+}
+
 TEST test_decode_message_pack_buffer(void) {
     rid_message_pack_t *message = (rid_message_pack_t *)buffer;
 
@@ -634,6 +670,9 @@ SUITE(message_pack_suite) {
     RUN_TEST(test_message_pack_get_size_null_pointer);
     RUN_TEST(test_message_pack_get_size_empty);
     RUN_TEST(test_message_pack_get_size);
+    RUN_TEST(test_message_pack_get_messages_size_null_pointer);
+    RUN_TEST(test_message_pack_get_messages_size_empty);
+    RUN_TEST(test_message_pack_get_messages_size);
     RUN_TEST(test_decode_message_pack_buffer);
 
     RUN_TEST(test_add_message);
