@@ -234,6 +234,61 @@ TEST test_get_message_at_out_of_range(void) {
     PASS();
 }
 
+TEST test_get_message_by_type(void) {
+    rid_message_pack_t pack;
+    rid_basic_id_t basic_id;
+    rid_location_t location;
+    rid_operator_id_t operator_id;
+
+    rid_message_pack_init(&pack);
+    rid_basic_id_init(&basic_id);
+    rid_location_init(&location);
+    rid_operator_id_init(&operator_id);
+
+    rid_basic_id_set_type(&basic_id, RID_ID_TYPE_SERIAL_NUMBER);
+    rid_location_set_latitude(&location, 60.1699);
+    rid_operator_id_set(&operator_id, "ABC123");
+
+    rid_message_pack_add_message(&pack, &basic_id);
+    rid_message_pack_add_message(&pack, &location);
+    rid_message_pack_add_message(&pack, &operator_id);
+
+    const void *msg = rid_message_pack_get_message_by_type(&pack, RID_MESSAGE_TYPE_BASIC_ID);
+    ASSERT(msg != NULL);
+    ASSERT_EQ(RID_MESSAGE_TYPE_BASIC_ID, rid_message_get_type(msg));
+
+    msg = rid_message_pack_get_message_by_type(&pack, RID_MESSAGE_TYPE_LOCATION);
+    ASSERT(msg != NULL);
+    ASSERT_EQ(RID_MESSAGE_TYPE_LOCATION, rid_message_get_type(msg));
+
+    msg = rid_message_pack_get_message_by_type(&pack, RID_MESSAGE_TYPE_OPERATOR_ID);
+    ASSERT(msg != NULL);
+    ASSERT_EQ(RID_MESSAGE_TYPE_OPERATOR_ID, rid_message_get_type(msg));
+
+    PASS();
+}
+
+TEST test_get_message_by_type_not_found(void) {
+    rid_message_pack_t pack;
+    rid_basic_id_t basic_id;
+
+    rid_message_pack_init(&pack);
+    rid_basic_id_init(&basic_id);
+    rid_message_pack_add_message(&pack, &basic_id);
+
+    const void *msg = rid_message_pack_get_message_by_type(&pack, RID_MESSAGE_TYPE_SYSTEM);
+    ASSERT(msg == NULL);
+
+    PASS();
+}
+
+TEST test_get_message_by_type_null_pointer(void) {
+    const void *msg = rid_message_pack_get_message_by_type(NULL, RID_MESSAGE_TYPE_BASIC_ID);
+    ASSERT(msg == NULL);
+
+    PASS();
+}
+
 TEST test_delete_message_at(void) {
     rid_message_pack_t pack;
     rid_basic_id_t basic_id;
@@ -589,6 +644,10 @@ SUITE(message_pack_suite) {
     RUN_TEST(test_get_message_at);
     RUN_TEST(test_get_message_at_null_pointer);
     RUN_TEST(test_get_message_at_out_of_range);
+
+    RUN_TEST(test_get_message_by_type);
+    RUN_TEST(test_get_message_by_type_not_found);
+    RUN_TEST(test_get_message_by_type_null_pointer);
 
     RUN_TEST(test_delete_message_at);
     RUN_TEST(test_delete_message_at_first);

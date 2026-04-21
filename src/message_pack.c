@@ -117,6 +117,21 @@ const void *rid_message_pack_get_message_at(const rid_message_pack_t *pack, uint
     return &pack->messages[offset];
 }
 
+const void *rid_message_pack_get_message_by_type(const rid_message_pack_t *pack, rid_message_type_t type) {
+    if (pack == NULL) {
+        return NULL;
+    }
+
+    for (uint8_t i = 0; i < pack->message_count; ++i) {
+        const void *message = rid_message_pack_get_message_at(pack, i);
+        if (message != NULL && rid_message_get_type(message) == type) {
+            return message;
+        }
+    }
+
+    return NULL;
+}
+
 int rid_message_pack_delete_message_at(rid_message_pack_t *pack, uint8_t index) {
     if (pack == NULL) {
         return RID_ERROR_NULL_POINTER;

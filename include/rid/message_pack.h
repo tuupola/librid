@@ -44,6 +44,8 @@ SPDX-License-Identifier: MIT
 #include <stddef.h>
 #include <stdint.h>
 
+#include "rid/message.h"
+
 #ifdef __cplusplus
 extern "C" {
 #endif /* __cplusplus */
@@ -142,6 +144,17 @@ int rid_message_pack_add_message(rid_message_pack_t *pack, const void *message);
  * @return Pointer to the message, or NULL if pack is NULL or index is out of range.
  */
 const void *rid_message_pack_get_message_at(const rid_message_pack_t *pack, uint8_t index);
+
+/**
+ * @brief Get a pointer to the first message of the specified type.
+ *
+ * @param pack Pointer to the Message Pack structure.
+ * @param type The message type to search for.
+ *
+ * @return Pointer to the first matching message, or NULL if pack is NULL
+ *         or no message of the specified type is found.
+ */
+const void *rid_message_pack_get_message_by_type(const rid_message_pack_t *pack, rid_message_type_t type);
 
 /**
  * @brief Delete a message at the specified index.
