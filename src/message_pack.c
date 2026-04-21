@@ -35,6 +35,7 @@ SPDX-License-Identifier: MIT
 #include <stdio.h>
 #include <string.h>
 
+#include "rid/auth.h"
 #include "rid/message.h"
 #include "rid/message_pack.h"
 
@@ -109,6 +110,29 @@ const void *rid_message_pack_get_messages(const rid_message_pack_t *pack) {
 int rid_message_pack_add_message(rid_message_pack_t *pack, const void *message) {
     if (pack == NULL || message == NULL) {
         return RID_ERROR_NULL_POINTER;
+    }
+
+    rid_message_type_t type = rid_message_get_type(message);
+
+    if (type == RID_MESSAGE_TYPE_AUTH) {
+        const rid_auth_t *auth = (const rid_auth_t *)message;
+        uint8_t page_count = rid_auth_get_page_count(auth);
+
+        if (pack->message_count + page_count > RID_MESSAGE_PACK_MAX_MESSAGES) {
+            return RID_ERROR_OUT_OF_RANGE;
+        }
+
+        for (uint8_t i = 0; i < page_count; ++i) {
+            size_t offset = pack->message_count * RID_MESSAGE_SIZE;
+            if (i == 0) {
+                memcpy(&pack->messages[offset], &auth->page_0, RID_MESSAGE_SIZE);
+            } else {
+                memcpy(&pack->messages[offset], &auth->page_x[i - 1], RID_MESSAGE_SIZE);
+            }
+            ++pack->message_count;
+        }
+
+        return RID_SUCCESS;
     }
 
     if (pack->message_count >= RID_MESSAGE_PACK_MAX_MESSAGES) {

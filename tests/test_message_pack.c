@@ -3,6 +3,7 @@
 #include <string.h>
 
 #include "greatest.h"
+#include "rid/auth.h"
 #include "rid/basic_id.h"
 #include "rid/location.h"
 #include "rid/message.h"
@@ -235,6 +236,70 @@ TEST test_add_message_null_pointer(void) {
 
     status = rid_message_pack_add_message(NULL, NULL);
     ASSERT_EQ(RID_ERROR_NULL_POINTER, status);
+
+    PASS();
+}
+
+TEST test_add_message_auth_single_page(void) {
+    rid_message_pack_t pack;
+    rid_auth_t auth;
+    uint8_t signature[17] = {0};
+
+    rid_message_pack_init(&pack);
+    rid_auth_init(&auth);
+
+    rid_auth_set_type(&auth, RID_AUTH_TYPE_MESSAGE_SET_SIGNATURE);
+    rid_auth_set_timestamp(&auth, 1000);
+    rid_auth_set_signature(&auth, signature, sizeof(signature));
+
+    int status = rid_message_pack_add_message(&pack, &auth);
+    ASSERT_EQ(RID_SUCCESS, status);
+    ASSERT_EQ(1, rid_message_pack_get_message_count(&pack));
+
+    PASS();
+}
+
+TEST test_add_message_auth_multiple_pages(void) {
+    rid_message_pack_t pack;
+    rid_auth_t auth;
+    uint8_t signature[64] = {0};
+
+    rid_message_pack_init(&pack);
+    rid_auth_init(&auth);
+
+    rid_auth_set_type(&auth, RID_AUTH_TYPE_MESSAGE_SET_SIGNATURE);
+    rid_auth_set_timestamp(&auth, 1000);
+    rid_auth_set_signature(&auth, signature, sizeof(signature));
+
+    uint8_t page_count = rid_auth_get_page_count(&auth);
+
+    int status = rid_message_pack_add_message(&pack, &auth);
+    ASSERT_EQ(RID_SUCCESS, status);
+    ASSERT_EQ(page_count, rid_message_pack_get_message_count(&pack));
+
+    PASS();
+}
+
+TEST test_add_message_auth_pack_full(void) {
+    rid_message_pack_t pack;
+    rid_basic_id_t basic_id;
+    rid_auth_t auth;
+    uint8_t signature[64] = {0};
+
+    rid_message_pack_init(&pack);
+    rid_basic_id_init(&basic_id);
+    rid_auth_init(&auth);
+
+    for (uint8_t i = 0; i < 7; ++i) {
+        rid_message_pack_add_message(&pack, &basic_id);
+    }
+
+    rid_auth_set_type(&auth, RID_AUTH_TYPE_MESSAGE_SET_SIGNATURE);
+    rid_auth_set_timestamp(&auth, 1000);
+    rid_auth_set_signature(&auth, signature, sizeof(signature));
+
+    int status = rid_message_pack_add_message(&pack, &auth);
+    ASSERT_EQ(RID_ERROR_OUT_OF_RANGE, status);
 
     PASS();
 }
@@ -704,6 +769,9 @@ SUITE(message_pack_suite) {
     RUN_TEST(test_add_message_multiple);
     RUN_TEST(test_add_message_pack_full);
     RUN_TEST(test_add_message_null_pointer);
+    RUN_TEST(test_add_message_auth_single_page);
+    RUN_TEST(test_add_message_auth_multiple_pages);
+    RUN_TEST(test_add_message_auth_pack_full);
 
     RUN_TEST(test_get_message_at);
     RUN_TEST(test_get_message_at_null_pointer);
