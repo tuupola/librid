@@ -41,7 +41,7 @@ SPDX-License-Identifier: MIT
  * authentication data.
  *
  * Example usage:
- * @snippet auth/example_auth.c full_example
+ * @snippet auth/example_sign.c full_example
  */
 
 #include <stddef.h>

@@ -24,6 +24,6 @@ jobs:
           ./example_message_pack
           ./example_json
           ./example_auth_page
-          ./example_auth
+          ./example_sign
           ./example_validate
           ./rid 12202d3e0420bd5c25401c190d0000c10834084a0339300100
