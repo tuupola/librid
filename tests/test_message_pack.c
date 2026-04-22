@@ -221,6 +221,20 @@ TEST test_add_message_pack_full(void) {
     PASS();
 }
 
+TEST test_add_message_auth_not_allowed(void) {
+    rid_message_pack_t pack;
+    rid_auth_t auth;
+
+    rid_message_pack_init(&pack);
+    rid_auth_init(&auth);
+
+    int status = rid_message_pack_add_message(&pack, &auth);
+    ASSERT_EQ(RID_ERROR_INVALID_MESSAGE_TYPE, status);
+    ASSERT_EQ(0, rid_message_pack_get_message_count(&pack));
+
+    PASS();
+}
+
 TEST test_add_message_null_pointer(void) {
     rid_message_pack_t pack;
     rid_basic_id_t basic_id;
@@ -236,70 +250,6 @@ TEST test_add_message_null_pointer(void) {
 
     status = rid_message_pack_add_message(NULL, NULL);
     ASSERT_EQ(RID_ERROR_NULL_POINTER, status);
-
-    PASS();
-}
-
-TEST test_add_message_auth_single_page(void) {
-    rid_message_pack_t pack;
-    rid_auth_t auth;
-    uint8_t signature[17] = {0};
-
-    rid_message_pack_init(&pack);
-    rid_auth_init(&auth);
-
-    rid_auth_set_type(&auth, RID_AUTH_TYPE_MESSAGE_SET_SIGNATURE);
-    rid_auth_set_timestamp(&auth, 1000);
-    rid_auth_set_signature(&auth, signature, sizeof(signature));
-
-    int status = rid_message_pack_add_message(&pack, &auth);
-    ASSERT_EQ(RID_SUCCESS, status);
-    ASSERT_EQ(1, rid_message_pack_get_message_count(&pack));
-
-    PASS();
-}
-
-TEST test_add_message_auth_multiple_pages(void) {
-    rid_message_pack_t pack;
-    rid_auth_t auth;
-    uint8_t signature[64] = {0};
-
-    rid_message_pack_init(&pack);
-    rid_auth_init(&auth);
-
-    rid_auth_set_type(&auth, RID_AUTH_TYPE_MESSAGE_SET_SIGNATURE);
-    rid_auth_set_timestamp(&auth, 1000);
-    rid_auth_set_signature(&auth, signature, sizeof(signature));
-
-    uint8_t page_count = rid_auth_get_page_count(&auth);
-
-    int status = rid_message_pack_add_message(&pack, &auth);
-    ASSERT_EQ(RID_SUCCESS, status);
-    ASSERT_EQ(page_count, rid_message_pack_get_message_count(&pack));
-
-    PASS();
-}
-
-TEST test_add_message_auth_pack_full(void) {
-    rid_message_pack_t pack;
-    rid_basic_id_t basic_id;
-    rid_auth_t auth;
-    uint8_t signature[64] = {0};
-
-    rid_message_pack_init(&pack);
-    rid_basic_id_init(&basic_id);
-    rid_auth_init(&auth);
-
-    for (uint8_t i = 0; i < 7; ++i) {
-        rid_message_pack_add_message(&pack, &basic_id);
-    }
-
-    rid_auth_set_type(&auth, RID_AUTH_TYPE_MESSAGE_SET_SIGNATURE);
-    rid_auth_set_timestamp(&auth, 1000);
-    rid_auth_set_signature(&auth, signature, sizeof(signature));
-
-    int status = rid_message_pack_add_message(&pack, &auth);
-    ASSERT_EQ(RID_ERROR_OUT_OF_RANGE, status);
 
     PASS();
 }
@@ -426,7 +376,7 @@ TEST test_get_auth_single_page(void) {
     rid_auth_set_timestamp(&auth, 1000);
     rid_auth_set_signature(&auth, signature, sizeof(signature));
 
-    int status = rid_message_pack_add_message(&pack, &auth);
+    int status = rid_message_pack_set_auth(&pack, &auth);
     ASSERT_EQ(RID_SUCCESS, status);
 
     status = rid_message_pack_get_auth(&pack, &result);
@@ -457,7 +407,7 @@ TEST test_get_auth_multiple_pages(void) {
     rid_auth_set_timestamp(&auth, 2000);
     rid_auth_set_signature(&auth, signature, sizeof(signature));
 
-    int status = rid_message_pack_add_message(&pack, &auth);
+    int status = rid_message_pack_set_auth(&pack, &auth);
     ASSERT_EQ(RID_SUCCESS, status);
 
     uint8_t page_count = rid_auth_get_page_count(&auth);
@@ -507,6 +457,109 @@ TEST test_get_auth_null_pointer_auth(void) {
     rid_message_pack_init(&pack);
 
     int status = rid_message_pack_get_auth(&pack, NULL);
+    ASSERT_EQ(RID_ERROR_NULL_POINTER, status);
+
+    PASS();
+}
+
+TEST test_set_auth_single_page(void) {
+    rid_message_pack_t pack;
+    rid_auth_t auth;
+
+    rid_message_pack_init(&pack);
+    rid_auth_init(&auth);
+    rid_auth_set_type(&auth, RID_AUTH_TYPE_MESSAGE_SET_SIGNATURE);
+    rid_auth_set_timestamp(&auth, 1000);
+
+    int status = rid_message_pack_set_auth(&pack, &auth);
+    ASSERT_EQ(RID_SUCCESS, status);
+    ASSERT_EQ(1, rid_message_pack_get_message_count(&pack));
+
+    rid_auth_t result;
+    status = rid_message_pack_get_auth(&pack, &result);
+    ASSERT_EQ(RID_SUCCESS, status);
+    ASSERT_EQ(RID_AUTH_TYPE_MESSAGE_SET_SIGNATURE, rid_auth_get_type(&result));
+    ASSERT_EQ(1000, rid_auth_get_timestamp(&result));
+
+    PASS();
+}
+
+TEST test_set_auth_replace_existing(void) {
+    rid_message_pack_t pack;
+    rid_auth_t auth;
+    rid_auth_t new_auth;
+
+    rid_message_pack_init(&pack);
+    rid_auth_init(&auth);
+    rid_auth_set_type(&auth, RID_AUTH_TYPE_MESSAGE_SET_SIGNATURE);
+    rid_auth_set_timestamp(&auth, 1000);
+    rid_message_pack_set_auth(&pack, &auth);
+    ASSERT_EQ(1, rid_message_pack_get_message_count(&pack));
+
+    rid_auth_init(&new_auth);
+    rid_auth_set_type(&new_auth, RID_AUTH_TYPE_MESSAGE_SET_SIGNATURE);
+    rid_auth_set_timestamp(&new_auth, 2000);
+
+    int status = rid_message_pack_set_auth(&pack, &new_auth);
+    ASSERT_EQ(RID_SUCCESS, status);
+    ASSERT_EQ(1, rid_message_pack_get_message_count(&pack));
+
+    rid_auth_t result;
+    status = rid_message_pack_get_auth(&pack, &result);
+    ASSERT_EQ(RID_SUCCESS, status);
+    ASSERT_EQ(2000, rid_auth_get_timestamp(&result));
+
+    PASS();
+}
+
+TEST test_set_auth_replace_multipage_with_single(void) {
+    rid_message_pack_t pack;
+    rid_auth_t auth;
+    uint8_t signature[64];
+    rid_auth_t single;
+
+    memset(signature, 0xAB, sizeof(signature));
+
+    rid_message_pack_init(&pack);
+
+    rid_auth_init(&auth);
+    rid_auth_set_type(&auth, RID_AUTH_TYPE_MESSAGE_SET_SIGNATURE);
+    rid_auth_set_timestamp(&auth, 1000);
+    rid_auth_set_signature(&auth, signature, sizeof(signature));
+    rid_message_pack_set_auth(&pack, &auth);
+    ASSERT_EQ(4, rid_message_pack_get_message_count(&pack));
+
+    rid_auth_init(&single);
+    rid_auth_set_type(&single, RID_AUTH_TYPE_MESSAGE_SET_SIGNATURE);
+    rid_auth_set_timestamp(&single, 2000);
+
+    int status = rid_message_pack_set_auth(&pack, &single);
+    ASSERT_EQ(RID_SUCCESS, status);
+    ASSERT_EQ(1, rid_message_pack_get_message_count(&pack));
+
+    rid_auth_t result;
+    status = rid_message_pack_get_auth(&pack, &result);
+    ASSERT_EQ(RID_SUCCESS, status);
+    ASSERT_EQ(2000, rid_auth_get_timestamp(&result));
+
+    PASS();
+}
+
+TEST test_set_auth_null_pointer_pack(void) {
+    rid_auth_t auth;
+    rid_auth_init(&auth);
+
+    int status = rid_message_pack_set_auth(NULL, &auth);
+    ASSERT_EQ(RID_ERROR_NULL_POINTER, status);
+
+    PASS();
+}
+
+TEST test_set_auth_null_pointer_auth(void) {
+    rid_message_pack_t pack;
+    rid_message_pack_init(&pack);
+
+    int status = rid_message_pack_set_auth(&pack, NULL);
     ASSERT_EQ(RID_ERROR_NULL_POINTER, status);
 
     PASS();
@@ -868,9 +921,7 @@ SUITE(message_pack_suite) {
     RUN_TEST(test_add_message_multiple);
     RUN_TEST(test_add_message_pack_full);
     RUN_TEST(test_add_message_null_pointer);
-    RUN_TEST(test_add_message_auth_single_page);
-    RUN_TEST(test_add_message_auth_multiple_pages);
-    RUN_TEST(test_add_message_auth_pack_full);
+    RUN_TEST(test_add_message_auth_not_allowed);
 
     RUN_TEST(test_get_message_at);
     RUN_TEST(test_get_message_at_null_pointer);
@@ -885,6 +936,12 @@ SUITE(message_pack_suite) {
     RUN_TEST(test_get_auth_not_found);
     RUN_TEST(test_get_auth_null_pointer_pack);
     RUN_TEST(test_get_auth_null_pointer_auth);
+
+    RUN_TEST(test_set_auth_single_page);
+    RUN_TEST(test_set_auth_replace_existing);
+    RUN_TEST(test_set_auth_replace_multipage_with_single);
+    RUN_TEST(test_set_auth_null_pointer_pack);
+    RUN_TEST(test_set_auth_null_pointer_auth);
 
     RUN_TEST(test_delete_message_at);
     RUN_TEST(test_delete_message_at_first);

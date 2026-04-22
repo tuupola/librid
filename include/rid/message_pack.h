@@ -191,6 +191,21 @@ const void *rid_message_pack_get_message_by_type(const rid_message_pack_t *pack,
 int rid_message_pack_get_auth(const rid_message_pack_t *pack, rid_auth_t *auth);
 
 /**
+ * @brief Set Auth message in a Message Pack.
+ *
+ * Deletes any existing Auth messages from the pack and adds the new
+ * Auth message. Supports multi-page Auth messages.
+ *
+ * @param pack Pointer to the Message Pack structure.
+ * @param auth Pointer to the Auth message to set.
+ *
+ * @retval RID_SUCCESS on success.
+ * @retval RID_ERROR_NULL_POINTER if pack or auth is NULL.
+ * @retval RID_ERROR_OUT_OF_RANGE if pack cannot accommodate the Auth message.
+ */
+int rid_message_pack_set_auth(rid_message_pack_t *pack, const rid_auth_t *auth);
+
+/**
  * @brief Delete a message at the specified index.
  *
  * Messages after the deleted one are shifted down to fill the gap.
