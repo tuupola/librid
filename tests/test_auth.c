@@ -420,7 +420,7 @@ TEST test_auth_to_json(void) {
 
     int result = rid_auth_to_json(&auth, buffer, sizeof(buffer));
     ASSERT(result > 0);
-    ASSERT(strstr(buffer, "\"type\":") != NULL);
+    ASSERT(strstr(buffer, "\"auth_type\":") != NULL);
     ASSERT(strstr(buffer, "\"page_count\":") != NULL);
     ASSERT(strstr(buffer, "\"signature\":") != NULL);
     ASSERT(strstr(buffer, "deadbeef") != NULL);
