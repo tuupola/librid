@@ -44,6 +44,7 @@ SPDX-License-Identifier: MIT
 #include <stddef.h>
 #include <stdint.h>
 
+#include "rid/auth.h"
 #include "rid/message.h"
 
 #ifdef __cplusplus
@@ -173,6 +174,21 @@ const void *rid_message_pack_get_message_at(const rid_message_pack_t *pack, uint
  *         or no message of the specified type is found.
  */
 const void *rid_message_pack_get_message_by_type(const rid_message_pack_t *pack, rid_message_type_t type);
+
+/**
+ * @brief Get Auth message from a Message Pack.
+ *
+ * Searches the Message Pack for an Auth message and reconstructs it
+ * into the provided auth structure. Supports multi-page Auth messages.
+ *
+ * @param pack Pointer to the Message Pack structure.
+ * @param auth Pointer to the Auth structure to populate.
+ *
+ * @retval RID_SUCCESS on success.
+ * @retval RID_ERROR_NULL_POINTER if pack or auth is NULL.
+ * @retval RID_ERROR_NOT_FOUND if no Auth message is found in the pack.
+ */
+int rid_message_pack_get_auth(const rid_message_pack_t *pack, rid_auth_t *auth);
 
 /**
  * @brief Delete a message at the specified index.

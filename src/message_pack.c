@@ -170,6 +170,35 @@ const void *rid_message_pack_get_message_by_type(const rid_message_pack_t *pack,
     return NULL;
 }
 
+int rid_message_pack_get_auth(const rid_message_pack_t *pack, rid_auth_t *auth) {
+    if (pack == NULL || auth == NULL) {
+        return RID_ERROR_NULL_POINTER;
+    }
+
+    rid_auth_init(auth);
+
+    uint8_t index = 0;
+
+    for (uint8_t i = 0; i < pack->message_count; ++i) {
+        const void *message = rid_message_pack_get_message_at(pack, i);
+
+        if (rid_message_get_type(message) == RID_MESSAGE_TYPE_AUTH) {
+            if (index == 0) {
+                memcpy(&auth->page_0, message, RID_MESSAGE_SIZE);
+            } else {
+                memcpy(&auth->page_x[index - 1], message, RID_MESSAGE_SIZE);
+            }
+            ++index;
+        }
+    }
+
+    if (index == 0) {
+        return RID_ERROR_NOT_FOUND;
+    }
+
+    return RID_SUCCESS;
+}
+
 int rid_message_pack_delete_message_at(rid_message_pack_t *pack, uint8_t index) {
     if (pack == NULL) {
         return RID_ERROR_NULL_POINTER;
