@@ -64,6 +64,121 @@ typedef struct rid_auth {
 } rid_auth_t;
 
 /**
+ * @brief Callback function type for verifying authentication signatures.
+ *
+ * Called by rid_auth_verify() to perform the actual verification of
+ * the signed payload.
+ *
+ * @param context Opaque context passed to the callback.
+ * @param input Pointer to the signed payload data.
+ * @param input_length Length of the signed payload in bytes.
+ * @param signature Pointer to the signature data to verify against.
+ * @param signature_length Length of the signature in bytes.
+ *
+ * @retval 0 on success.
+ * @retval Non-zero on verification failure.
+ */
+typedef int (*rid_auth_verify_cb_t)(
+    void *context,
+    const uint8_t *input,
+    size_t input_length,
+    const uint8_t *signature,
+    size_t signature_length
+);
+
+/**
+ * @brief Callback function type for producing authentication signatures.
+ *
+ * Called by rid_auth_sign() to perform the actual signing of the payload.
+ *
+ * @param context Opaque context passed to the callback.
+ * @param input Pointer to the payload to sign.
+ * @param input_length Length of the payload in bytes.
+ * @param signature Output buffer for the signature.
+ * @param signature_size Size of the signature buffer in bytes.
+ * @param signature_length Output: actual signature length written.
+ *
+ * @retval 0 on success.
+ * @retval Non-zero on signing failure.
+ */
+typedef int (*rid_auth_sign_cb_t)(
+    void *context,
+    const uint8_t *input,
+    size_t input_length,
+    uint8_t *signature,
+    size_t signature_size,
+    size_t *signature_length
+);
+
+/**
+ * @brief Verify an authentication signature using a caller supplied callback.
+ *
+ * Validates the auth container and the input message. Constructs the signed
+ * payload internally, extracts the signature and then invokes the verify
+ * callback with the payload and signature.
+ *
+ * Only `rid_message_pack_t` is currently supported.
+ *
+ * Only `RID_AUTH_TYPE_MESSAGE_SET_SIGNATURE` is currently supported.
+ *
+ * @param auth Pointer to the authentication data container.
+ * @param message Pointer to a rid_message_pack_t whose non-AUTH messages
+ *                were signed.
+ * @param callback Callback function used to verify the signature.
+ * @param context Opaque context passed to the callback.
+ *
+ * @retval RID_SUCCESS if verification succeeded.
+ * @retval RID_ERROR_NULL_POINTER if auth, message, or callback is NULL.
+ * @retval RID_ERROR_NOT_IMPLEMENTED if message is not a message pack, or
+ *         if auth type is not MESSAGE_SET_SIGNATURE.
+ * @retval RID_ERROR_OUT_OF_RANGE if the signature length is zero.
+ * @retval Validation error codes from rid_auth_validate() or
+ *         rid_message_pack_validate().
+ * @retval Any non-zero value returned by the callback on verification failure.
+ */
+int rid_auth_verify(
+    const rid_auth_t *auth,
+    const void *message,
+    rid_auth_verify_cb_t callback,
+    void *context
+);
+
+/**
+ * @brief Create an authentication signature with a caller supplied callback.
+ *
+ * Validates the auth container and the input message. Constructs the payload
+ * to be signed internally, invokes the sign callback, then stores the
+ * resulting signature in the auth container.
+ *
+ * The caller must set the timestamp before calling this function. The
+ * auth type is set automatically to RID_AUTH_TYPE_MESSAGE_SET_SIGNATURE.
+ *
+ * Only `rid_message_pack_t` is currently supported.
+ *
+ * @param auth Pointer to the authentication data container. The signature
+ *             produced by the callback is stored here.
+ * @param message Pointer to a rid_message_pack_t whose non-AUTH messages
+ *                are to be signed.
+ * @param callback Callback function used to produce the signature.
+ * @param context Opaque context passed to the callback.
+ *
+ * @retval RID_SUCCESS if signing succeeded.
+ * @retval RID_ERROR_NULL_POINTER if auth, message, or callback is NULL.
+ * @retval RID_ERROR_NOT_IMPLEMENTED if message is not a message pack.
+ * @retval RID_ERROR_OUT_OF_RANGE if the callback produced a zero-length
+ *         signature.
+ * @retval Validation error codes from rid_auth_validate() or
+ *         rid_message_pack_validate().
+ * @retval Any non-zero value returned by the callback on signing failure.
+ */
+int rid_auth_sign(
+    rid_auth_t *auth,
+    const void *message,
+    rid_auth_sign_cb_t callback,
+    void *context
+);
+
+/**
  * @brief Initialize an authentication data container.
  *
  * Zeros the structure and initializes page0 with protocol version and

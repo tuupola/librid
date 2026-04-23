@@ -1,7 +1,5 @@
 #include <stdint.h>
 #include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
 #include <time.h>
 
 #include <sodium.h>
@@ -39,6 +37,25 @@ static void hexstring(const void *data, size_t size) {
     printf("\n");
 }
 
+/* Callback wrapper for libsodium */
+static int sign_ed25519(
+    void *context,
+    const uint8_t *input,
+    size_t input_length,
+    uint8_t *signature,
+    size_t signature_size,
+    size_t *signature_length
+) {
+    (void)signature_size;
+    const uint8_t *key = (const uint8_t *)context;
+    unsigned long long sig_len = 0;
+    int rc = crypto_sign_detached(signature, &sig_len, input, input_length, key);
+    if (0 == rc) {
+        *signature_length = (size_t)sig_len;
+    }
+    return rc;
+}
+
 int main(void) {
     if (sodium_init() < 0) {
         return 1;
@@ -67,27 +84,16 @@ int main(void) {
     rid_message_pack_add_message(&pack, &operator_id);
     rid_message_pack_add_message(&pack, &system);
 
-    rid_auth_set_type(&auth, RID_AUTH_TYPE_MESSAGE_SET_SIGNATURE);
+    /* You must set timestamp manually */
     rid_auth_set_unixtime(&auth, (uint32_t)time(NULL));
 
-    /* Combined size of Remote ID messages in the Message Pack */
-    size_t messages_size = rid_message_pack_get_messages_size(&pack);
-    uint32_t timestamp = rid_auth_get_timestamp(&auth);
-
-    /* The message to be signed, not to be confused with Remote ID message */
-    uint8_t *message = malloc(messages_size + sizeof(timestamp));
-    memcpy(message, rid_message_pack_get_messages(&pack), messages_size);
-    memcpy(message + messages_size, &timestamp, sizeof(timestamp));
-
-    uint8_t signature[crypto_sign_BYTES];
-    crypto_sign_detached(signature, NULL, message, messages_size + sizeof(timestamp), secret_key);
-
-    free(message);
-
-    /* Set the signature in the Auth message */
-    rid_auth_set_signature(&auth, signature, sizeof(signature));
+    /* Sign and add the Auth message to the Message Pack */
+    rid_auth_sign(&auth, &pack, sign_ed25519, (void *)secret_key);
     rid_message_pack_set_auth(&pack, &auth);
     /* [full_example] */
+
+    uint8_t signature[crypto_sign_BYTES];
+    rid_auth_get_signature(&auth, signature, sizeof(signature));
 
     printf("Auth type:  %d\n", rid_auth_get_type(&auth));
     printf("Timestamp:  %u\n", rid_auth_get_timestamp(&auth));

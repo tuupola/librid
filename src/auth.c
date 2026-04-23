@@ -34,10 +34,12 @@ SPDX-License-Identifier: MIT
 #include <stdint.h>
 #include <stdio.h>
 #include <string.h>
+#include <time.h>
 
 #include "rid/auth.h"
 #include "rid/auth_page.h"
 #include "rid/message.h"
+#include "rid/message_pack.h"
 
 int rid_auth_init(rid_auth_t *auth) {
     if (NULL == auth) {
@@ -233,6 +235,135 @@ int rid_auth_get_signature(const rid_auth_t *auth, uint8_t *buffer, size_t buffe
     }
 
     return RID_SUCCESS;
+}
+
+int rid_auth_verify(
+    const rid_auth_t *auth, const void *message, rid_auth_verify_cb_t callback,
+    void *context
+) {
+    if (NULL == auth || NULL == message || NULL == callback) {
+        return RID_ERROR_NULL_POINTER;
+    }
+
+    int rc = 0;
+
+    rc = rid_auth_validate(auth);
+    if (RID_SUCCESS != rc) {
+        return rc;
+    }
+
+    /* Only message pack is supported atm */
+    if (RID_MESSAGE_TYPE_MESSAGE_PACK != rid_message_get_type(message)) {
+        return RID_ERROR_NOT_IMPLEMENTED;
+    }
+
+    const rid_message_pack_t *pack = (const rid_message_pack_t *)message;
+    rc = rid_message_pack_validate(pack);
+    if (RID_SUCCESS != rc) {
+        return rc;
+    }
+
+    /* Only MESSAGE_SET_SIGNATURE auth type is supported atm */
+    if (RID_AUTH_TYPE_MESSAGE_SET_SIGNATURE != rid_auth_get_type(auth)) {
+        return RID_ERROR_NOT_IMPLEMENTED;
+    }
+
+    uint8_t signature_length = rid_auth_get_length(auth);
+    if (0 == signature_length) {
+        return RID_ERROR_OUT_OF_RANGE;
+    }
+
+    /* Build signed payload to be verified */
+    uint8_t payload[RID_MESSAGE_PACK_MAX_MESSAGES * RID_MESSAGE_SIZE + sizeof(uint32_t)];
+    size_t payload_length = 0;
+
+    uint8_t count = rid_message_pack_get_message_count(pack);
+    for (uint8_t i = 0; i < count; ++i) {
+        const void *tmp = rid_message_pack_get_message_at(pack, i);
+        if (RID_MESSAGE_TYPE_AUTH == rid_message_get_type(tmp)) {
+            continue;
+        }
+        memcpy(payload + payload_length, tmp, RID_MESSAGE_SIZE);
+        payload_length += RID_MESSAGE_SIZE;
+    }
+
+    uint32_t timestamp = rid_auth_get_timestamp(auth);
+    memcpy(payload + payload_length, &timestamp, sizeof(timestamp));
+    payload_length += sizeof(timestamp);
+
+    uint8_t signature[255];
+    rc = rid_auth_get_signature(auth, signature, sizeof(signature));
+    if (RID_SUCCESS != rc) {
+        return rc;
+    }
+
+    return callback(context, payload, payload_length, signature, signature_length);
+}
+
+int rid_auth_sign(
+    rid_auth_t *auth, const void *message, rid_auth_sign_cb_t callback,
+    void *context
+) {
+    if (NULL == auth || NULL == message || NULL == callback) {
+        return RID_ERROR_NULL_POINTER;
+    }
+
+    int rc = 0;
+
+    rc = rid_auth_validate(auth);
+    if (RID_SUCCESS != rc) {
+        return rc;
+    }
+
+    /* Only message pack is supported atm */
+    if (RID_MESSAGE_TYPE_MESSAGE_PACK != rid_message_get_type(message)) {
+        return RID_ERROR_NOT_IMPLEMENTED;
+    }
+
+    const rid_message_pack_t *pack = (const rid_message_pack_t *)message;
+    rc = rid_message_pack_validate(pack);
+    if (RID_SUCCESS != rc) {
+        return rc;
+    }
+
+    /* Automatically set auth type */
+    rc = rid_auth_set_type(auth, RID_AUTH_TYPE_MESSAGE_SET_SIGNATURE);
+    if (RID_SUCCESS != rc) {
+        return rc;
+    }
+
+    /* Build payload to be signed */
+    uint8_t payload[RID_MESSAGE_PACK_MAX_MESSAGES * RID_MESSAGE_SIZE + sizeof(uint32_t)];
+    size_t payload_length = 0;
+
+    /* Payload is concatenation of non Auth messages + timestamp */
+    uint8_t count = rid_message_pack_get_message_count(pack);
+    for (uint8_t i = 0; i < count; ++i) {
+        const void *tmp = rid_message_pack_get_message_at(pack, i);
+        if (RID_MESSAGE_TYPE_AUTH == rid_message_get_type(tmp)) {
+            continue;
+        }
+        memcpy(payload + payload_length, tmp, RID_MESSAGE_SIZE);
+        payload_length += RID_MESSAGE_SIZE;
+    }
+
+    uint32_t timestamp = rid_auth_get_timestamp(auth);
+    memcpy(payload + payload_length, &timestamp, sizeof(timestamp));
+    payload_length += sizeof(timestamp);
+
+    uint8_t signature[255];
+    size_t signature_length = 0;
+
+    rc = callback(context, payload, payload_length, signature, sizeof(signature), &signature_length);
+    if (0 != rc) {
+        return rc;
+    }
+
+    if (0 == signature_length) {
+        return RID_ERROR_OUT_OF_RANGE;
+    }
+
+    return rid_auth_set_signature(auth, signature, signature_length);
 }
 
 int rid_auth_to_json(const rid_auth_t *auth, char *buffer, size_t buffer_size) {

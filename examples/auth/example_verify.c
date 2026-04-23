@@ -47,6 +47,16 @@ static void hexdump(const void *data, size_t size) {
     printf("\n\n");
 }
 
+/* Callback wrapper for libsodium */
+static int verify_ed25519(
+    void *context, const uint8_t *message, size_t message_len,
+    const uint8_t *signature, size_t signature_length
+) {
+    (void)signature_length;
+    const uint8_t *key = (const uint8_t *)context;
+    return crypto_sign_verify_detached(signature, message, message_len, key);
+}
+
 int main(int argc, char *argv[]) {
     if (argc < 2) {
         fprintf(stderr, "Usage: %s <hex string>\n", argv[0]);
@@ -54,6 +64,7 @@ int main(int argc, char *argv[]) {
     }
 
     const char *hex_input = argv[1];
+    int rc = 0;
 
     if (sodium_init() < 0) {
         return 1;
@@ -69,7 +80,7 @@ int main(int argc, char *argv[]) {
     rid_message_pack_t *pack = (rid_message_pack_t *)buffer;
     rid_auth_t auth;
 
-    int rc = rid_message_pack_get_auth(pack, &auth);
+    rc = rid_message_pack_get_auth(pack, &auth);
     if (rc != RID_SUCCESS) {
         fprintf(stderr, "Error: No auth message found\n");
         return 1;
@@ -80,33 +91,16 @@ int main(int argc, char *argv[]) {
     printf("Page count: %d\n", rid_auth_get_page_count(&auth));
     printf("Length:     %d bytes\n\n", rid_auth_get_length(&auth));
 
-    /* Only non Auth messages are verified */
-    /* TODO: this needs proper API */
-    uint8_t count = rid_message_pack_get_message_count(pack);
-    for (uint8_t i = count; i > 0; --i) {
-        const void *msg = rid_message_pack_get_message_at(pack, i - 1);
-        if (rid_message_get_type(msg) == RID_MESSAGE_TYPE_AUTH) {
-            rid_message_pack_delete_message_at(pack, i - 1);
-        }
-    }
-
-    /* Combined size of non Auth Remote ID messages in the Message Pack */
-    size_t messages_size = rid_message_pack_get_messages_size(pack);
-    uint32_t timestamp = rid_auth_get_timestamp(&auth);
-
-    /* The message to be verified, not to be confused with Remote ID message */
-    uint8_t *message = malloc(messages_size + sizeof(timestamp));
-    memcpy(message, rid_message_pack_get_messages(pack), messages_size);
-    memcpy(message + messages_size, &timestamp, sizeof(timestamp));
-
-    /* Get the signature and verify */
+    /* Display signature for inspection */
     uint8_t signature[crypto_sign_BYTES];
     rid_auth_get_signature(&auth, signature, sizeof(signature));
 
     printf("Signature:\n");
     hexdump(signature, sizeof(signature));
 
-    if (crypto_sign_verify_detached(signature, message, messages_size + sizeof(timestamp), public_key) == 0) {
+    rc = rid_auth_verify(&auth, pack, verify_ed25519, (void *)public_key);
+
+    if (0 == rc) {
         printf("Signature verified.\n\n");
     } else {
         printf("Signature verification failed.\n\n");
