@@ -270,10 +270,11 @@ TEST test_get_message_at(void) {
     }
 
     for (uint8_t i = 0; i < 3; ++i) {
-        const rid_basic_id_t *msg = rid_message_pack_get_message_at(&pack, i);
-        ASSERT(msg != NULL);
+        rid_basic_id_t msg;
+        int status = rid_message_pack_get_message_at(&pack, i, &msg);
+        ASSERT_EQ(RID_SUCCESS, status);
 
-        rid_basic_id_get_uas_id(msg, uas_id, sizeof(uas_id));
+        rid_basic_id_get_uas_id(&msg, uas_id, sizeof(uas_id));
         snprintf(expected, sizeof(expected), "DRONE%03u", i + 1);
         ASSERT_STR_EQ(expected, uas_id);
     }
@@ -282,8 +283,9 @@ TEST test_get_message_at(void) {
 }
 
 TEST test_get_message_at_null_pointer(void) {
-    const void *msg = rid_message_pack_get_message_at(NULL, 0);
-    ASSERT(msg == NULL);
+    rid_basic_id_t msg;
+    int status = rid_message_pack_get_message_at(NULL, 0, &msg);
+    ASSERT_EQ(RID_ERROR_NULL_POINTER, status);
 
     PASS();
 }
@@ -291,19 +293,20 @@ TEST test_get_message_at_null_pointer(void) {
 TEST test_get_message_at_out_of_range(void) {
     rid_message_pack_t pack;
     rid_basic_id_t basic_id;
+    rid_basic_id_t msg;
 
     rid_message_pack_init(&pack);
     rid_basic_id_init(&basic_id);
     rid_message_pack_add_message(&pack, &basic_id);
 
-    const void *msg = rid_message_pack_get_message_at(&pack, 0);
-    ASSERT(msg != NULL);
+    int status = rid_message_pack_get_message_at(&pack, 0, &msg);
+    ASSERT_EQ(RID_SUCCESS, status);
 
-    msg = rid_message_pack_get_message_at(&pack, 1);
-    ASSERT(msg == NULL);
+    status = rid_message_pack_get_message_at(&pack, 1, &msg);
+    ASSERT_EQ(RID_ERROR_OUT_OF_RANGE, status);
 
-    msg = rid_message_pack_get_message_at(&pack, UINT8_MAX);
-    ASSERT(msg == NULL);
+    status = rid_message_pack_get_message_at(&pack, UINT8_MAX, &msg);
+    ASSERT_EQ(RID_ERROR_OUT_OF_RANGE, status);
 
     PASS();
 }
@@ -327,17 +330,18 @@ TEST test_get_message_by_type(void) {
     rid_message_pack_add_message(&pack, &location);
     rid_message_pack_add_message(&pack, &operator_id);
 
-    const void *msg = rid_message_pack_get_message_by_type(&pack, RID_MESSAGE_TYPE_BASIC_ID);
-    ASSERT(msg != NULL);
-    ASSERT_EQ(RID_MESSAGE_TYPE_BASIC_ID, rid_message_get_type(msg));
+    rid_basic_id_t msg;
+    int status = rid_message_pack_get_message_by_type(&pack, RID_MESSAGE_TYPE_BASIC_ID, &msg);
+    ASSERT_EQ(RID_SUCCESS, status);
+    ASSERT_EQ(RID_MESSAGE_TYPE_BASIC_ID, rid_message_get_type(&msg));
 
-    msg = rid_message_pack_get_message_by_type(&pack, RID_MESSAGE_TYPE_LOCATION);
-    ASSERT(msg != NULL);
-    ASSERT_EQ(RID_MESSAGE_TYPE_LOCATION, rid_message_get_type(msg));
+    status = rid_message_pack_get_message_by_type(&pack, RID_MESSAGE_TYPE_LOCATION, &msg);
+    ASSERT_EQ(RID_SUCCESS, status);
+    ASSERT_EQ(RID_MESSAGE_TYPE_LOCATION, rid_message_get_type(&msg));
 
-    msg = rid_message_pack_get_message_by_type(&pack, RID_MESSAGE_TYPE_OPERATOR_ID);
-    ASSERT(msg != NULL);
-    ASSERT_EQ(RID_MESSAGE_TYPE_OPERATOR_ID, rid_message_get_type(msg));
+    status = rid_message_pack_get_message_by_type(&pack, RID_MESSAGE_TYPE_OPERATOR_ID, &msg);
+    ASSERT_EQ(RID_SUCCESS, status);
+    ASSERT_EQ(RID_MESSAGE_TYPE_OPERATOR_ID, rid_message_get_type(&msg));
 
     PASS();
 }
@@ -345,20 +349,22 @@ TEST test_get_message_by_type(void) {
 TEST test_get_message_by_type_not_found(void) {
     rid_message_pack_t pack;
     rid_basic_id_t basic_id;
+    rid_basic_id_t msg;
 
     rid_message_pack_init(&pack);
     rid_basic_id_init(&basic_id);
     rid_message_pack_add_message(&pack, &basic_id);
 
-    const void *msg = rid_message_pack_get_message_by_type(&pack, RID_MESSAGE_TYPE_SYSTEM);
-    ASSERT(msg == NULL);
+    int status = rid_message_pack_get_message_by_type(&pack, RID_MESSAGE_TYPE_SYSTEM, &msg);
+    ASSERT_EQ(RID_ERROR_NOT_FOUND, status);
 
     PASS();
 }
 
 TEST test_get_message_by_type_null_pointer(void) {
-    const void *msg = rid_message_pack_get_message_by_type(NULL, RID_MESSAGE_TYPE_BASIC_ID);
-    ASSERT(msg == NULL);
+    rid_basic_id_t msg;
+    int status = rid_message_pack_get_message_by_type(NULL, RID_MESSAGE_TYPE_BASIC_ID, &msg);
+    ASSERT_EQ(RID_ERROR_NULL_POINTER, status);
 
     PASS();
 }
@@ -587,20 +593,25 @@ TEST test_delete_message_at(void) {
     ASSERT_EQ(4, rid_message_pack_get_message_count(&pack));
 
     /* Verify remaining messages shifted correctly */
-    const rid_basic_id_t *msg = rid_message_pack_get_message_at(&pack, 0);
-    rid_basic_id_get_uas_id(msg, uas_id, sizeof(uas_id));
+    rid_basic_id_t msg;
+    status = rid_message_pack_get_message_at(&pack, 0, &msg);
+    ASSERT_EQ(RID_SUCCESS, status);
+    rid_basic_id_get_uas_id(&msg, uas_id, sizeof(uas_id));
     ASSERT_STR_EQ("DRONE001", uas_id);
 
-    msg = rid_message_pack_get_message_at(&pack, 1);
-    rid_basic_id_get_uas_id(msg, uas_id, sizeof(uas_id));
+    status = rid_message_pack_get_message_at(&pack, 1, &msg);
+    ASSERT_EQ(RID_SUCCESS, status);
+    rid_basic_id_get_uas_id(&msg, uas_id, sizeof(uas_id));
     ASSERT_STR_EQ("DRONE002", uas_id);
 
-    msg = rid_message_pack_get_message_at(&pack, 2);
-    rid_basic_id_get_uas_id(msg, uas_id, sizeof(uas_id));
+    status = rid_message_pack_get_message_at(&pack, 2, &msg);
+    ASSERT_EQ(RID_SUCCESS, status);
+    rid_basic_id_get_uas_id(&msg, uas_id, sizeof(uas_id));
     ASSERT_STR_EQ("DRONE004", uas_id);
 
-    msg = rid_message_pack_get_message_at(&pack, 3);
-    rid_basic_id_get_uas_id(msg, uas_id, sizeof(uas_id));
+    status = rid_message_pack_get_message_at(&pack, 3, &msg);
+    ASSERT_EQ(RID_SUCCESS, status);
+    rid_basic_id_get_uas_id(&msg, uas_id, sizeof(uas_id));
     ASSERT_STR_EQ("DRONE005", uas_id);
 
     PASS();
@@ -624,12 +635,15 @@ TEST test_delete_message_at_first(void) {
     ASSERT_EQ(RID_SUCCESS, status);
     ASSERT_EQ(2, rid_message_pack_get_message_count(&pack));
 
-    const rid_basic_id_t *msg = rid_message_pack_get_message_at(&pack, 0);
-    rid_basic_id_get_uas_id(msg, uas_id, sizeof(uas_id));
+    rid_basic_id_t msg;
+    status = rid_message_pack_get_message_at(&pack, 0, &msg);
+    ASSERT_EQ(RID_SUCCESS, status);
+    rid_basic_id_get_uas_id(&msg, uas_id, sizeof(uas_id));
     ASSERT_STR_EQ("DRONE002", uas_id);
 
-    msg = rid_message_pack_get_message_at(&pack, 1);
-    rid_basic_id_get_uas_id(msg, uas_id, sizeof(uas_id));
+    status = rid_message_pack_get_message_at(&pack, 1, &msg);
+    ASSERT_EQ(RID_SUCCESS, status);
+    rid_basic_id_get_uas_id(&msg, uas_id, sizeof(uas_id));
     ASSERT_STR_EQ("DRONE003", uas_id);
 
     PASS();
@@ -653,12 +667,15 @@ TEST test_delete_message_at_last(void) {
     ASSERT_EQ(RID_SUCCESS, status);
     ASSERT_EQ(2, rid_message_pack_get_message_count(&pack));
 
-    const rid_basic_id_t *msg = rid_message_pack_get_message_at(&pack, 0);
-    rid_basic_id_get_uas_id(msg, uas_id, sizeof(uas_id));
+    rid_basic_id_t msg;
+    status = rid_message_pack_get_message_at(&pack, 0, &msg);
+    ASSERT_EQ(RID_SUCCESS, status);
+    rid_basic_id_get_uas_id(&msg, uas_id, sizeof(uas_id));
     ASSERT_STR_EQ("DRONE001", uas_id);
 
-    msg = rid_message_pack_get_message_at(&pack, 1);
-    rid_basic_id_get_uas_id(msg, uas_id, sizeof(uas_id));
+    status = rid_message_pack_get_message_at(&pack, 1, &msg);
+    ASSERT_EQ(RID_SUCCESS, status);
+    rid_basic_id_get_uas_id(&msg, uas_id, sizeof(uas_id));
     ASSERT_STR_EQ("DRONE002", uas_id);
 
     PASS();
@@ -716,16 +733,20 @@ TEST test_replace_message_at(void) {
     ASSERT_EQ(3, rid_message_pack_get_message_count(&pack));
 
     /* Verify messages */
-    const rid_basic_id_t *msg = rid_message_pack_get_message_at(&pack, 0);
-    rid_basic_id_get_uas_id(msg, uas_id, sizeof(uas_id));
+    rid_basic_id_t msg;
+    status = rid_message_pack_get_message_at(&pack, 0, &msg);
+    ASSERT_EQ(RID_SUCCESS, status);
+    rid_basic_id_get_uas_id(&msg, uas_id, sizeof(uas_id));
     ASSERT_STR_EQ("DRONE001", uas_id);
 
-    msg = rid_message_pack_get_message_at(&pack, 1);
-    rid_basic_id_get_uas_id(msg, uas_id, sizeof(uas_id));
+    status = rid_message_pack_get_message_at(&pack, 1, &msg);
+    ASSERT_EQ(RID_SUCCESS, status);
+    rid_basic_id_get_uas_id(&msg, uas_id, sizeof(uas_id));
     ASSERT_STR_EQ("REPLACED", uas_id);
 
-    msg = rid_message_pack_get_message_at(&pack, 2);
-    rid_basic_id_get_uas_id(msg, uas_id, sizeof(uas_id));
+    status = rid_message_pack_get_message_at(&pack, 2, &msg);
+    ASSERT_EQ(RID_SUCCESS, status);
+    rid_basic_id_get_uas_id(&msg, uas_id, sizeof(uas_id));
     ASSERT_STR_EQ("DRONE003", uas_id);
 
     PASS();
