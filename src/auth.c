@@ -279,11 +279,15 @@ int rid_auth_verify(
 
     uint8_t count = rid_message_pack_get_message_count(pack);
     for (uint8_t i = 0; i < count; ++i) {
-        const void *tmp = rid_message_pack_get_message_at(pack, i);
-        if (RID_MESSAGE_TYPE_AUTH == rid_message_get_type(tmp)) {
+        rid_message_t tmp;
+        int rc = rid_message_pack_get_message_at(pack, i, &tmp);
+        if (rc != RID_SUCCESS) {
             continue;
         }
-        memcpy(payload + payload_length, tmp, RID_MESSAGE_SIZE);
+        if (RID_MESSAGE_TYPE_AUTH == rid_message_get_type(&tmp)) {
+            continue;
+        }
+        memcpy(payload + payload_length, &tmp, RID_MESSAGE_SIZE);
         payload_length += RID_MESSAGE_SIZE;
     }
 
@@ -339,11 +343,15 @@ int rid_auth_sign(
     /* Payload is concatenation of non Auth messages + timestamp */
     uint8_t count = rid_message_pack_get_message_count(pack);
     for (uint8_t i = 0; i < count; ++i) {
-        const void *tmp = rid_message_pack_get_message_at(pack, i);
-        if (RID_MESSAGE_TYPE_AUTH == rid_message_get_type(tmp)) {
+        rid_message_t tmp;
+        int rc = rid_message_pack_get_message_at(pack, i, &tmp);
+        if (rc != RID_SUCCESS) {
             continue;
         }
-        memcpy(payload + payload_length, tmp, RID_MESSAGE_SIZE);
+        if (RID_MESSAGE_TYPE_AUTH == rid_message_get_type(&tmp)) {
+            continue;
+        }
+        memcpy(payload + payload_length, &tmp, RID_MESSAGE_SIZE);
         payload_length += RID_MESSAGE_SIZE;
     }
 

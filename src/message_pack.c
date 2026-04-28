@@ -129,28 +129,36 @@ int rid_message_pack_add_message(rid_message_pack_t *pack, const void *message) 
     return RID_SUCCESS;
 }
 
-const void *rid_message_pack_get_message_at(const rid_message_pack_t *pack, uint8_t index) {
-    if (pack == NULL || index >= pack->message_count) {
-        return NULL;
+int rid_message_pack_get_message_at(const rid_message_pack_t *pack, uint8_t index, void *message) {
+    if (pack == NULL || message == NULL) {
+        return RID_ERROR_NULL_POINTER;
+    }
+
+    if (index >= pack->message_count) {
+        return RID_ERROR_OUT_OF_RANGE;
     }
 
     size_t offset = index * RID_MESSAGE_SIZE;
-    return &pack->messages[offset];
+    memcpy(message, &pack->messages[offset], RID_MESSAGE_SIZE);
+
+    return RID_SUCCESS;
 }
 
-const void *rid_message_pack_get_message_by_type(const rid_message_pack_t *pack, rid_message_type_t type) {
-    if (pack == NULL) {
-        return NULL;
+int rid_message_pack_get_message_by_type(const rid_message_pack_t *pack, rid_message_type_t type, void *message) {
+    if (pack == NULL || message == NULL) {
+        return RID_ERROR_NULL_POINTER;
     }
 
     for (uint8_t i = 0; i < pack->message_count; ++i) {
-        const void *message = rid_message_pack_get_message_at(pack, i);
-        if (message != NULL && rid_message_get_type(message) == type) {
-            return message;
+        rid_message_t tmp;
+        int rc = rid_message_pack_get_message_at(pack, i, &tmp);
+        if (rc == RID_SUCCESS && rid_message_get_type(&tmp) == type) {
+            memcpy(message, &tmp, RID_MESSAGE_SIZE);
+            return RID_SUCCESS;
         }
     }
 
-    return NULL;
+    return RID_ERROR_NOT_FOUND;
 }
 
 int rid_message_pack_get_auth(const rid_message_pack_t *pack, rid_auth_t *auth) {
@@ -163,13 +171,14 @@ int rid_message_pack_get_auth(const rid_message_pack_t *pack, rid_auth_t *auth) 
     uint8_t index = 0;
 
     for (uint8_t i = 0; i < pack->message_count; ++i) {
-        const void *message = rid_message_pack_get_message_at(pack, i);
+        rid_message_t tmp;
+        int rc = rid_message_pack_get_message_at(pack, i, &tmp);
 
-        if (rid_message_get_type(message) == RID_MESSAGE_TYPE_AUTH) {
+        if (rc == RID_SUCCESS && rid_message_get_type(&tmp) == RID_MESSAGE_TYPE_AUTH) {
             if (index == 0) {
-                memcpy(&auth->page_0, message, RID_MESSAGE_SIZE);
+                memcpy(&auth->page_0, &tmp, RID_MESSAGE_SIZE);
             } else {
-                memcpy(&auth->page_x[index - 1], message, RID_MESSAGE_SIZE);
+                memcpy(&auth->page_x[index - 1], &tmp, RID_MESSAGE_SIZE);
             }
             ++index;
         }
@@ -190,8 +199,9 @@ int rid_message_pack_set_auth(rid_message_pack_t *pack, const rid_auth_t *auth) 
     uint8_t i = pack->message_count;
     while (i > 0) {
         --i;
-        const void *message = rid_message_pack_get_message_at(pack, i);
-        if (rid_message_get_type(message) == RID_MESSAGE_TYPE_AUTH) {
+        rid_message_t tmp;
+        int rc = rid_message_pack_get_message_at(pack, i, &tmp);
+        if (rc == RID_SUCCESS && rid_message_get_type(&tmp) == RID_MESSAGE_TYPE_AUTH) {
             rid_message_pack_delete_message_at(pack, i);
         }
     }
@@ -273,9 +283,14 @@ int rid_message_pack_to_json(const rid_message_pack_t *pack, char *buffer, size_
     uint8_t count = rid_message_pack_get_message_count(pack);
 
     for (uint8_t i = 0; i < count; ++i) {
-        const void *msg = rid_message_pack_get_message_at(pack, i);
+        rid_message_t tmp;
+        int rc = rid_message_pack_get_message_at(pack, i, &tmp);
 
-        if (rid_message_get_type(msg) == RID_MESSAGE_TYPE_AUTH) {
+        if (rc != RID_SUCCESS) {
+            continue;
+        }
+
+        if (rid_message_get_type(&tmp) == RID_MESSAGE_TYPE_AUTH) {
             continue;
         }
 
@@ -290,7 +305,7 @@ int rid_message_pack_to_json(const rid_message_pack_t *pack, char *buffer, size_
             break;
         }
 
-        int msg_written = rid_message_to_json(msg, buffer + pos, buffer_size - pos);
+        int msg_written = rid_message_to_json(&tmp, buffer + pos, buffer_size - pos);
         if (msg_written > 0) {
             pos += (size_t)msg_written;
         }

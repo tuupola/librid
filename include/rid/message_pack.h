@@ -155,25 +155,30 @@ const void *rid_message_pack_get_messages(const rid_message_pack_t *pack);
 int rid_message_pack_add_message(rid_message_pack_t *pack, const void *message);
 
 /**
- * @brief Get a pointer to a message at the specified index.
+ * @brief Get a copy of a message at the specified index.
  *
  * @param pack Pointer to the Message Pack structure.
  * @param index Index of the message (0-based).
+ * @param message Pointer to the buffer to store the message copy.
  *
- * @return Pointer to the message, or NULL if pack is NULL or index is out of range.
+ * @retval RID_SUCCESS on success.
+ * @retval RID_ERROR_NULL_POINTER if pack or message is NULL.
+ * @retval RID_ERROR_OUT_OF_RANGE if index is out of range.
  */
-const void *rid_message_pack_get_message_at(const rid_message_pack_t *pack, uint8_t index);
+int rid_message_pack_get_message_at(const rid_message_pack_t *pack, uint8_t index, void *message);
 
 /**
- * @brief Get a pointer to the first message of the specified type.
+ * @brief Get a copy of the first message of the specified type.
  *
  * @param pack Pointer to the Message Pack structure.
  * @param type The message type to search for.
+ * @param message Pointer to the buffer to store the message copy.
  *
- * @return Pointer to the first matching message, or NULL if pack is NULL
- *         or no message of the specified type is found.
+ * @retval RID_SUCCESS on success.
+ * @retval RID_ERROR_NULL_POINTER if pack or message is NULL.
+ * @retval RID_ERROR_NOT_FOUND if no message of the specified type is found.
  */
-const void *rid_message_pack_get_message_by_type(const rid_message_pack_t *pack, rid_message_type_t type);
+int rid_message_pack_get_message_by_type(const rid_message_pack_t *pack, rid_message_type_t type, void *message);
 
 /**
  * @brief Get Auth message from a Message Pack.
