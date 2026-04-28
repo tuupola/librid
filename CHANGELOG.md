@@ -2,7 +2,20 @@
 
 All notable changes to this project will be documented in this file, in reverse chronological order by release.
 
-## [0.4.0](https://github.com/tuupola/librid/compare/0.3.0...master) - unreleased
+## [0.4.0-dev](https://github.com/tuupola/librid/compare/0.3.0...master) - unreleased
+
+### Added
+
+- `rid_message_pack_get_message_by_type()` function to get pointer to a message by type from a Message Pack. ([#24](https://github.com/tuupola/librid/commit/6cea1d9))
+- `rid_message_pack_get_size()` function to get combined size of messages in a Message Pack. ([#25](https://github.com/tuupola/librid/commit/c9c7224))
+- `rid_message_pack_get_messages()` function to get pointer to messages in a Message Pack. ([#26](https://github.com/tuupola/librid/commit/d7612e4))
+- `rid_message_pack_get_auth()` function to get the Auth message from a Message Pack. ([#28](https://github.com/tuupola/librid/commit/7ff02eb))
+- `rid_message_pack_set_auth()` function to set the Auth message in a Message Pack. ([#29](https://github.com/tuupola/librid/commit/616616c))
+- `rid_auth_sign()` and `rid_auth_verify()` functions to sign and verify a message. ([#31](https://github.com/tuupola/librid/commit/142efaf))
+
+### Changed
+
+- JSON output now includes the assembled Auth message. ([#30](https://github.com/tuupola/librid/commit/81ac214))
 
 ## [0.3.0](https://github.com/tuupola/librid/compare/0.2.0...0.3.0) - 2024-04-20
 
