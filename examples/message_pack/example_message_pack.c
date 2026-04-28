@@ -50,9 +50,10 @@ int main(void) {
     uint8_t count = rid_message_pack_get_message_count(&pack);
 
     for (uint8_t i = 0; i < count; i++) {
-        const rid_message_t *message = rid_message_pack_get_message_at(&pack, i);
-        if (message) {
-            printf("%s:\n", rid_message_type_to_string(rid_message_get_type(message)));
+        rid_message_t message;
+        int status = rid_message_pack_get_message_at(&pack, i, &message);
+        if (status == RID_SUCCESS) {
+            printf("%s:\n", rid_message_type_to_string(rid_message_get_type(&message)));
             hexdump(&message, sizeof(rid_message_t));
         }
     }
