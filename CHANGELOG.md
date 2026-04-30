@@ -12,6 +12,7 @@ All notable changes to this project will be documented in this file, in reverse 
 - `rid_message_pack_get_auth()` function to get the Auth message from a Message Pack. ([#28](https://github.com/tuupola/librid/commit/7ff02eb))
 - `rid_message_pack_set_auth()` function to set the Auth message in a Message Pack. ([#29](https://github.com/tuupola/librid/commit/616616c))
 - `rid_auth_sign()` and `rid_auth_verify()` functions to sign and verify a message. ([#31](https://github.com/tuupola/librid/commit/142efaf))
+- `rid_message_pack_sort()` function to sort messages in a Message Pack by type. ([#32](https://github.com/tuupola/librid/commit/95127a3))
 
 ### Changed
 
