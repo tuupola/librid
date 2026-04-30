@@ -251,6 +251,34 @@ int rid_message_pack_replace_message_at(rid_message_pack_t *pack, uint8_t index,
     return RID_SUCCESS;
 }
 
+int rid_message_pack_sort(rid_message_pack_t *pack) {
+    if (pack == NULL) {
+        return RID_ERROR_NULL_POINTER;
+    }
+
+    rid_message_t temp;
+    uint8_t count = rid_message_pack_get_message_count(pack);
+
+    /* Stable insertion sort by message type. */
+    for (uint8_t i = 1; i < count; ++i) {
+        memcpy(&temp, &pack->messages[i * RID_MESSAGE_SIZE], RID_MESSAGE_SIZE);
+        rid_message_type_t key_type = rid_message_get_type(&temp);
+
+        int j = (int)i - 1;
+        while (j >= 0 && rid_message_get_type(&pack->messages[j * RID_MESSAGE_SIZE]) > key_type) {
+            memmove(
+                &pack->messages[(j + 1) * RID_MESSAGE_SIZE],
+                &pack->messages[j * RID_MESSAGE_SIZE],
+                RID_MESSAGE_SIZE
+            );
+            --j;
+        }
+        memcpy(&pack->messages[(j + 1) * RID_MESSAGE_SIZE], &temp, RID_MESSAGE_SIZE);
+    }
+
+    return RID_SUCCESS;
+}
+
 int rid_message_pack_to_json(const rid_message_pack_t *pack, char *buffer, size_t buffer_size) {
     if (pack == NULL || buffer == NULL) {
         return RID_ERROR_NULL_POINTER;

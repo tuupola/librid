@@ -10,6 +10,7 @@
 #include "rid/message_pack.h"
 #include "rid/operator_id.h"
 #include "rid/self_id.h"
+#include "rid/system.h"
 
 /* Captured from a booting DroneTag */
 static uint8_t buffer[] = {
@@ -865,6 +866,178 @@ TEST test_message_pack_validate_invalid_message_count(void) {
     PASS();
 }
 
+TEST test_message_pack_sort_null_pointer(void) {
+    int status = rid_message_pack_sort(NULL);
+    ASSERT_EQ(RID_ERROR_NULL_POINTER, status);
+
+    PASS();
+}
+
+TEST test_message_pack_sort_empty(void) {
+    rid_message_pack_t pack;
+
+    rid_message_pack_init(&pack);
+
+    int status = rid_message_pack_sort(&pack);
+    ASSERT_EQ(RID_SUCCESS, status);
+    ASSERT_EQ(0, rid_message_pack_get_message_count(&pack));
+
+    PASS();
+}
+
+TEST test_message_pack_sort_single(void) {
+    rid_message_pack_t pack;
+    rid_self_id_t self_id;
+
+    rid_message_pack_init(&pack);
+    rid_self_id_init(&self_id);
+    rid_self_id_set_description(&self_id, "FEEBDEAD");
+    rid_message_pack_add_message(&pack, &self_id);
+
+    int status = rid_message_pack_sort(&pack);
+    ASSERT_EQ(RID_SUCCESS, status);
+    ASSERT_EQ(1, rid_message_pack_get_message_count(&pack));
+
+    const void *msg = rid_message_pack_get_message_at(&pack, 0);
+    ASSERT_EQ(RID_MESSAGE_TYPE_SELF_ID, rid_message_get_type(msg));
+
+    PASS();
+}
+
+TEST test_message_pack_sort_already_sorted(void) {
+    rid_message_pack_t pack;
+    rid_basic_id_t basic_id;
+    rid_location_t location;
+    rid_self_id_t self_id;
+    rid_system_t system;
+    rid_operator_id_t operator_id;
+
+    rid_message_pack_init(&pack);
+    rid_basic_id_init(&basic_id);
+    rid_location_init(&location);
+    rid_self_id_init(&self_id);
+    rid_system_init(&system);
+    rid_operator_id_init(&operator_id);
+
+    rid_message_pack_add_message(&pack, &basic_id);
+    rid_message_pack_add_message(&pack, &location);
+    rid_message_pack_add_message(&pack, &self_id);
+    rid_message_pack_add_message(&pack, &system);
+    rid_message_pack_add_message(&pack, &operator_id);
+
+    int status = rid_message_pack_sort(&pack);
+    ASSERT_EQ(RID_SUCCESS, status);
+    ASSERT_EQ(5, rid_message_pack_get_message_count(&pack));
+
+    ASSERT_EQ(RID_MESSAGE_TYPE_BASIC_ID, rid_message_get_type(rid_message_pack_get_message_at(&pack, 0)));
+    ASSERT_EQ(RID_MESSAGE_TYPE_LOCATION, rid_message_get_type(rid_message_pack_get_message_at(&pack, 1)));
+    ASSERT_EQ(RID_MESSAGE_TYPE_SELF_ID, rid_message_get_type(rid_message_pack_get_message_at(&pack, 2)));
+    ASSERT_EQ(RID_MESSAGE_TYPE_SYSTEM, rid_message_get_type(rid_message_pack_get_message_at(&pack, 3)));
+    ASSERT_EQ(RID_MESSAGE_TYPE_OPERATOR_ID, rid_message_get_type(rid_message_pack_get_message_at(&pack, 4)));
+
+    PASS();
+}
+
+TEST test_message_pack_sort_shuffled(void) {
+    rid_message_pack_t pack;
+    rid_basic_id_t basic_id;
+    rid_location_t location;
+    rid_self_id_t self_id;
+    rid_system_t system;
+    rid_operator_id_t operator_id;
+
+    rid_message_pack_init(&pack);
+    rid_basic_id_init(&basic_id);
+    rid_location_init(&location);
+    rid_self_id_init(&self_id);
+    rid_system_init(&system);
+    rid_operator_id_init(&operator_id);
+
+    rid_message_pack_add_message(&pack, &operator_id);
+    rid_message_pack_add_message(&pack, &system);
+    rid_message_pack_add_message(&pack, &self_id);
+    rid_message_pack_add_message(&pack, &location);
+    rid_message_pack_add_message(&pack, &basic_id);
+
+    int status = rid_message_pack_sort(&pack);
+    ASSERT_EQ(RID_SUCCESS, status);
+    ASSERT_EQ(5, rid_message_pack_get_message_count(&pack));
+
+    ASSERT_EQ(RID_MESSAGE_TYPE_BASIC_ID, rid_message_get_type(rid_message_pack_get_message_at(&pack, 0)));
+    ASSERT_EQ(RID_MESSAGE_TYPE_LOCATION, rid_message_get_type(rid_message_pack_get_message_at(&pack, 1)));
+    ASSERT_EQ(RID_MESSAGE_TYPE_SELF_ID, rid_message_get_type(rid_message_pack_get_message_at(&pack, 2)));
+    ASSERT_EQ(RID_MESSAGE_TYPE_SYSTEM, rid_message_get_type(rid_message_pack_get_message_at(&pack, 3)));
+    ASSERT_EQ(RID_MESSAGE_TYPE_OPERATOR_ID, rid_message_get_type(rid_message_pack_get_message_at(&pack, 4)));
+
+    PASS();
+}
+
+TEST test_message_pack_sort_with_auth(void) {
+    rid_message_pack_t pack;
+    rid_basic_id_t basic_id;
+    rid_location_t location;
+    rid_self_id_t self_id;
+    rid_auth_t auth;
+    uint8_t signature[64];
+
+    memset(signature, 0xCD, sizeof(signature));
+
+    rid_message_pack_init(&pack);
+    rid_basic_id_init(&basic_id);
+    rid_location_init(&location);
+    rid_self_id_init(&self_id);
+    rid_auth_init(&auth);
+
+    rid_auth_set_type(&auth, RID_AUTH_TYPE_MESSAGE_SET_SIGNATURE);
+    rid_auth_set_timestamp(&auth, 3000);
+    rid_auth_set_signature(&auth, signature, sizeof(signature));
+
+    rid_message_pack_add_message(&pack, &self_id);
+    rid_message_pack_add_message(&pack, &location);
+    rid_message_pack_set_auth(&pack, &auth);
+    rid_message_pack_add_message(&pack, &basic_id);
+
+    uint8_t page_count = rid_auth_get_page_count(&auth);
+    ASSERT_EQ(4, page_count);
+    ASSERT_EQ(7, rid_message_pack_get_message_count(&pack));
+
+    int status = rid_message_pack_sort(&pack);
+    ASSERT_EQ(RID_SUCCESS, status);
+    ASSERT_EQ(7, rid_message_pack_get_message_count(&pack));
+
+    /* Should be BASIC_ID, LOCATION, AUTH, SELF_ID. */
+    ASSERT_EQ(RID_MESSAGE_TYPE_BASIC_ID, rid_message_get_type(rid_message_pack_get_message_at(&pack, 0)));
+    ASSERT_EQ(RID_MESSAGE_TYPE_LOCATION, rid_message_get_type(rid_message_pack_get_message_at(&pack, 1)));
+    ASSERT_EQ(RID_MESSAGE_TYPE_AUTH, rid_message_get_type(rid_message_pack_get_message_at(&pack, 2)));
+    ASSERT_EQ(RID_MESSAGE_TYPE_AUTH, rid_message_get_type(rid_message_pack_get_message_at(&pack, 3)));
+    ASSERT_EQ(RID_MESSAGE_TYPE_AUTH, rid_message_get_type(rid_message_pack_get_message_at(&pack, 4)));
+    ASSERT_EQ(RID_MESSAGE_TYPE_AUTH, rid_message_get_type(rid_message_pack_get_message_at(&pack, 5)));
+    ASSERT_EQ(RID_MESSAGE_TYPE_SELF_ID, rid_message_get_type(rid_message_pack_get_message_at(&pack, 6)));
+
+    /* Auth pages must remain in page number order. */
+    const rid_auth_page_0_t *page_0 = rid_message_pack_get_message_at(&pack, 2);
+    ASSERT_EQ(0, page_0->page_number);
+    const rid_auth_page_x_t *page_1 = rid_message_pack_get_message_at(&pack, 3);
+    ASSERT_EQ(1, page_1->page_number);
+    const rid_auth_page_x_t *page_2 = rid_message_pack_get_message_at(&pack, 4);
+    ASSERT_EQ(2, page_2->page_number);
+    const rid_auth_page_x_t *page_3 = rid_message_pack_get_message_at(&pack, 5);
+    ASSERT_EQ(3, page_3->page_number);
+
+    /* Make sure reconstructed Auth is still valid after sort. */
+    rid_auth_t result;
+    status = rid_message_pack_get_auth(&pack, &result);
+    ASSERT_EQ(RID_SUCCESS, status);
+    ASSERT_EQ(3000, rid_auth_get_timestamp(&result));
+    ASSERT_EQ(64, rid_auth_get_length(&result));
+
+    uint8_t retrieved[64];
+    rid_auth_get_signature(&result, retrieved, sizeof(retrieved));
+    ASSERT_EQ(0, memcmp(signature, retrieved, 64));
+
+    PASS();
+}
+
 TEST test_message_pack_to_json(void) {
     rid_message_pack_t pack;
     rid_basic_id_t basic_id;
@@ -959,6 +1132,13 @@ SUITE(message_pack_suite) {
     RUN_TEST(test_message_pack_validate_invalid_message_type);
     RUN_TEST(test_message_pack_validate_invalid_message_size);
     RUN_TEST(test_message_pack_validate_invalid_message_count);
+
+    RUN_TEST(test_message_pack_sort_null_pointer);
+    RUN_TEST(test_message_pack_sort_empty);
+    RUN_TEST(test_message_pack_sort_single);
+    RUN_TEST(test_message_pack_sort_already_sorted);
+    RUN_TEST(test_message_pack_sort_shuffled);
+    RUN_TEST(test_message_pack_sort_with_auth);
 
     RUN_TEST(test_message_pack_to_json);
     RUN_TEST(test_message_pack_to_json_null);

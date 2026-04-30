@@ -233,6 +233,20 @@ int rid_message_pack_delete_message_at(rid_message_pack_t *pack, uint8_t index);
 int rid_message_pack_replace_message_at(rid_message_pack_t *pack, uint8_t index, const void *message);
 
 /**
+ * @brief Sort messages in a Message Pack by message type.
+ *
+ * Messages are sorted in ascending order by the message type.
+ * The sort preserves the relative order of messages with the same
+ * type.
+ *
+ * @param pack Pointer to the Message Pack structure.
+ *
+ * @retval RID_SUCCESS on success.
+ * @retval RID_ERROR_NULL_POINTER if pack is NULL.
+ */
+int rid_message_pack_sort(rid_message_pack_t *pack);
+
+/**
  * @brief Format a Message Pack as a JSON string.
  *
  * @param pack Pointer to the Message Pack structure.
