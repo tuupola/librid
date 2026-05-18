@@ -22,14 +22,16 @@ else()
     set(CMAKE_C_STANDARD_REQUIRED ON)
     set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
-    add_custom_target(compile_commands_symlink ALL
-        COMMAND ${CMAKE_COMMAND} -E create_symlink
-                ${CMAKE_BINARY_DIR}/compile_commands.json
-                ${CMAKE_SOURCE_DIR}/compile_commands.json
-        DEPENDS ${CMAKE_BINARY_DIR}/compile_commands.json
-        COMMENT "Creating compile_commands.json symlink"
-        WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
-    )
+    if(CMAKE_SOURCE_DIR STREQUAL CMAKE_CURRENT_SOURCE_DIR)
+        add_custom_target(compile_commands_symlink ALL
+            COMMAND ${CMAKE_COMMAND} -E create_symlink
+                    ${CMAKE_BINARY_DIR}/compile_commands.json
+                    ${CMAKE_SOURCE_DIR}/compile_commands.json
+            DEPENDS ${CMAKE_BINARY_DIR}/compile_commands.json
+            COMMENT "Creating compile_commands.json symlink"
+            WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+        )
+    endif()
 
     option(RID_BUILD_EXAMPLES "Build example programs" OFF)
     option(RID_BUILD_TESTS "Build unit tests" OFF)
@@ -61,12 +63,14 @@ else()
 
     install(DIRECTORY include/rid DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
 
-    add_custom_target(uninstall
-        COMMAND echo "Removing ${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_INCLUDEDIR}/rid"
-        COMMAND rm -rf ${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_INCLUDEDIR}/rid
-        COMMAND echo "Removing ${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_LIBDIR}/librid*"
-        COMMAND rm -f ${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_LIBDIR}/librid*
-    )
+    if(CMAKE_SOURCE_DIR STREQUAL CMAKE_CURRENT_SOURCE_DIR)
+        add_custom_target(uninstall
+            COMMAND echo "Removing ${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_INCLUDEDIR}/rid"
+            COMMAND rm -rf ${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_INCLUDEDIR}/rid
+            COMMAND echo "Removing ${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_LIBDIR}/librid*"
+            COMMAND rm -f ${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_LIBDIR}/librid*
+        )
+    endif()
 
     if(RID_BUILD_EXAMPLES)
         add_subdirectory(examples)
