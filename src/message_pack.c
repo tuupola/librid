@@ -30,6 +30,7 @@ SPDX-License-Identifier: MIT
 
 */
 
+#include <stdbool.h>
 #include <stddef.h>
 #include <stdint.h>
 #include <stdio.h>
@@ -299,6 +300,7 @@ int rid_message_pack_to_json(const rid_message_pack_t *pack, char *buffer, size_
 
     size_t pos = (size_t)written;
     uint8_t count = rid_message_pack_get_message_count(pack);
+    bool first = true;
 
     for (uint8_t i = 0; i < count; ++i) {
         const void *msg = rid_message_pack_get_message_at(pack, i);
@@ -307,7 +309,7 @@ int rid_message_pack_to_json(const rid_message_pack_t *pack, char *buffer, size_
             continue;
         }
 
-        if (i > 0 && pos < buffer_size) {
+        if (!first && pos < buffer_size) {
             written = snprintf(buffer + pos, buffer_size - pos, ", ");
             if (written > 0) {
                 pos += (size_t)written;
@@ -321,12 +323,13 @@ int rid_message_pack_to_json(const rid_message_pack_t *pack, char *buffer, size_
         int msg_written = rid_message_to_json(msg, buffer + pos, buffer_size - pos);
         if (msg_written > 0) {
             pos += (size_t)msg_written;
+            first = 0;
         }
     }
 
     rid_auth_t auth;
     if (rid_message_pack_get_auth(pack, &auth) == RID_SUCCESS) {
-        if (pos < buffer_size) {
+        if (!first && pos < buffer_size) {
             written = snprintf(buffer + pos, buffer_size - pos, ", ");
             if (written > 0) {
                 pos += (size_t)written;
