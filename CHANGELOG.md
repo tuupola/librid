@@ -7,7 +7,7 @@ All notable changes to this project will be documented in this file, in reverse 
 ### Added
 
 - `rid_message_pack_get_message_by_type()` function to get pointer to a message by type from a Message Pack. ([#24](https://github.com/tuupola/librid/commit/6cea1d9))
-- `rid_message_pack_get_size()` function to get combined size of messages in a Message Pack. ([#25](https://github.com/tuupola/librid/commit/c9c7224))
+- `rid_message_pack_get_messages_size()` function to get combined size of messages in a Message Pack. ([#25](https://github.com/tuupola/librid/commit/c9c7224))
 - `rid_message_pack_get_messages()` function to get pointer to messages in a Message Pack. ([#26](https://github.com/tuupola/librid/commit/d7612e4))
 - `rid_message_pack_get_auth()` function to get the Auth message from a Message Pack. ([#28](https://github.com/tuupola/librid/commit/7ff02eb))
 - `rid_message_pack_set_auth()` function to set the Auth message in a Message Pack. ([#29](https://github.com/tuupola/librid/commit/616616c))
@@ -17,6 +17,12 @@ All notable changes to this project will be documented in this file, in reverse 
 ### Changed
 
 - JSON output now includes the assembled Auth message. ([#30](https://github.com/tuupola/librid/commit/81ac214))
+- `rid_message_pack_add_message()` now also handles Auth messages. ([#27](https://github.com/tuupola/librid/commit/1d2c51c))
+
+### Fixed
+
+- CMake name collisions when using `FetchContent`. ([#33](https://github.com/tuupola/librid/commit/4b82155))
+- JSON output when Message Pack contains only Auth messages. ([#34](https://github.com/tuupola/librid/commit/7390392))
 
 ## [0.3.0](https://github.com/tuupola/librid/compare/0.2.0...0.3.0) - 2024-04-20
 
