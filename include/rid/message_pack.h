@@ -223,14 +223,14 @@ int rid_message_pack_delete_message_at(rid_message_pack_t *pack, uint8_t index);
  * @brief Replace a message at the specified index.
  *
  * @param pack Pointer to the Message Pack structure.
- * @param index Index of the message to replace (0-based).
+ * @param index Index of the message to set.
  * @param message Pointer to the new message.
  *
  * @retval RID_SUCCESS on success.
  * @retval RID_ERROR_NULL_POINTER if pack or message is NULL.
  * @retval RID_ERROR_OUT_OF_RANGE if index is out of range.
  */
-int rid_message_pack_replace_message_at(rid_message_pack_t *pack, uint8_t index, const void *message);
+int rid_message_pack_set_message_at(rid_message_pack_t *pack, uint8_t index, const void *message);
 
 /**
  * @brief Sort messages in a Message Pack by message type.

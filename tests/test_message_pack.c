@@ -694,7 +694,7 @@ TEST test_delete_message_at_out_of_range(void) {
     PASS();
 }
 
-TEST test_replace_message_at(void) {
+TEST test_set_message_at(void) {
     rid_message_pack_t pack;
     rid_basic_id_t basic_id;
     char uas_id[21];
@@ -712,7 +712,7 @@ TEST test_replace_message_at(void) {
     /* Replace middle message */
     rid_basic_id_init(&basic_id);
     rid_basic_id_set_uas_id(&basic_id, "REPLACED");
-    int status = rid_message_pack_replace_message_at(&pack, 1, &basic_id);
+    int status = rid_message_pack_set_message_at(&pack, 1, &basic_id);
     ASSERT_EQ(RID_SUCCESS, status);
     ASSERT_EQ(3, rid_message_pack_message_count(&pack));
 
@@ -732,7 +732,7 @@ TEST test_replace_message_at(void) {
     PASS();
 }
 
-TEST test_replace_message_at_null_pointer(void) {
+TEST test_set_message_at_null_pointer(void) {
     rid_message_pack_t pack;
     rid_basic_id_t basic_id;
 
@@ -740,19 +740,19 @@ TEST test_replace_message_at_null_pointer(void) {
     rid_basic_id_init(&basic_id);
     rid_message_pack_add_message(&pack, &basic_id);
 
-    int status = rid_message_pack_replace_message_at(NULL, 0, &basic_id);
+    int status = rid_message_pack_set_message_at(NULL, 0, &basic_id);
     ASSERT_EQ(RID_ERROR_NULL_POINTER, status);
 
-    status = rid_message_pack_replace_message_at(&pack, 0, NULL);
+    status = rid_message_pack_set_message_at(&pack, 0, NULL);
     ASSERT_EQ(RID_ERROR_NULL_POINTER, status);
 
-    status = rid_message_pack_replace_message_at(NULL, 0, NULL);
+    status = rid_message_pack_set_message_at(NULL, 0, NULL);
     ASSERT_EQ(RID_ERROR_NULL_POINTER, status);
 
     PASS();
 }
 
-TEST test_replace_message_at_out_of_range(void) {
+TEST test_set_message_at_out_of_range(void) {
     rid_message_pack_t pack;
     rid_basic_id_t basic_id;
 
@@ -760,15 +760,15 @@ TEST test_replace_message_at_out_of_range(void) {
     rid_basic_id_init(&basic_id);
     rid_message_pack_add_message(&pack, &basic_id);
 
-    int status = rid_message_pack_replace_message_at(&pack, 1, &basic_id);
+    int status = rid_message_pack_set_message_at(&pack, 1, &basic_id);
     ASSERT_EQ(RID_ERROR_OUT_OF_RANGE, status);
 
-    status = rid_message_pack_replace_message_at(&pack, 6, &basic_id);
+    status = rid_message_pack_set_message_at(&pack, 6, &basic_id);
     ASSERT_EQ(RID_ERROR_OUT_OF_RANGE, status);
 
     /* Empty pack */
     rid_message_pack_init(&pack);
-    status = rid_message_pack_replace_message_at(&pack, 0, &basic_id);
+    status = rid_message_pack_set_message_at(&pack, 0, &basic_id);
     ASSERT_EQ(RID_ERROR_OUT_OF_RANGE, status);
 
     PASS();
@@ -1122,9 +1122,9 @@ SUITE(message_pack_suite) {
     RUN_TEST(test_delete_message_at_null_pointer);
     RUN_TEST(test_delete_message_at_out_of_range);
 
-    RUN_TEST(test_replace_message_at);
-    RUN_TEST(test_replace_message_at_null_pointer);
-    RUN_TEST(test_replace_message_at_out_of_range);
+    RUN_TEST(test_set_message_at);
+    RUN_TEST(test_set_message_at_null_pointer);
+    RUN_TEST(test_set_message_at_out_of_range);
 
     RUN_TEST(test_message_pack_validate_valid);
     RUN_TEST(test_message_pack_validate_null_pointer);

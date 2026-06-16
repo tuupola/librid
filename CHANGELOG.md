@@ -20,6 +20,7 @@ All notable changes to this project will be documented in this file, in reverse 
 - `rid_message_pack_add_message()` now also handles Auth messages. ([#27](https://github.com/tuupola/librid/commit/1d2c51c))
 - `rid_message_pack_get_size()` renamed to `rid_message_pack_size()`. ([#TBD](https://github.com/tuupola/librid))
 - `rid_message_pack_get_message_count()` renamed to `rid_message_pack_message_count()`. ([#TBD](https://github.com/tuupola/librid))
+- `rid_message_pack_replace_message_at()` renamed to `rid_message_pack_set_message_at()`. ([#TBD](https://github.com/tuupola/librid))
 
 ### Fixed
 

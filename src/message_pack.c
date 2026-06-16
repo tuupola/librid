@@ -237,7 +237,7 @@ int rid_message_pack_delete_message_at(rid_message_pack_t *pack, uint8_t index) 
     return RID_SUCCESS;
 }
 
-int rid_message_pack_replace_message_at(rid_message_pack_t *pack, uint8_t index, const void *message) {
+int rid_message_pack_set_message_at(rid_message_pack_t *pack, uint8_t index, const void *message) {
     if (pack == NULL || message == NULL) {
         return RID_ERROR_NULL_POINTER;
     }

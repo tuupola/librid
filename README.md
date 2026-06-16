@@ -232,7 +232,7 @@ char json[1024];
 rid_message_pack_init(&pack);
 rid_message_pack_add_message(&pack, &basic_id);
 rid_message_pack_add_message(&pack, &location);
-rid_message_pack_replace_message_at(&pack, 0, &basic_id);
+rid_message_pack_set_message_at(&pack, 0, &basic_id);
 rid_message_pack_delete_message_at(&pack, 1);
 
 rid_message_pack_validate(&pack);
