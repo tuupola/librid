@@ -45,9 +45,9 @@ int main(void) {
     rid_message_pack_add_message(&pack, &system);
 
     printf("%s:\n", rid_message_type_to_string(rid_message_get_type(&pack)));
-    hexdump(&pack, rid_message_pack_get_size(&pack));
+    hexdump(&pack, rid_message_pack_size(&pack));
 
-    uint8_t count = rid_message_pack_get_message_count(&pack);
+    uint8_t count = rid_message_pack_message_count(&pack);
 
     for (uint8_t i = 0; i < count; i++) {
         const rid_message_t *message = rid_message_pack_get_message_at(&pack, i);

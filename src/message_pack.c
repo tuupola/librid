@@ -80,21 +80,21 @@ int rid_message_pack_validate(const rid_message_pack_t *pack) {
     return RID_SUCCESS;
 }
 
-uint8_t rid_message_pack_get_message_count(const rid_message_pack_t *pack) {
+uint8_t rid_message_pack_message_count(const rid_message_pack_t *pack) {
     if (pack == NULL) {
         return 0;
     }
     return pack->message_count;
 }
 
-size_t rid_message_pack_get_size(const rid_message_pack_t *pack) {
+size_t rid_message_pack_size(const rid_message_pack_t *pack) {
     if (pack == NULL) {
         return 0;
     }
     return RID_MESSAGE_PACK_HEADER_SIZE + (pack->message_count * RID_MESSAGE_SIZE);
 }
 
-size_t rid_message_pack_get_messages_size(const rid_message_pack_t *pack) {
+size_t rid_message_pack_messages_size(const rid_message_pack_t *pack) {
     if (pack == NULL) {
         return 0;
     }
@@ -258,7 +258,7 @@ int rid_message_pack_sort(rid_message_pack_t *pack) {
     }
 
     rid_message_t temp;
-    uint8_t count = rid_message_pack_get_message_count(pack);
+    uint8_t count = rid_message_pack_message_count(pack);
 
     /* Stable insertion sort by message type. */
     for (uint8_t i = 1; i < count; ++i) {
@@ -291,7 +291,7 @@ int rid_message_pack_to_json(const rid_message_pack_t *pack, char *buffer, size_
         "\"message_count\": %u, \"messages\": [",
         rid_message_get_protocol_version(pack),
         rid_message_get_type(pack),
-        rid_message_pack_get_message_count(pack)
+        rid_message_pack_message_count(pack)
     );
 
     if (written < 0) {
@@ -299,7 +299,7 @@ int rid_message_pack_to_json(const rid_message_pack_t *pack, char *buffer, size_
     }
 
     size_t pos = (size_t)written;
-    uint8_t count = rid_message_pack_get_message_count(pack);
+    uint8_t count = rid_message_pack_message_count(pack);
     bool first = true;
 
     for (uint8_t i = 0; i < count; ++i) {

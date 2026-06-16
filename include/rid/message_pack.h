@@ -113,7 +113,7 @@ int rid_message_pack_validate(const rid_message_pack_t *pack);
  *
  * @return The message count, or 0 if pack is NULL.
  */
-uint8_t rid_message_pack_get_message_count(const rid_message_pack_t *pack);
+uint8_t rid_message_pack_message_count(const rid_message_pack_t *pack);
 
 /**
  * @brief Get the size of a Message Pack in bytes.
@@ -122,7 +122,7 @@ uint8_t rid_message_pack_get_message_count(const rid_message_pack_t *pack);
  *
  * @return The size in bytes or 0 if pack is NULL.
  */
-size_t rid_message_pack_get_size(const rid_message_pack_t *pack);
+size_t rid_message_pack_size(const rid_message_pack_t *pack);
 
 /**
  * @brief Get the combined size of messages in a Message Pack in bytes.
@@ -131,7 +131,7 @@ size_t rid_message_pack_get_size(const rid_message_pack_t *pack);
  *
  * @return The combined messages size in bytes or 0 if pack is NULL.
  */
-size_t rid_message_pack_get_messages_size(const rid_message_pack_t *pack);
+size_t rid_message_pack_messages_size(const rid_message_pack_t *pack);
 
 /**
  * @brief Get a pointer to the messages array in a Message Pack.

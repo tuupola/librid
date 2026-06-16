@@ -277,7 +277,7 @@ int rid_auth_verify(
     uint8_t payload[RID_MESSAGE_PACK_MAX_MESSAGES * RID_MESSAGE_SIZE + sizeof(uint32_t)];
     size_t payload_length = 0;
 
-    uint8_t count = rid_message_pack_get_message_count(pack);
+    uint8_t count = rid_message_pack_message_count(pack);
     for (uint8_t i = 0; i < count; ++i) {
         const void *tmp = rid_message_pack_get_message_at(pack, i);
         if (RID_MESSAGE_TYPE_AUTH == rid_message_get_type(tmp)) {
@@ -337,7 +337,7 @@ int rid_auth_sign(
     size_t payload_length = 0;
 
     /* Payload is concatenation of non Auth messages + timestamp */
-    uint8_t count = rid_message_pack_get_message_count(pack);
+    uint8_t count = rid_message_pack_message_count(pack);
     for (uint8_t i = 0; i < count; ++i) {
         const void *tmp = rid_message_pack_get_message_at(pack, i);
         if (RID_MESSAGE_TYPE_AUTH == rid_message_get_type(tmp)) {

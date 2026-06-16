@@ -116,11 +116,11 @@ int main(void) {
     }
 
     printf("Message pack:\n");
-    hexdump(&pack, rid_message_pack_get_size(&pack));
+    hexdump(&pack, rid_message_pack_size(&pack));
 
     printf("Verify with:\n");
     printf("$ ./example_verify ");
-    hexstring(&pack, rid_message_pack_get_size(&pack));
+    hexstring(&pack, rid_message_pack_size(&pack));
     printf("\n");
 
     return 0;

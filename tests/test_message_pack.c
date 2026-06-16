@@ -46,19 +46,19 @@ TEST test_message_pack_init(void) {
     PASS();
 }
 
-TEST test_message_pack_size(void) {
+TEST test_message_pack_sizeof(void) {
     ASSERT_EQ(228, sizeof(rid_message_pack_t));
     PASS();
 }
 
 TEST test_get_count_null_pointer(void) {
-    uint8_t count = rid_message_pack_get_message_count(NULL);
+    uint8_t count = rid_message_pack_message_count(NULL);
     ASSERT_EQ(0, count);
     PASS();
 }
 
 TEST test_message_pack_get_size_null_pointer(void) {
-    size_t size = rid_message_pack_get_size(NULL);
+    size_t size = rid_message_pack_size(NULL);
     ASSERT_EQ(0, size);
     PASS();
 }
@@ -66,11 +66,11 @@ TEST test_message_pack_get_size_null_pointer(void) {
 TEST test_message_pack_get_size_empty(void) {
     rid_message_pack_t pack;
     rid_message_pack_init(&pack);
-    ASSERT_EQ(RID_MESSAGE_PACK_HEADER_SIZE, rid_message_pack_get_size(&pack));
+    ASSERT_EQ(RID_MESSAGE_PACK_HEADER_SIZE, rid_message_pack_size(&pack));
     PASS();
 }
 
-TEST test_message_pack_get_size(void) {
+TEST test_message_pack_size(void) {
     rid_message_pack_t pack;
     rid_basic_id_t basic_id;
     rid_operator_id_t operator_id;
@@ -82,19 +82,19 @@ TEST test_message_pack_get_size(void) {
     rid_self_id_init(&self_id);
 
     rid_message_pack_add_message(&pack, &basic_id);
-    ASSERT_EQ(28, rid_message_pack_get_size(&pack));
+    ASSERT_EQ(28, rid_message_pack_size(&pack));
 
     rid_message_pack_add_message(&pack, &operator_id);
-    ASSERT_EQ(53, rid_message_pack_get_size(&pack));
+    ASSERT_EQ(53, rid_message_pack_size(&pack));
 
     rid_message_pack_add_message(&pack, &self_id);
-    ASSERT_EQ(78, rid_message_pack_get_size(&pack));
+    ASSERT_EQ(78, rid_message_pack_size(&pack));
 
     PASS();
 }
 
 TEST test_message_pack_get_messages_size_null_pointer(void) {
-    size_t size = rid_message_pack_get_messages_size(NULL);
+    size_t size = rid_message_pack_messages_size(NULL);
     ASSERT_EQ(0, size);
     PASS();
 }
@@ -102,7 +102,7 @@ TEST test_message_pack_get_messages_size_null_pointer(void) {
 TEST test_message_pack_get_messages_size_empty(void) {
     rid_message_pack_t pack;
     rid_message_pack_init(&pack);
-    ASSERT_EQ(0, rid_message_pack_get_messages_size(&pack));
+    ASSERT_EQ(0, rid_message_pack_messages_size(&pack));
     PASS();
 }
 
@@ -118,13 +118,13 @@ TEST test_message_pack_get_messages_size(void) {
     rid_self_id_init(&self_id);
 
     rid_message_pack_add_message(&pack, &basic_id);
-    ASSERT_EQ(25, rid_message_pack_get_messages_size(&pack));
+    ASSERT_EQ(25, rid_message_pack_messages_size(&pack));
 
     rid_message_pack_add_message(&pack, &operator_id);
-    ASSERT_EQ(50, rid_message_pack_get_messages_size(&pack));
+    ASSERT_EQ(50, rid_message_pack_messages_size(&pack));
 
     rid_message_pack_add_message(&pack, &self_id);
-    ASSERT_EQ(75, rid_message_pack_get_messages_size(&pack));
+    ASSERT_EQ(75, rid_message_pack_messages_size(&pack));
 
     PASS();
 }
@@ -159,7 +159,7 @@ TEST test_decode_message_pack_buffer(void) {
     ASSERT_EQ(RID_MESSAGE_TYPE_MESSAGE_PACK, rid_message_get_type(message));
     // ASSERT_EQ(RID_MESSAGE_SIZE, rid_message_get_message_size());
 
-    ASSERT_EQ(4, rid_message_pack_get_message_count(message));
+    ASSERT_EQ(4, rid_message_pack_message_count(message));
 
     PASS();
 }
@@ -176,7 +176,7 @@ TEST test_add_message(void) {
 
     int status = rid_message_pack_add_message(&pack, &basic_id);
     ASSERT_EQ(RID_SUCCESS, status);
-    ASSERT_EQ(1, rid_message_pack_get_message_count(&pack));
+    ASSERT_EQ(1, rid_message_pack_message_count(&pack));
 
     PASS();
 }
@@ -192,7 +192,7 @@ TEST test_add_message_multiple(void) {
         basic_id.uas_id[0] = '0' + i;
         int status = rid_message_pack_add_message(&pack, &basic_id);
         ASSERT_EQ(RID_SUCCESS, status);
-        ASSERT_EQ(i + 1, rid_message_pack_get_message_count(&pack));
+        ASSERT_EQ(i + 1, rid_message_pack_message_count(&pack));
 
         /* Verify the message was stored at correct offset */
         size_t offset = i * RID_MESSAGE_SIZE;
@@ -217,7 +217,7 @@ TEST test_add_message_pack_full(void) {
     /* Try adding one more */
     int status = rid_message_pack_add_message(&pack, &basic_id);
     ASSERT_EQ(RID_ERROR_OUT_OF_RANGE, status);
-    ASSERT_EQ(RID_MESSAGE_PACK_MAX_MESSAGES, rid_message_pack_get_message_count(&pack));
+    ASSERT_EQ(RID_MESSAGE_PACK_MAX_MESSAGES, rid_message_pack_message_count(&pack));
 
     PASS();
 }
@@ -231,7 +231,7 @@ TEST test_add_message_auth_not_allowed(void) {
 
     int status = rid_message_pack_add_message(&pack, &auth);
     ASSERT_EQ(RID_ERROR_INVALID_MESSAGE_TYPE, status);
-    ASSERT_EQ(0, rid_message_pack_get_message_count(&pack));
+    ASSERT_EQ(0, rid_message_pack_message_count(&pack));
 
     PASS();
 }
@@ -413,7 +413,7 @@ TEST test_get_auth_multiple_pages(void) {
 
     uint8_t page_count = rid_auth_get_page_count(&auth);
     ASSERT_EQ(4, page_count);
-    ASSERT_EQ(4, rid_message_pack_get_message_count(&pack));
+    ASSERT_EQ(4, rid_message_pack_message_count(&pack));
 
     status = rid_message_pack_get_auth(&pack, &result);
     ASSERT_EQ(RID_SUCCESS, status);
@@ -474,7 +474,7 @@ TEST test_set_auth_single_page(void) {
 
     int status = rid_message_pack_set_auth(&pack, &auth);
     ASSERT_EQ(RID_SUCCESS, status);
-    ASSERT_EQ(1, rid_message_pack_get_message_count(&pack));
+    ASSERT_EQ(1, rid_message_pack_message_count(&pack));
 
     rid_auth_t result;
     status = rid_message_pack_get_auth(&pack, &result);
@@ -495,7 +495,7 @@ TEST test_set_auth_replace_existing(void) {
     rid_auth_set_type(&auth, RID_AUTH_TYPE_MESSAGE_SET_SIGNATURE);
     rid_auth_set_timestamp(&auth, 1000);
     rid_message_pack_set_auth(&pack, &auth);
-    ASSERT_EQ(1, rid_message_pack_get_message_count(&pack));
+    ASSERT_EQ(1, rid_message_pack_message_count(&pack));
 
     rid_auth_init(&new_auth);
     rid_auth_set_type(&new_auth, RID_AUTH_TYPE_MESSAGE_SET_SIGNATURE);
@@ -503,7 +503,7 @@ TEST test_set_auth_replace_existing(void) {
 
     int status = rid_message_pack_set_auth(&pack, &new_auth);
     ASSERT_EQ(RID_SUCCESS, status);
-    ASSERT_EQ(1, rid_message_pack_get_message_count(&pack));
+    ASSERT_EQ(1, rid_message_pack_message_count(&pack));
 
     rid_auth_t result;
     status = rid_message_pack_get_auth(&pack, &result);
@@ -528,7 +528,7 @@ TEST test_set_auth_replace_multipage_with_single(void) {
     rid_auth_set_timestamp(&auth, 1000);
     rid_auth_set_signature(&auth, signature, sizeof(signature));
     rid_message_pack_set_auth(&pack, &auth);
-    ASSERT_EQ(4, rid_message_pack_get_message_count(&pack));
+    ASSERT_EQ(4, rid_message_pack_message_count(&pack));
 
     rid_auth_init(&single);
     rid_auth_set_type(&single, RID_AUTH_TYPE_MESSAGE_SET_SIGNATURE);
@@ -536,7 +536,7 @@ TEST test_set_auth_replace_multipage_with_single(void) {
 
     int status = rid_message_pack_set_auth(&pack, &single);
     ASSERT_EQ(RID_SUCCESS, status);
-    ASSERT_EQ(1, rid_message_pack_get_message_count(&pack));
+    ASSERT_EQ(1, rid_message_pack_message_count(&pack));
 
     rid_auth_t result;
     status = rid_message_pack_get_auth(&pack, &result);
@@ -580,12 +580,12 @@ TEST test_delete_message_at(void) {
         rid_basic_id_set_uas_id(&basic_id, uas_id);
         rid_message_pack_add_message(&pack, &basic_id);
     }
-    ASSERT_EQ(5, rid_message_pack_get_message_count(&pack));
+    ASSERT_EQ(5, rid_message_pack_message_count(&pack));
 
     /* Delete middle message (index 2, DRONE003) */
     int status = rid_message_pack_delete_message_at(&pack, 2);
     ASSERT_EQ(RID_SUCCESS, status);
-    ASSERT_EQ(4, rid_message_pack_get_message_count(&pack));
+    ASSERT_EQ(4, rid_message_pack_message_count(&pack));
 
     /* Verify remaining messages shifted correctly */
     const rid_basic_id_t *msg = rid_message_pack_get_message_at(&pack, 0);
@@ -623,7 +623,7 @@ TEST test_delete_message_at_first(void) {
 
     int status = rid_message_pack_delete_message_at(&pack, 0);
     ASSERT_EQ(RID_SUCCESS, status);
-    ASSERT_EQ(2, rid_message_pack_get_message_count(&pack));
+    ASSERT_EQ(2, rid_message_pack_message_count(&pack));
 
     const rid_basic_id_t *msg = rid_message_pack_get_message_at(&pack, 0);
     rid_basic_id_get_uas_id(msg, uas_id, sizeof(uas_id));
@@ -652,7 +652,7 @@ TEST test_delete_message_at_last(void) {
 
     int status = rid_message_pack_delete_message_at(&pack, 2);
     ASSERT_EQ(RID_SUCCESS, status);
-    ASSERT_EQ(2, rid_message_pack_get_message_count(&pack));
+    ASSERT_EQ(2, rid_message_pack_message_count(&pack));
 
     const rid_basic_id_t *msg = rid_message_pack_get_message_at(&pack, 0);
     rid_basic_id_get_uas_id(msg, uas_id, sizeof(uas_id));
@@ -714,7 +714,7 @@ TEST test_replace_message_at(void) {
     rid_basic_id_set_uas_id(&basic_id, "REPLACED");
     int status = rid_message_pack_replace_message_at(&pack, 1, &basic_id);
     ASSERT_EQ(RID_SUCCESS, status);
-    ASSERT_EQ(3, rid_message_pack_get_message_count(&pack));
+    ASSERT_EQ(3, rid_message_pack_message_count(&pack));
 
     /* Verify messages */
     const rid_basic_id_t *msg = rid_message_pack_get_message_at(&pack, 0);
@@ -880,7 +880,7 @@ TEST test_message_pack_sort_empty(void) {
 
     int status = rid_message_pack_sort(&pack);
     ASSERT_EQ(RID_SUCCESS, status);
-    ASSERT_EQ(0, rid_message_pack_get_message_count(&pack));
+    ASSERT_EQ(0, rid_message_pack_message_count(&pack));
 
     PASS();
 }
@@ -896,7 +896,7 @@ TEST test_message_pack_sort_single(void) {
 
     int status = rid_message_pack_sort(&pack);
     ASSERT_EQ(RID_SUCCESS, status);
-    ASSERT_EQ(1, rid_message_pack_get_message_count(&pack));
+    ASSERT_EQ(1, rid_message_pack_message_count(&pack));
 
     const void *msg = rid_message_pack_get_message_at(&pack, 0);
     ASSERT_EQ(RID_MESSAGE_TYPE_SELF_ID, rid_message_get_type(msg));
@@ -927,7 +927,7 @@ TEST test_message_pack_sort_already_sorted(void) {
 
     int status = rid_message_pack_sort(&pack);
     ASSERT_EQ(RID_SUCCESS, status);
-    ASSERT_EQ(5, rid_message_pack_get_message_count(&pack));
+    ASSERT_EQ(5, rid_message_pack_message_count(&pack));
 
     ASSERT_EQ(RID_MESSAGE_TYPE_BASIC_ID, rid_message_get_type(rid_message_pack_get_message_at(&pack, 0)));
     ASSERT_EQ(RID_MESSAGE_TYPE_LOCATION, rid_message_get_type(rid_message_pack_get_message_at(&pack, 1)));
@@ -961,7 +961,7 @@ TEST test_message_pack_sort_shuffled(void) {
 
     int status = rid_message_pack_sort(&pack);
     ASSERT_EQ(RID_SUCCESS, status);
-    ASSERT_EQ(5, rid_message_pack_get_message_count(&pack));
+    ASSERT_EQ(5, rid_message_pack_message_count(&pack));
 
     ASSERT_EQ(RID_MESSAGE_TYPE_BASIC_ID, rid_message_get_type(rid_message_pack_get_message_at(&pack, 0)));
     ASSERT_EQ(RID_MESSAGE_TYPE_LOCATION, rid_message_get_type(rid_message_pack_get_message_at(&pack, 1)));
@@ -999,11 +999,11 @@ TEST test_message_pack_sort_with_auth(void) {
 
     uint8_t page_count = rid_auth_get_page_count(&auth);
     ASSERT_EQ(4, page_count);
-    ASSERT_EQ(7, rid_message_pack_get_message_count(&pack));
+    ASSERT_EQ(7, rid_message_pack_message_count(&pack));
 
     int status = rid_message_pack_sort(&pack);
     ASSERT_EQ(RID_SUCCESS, status);
-    ASSERT_EQ(7, rid_message_pack_get_message_count(&pack));
+    ASSERT_EQ(7, rid_message_pack_message_count(&pack));
 
     /* Should be BASIC_ID, LOCATION, AUTH, SELF_ID. */
     ASSERT_EQ(RID_MESSAGE_TYPE_BASIC_ID, rid_message_get_type(rid_message_pack_get_message_at(&pack, 0)));
@@ -1077,12 +1077,12 @@ TEST test_message_pack_to_json_null(void) {
 
 SUITE(message_pack_suite) {
     RUN_TEST(test_message_pack_init);
-    RUN_TEST(test_message_pack_size);
+    RUN_TEST(test_message_pack_sizeof);
 
     RUN_TEST(test_get_count_null_pointer);
     RUN_TEST(test_message_pack_get_size_null_pointer);
     RUN_TEST(test_message_pack_get_size_empty);
-    RUN_TEST(test_message_pack_get_size);
+    RUN_TEST(test_message_pack_size);
     RUN_TEST(test_message_pack_get_messages_size_null_pointer);
     RUN_TEST(test_message_pack_get_messages_size_empty);
     RUN_TEST(test_message_pack_get_messages_size);
