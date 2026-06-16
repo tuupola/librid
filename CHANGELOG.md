@@ -7,7 +7,7 @@ All notable changes to this project will be documented in this file, in reverse 
 ### Added
 
 - `rid_message_pack_get_message_by_type()` function to get pointer to a message by type from a Message Pack. ([#24](https://github.com/tuupola/librid/commit/6cea1d9))
-- `rid_message_pack_get_messages_size()` function to get combined size of messages in a Message Pack. ([#25](https://github.com/tuupola/librid/commit/c9c7224))
+- `rid_message_pack_messages_size()` function to get combined size of messages in a Message Pack. ([#25](https://github.com/tuupola/librid/commit/c9c7224), [#36](https://github.com/tuupola/librid/commit/da20dd4))
 - `rid_message_pack_get_messages()` function to get pointer to messages in a Message Pack. ([#26](https://github.com/tuupola/librid/commit/d7612e4))
 - `rid_message_pack_get_auth()` function to get the Auth message from a Message Pack. ([#28](https://github.com/tuupola/librid/commit/7ff02eb))
 - `rid_message_pack_set_auth()` function to set the Auth message in a Message Pack. ([#29](https://github.com/tuupola/librid/commit/616616c))
@@ -18,9 +18,9 @@ All notable changes to this project will be documented in this file, in reverse 
 
 - JSON output now includes the assembled Auth message. ([#30](https://github.com/tuupola/librid/commit/81ac214))
 - `rid_message_pack_add_message()` now also handles Auth messages. ([#27](https://github.com/tuupola/librid/commit/1d2c51c))
-- `rid_message_pack_get_size()` renamed to `rid_message_pack_size()`. ([#TBD](https://github.com/tuupola/librid))
-- `rid_message_pack_get_message_count()` renamed to `rid_message_pack_message_count()`. ([#TBD](https://github.com/tuupola/librid))
-- `rid_message_pack_replace_message_at()` renamed to `rid_message_pack_set_message_at()`. ([#TBD](https://github.com/tuupola/librid))
+- `rid_message_pack_get_size()` renamed to `rid_message_pack_size()`. ([#36](https://github.com/tuupola/librid/commit/da20dd4))
+- `rid_message_pack_get_message_count()` renamed to `rid_message_pack_message_count()`. ([#36](https://github.com/tuupola/librid/commit/da20dd4))
+- `rid_message_pack_replace_message_at()` renamed to `rid_message_pack_set_message_at()`. ([#37](https://github.com/tuupola/librid/commit/1401f87))
 
 ### Fixed
 
