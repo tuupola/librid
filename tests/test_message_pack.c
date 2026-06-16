@@ -774,6 +774,84 @@ TEST test_set_message_at_out_of_range(void) {
     PASS();
 }
 
+TEST test_copy_message_at(void) {
+    rid_message_pack_t pack;
+    rid_message_t copy;
+    rid_basic_id_t basic_id;
+    rid_location_t location;
+    rid_system_t system;
+    int rc;
+
+    rid_message_pack_init(&pack);
+    rid_basic_id_init(&basic_id);
+    rid_location_init(&location);
+    rid_system_init(&system);
+
+    rid_message_pack_add_message(&pack, &basic_id);
+    rid_message_pack_add_message(&pack, &location);
+    rid_message_pack_add_message(&pack, &system);
+
+    memset(&copy, 0, sizeof(copy));
+
+    rc = rid_message_pack_copy_message_at(&pack, 0, &copy);
+    ASSERT_EQ(RID_SUCCESS, rc);
+    ASSERT_EQ(RID_MESSAGE_TYPE_BASIC_ID, rid_message_get_type(&copy));
+
+    rc = rid_message_pack_copy_message_at(&pack, 1, &copy);
+    ASSERT_EQ(RID_SUCCESS, rc);
+    ASSERT_EQ(RID_MESSAGE_TYPE_LOCATION, rid_message_get_type(&copy));
+
+    rc = rid_message_pack_copy_message_at(&pack, 2, &copy);
+    ASSERT_EQ(RID_SUCCESS, rc);
+    ASSERT_EQ(RID_MESSAGE_TYPE_SYSTEM, rid_message_get_type(&copy));
+
+    PASS();
+}
+
+TEST test_copy_message_at_null_pointer(void) {
+    rid_message_pack_t pack;
+    rid_basic_id_t basic_id;
+    int rc;
+
+    rid_message_pack_init(&pack);
+    rid_basic_id_init(&basic_id);
+    rid_message_pack_add_message(&pack, &basic_id);
+
+    rc = rid_message_pack_copy_message_at(NULL, 0, &basic_id);
+    ASSERT_EQ(RID_ERROR_NULL_POINTER, rc);
+
+    rc = rid_message_pack_copy_message_at(&pack, 0, NULL);
+    ASSERT_EQ(RID_ERROR_NULL_POINTER, rc);
+
+    rc = rid_message_pack_copy_message_at(NULL, 0, NULL);
+    ASSERT_EQ(RID_ERROR_NULL_POINTER, rc);
+
+    PASS();
+}
+
+TEST test_copy_message_at_out_of_range(void) {
+    rid_message_pack_t pack;
+    rid_basic_id_t basic_id;
+    int rc;
+
+    rid_message_pack_init(&pack);
+    rid_basic_id_init(&basic_id);
+    rid_message_pack_add_message(&pack, &basic_id);
+
+    rc = rid_message_pack_copy_message_at(&pack, 1, &basic_id);
+    ASSERT_EQ(RID_ERROR_OUT_OF_RANGE, rc);
+
+    rc = rid_message_pack_copy_message_at(&pack, UINT8_MAX, &basic_id);
+    ASSERT_EQ(RID_ERROR_OUT_OF_RANGE, rc);
+
+    /* Empty pack */
+    rid_message_pack_init(&pack);
+    rc = rid_message_pack_copy_message_at(&pack, 0, &basic_id);
+    ASSERT_EQ(RID_ERROR_OUT_OF_RANGE, rc);
+
+    PASS();
+}
+
 TEST test_message_pack_validate_valid(void) {
     rid_message_pack_t pack;
 
@@ -1125,6 +1203,10 @@ SUITE(message_pack_suite) {
     RUN_TEST(test_set_message_at);
     RUN_TEST(test_set_message_at_null_pointer);
     RUN_TEST(test_set_message_at_out_of_range);
+
+    RUN_TEST(test_copy_message_at);
+    RUN_TEST(test_copy_message_at_null_pointer);
+    RUN_TEST(test_copy_message_at_out_of_range);
 
     RUN_TEST(test_message_pack_validate_valid);
     RUN_TEST(test_message_pack_validate_null_pointer);

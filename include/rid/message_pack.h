@@ -233,6 +233,23 @@ int rid_message_pack_delete_message_at(rid_message_pack_t *pack, uint8_t index);
 int rid_message_pack_set_message_at(rid_message_pack_t *pack, uint8_t index, const void *message);
 
 /**
+ * @brief Copy a message at the specified index out of a Message Pack.
+ *
+ * Copies RID_MESSAGE_SIZE bytes from the Message Pack at the given index
+ * into the caller provided buffer. The destination must point to a struct
+ * matching the message type at the index.
+ *
+ * @param pack Pointer to the Message Pack structure.
+ * @param index Index of the message to copy.
+ * @param message Pointer to the destination buffer.
+ *
+ * @retval RID_SUCCESS on success.
+ * @retval RID_ERROR_NULL_POINTER if pack or message is NULL.
+ * @retval RID_ERROR_OUT_OF_RANGE if index is out of range.
+ */
+int rid_message_pack_copy_message_at(const rid_message_pack_t *pack, uint8_t index, void *message);
+
+/**
  * @brief Sort messages in a Message Pack by message type.
  *
  * Messages are sorted in ascending order by the message type.

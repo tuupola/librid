@@ -252,6 +252,21 @@ int rid_message_pack_set_message_at(rid_message_pack_t *pack, uint8_t index, con
     return RID_SUCCESS;
 }
 
+int rid_message_pack_copy_message_at(const rid_message_pack_t *pack, uint8_t index, void *message) {
+    if (pack == NULL || message == NULL) {
+        return RID_ERROR_NULL_POINTER;
+    }
+
+    if (index >= pack->message_count || index >= RID_MESSAGE_PACK_MAX_MESSAGES) {
+        return RID_ERROR_OUT_OF_RANGE;
+    }
+
+    size_t offset = index * RID_MESSAGE_SIZE;
+    memcpy(message, &pack->messages[offset], RID_MESSAGE_SIZE);
+
+    return RID_SUCCESS;
+}
+
 int rid_message_pack_sort(rid_message_pack_t *pack) {
     if (pack == NULL) {
         return RID_ERROR_NULL_POINTER;
