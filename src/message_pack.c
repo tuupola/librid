@@ -139,6 +139,23 @@ const void *rid_message_pack_get_message_at(const rid_message_pack_t *pack, uint
     return &pack->messages[offset];
 }
 
+int rid_message_pack_get_message_type_at(
+    const rid_message_pack_t *pack, uint8_t index, rid_message_type_t *type)
+{
+    if (pack == NULL || type == NULL) {
+        return RID_ERROR_NULL_POINTER;
+    }
+
+    if (index >= pack->message_count || index >= RID_MESSAGE_PACK_MAX_MESSAGES) {
+        return RID_ERROR_OUT_OF_RANGE;
+    }
+
+    const void *message = rid_message_pack_get_message_at(pack, index);
+    *type = rid_message_get_type(message);
+
+    return RID_SUCCESS;
+}
+
 int rid_message_pack_find_message_index_by_type(
     const rid_message_pack_t *pack, rid_message_type_t type, uint8_t start_index, uint8_t *index)
 {

@@ -158,11 +158,26 @@ int rid_message_pack_add_message(rid_message_pack_t *pack, const void *message);
  * @brief Get a pointer to a message at the specified index.
  *
  * @param pack Pointer to the Message Pack structure.
- * @param index Index of the message (0-based).
+ * @param index Index of the message.
  *
  * @return Pointer to the message, or NULL if pack is NULL or index is out of range.
  */
 const void *rid_message_pack_get_message_at(const rid_message_pack_t *pack, uint8_t index);
+
+/**
+ * @brief Get the message type at the specified index.
+ *
+ * @param pack Pointer to the Message Pack structure.
+ * @param index Index of the message.
+ * @param type Pointer to store the message type.
+ *
+ * @retval RID_SUCCESS on success, *type holds the message type.
+ * @retval RID_ERROR_NULL_POINTER if pack or type is NULL.
+ * @retval RID_ERROR_OUT_OF_RANGE if index is out of range.
+ */
+int rid_message_pack_get_message_type_at(
+    const rid_message_pack_t *pack, uint8_t index, rid_message_type_t *type
+);
 
 /**
  * @brief Find the index of the first message of the specified type starting at an index.

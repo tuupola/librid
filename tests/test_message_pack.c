@@ -1250,6 +1250,92 @@ TEST test_message_pack_to_json_null(void) {
     PASS();
 }
 
+TEST test_get_message_type_at(void) {
+    rid_message_pack_t pack;
+    rid_basic_id_t basic_id;
+    rid_location_t location;
+    rid_operator_id_t operator_id;
+    rid_message_type_t type;
+    int rc;
+
+    rid_message_pack_init(&pack);
+    rid_basic_id_init(&basic_id);
+    rid_location_init(&location);
+    rid_operator_id_init(&operator_id);
+
+    rid_message_pack_add_message(&pack, &basic_id);
+    rid_message_pack_add_message(&pack, &location);
+    rid_message_pack_add_message(&pack, &operator_id);
+
+    rc = rid_message_pack_get_message_type_at(&pack, 0, &type);
+    ASSERT_EQ(RID_SUCCESS, rc);
+    ASSERT_EQ(RID_MESSAGE_TYPE_BASIC_ID, type);
+
+    rc = rid_message_pack_get_message_type_at(&pack, 1, &type);
+    ASSERT_EQ(RID_SUCCESS, rc);
+    ASSERT_EQ(RID_MESSAGE_TYPE_LOCATION, type);
+
+    rc = rid_message_pack_get_message_type_at(&pack, 2, &type);
+    ASSERT_EQ(RID_SUCCESS, rc);
+    ASSERT_EQ(RID_MESSAGE_TYPE_OPERATOR_ID, type);
+
+    PASS();
+}
+
+TEST test_get_message_type_at_null_pointer(void) {
+    rid_message_pack_t pack;
+    rid_basic_id_t basic_id;
+    rid_message_type_t type;
+    int rc;
+
+    rid_message_pack_init(&pack);
+    rid_basic_id_init(&basic_id);
+    rid_message_pack_add_message(&pack, &basic_id);
+
+    rc = rid_message_pack_get_message_type_at(NULL, 0, &type);
+    ASSERT_EQ(RID_ERROR_NULL_POINTER, rc);
+
+    rc = rid_message_pack_get_message_type_at(&pack, 0, NULL);
+    ASSERT_EQ(RID_ERROR_NULL_POINTER, rc);
+
+    rc = rid_message_pack_get_message_type_at(NULL, 0, NULL);
+    ASSERT_EQ(RID_ERROR_NULL_POINTER, rc);
+
+    PASS();
+}
+
+TEST test_get_message_type_at_out_of_range(void) {
+    rid_message_pack_t pack;
+    rid_basic_id_t basic_id;
+    rid_message_type_t type;
+    int rc;
+
+    rid_message_pack_init(&pack);
+    rid_basic_id_init(&basic_id);
+    rid_message_pack_add_message(&pack, &basic_id);
+
+    rc = rid_message_pack_get_message_type_at(&pack, 1, &type);
+    ASSERT_EQ(RID_ERROR_OUT_OF_RANGE, rc);
+
+    rc = rid_message_pack_get_message_type_at(&pack, UINT8_MAX, &type);
+    ASSERT_EQ(RID_ERROR_OUT_OF_RANGE, rc);
+
+    PASS();
+}
+
+TEST test_get_message_type_at_empty(void) {
+    rid_message_pack_t pack;
+    rid_message_type_t type;
+    int rc;
+
+    rid_message_pack_init(&pack);
+
+    rc = rid_message_pack_get_message_type_at(&pack, 0, &type);
+    ASSERT_EQ(RID_ERROR_OUT_OF_RANGE, rc);
+
+    PASS();
+}
+
 SUITE(message_pack_suite) {
     RUN_TEST(test_message_pack_init);
     RUN_TEST(test_message_pack_sizeof);
@@ -1274,6 +1360,11 @@ SUITE(message_pack_suite) {
     RUN_TEST(test_get_message_at);
     RUN_TEST(test_get_message_at_null_pointer);
     RUN_TEST(test_get_message_at_out_of_range);
+
+    RUN_TEST(test_get_message_type_at);
+    RUN_TEST(test_get_message_type_at_null_pointer);
+    RUN_TEST(test_get_message_type_at_out_of_range);
+    RUN_TEST(test_get_message_type_at_empty);
 
     RUN_TEST(test_find_message_index_by_type);
     RUN_TEST(test_find_message_index_by_type_with_start_index);
