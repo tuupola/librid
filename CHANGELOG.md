@@ -13,11 +13,13 @@ All notable changes to this project will be documented in this file, in reverse 
 - `rid_message_pack_set_auth()` function to set the Auth message in a Message Pack. ([#29](https://github.com/tuupola/librid/commit/616616c))
 - `rid_auth_sign()` and `rid_auth_verify()` functions to sign and verify a message. ([#31](https://github.com/tuupola/librid/commit/142efaf))
 - `rid_message_pack_sort()` function to sort messages in a Message Pack by type. ([#32](https://github.com/tuupola/librid/commit/95127a3))
+- `rid_message_pack_copy_message_at()` function to copy a message from a Message Pack. ([#38](https://github.com/tuupola/librid/commit/b4af9ce))
+- `rid_message_pack_find_message_index_by_type()` function to find the index of the first message of a given type. ([#39](https://github.com/tuupola/librid/commit/e680884))
 
 ### Changed
 
-- JSON output now includes the assembled Auth message. ([#30](https://github.com/tuupola/librid/commit/81ac214))
 - `rid_message_pack_add_message()` now also handles Auth messages. ([#27](https://github.com/tuupola/librid/commit/1d2c51c))
+- JSON output now includes the assembled Auth message. ([#30](https://github.com/tuupola/librid/commit/81ac214))
 - `rid_message_pack_get_size()` renamed to `rid_message_pack_size()`. ([#36](https://github.com/tuupola/librid/commit/da20dd4))
 - `rid_message_pack_get_message_count()` renamed to `rid_message_pack_message_count()`. ([#36](https://github.com/tuupola/librid/commit/da20dd4))
 - `rid_message_pack_replace_message_at()` renamed to `rid_message_pack_set_message_at()`. ([#37](https://github.com/tuupola/librid/commit/1401f87))
