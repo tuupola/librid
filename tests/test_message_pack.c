@@ -364,6 +364,158 @@ TEST test_get_message_by_type_null_pointer(void) {
     PASS();
 }
 
+TEST test_find_message_index_by_type(void) {
+    rid_message_pack_t pack;
+    rid_basic_id_t basic_id;
+    rid_location_t location;
+    rid_operator_id_t operator_id;
+    uint8_t index;
+    int rc;
+
+    rid_message_pack_init(&pack);
+    rid_basic_id_init(&basic_id);
+    rid_location_init(&location);
+    rid_operator_id_init(&operator_id);
+
+    rid_message_pack_add_message(&pack, &basic_id);
+    rid_message_pack_add_message(&pack, &location);
+    rid_message_pack_add_message(&pack, &operator_id);
+
+    rc = rid_message_pack_find_message_index_by_type(&pack, RID_MESSAGE_TYPE_BASIC_ID, 0, &index);
+    ASSERT_EQ(RID_SUCCESS, rc);
+    ASSERT_EQ(0, index);
+
+    rc = rid_message_pack_find_message_index_by_type(&pack, RID_MESSAGE_TYPE_LOCATION, 0, &index);
+    ASSERT_EQ(RID_SUCCESS, rc);
+    ASSERT_EQ(1, index);
+
+    rc = rid_message_pack_find_message_index_by_type(&pack, RID_MESSAGE_TYPE_OPERATOR_ID, 0, &index);
+    ASSERT_EQ(RID_SUCCESS, rc);
+    ASSERT_EQ(2, index);
+
+    PASS();
+}
+
+TEST test_find_message_index_by_type_with_start_index(void) {
+    rid_message_pack_t pack;
+    rid_basic_id_t basic_id, basic_id_2;
+    rid_location_t location;
+    uint8_t index;
+    int rc;
+
+    rid_message_pack_init(&pack);
+    rid_basic_id_init(&basic_id);
+    rid_location_init(&location);
+    rid_basic_id_init(&basic_id_2);
+
+    rid_basic_id_set_uas_id(&basic_id, "DRONE0000000000001");
+    rid_basic_id_set_uas_id(&basic_id_2, "DRONE0000000000002");
+
+    rid_message_pack_add_message(&pack, &basic_id);
+    rid_message_pack_add_message(&pack, &location);
+    rid_message_pack_add_message(&pack, &basic_id_2);
+
+    /* First match at index 0. */
+    rc = rid_message_pack_find_message_index_by_type(&pack, RID_MESSAGE_TYPE_BASIC_ID, 0, &index);
+    ASSERT_EQ(RID_SUCCESS, rc);
+    ASSERT_EQ(0, index);
+
+    /* Starting past the first match should return the second one. */
+    rc = rid_message_pack_find_message_index_by_type(&pack, RID_MESSAGE_TYPE_BASIC_ID, 1, &index);
+    ASSERT_EQ(RID_SUCCESS, rc);
+    ASSERT_EQ(2, index);
+
+    /* Starting at 1 the Location is found at index 1. */
+    rc = rid_message_pack_find_message_index_by_type(&pack, RID_MESSAGE_TYPE_LOCATION, 1, &index);
+    ASSERT_EQ(RID_SUCCESS, rc);
+    ASSERT_EQ(1, index);
+
+    PASS();
+}
+
+TEST test_find_message_index_by_type_not_found(void) {
+    rid_message_pack_t pack;
+    rid_basic_id_t basic_id;
+    rid_location_t location;
+    rid_operator_id_t operator_id;
+    uint8_t index = 255;
+    int rc;
+
+    rid_message_pack_init(&pack);
+    rid_basic_id_init(&basic_id);
+    rid_location_init(&location);
+    rid_operator_id_init(&operator_id);
+
+    rid_message_pack_add_message(&pack, &basic_id);
+    rid_message_pack_add_message(&pack, &location);
+    rid_message_pack_add_message(&pack, &operator_id);
+
+    /* Type not present in the pack. */
+    rc = rid_message_pack_find_message_index_by_type(&pack, RID_MESSAGE_TYPE_SYSTEM, 0, &index);
+    ASSERT_EQ(RID_ERROR_NOT_FOUND, rc);
+
+    /* Type present before start_index. */
+    rc = rid_message_pack_find_message_index_by_type(&pack, RID_MESSAGE_TYPE_BASIC_ID, 1, &index);
+    ASSERT_EQ(RID_ERROR_NOT_FOUND, rc);
+
+    PASS();
+}
+
+TEST test_find_message_index_by_type_null_pointer(void) {
+    rid_message_pack_t pack;
+    rid_basic_id_t basic_id;
+    uint8_t index;
+    int rc;
+
+    rid_message_pack_init(&pack);
+    rid_basic_id_init(&basic_id);
+    rid_message_pack_add_message(&pack, &basic_id);
+
+    rc = rid_message_pack_find_message_index_by_type(NULL, RID_MESSAGE_TYPE_BASIC_ID, 0, &index);
+    ASSERT_EQ(RID_ERROR_NULL_POINTER, rc);
+
+    rc = rid_message_pack_find_message_index_by_type(&pack, RID_MESSAGE_TYPE_BASIC_ID, 0, NULL);
+    ASSERT_EQ(RID_ERROR_NULL_POINTER, rc);
+
+    rc = rid_message_pack_find_message_index_by_type(NULL, RID_MESSAGE_TYPE_BASIC_ID, 0, NULL);
+    ASSERT_EQ(RID_ERROR_NULL_POINTER, rc);
+
+    PASS();
+}
+
+TEST test_find_message_index_by_type_start_index_out_of_range(void) {
+    rid_message_pack_t pack;
+    rid_basic_id_t basic_id;
+    uint8_t index;
+    int rc;
+
+    rid_message_pack_init(&pack);
+    rid_basic_id_init(&basic_id);
+    rid_message_pack_add_message(&pack, &basic_id);
+
+    /* Start index bigger than count. */
+    rc = rid_message_pack_find_message_index_by_type(&pack, RID_MESSAGE_TYPE_BASIC_ID, 2, &index);
+    ASSERT_EQ(RID_ERROR_OUT_OF_RANGE, rc);
+
+    /* Start index bigger than max. */
+    rc = rid_message_pack_find_message_index_by_type(&pack, RID_MESSAGE_TYPE_BASIC_ID, UINT8_MAX, &index);
+    ASSERT_EQ(RID_ERROR_OUT_OF_RANGE, rc);
+
+    /* Empty pack with start index 1. */
+    rid_message_pack_init(&pack);
+    rc = rid_message_pack_find_message_index_by_type(&pack, RID_MESSAGE_TYPE_BASIC_ID, 1, &index);
+    ASSERT_EQ(RID_ERROR_OUT_OF_RANGE, rc);
+
+    /* Start index same as count. */
+    rid_message_pack_init(&pack);
+    rid_basic_id_init(&basic_id);
+    rid_message_pack_add_message(&pack, &basic_id);
+    rc = rid_message_pack_find_message_index_by_type(&pack, RID_MESSAGE_TYPE_BASIC_ID, 1, &index);
+    ASSERT_EQ(RID_ERROR_OUT_OF_RANGE, rc);
+
+    PASS();
+}
+
 TEST test_get_auth_single_page(void) {
     rid_message_pack_t pack;
     rid_auth_t auth;
@@ -1181,6 +1333,12 @@ SUITE(message_pack_suite) {
     RUN_TEST(test_get_message_by_type);
     RUN_TEST(test_get_message_by_type_not_found);
     RUN_TEST(test_get_message_by_type_null_pointer);
+
+    RUN_TEST(test_find_message_index_by_type);
+    RUN_TEST(test_find_message_index_by_type_with_start_index);
+    RUN_TEST(test_find_message_index_by_type_not_found);
+    RUN_TEST(test_find_message_index_by_type_null_pointer);
+    RUN_TEST(test_find_message_index_by_type_start_index_out_of_range);
 
     RUN_TEST(test_get_auth_single_page);
     RUN_TEST(test_get_auth_multiple_pages);

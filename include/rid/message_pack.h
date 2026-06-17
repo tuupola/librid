@@ -176,6 +176,23 @@ const void *rid_message_pack_get_message_at(const rid_message_pack_t *pack, uint
 const void *rid_message_pack_get_message_by_type(const rid_message_pack_t *pack, rid_message_type_t type);
 
 /**
+ * @brief Find the index of the first message of the specified type starting at an index.
+ *
+ * @param pack Pointer to the Message Pack structure.
+ * @param type The message type to search for.
+ * @param start_index Index to start the search from.
+ * @param index Pointer to store the index of the first found message.
+ *
+ * @retval RID_SUCCESS on success, *index holds the matching index.
+ * @retval RID_ERROR_NULL_POINTER if pack or index is NULL.
+ * @retval RID_ERROR_OUT_OF_RANGE if start_index is past the last message.
+ * @retval RID_ERROR_NOT_FOUND if no message of the given type is found.
+ */
+int rid_message_pack_find_message_index_by_type(
+    const rid_message_pack_t *pack, rid_message_type_t type, uint8_t start_index, uint8_t *index
+);
+
+/**
  * @brief Get Auth message from a Message Pack.
  *
  * Searches the Message Pack for an Auth message and reconstructs it

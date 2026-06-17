@@ -154,6 +154,28 @@ const void *rid_message_pack_get_message_by_type(const rid_message_pack_t *pack,
     return NULL;
 }
 
+int rid_message_pack_find_message_index_by_type(
+    const rid_message_pack_t *pack, rid_message_type_t type, uint8_t start_index, uint8_t *index)
+{
+    if (pack == NULL || index == NULL) {
+        return RID_ERROR_NULL_POINTER;
+    }
+
+    if (start_index >= pack->message_count || start_index >= RID_MESSAGE_PACK_MAX_MESSAGES) {
+        return RID_ERROR_OUT_OF_RANGE;
+    }
+
+    for (uint8_t i = start_index; i < pack->message_count; ++i) {
+        const void *message = rid_message_pack_get_message_at(pack, i);
+        if (message != NULL && rid_message_get_type(message) == type) {
+            *index = i;
+            return RID_SUCCESS;
+        }
+    }
+
+    return RID_ERROR_NOT_FOUND;
+}
+
 int rid_message_pack_get_auth(const rid_message_pack_t *pack, rid_auth_t *auth) {
     if (pack == NULL || auth == NULL) {
         return RID_ERROR_NULL_POINTER;
