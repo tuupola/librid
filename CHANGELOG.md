@@ -6,7 +6,6 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Added
 
-- `rid_message_pack_get_message_by_type()` function to get pointer to a message by type from a Message Pack. ([#24](https://github.com/tuupola/librid/commit/6cea1d9))
 - `rid_message_pack_messages_size()` function to get combined size of messages in a Message Pack. ([#25](https://github.com/tuupola/librid/commit/c9c7224), [#36](https://github.com/tuupola/librid/commit/da20dd4))
 - `rid_message_pack_get_messages()` function to get pointer to messages in a Message Pack. ([#26](https://github.com/tuupola/librid/commit/d7612e4))
 - `rid_message_pack_get_auth()` function to get the Auth message from a Message Pack. ([#28](https://github.com/tuupola/librid/commit/7ff02eb))
