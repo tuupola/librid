@@ -14,6 +14,7 @@ All notable changes to this project will be documented in this file, in reverse 
 - `rid_message_pack_sort()` function to sort messages in a Message Pack by type. ([#32](https://github.com/tuupola/librid/commit/95127a3))
 - `rid_message_pack_copy_message_at()` function to copy a message from a Message Pack. ([#38](https://github.com/tuupola/librid/commit/b4af9ce))
 - `rid_message_pack_find_message_index_by_type()` function to find the index of the first message of a given type. ([#39](https://github.com/tuupola/librid/commit/e680884))
+- `rid_message_pack_get_message_type_at()` function to get the message type at a given index. ([#42](https://github.com/tuupola/librid/commit/a4550a2))
 
 ### Changed
 
