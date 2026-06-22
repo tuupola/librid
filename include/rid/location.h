@@ -400,16 +400,31 @@ double rid_location_get_longitude(const rid_location_t *location);
 /**
  * @brief Set the pressure altitude for a Location message.
  *
+ * Encodes the value per ASTM F3411-22a Table 7 with 0.5 m resolution.
+ * Pass RID_PRESSURE_ALTITUDE_INVALID to mark the altitude as unknown.
+ *
+ * @note This is the uncorrected barometric altitude referenced to the
+ *       standard atmosphere (29.92 inHg / 1013.25 mb). It is not corrected
+ *       for the local altimeter setting. It is used as common reference
+ *       for algorithms computing altitude deltas between aircraft.
+ *
  * @param location Pointer to the Location message structure.
- * @param altitude_m Pressure altitude in meters.
+ * @param altitude_m Pressure altitude in meters (-1000 to 31767)
+ *                   or RID_PRESSURE_ALTITUDE_INVALID for unknown.
  *
  * @retval RID_SUCCESS on success.
  * @retval RID_ERROR_NULL_POINTER if location is NULL.
+ * @retval RID_ERROR_OUT_OF_RANGE if altitude_m is outside the valid range.
  */
 int rid_location_set_pressure_altitude(rid_location_t *location, float altitude_m);
 
 /**
  * @brief Get the pressure altitude from a Location message.
+ *
+ * @note This is the uncorrected barometric altitude referenced to the
+ *       standard atmosphere (29.92 inHg / 1013.25 mb). It is not corrected
+ *       for the local altimeter setting. It is used as common reference
+ *       for algorithms computing altitude deltas between aircraft.
  *
  * @param location Pointer to the Location message structure.
  *
