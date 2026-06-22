@@ -466,16 +466,29 @@ float rid_location_get_geodetic_altitude(const rid_location_t *location);
 /**
  * @brief Set the height for a Location message.
  *
+ * This is an altitude relative to a local reference point which is either
+ * the takeoff location or above ground level (AGL). The datum is set
+ * separately with rid_location_set_height_type() function.
+ *
+ * Encodes the value per ASTM F3411-22a Table 7 with 0.5 m resolution.
+ * Pass RID_HEIGHT_INVALID to mark the height as unknown.
+ *
  * @param location Pointer to the Location message structure.
- * @param height_m Height in meters.
+ * @param height_m Height in meters (-1000 to 31767),
+ *                 or RID_HEIGHT_INVALID for unknown.
  *
  * @retval RID_SUCCESS on success.
  * @retval RID_ERROR_NULL_POINTER if location is NULL.
+ * @retval RID_ERROR_OUT_OF_RANGE if height_m is outside the valid range.
  */
 int rid_location_set_height(rid_location_t *location, float height_m);
 
 /**
  * @brief Get the height from a Location message.
+ *
+ * This is an altitude relative to a local reference point which is either
+ * the takeoff location or above ground level (AGL). The reference point is set
+ * separately with rid_location_set_height_type() function.
  *
  * @param location Pointer to the Location message structure.
  *
