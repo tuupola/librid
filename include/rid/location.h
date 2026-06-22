@@ -400,16 +400,31 @@ double rid_location_get_longitude(const rid_location_t *location);
 /**
  * @brief Set the pressure altitude for a Location message.
  *
+ * Encodes the value per ASTM F3411-22a Table 7 with 0.5 m resolution.
+ * Pass RID_PRESSURE_ALTITUDE_INVALID to mark the altitude as unknown.
+ *
+ * This is the uncorrected barometric altitude referenced to the standard
+ * atmosphere (29.92 inHg / 1013.25 mb). It is not corrected for the local
+ * altimeter setting. It is used as common reference for algorithms computing
+ * altitude differences between aircraft.
+ *
  * @param location Pointer to the Location message structure.
- * @param altitude_m Pressure altitude in meters.
+ * @param altitude_m Pressure altitude in meters (-1000 to 31767)
+ *                   or RID_PRESSURE_ALTITUDE_INVALID for unknown.
  *
  * @retval RID_SUCCESS on success.
  * @retval RID_ERROR_NULL_POINTER if location is NULL.
+ * @retval RID_ERROR_OUT_OF_RANGE if altitude_m is outside the valid range.
  */
 int rid_location_set_pressure_altitude(rid_location_t *location, float altitude_m);
 
 /**
  * @brief Get the pressure altitude from a Location message.
+ *
+ * This is the uncorrected barometric altitude referenced to the standard
+ * atmosphere (29.92 inHg / 1013.25 mb). It is not corrected for the local
+ * altimeter setting. It is used as common reference for algorithms computing
+ * altitude differences between aircraft.
  *
  * @param location Pointer to the Location message structure.
  *
@@ -420,16 +435,27 @@ float rid_location_get_pressure_altitude(const rid_location_t *location);
 /**
  * @brief Set the geodetic altitude for a Location message.
  *
+ * Encodes the value per ASTM F3411-22a Table 7 with 0.5 m resolution.
+ * Pass RID_GEODETIC_ALTITUDE_INVALID to mark the altitude as unknown.
+ *
+ * This is the GNSS height above or below the WGS-84 reference ellipsoid.
+ * In layman's terms, this is the height you get from you GPS.
+ *
  * @param location Pointer to the Location message structure.
- * @param altitude_m Geodetic altitude in meters.
+ * @param altitude_m Geodetic altitude in meters (-1000 to 31767),
+ *                   or RID_GEODETIC_ALTITUDE_INVALID for unknown.
  *
  * @retval RID_SUCCESS on success.
  * @retval RID_ERROR_NULL_POINTER if location is NULL.
+ * @retval RID_ERROR_OUT_OF_RANGE if altitude_m is outside the valid range.
  */
 int rid_location_set_geodetic_altitude(rid_location_t *location, float altitude_m);
 
 /**
  * @brief Get the geodetic altitude from a Location message.
+ *
+ * This is the GNSS height above or below the WGS-84 reference ellipsoid.
+ * In layman's terms, this is the height you get from you GPS.
  *
  * @param location Pointer to the Location message structure.
  *
@@ -440,16 +466,29 @@ float rid_location_get_geodetic_altitude(const rid_location_t *location);
 /**
  * @brief Set the height for a Location message.
  *
+ * This is an altitude relative to a local reference point which is either
+ * the takeoff location or above ground level. The reference point is set
+ * separately with rid_location_set_height_type() function.
+ *
+ * Encodes the value per ASTM F3411-22a Table 7 with 0.5 m resolution.
+ * Pass RID_HEIGHT_INVALID to mark the height as unknown.
+ *
  * @param location Pointer to the Location message structure.
- * @param height_m Height in meters.
+ * @param height_m Height in meters (-1000 to 31767),
+ *                 or RID_HEIGHT_INVALID for unknown.
  *
  * @retval RID_SUCCESS on success.
  * @retval RID_ERROR_NULL_POINTER if location is NULL.
+ * @retval RID_ERROR_OUT_OF_RANGE if height_m is outside the valid range.
  */
 int rid_location_set_height(rid_location_t *location, float height_m);
 
 /**
  * @brief Get the height from a Location message.
+ *
+ * This is an altitude relative to a local reference point which is either
+ * the takeoff location or above ground level. The reference point is set
+ * separately with rid_location_set_height_type() function.
  *
  * @param location Pointer to the Location message structure.
  *
