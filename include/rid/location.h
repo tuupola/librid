@@ -467,7 +467,7 @@ float rid_location_get_geodetic_altitude(const rid_location_t *location);
  * @brief Set the height for a Location message.
  *
  * This is an altitude relative to a local reference point which is either
- * the takeoff location or above ground level. The datum is set
+ * the takeoff location or above ground level. The reference point is set
  * separately with rid_location_set_height_type() function.
  *
  * Encodes the value per ASTM F3411-22a Table 7 with 0.5 m resolution.
