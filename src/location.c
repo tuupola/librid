@@ -363,6 +363,9 @@ int rid_location_set_pressure_altitude(rid_location_t *location, float altitude_
 }
 
 float rid_location_get_pressure_altitude(const rid_location_t *location) {
+    if (location->pressure_altitude == RID_PRESSURE_ALTITUDE_INVALID_ENCODED) {
+        return RID_PRESSURE_ALTITUDE_INVALID;
+    }
     return ((float)location->pressure_altitude * 0.5f) - 1000.0f;
 }
 
