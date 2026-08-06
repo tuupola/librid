@@ -7,7 +7,8 @@ All notable changes to this project will be documented in this file, in reverse 
 ### Changed
 - Invalid horizontal and vertical speed are now rendered as `null` in JSON output. ([#xx](https://github.com/tuupola/librid/commit/xxxxxxx))
 - Value of `RID_VERTICAL_SPEED_INVALID` sentinel is now `FLT_MAX`. ([#xx](https://github.com/tuupola/librid/commit/xxxxxxx))
-
+- `rid_location_get_height()` returns `RID_HEIGHT_INVALID` instead of `-1000.0` when height is invalid. ([#xx](https://github.com/tuupola/librid/commit/xxxxxxx))
+-
 ## [0.4.0](https://github.com/tuupola/librid/compare/0.3.0...0.4.0) - 2026-06-17
 
 ### Added

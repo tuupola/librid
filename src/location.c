@@ -329,6 +329,9 @@ int rid_location_set_height(rid_location_t *location, float height_m) {
 }
 
 float rid_location_get_height(const rid_location_t *location) {
+    if (location->height == RID_HEIGHT_INVALID_ENCODED) {
+        return RID_HEIGHT_INVALID;
+    }
     return ((float)location->height * 0.5f) - 1000.0f;
 }
 
