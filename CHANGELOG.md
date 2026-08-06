@@ -5,12 +5,12 @@ All notable changes to this project will be documented in this file, in reverse 
 ## [0.5.0-dev](https://github.com/tuupola/librid/compare/0.4.0...master) - unreleased
 
 ### Changed
-- Invalid horizontal and vertical speed are now rendered as `null` in JSON output. ([#xx](https://github.com/tuupola/librid/commit/xxxxxxx))
-- Value of `RID_VERTICAL_SPEED_INVALID` sentinel is now `FLT_MAX`. ([#xx](https://github.com/tuupola/librid/commit/xxxxxxx))
-- `rid_location_get_height()` returns `RID_HEIGHT_INVALID` instead of `-1000.0` when height is invalid. ([#xx](https://github.com/tuupola/librid/commit/xxxxxxx))
-- `rid_location_get_pressure_altitude()` returns `RID_PRESSURE_ALTITUDE_INVALID` instead of `-1000.0` when pressure altitude is invalid. ([#xx](https://github.com/tuupola/librid/commit/xxxxxxx))
-- `rid_location_get_geodetic_altitude()` returns `RID_GEODETIC_ALTITUDE_INVALID` instead of `-1000.0` when geodetic altitude is invalid. ([#xx](https://github.com/tuupola/librid/commit/xxxxxxx))
-- Invalid height and altitudes are now rendered as `null` in JSON output. ([#xx](https://github.com/tuupola/librid/commit/xxxxxxx))
+- Invalid horizontal and vertical speed are now rendered as `null` in JSON output. ([#44](https://github.com/tuupola/librid/commit/2e4a834))
+- Value of `RID_VERTICAL_SPEED_INVALID` sentinel is now `FLT_MAX`. ([#45](https://github.com/tuupola/librid/commit/a7b23aa))
+- `rid_location_get_height()` returns `RID_HEIGHT_INVALID` instead of `-1000.0` when height is invalid. ([#46](https://github.com/tuupola/librid/commit/99b79c4))
+- `rid_location_get_pressure_altitude()` returns `RID_PRESSURE_ALTITUDE_INVALID` instead of `-1000.0` when pressure altitude is invalid. ([#47](https://github.com/tuupola/librid/commit/c6b7765))
+- `rid_location_get_geodetic_altitude()` returns `RID_GEODETIC_ALTITUDE_INVALID` instead of `-1000.0` when geodetic altitude is invalid. ([#48](https://github.com/tuupola/librid/commit/9456b0a))
+- Invalid height and altitudes are now rendered as `null` in JSON output. ([#49](https://github.com/tuupola/librid/commit/bed97d5))
 
 ## [0.4.0](https://github.com/tuupola/librid/compare/0.3.0...0.4.0) - 2026-06-17
 
