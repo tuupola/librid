@@ -723,13 +723,37 @@ int rid_location_to_json(const rid_location_t *location, char *buffer, size_t bu
         snprintf(vertical_speed_str, sizeof(vertical_speed_str), "%.2f", (double)vertical_speed);
     }
 
+    char height_str[32];
+    float height = rid_location_get_height(location);
+    if (height == RID_HEIGHT_INVALID) {
+        snprintf(height_str, sizeof(height_str), "null");
+    } else {
+        snprintf(height_str, sizeof(height_str), "%.1f", (double)height);
+    }
+
+    char pressure_altitude_str[32];
+    float pressure_altitude = rid_location_get_pressure_altitude(location);
+    if (pressure_altitude == RID_PRESSURE_ALTITUDE_INVALID) {
+        snprintf(pressure_altitude_str, sizeof(pressure_altitude_str), "null");
+    } else {
+        snprintf(pressure_altitude_str, sizeof(pressure_altitude_str), "%.1f", (double)pressure_altitude);
+    }
+
+    char geodetic_altitude_str[32];
+    float geodetic_altitude = rid_location_get_geodetic_altitude(location);
+    if (geodetic_altitude == RID_GEODETIC_ALTITUDE_INVALID) {
+        snprintf(geodetic_altitude_str, sizeof(geodetic_altitude_str), "null");
+    } else {
+        snprintf(geodetic_altitude_str, sizeof(geodetic_altitude_str), "%.1f", (double)geodetic_altitude);
+    }
+
     return snprintf(
         buffer,
         buffer_size,
         "{\"protocol_version\": %u, \"message_type\": %u, "
         "\"latitude\": %f, \"longitude\": %f, "
-        "\"geodetic_altitude\": %f, \"pressure_altitude\": %f, "
-        "\"height\": %f, \"height_type\": %u, "
+        "\"geodetic_altitude\": %s, \"pressure_altitude\": %s, "
+        "\"height\": %s, \"height_type\": %u, "
         "\"speed\": %s, \"vertical_speed\": %s, "
         "\"track_direction\": %u, \"operational_status\": %u, "
         "\"horizontal_accuracy\": %u, \"vertical_accuracy\": %u, "
@@ -739,9 +763,9 @@ int rid_location_to_json(const rid_location_t *location, char *buffer, size_t bu
         rid_message_get_type(location),
         rid_location_get_latitude(location),
         rid_location_get_longitude(location),
-        (double)rid_location_get_geodetic_altitude(location),
-        (double)rid_location_get_pressure_altitude(location),
-        (double)rid_location_get_height(location),
+        geodetic_altitude_str,
+        pressure_altitude_str,
+        height_str,
         rid_location_get_height_type(location),
         speed_str,
         vertical_speed_str,

@@ -10,6 +10,7 @@ All notable changes to this project will be documented in this file, in reverse 
 - `rid_location_get_height()` returns `RID_HEIGHT_INVALID` instead of `-1000.0` when height is invalid. ([#xx](https://github.com/tuupola/librid/commit/xxxxxxx))
 - `rid_location_get_pressure_altitude()` returns `RID_PRESSURE_ALTITUDE_INVALID` instead of `-1000.0` when pressure altitude is invalid. ([#xx](https://github.com/tuupola/librid/commit/xxxxxxx))
 - `rid_location_get_geodetic_altitude()` returns `RID_GEODETIC_ALTITUDE_INVALID` instead of `-1000.0` when geodetic altitude is invalid. ([#xx](https://github.com/tuupola/librid/commit/xxxxxxx))
+- Invalid height and altitudes are now rendered as `null` in JSON output. ([#xx](https://github.com/tuupola/librid/commit/xxxxxxx))
 
 ## [0.4.0](https://github.com/tuupola/librid/compare/0.3.0...0.4.0) - 2026-06-17
 
