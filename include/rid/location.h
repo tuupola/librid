@@ -63,7 +63,7 @@ extern "C" {
 #define RID_SPEED_INVALID_ENCODED 255
 
 /** @brief Value indicating invalid vertical speed. */
-#define RID_VERTICAL_SPEED_INVALID 63
+#define RID_VERTICAL_SPEED_INVALID FLT_MAX
 /** @brief Encoded value for invalid vertical speed. */
 #define RID_VERTICAL_SPEED_INVALID_ENCODED 126
 
