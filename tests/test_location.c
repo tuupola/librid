@@ -1430,6 +1430,7 @@ TEST test_location_to_json_invalid_as_null(void) {
     char buffer[1024];
 
     rid_location_init(&location);
+    rid_location_set_timestamp(&location, RID_TIMESTAMP_INVALID);
 
     int result = rid_location_to_json(&location, buffer, sizeof(buffer));
     ASSERT(result > 0);
@@ -1439,6 +1440,7 @@ TEST test_location_to_json_invalid_as_null(void) {
     ASSERT(strstr(buffer, "\"height\": null") != NULL);
     ASSERT(strstr(buffer, "\"pressure_altitude\": null") != NULL);
     ASSERT(strstr(buffer, "\"geodetic_altitude\": null") != NULL);
+    ASSERT(strstr(buffer, "\"timestamp\": null") != NULL);
 
     PASS();
 }

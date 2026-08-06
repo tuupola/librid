@@ -747,6 +747,14 @@ int rid_location_to_json(const rid_location_t *location, char *buffer, size_t bu
         snprintf(geodetic_altitude_str, sizeof(geodetic_altitude_str), "%.1f", (double)geodetic_altitude);
     }
 
+    char timestamp_str[32];
+    uint16_t timestamp = rid_location_get_timestamp(location);
+    if (timestamp == RID_TIMESTAMP_INVALID) {
+        snprintf(timestamp_str, sizeof(timestamp_str), "null");
+    } else {
+        snprintf(timestamp_str, sizeof(timestamp_str), "%u", (unsigned int)timestamp);
+    }
+
     return snprintf(
         buffer,
         buffer_size,
@@ -758,7 +766,7 @@ int rid_location_to_json(const rid_location_t *location, char *buffer, size_t bu
         "\"track_direction\": %u, \"operational_status\": %u, "
         "\"horizontal_accuracy\": %u, \"vertical_accuracy\": %u, "
         "\"speed_accuracy\": %u, \"baro_altitude_accuracy\": %u, "
-        "\"timestamp\": %u, \"timestamp_accuracy\": %u}",
+        "\"timestamp\": %s, \"timestamp_accuracy\": %u}",
         rid_message_get_protocol_version(location),
         rid_message_get_type(location),
         rid_location_get_latitude(location),
@@ -775,7 +783,7 @@ int rid_location_to_json(const rid_location_t *location, char *buffer, size_t bu
         rid_location_get_vertical_accuracy(location),
         rid_location_get_speed_accuracy(location),
         rid_location_get_baro_altitude_accuracy(location),
-        rid_location_get_timestamp(location),
+        timestamp_str,
         rid_location_get_timestamp_accuracy(location)
     );
 }
