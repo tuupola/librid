@@ -397,6 +397,9 @@ int rid_location_set_geodetic_altitude(rid_location_t *location, float altitude_
 }
 
 float rid_location_get_geodetic_altitude(const rid_location_t *location) {
+    if (location->geodetic_altitude == RID_GEODETIC_ALTITUDE_INVALID_ENCODED) {
+        return RID_GEODETIC_ALTITUDE_INVALID;
+    }
     return ((float)location->geodetic_altitude * 0.5f) - 1000.0f;
 }
 

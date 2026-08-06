@@ -441,7 +441,7 @@ TEST test_set_pressure_altitude_null_pointer(void) {
 TEST test_set_and_get_geodetic_altitude(void) {
     rid_location_t location;
 
-    float test_altitudes[] = {0.0f, 10.5f, 100.0f, 500.0f, -100.0f, -500.0f, -1000.0f, 31767.0f};
+    float test_altitudes[] = {0.0f, 10.5f, 100.0f, 500.0f, -100.0f, -500.0f, 31767.0f};
 
     for (size_t i = 0; i < sizeof(test_altitudes) / sizeof(test_altitudes[0]); i++) {
         memset(&location, 0, sizeof(location));
@@ -483,9 +483,9 @@ TEST test_geodetic_altitude_invalid(void) {
     ASSERT_EQ(RID_SUCCESS, status);
     ASSERT_EQ(RID_GEODETIC_ALTITUDE_INVALID_ENCODED, location.geodetic_altitude);
 
-    /* Invalid also means -1000m */
+    /* Should decode back to RID_GEODETIC_ALTITUDE_INVALID */
     float result = rid_location_get_geodetic_altitude(&location);
-    ASSERT_EQ(-1000.0f, result);
+    ASSERT_EQ(RID_GEODETIC_ALTITUDE_INVALID, result);
 
     PASS();
 }
@@ -1187,11 +1187,11 @@ TEST test_location_init(void) {
 
     /* Verify height and altitude fields are invalid */
     float height = rid_location_get_height(&location);
-    float pressure_alt = rid_location_get_pressure_altitude(&location);
-    float geodetic_alt = rid_location_get_geodetic_altitude(&location);
+    float pressure_altitude = rid_location_get_pressure_altitude(&location);
+    float geodetic_altitude = rid_location_get_geodetic_altitude(&location);
     ASSERT_EQ(RID_HEIGHT_INVALID, height);
-    ASSERT_EQ(RID_PRESSURE_ALTITUDE_INVALID, pressure_alt);
-    ASSERT_EQ(-1000.0f, geodetic_alt);
+    ASSERT_EQ(RID_PRESSURE_ALTITUDE_INVALID, pressure_altitude);
+    ASSERT_EQ(RID_GEODETIC_ALTITUDE_INVALID, geodetic_altitude);
 
     /* TODO: horizontal, vertical, speed and timestamp accuracy */
 
