@@ -4,6 +4,9 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ## [0.5.0-dev](https://github.com/tuupola/librid/compare/0.4.0...master) - unreleased
 
+### Changed
+- Invalid horizontal and vertical speed are now rendered as `null` in JSON output. ([#xx](https://github.com/tuupola/librid/commit/xxxxxxx))
+
 ## [0.4.0](https://github.com/tuupola/librid/compare/0.3.0...0.4.0) - 2026-06-17
 
 ### Added

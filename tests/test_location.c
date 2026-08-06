@@ -1427,6 +1427,22 @@ TEST test_location_to_json_null(void) {
     PASS();
 }
 
+TEST test_location_to_json_invalid_speed(void) {
+    rid_location_t location;
+    char buffer[1024];
+
+    rid_location_init(&location);
+    rid_location_set_speed(&location, RID_SPEED_INVALID);
+
+    int result = rid_location_to_json(&location, buffer, sizeof(buffer));
+    ASSERT(result > 0);
+    ASSERT(strstr(buffer, "\"speed\": null") != NULL);
+    /* Init leaves vertical_speed invalid encoded */
+    ASSERT(strstr(buffer, "\"vertical_speed\": null") != NULL);
+
+    PASS();
+}
+
 SUITE(location_suite) {
     RUN_TEST(test_location_init);
 
@@ -1525,4 +1541,5 @@ SUITE(location_suite) {
 
     RUN_TEST(test_location_to_json);
     RUN_TEST(test_location_to_json_null);
+    RUN_TEST(test_location_to_json_invalid_speed);
 }

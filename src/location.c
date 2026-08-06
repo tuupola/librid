@@ -158,7 +158,7 @@ int rid_location_set_speed(rid_location_t *location, float speed_ms) {
 
     /* Invalid or unknown speed */
     if (speed_ms == RID_SPEED_INVALID) {
-        location->speed = 255;
+        location->speed = RID_SPEED_INVALID_ENCODED;
         location->speed_multiplier = 1;
         return RID_SUCCESS;
     }
@@ -193,7 +193,7 @@ int rid_location_set_speed(rid_location_t *location, float speed_ms) {
 float rid_location_get_speed(const rid_location_t *location) {
 
     /* Invalid or unknown speed */
-    if (location->speed == 255 && location->speed_multiplier == 1) {
+    if (location->speed == RID_SPEED_INVALID_ENCODED && location->speed_multiplier == 1) {
         return RID_SPEED_INVALID;
     }
 
@@ -698,6 +698,22 @@ int rid_location_to_json(const rid_location_t *location, char *buffer, size_t bu
         return RID_ERROR_NULL_POINTER;
     }
 
+    char speed_str[32];
+    float speed = rid_location_get_speed(location);
+    if (speed == RID_SPEED_INVALID) {
+        snprintf(speed_str, sizeof(speed_str), "null");
+    } else {
+        snprintf(speed_str, sizeof(speed_str), "%.2f", (double)speed);
+    }
+
+    char vertical_speed_str[32];
+    float vertical_speed = rid_location_get_vertical_speed(location);
+    if (vertical_speed == RID_VERTICAL_SPEED_INVALID) {
+        snprintf(vertical_speed_str, sizeof(vertical_speed_str), "null");
+    } else {
+        snprintf(vertical_speed_str, sizeof(vertical_speed_str), "%.2f", (double)vertical_speed);
+    }
+
     return snprintf(
         buffer,
         buffer_size,
@@ -705,7 +721,7 @@ int rid_location_to_json(const rid_location_t *location, char *buffer, size_t bu
         "\"latitude\": %f, \"longitude\": %f, "
         "\"geodetic_altitude\": %f, \"pressure_altitude\": %f, "
         "\"height\": %f, \"height_type\": %u, "
-        "\"speed\": %f, \"vertical_speed\": %f, "
+        "\"speed\": %s, \"vertical_speed\": %s, "
         "\"track_direction\": %u, \"operational_status\": %u, "
         "\"horizontal_accuracy\": %u, \"vertical_accuracy\": %u, "
         "\"speed_accuracy\": %u, \"baro_altitude_accuracy\": %u, "
@@ -718,8 +734,8 @@ int rid_location_to_json(const rid_location_t *location, char *buffer, size_t bu
         (double)rid_location_get_pressure_altitude(location),
         (double)rid_location_get_height(location),
         rid_location_get_height_type(location),
-        (double)rid_location_get_speed(location),
-        (double)rid_location_get_vertical_speed(location),
+        speed_str,
+        vertical_speed_str,
         rid_location_get_track_direction(location),
         rid_location_get_operational_status(location),
         rid_location_get_horizontal_accuracy(location),
