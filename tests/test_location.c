@@ -1438,6 +1438,7 @@ TEST test_location_to_json_invalid_as_null(void) {
     ASSERT(strstr(buffer, "\"height\": null") != NULL);
     ASSERT(strstr(buffer, "\"pressure_altitude\": null") != NULL);
     ASSERT(strstr(buffer, "\"geodetic_altitude\": null") != NULL);
+    ASSERT(strstr(buffer, "\"track_direction\": null") != NULL);
     ASSERT(strstr(buffer, "\"timestamp\": null") != NULL);
 
     PASS();

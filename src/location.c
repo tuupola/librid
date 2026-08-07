@@ -754,7 +754,15 @@ int rid_location_to_json(const rid_location_t *location, char *buffer, size_t bu
     if (timestamp == RID_TIMESTAMP_INVALID) {
         snprintf(timestamp_str, sizeof(timestamp_str), "null");
     } else {
-        snprintf(timestamp_str, sizeof(timestamp_str), "%u", (unsigned int)timestamp);
+        snprintf(timestamp_str, sizeof(timestamp_str), "%u", timestamp);
+    }
+
+    char track_direction_str[32];
+    uint16_t track_direction = rid_location_get_track_direction(location);
+    if (track_direction == RID_TRACK_DIRECTION_UNKNOWN) {
+        snprintf(track_direction_str, sizeof(track_direction_str), "null");
+    } else {
+        snprintf(track_direction_str, sizeof(track_direction_str), "%u", track_direction);
     }
 
     return snprintf(
@@ -765,7 +773,7 @@ int rid_location_to_json(const rid_location_t *location, char *buffer, size_t bu
         "\"geodetic_altitude\": %s, \"pressure_altitude\": %s, "
         "\"height\": %s, \"height_type\": %u, "
         "\"speed\": %s, \"vertical_speed\": %s, "
-        "\"track_direction\": %u, \"operational_status\": %u, "
+        "\"track_direction\": %s, \"operational_status\": %u, "
         "\"horizontal_accuracy\": %u, \"vertical_accuracy\": %u, "
         "\"speed_accuracy\": %u, \"baro_altitude_accuracy\": %u, "
         "\"timestamp\": %s, \"timestamp_accuracy\": %u}",
@@ -779,7 +787,7 @@ int rid_location_to_json(const rid_location_t *location, char *buffer, size_t bu
         rid_location_get_height_type(location),
         speed_str,
         vertical_speed_str,
-        rid_location_get_track_direction(location),
+        track_direction_str,
         rid_location_get_operational_status(location),
         rid_location_get_horizontal_accuracy(location),
         rid_location_get_vertical_accuracy(location),
