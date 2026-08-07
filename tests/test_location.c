@@ -1430,8 +1430,6 @@ TEST test_location_to_json_invalid_as_null(void) {
     char buffer[1024];
 
     rid_location_init(&location);
-    rid_location_set_timestamp(&location, RID_TIMESTAMP_INVALID);
-
     int result = rid_location_to_json(&location, buffer, sizeof(buffer));
     ASSERT(result > 0);
 

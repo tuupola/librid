@@ -12,6 +12,7 @@ All notable changes to this project will be documented in this file, in reverse 
 - `rid_location_get_geodetic_altitude()` returns `RID_GEODETIC_ALTITUDE_INVALID` instead of `-1000.0` when geodetic altitude is invalid. ([#48](https://github.com/tuupola/librid/commit/9456b0a))
 - Invalid height and altitudes are now rendered as `null` in JSON output. ([#49](https://github.com/tuupola/librid/commit/bed97d5))
 - Invalid timestamp now rendered as `null` in JSON output. ([#xx](https://github.com/tuupola/librid/commit/xxxxxxx))
+- Location timestamp is now initialised as `RID_TIMESTAMP_INVALID`. ([#xx](https://github.com/tuupola/librid/commit/xxxxxxx))
 
 ## [0.4.0](https://github.com/tuupola/librid/compare/0.3.0...0.4.0) - 2026-06-17
 

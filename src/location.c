@@ -57,6 +57,8 @@ int rid_location_init(rid_location_t *location) {
 
     location->vertical_speed = RID_VERTICAL_SPEED_INVALID_ENCODED;
 
+    location->timestamp = RID_TIMESTAMP_INVALID;
+
     return RID_SUCCESS;
 }
 
