@@ -1186,8 +1186,8 @@ TEST test_location_init(void) {
     /* Verify latitude and longitude are invalid */
     double lat = rid_location_get_latitude(&location);
     double lon = rid_location_get_longitude(&location);
-    ASSERT_EQ((double)RID_LATITUDE_INVALID, lat);
-    ASSERT_EQ((double)RID_LONGITUDE_INVALID, lon);
+    ASSERT_EQ(RID_LATITUDE_INVALID, lat);
+    ASSERT_EQ(RID_LONGITUDE_INVALID, lon);
 
     /* Verify height and altitude fields are invalid */
     float height = rid_location_get_height(&location);
