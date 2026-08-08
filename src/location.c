@@ -250,6 +250,12 @@ int rid_location_set_latitude(rid_location_t *location, double degrees) {
         return RID_ERROR_NULL_POINTER;
     }
 
+    /* Invalid or unknown latitude */
+    if (degrees == RID_LATITUDE_INVALID) {
+        location->latitude = 0;
+        return RID_SUCCESS;
+    }
+
     /* ASTM F3411-22 Table 7
      * Encoded = value * 10^7
      * -90 to +90 degrees
@@ -280,6 +286,12 @@ double rid_location_get_latitude(const rid_location_t *location) {
 int rid_location_set_longitude(rid_location_t *location, double degrees) {
     if (location == NULL) {
         return RID_ERROR_NULL_POINTER;
+    }
+
+    /* Invalid or unknown longitude */
+    if (degrees == RID_LONGITUDE_INVALID) {
+        location->longitude = 0;
+        return RID_SUCCESS;
     }
 
     /* ASTM F3411-22 Table 7
