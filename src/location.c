@@ -723,6 +723,22 @@ int rid_location_to_json(const rid_location_t *location, char *buffer, size_t bu
         snprintf(speed_str, sizeof(speed_str), "%.2f", (double)speed);
     }
 
+    char latitude_str[32];
+    double latitude = rid_location_get_latitude(location);
+    if (latitude == RID_LATITUDE_INVALID) {
+        snprintf(latitude_str, sizeof(latitude_str), "null");
+    } else {
+        snprintf(latitude_str, sizeof(latitude_str), "%.7f", latitude);
+    }
+
+    char longitude_str[32];
+    double longitude = rid_location_get_longitude(location);
+    if (longitude == RID_LONGITUDE_INVALID) {
+        snprintf(longitude_str, sizeof(longitude_str), "null");
+    } else {
+        snprintf(longitude_str, sizeof(longitude_str), "%.7f", longitude);
+    }
+
     char vertical_speed_str[32];
     float vertical_speed = rid_location_get_vertical_speed(location);
     if (vertical_speed == RID_VERTICAL_SPEED_INVALID) {
@@ -775,7 +791,7 @@ int rid_location_to_json(const rid_location_t *location, char *buffer, size_t bu
         buffer,
         buffer_size,
         "{\"protocol_version\": %u, \"message_type\": %u, "
-        "\"latitude\": %.7f, \"longitude\": %.7f, "
+        "\"latitude\": %s, \"longitude\": %s, "
         "\"geodetic_altitude\": %s, \"pressure_altitude\": %s, "
         "\"height\": %s, \"height_type\": %u, "
         "\"speed\": %s, \"vertical_speed\": %s, "
@@ -785,8 +801,8 @@ int rid_location_to_json(const rid_location_t *location, char *buffer, size_t bu
         "\"timestamp\": %s, \"timestamp_accuracy\": %u}",
         rid_message_get_protocol_version(location),
         rid_message_get_type(location),
-        rid_location_get_latitude(location),
-        rid_location_get_longitude(location),
+        latitude_str,
+        longitude_str,
         geodetic_altitude_str,
         pressure_altitude_str,
         height_str,
