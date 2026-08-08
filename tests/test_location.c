@@ -241,6 +241,8 @@ TEST test_set_and_get_latitude(void) {
 
     for (size_t i = 0; i < sizeof(test_latitudes) / sizeof(test_latitudes[0]); i++) {
         memset(&location, 0, sizeof(location));
+        /* Keep longitude non-zero to avoid triggering invalid latitude. */
+        rid_location_set_longitude(&location, 0.5);
 
         int status = rid_location_set_latitude(&location, test_latitudes[i]);
         ASSERT_EQ(RID_SUCCESS, status);
@@ -262,6 +264,8 @@ TEST test_set_and_get_longitude(void) {
 
     for (size_t i = 0; i < sizeof(test_longitudes) / sizeof(test_longitudes[0]); i++) {
         memset(&location, 0, sizeof(location));
+        /* Keep latitude non-zero to avoid triggering invalid longitude. */
+        rid_location_set_latitude(&location, 0.5);
 
         int status = rid_location_set_longitude(&location, test_longitudes[i]);
         ASSERT_EQ(RID_SUCCESS, status);
@@ -1179,11 +1183,11 @@ TEST test_location_init(void) {
     float vspeed = rid_location_get_vertical_speed(&location);
     ASSERT_EQ(RID_VERTICAL_SPEED_INVALID, vspeed);
 
-    /* Verify latitude and longitude are 0 */
+    /* Verify latitude and longitude are invalid */
     double lat = rid_location_get_latitude(&location);
     double lon = rid_location_get_longitude(&location);
-    ASSERT_EQ(0.0, lat);
-    ASSERT_EQ(0.0, lon);
+    ASSERT_EQ((double)RID_LATITUDE_INVALID, lat);
+    ASSERT_EQ((double)RID_LONGITUDE_INVALID, lon);
 
     /* Verify height and altitude fields are invalid */
     float height = rid_location_get_height(&location);

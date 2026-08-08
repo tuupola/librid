@@ -72,6 +72,11 @@ extern "C" {
 /** @brief Encoded value for invalid height. */
 #define RID_HEIGHT_INVALID_ENCODED 0
 
+/** @brief Value indicating invalid latitude. */
+#define RID_LATITUDE_INVALID FLT_MAX
+/** @brief Value indicating invalid longitude. */
+#define RID_LONGITUDE_INVALID FLT_MAX
+
 /** @brief Value indicating invalid pressure altitude. */
 #define RID_PRESSURE_ALTITUDE_INVALID FLT_MAX
 /** @brief Encoded value for invalid pressure altitude. */

@@ -271,6 +271,9 @@ int rid_location_set_latitude(rid_location_t *location, double degrees) {
 }
 
 double rid_location_get_latitude(const rid_location_t *location) {
+    if (location->latitude == 0 && location->longitude == 0) {
+        return RID_LATITUDE_INVALID;
+    }
     return (double)location->latitude / 10000000.0;
 }
 
@@ -300,6 +303,9 @@ int rid_location_set_longitude(rid_location_t *location, double degrees) {
 }
 
 double rid_location_get_longitude(const rid_location_t *location) {
+    if (location->latitude == 0 && location->longitude == 0) {
+        return RID_LONGITUDE_INVALID;
+    }
     return (double)location->longitude / 10000000.0;
 }
 
