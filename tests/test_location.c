@@ -295,6 +295,25 @@ TEST test_latitude_out_of_range(void) {
     PASS();
 }
 
+TEST test_latitude_invalid(void) {
+    rid_location_t location;
+    rid_location_init(&location);
+
+    int status = rid_location_set_latitude(&location, RID_LATITUDE_INVALID);
+    ASSERT_EQ(RID_SUCCESS, status);
+    ASSERT_EQ(0, location.latitude);
+
+    /* With longitude also invalid, getter returns sentinel */
+    status = rid_location_set_longitude(&location, RID_LONGITUDE_INVALID);
+    ASSERT_EQ(RID_SUCCESS, status);
+    ASSERT_EQ(0, location.longitude);
+
+    ASSERT_EQ(RID_LATITUDE_INVALID, rid_location_get_latitude(&location));
+    ASSERT_EQ(RID_LONGITUDE_INVALID, rid_location_get_longitude(&location));
+
+    PASS();
+}
+
 TEST test_set_latitude_null_pointer(void) {
     int status = rid_location_set_latitude(NULL, 45.5);
     ASSERT_EQ(RID_ERROR_NULL_POINTER, status);
@@ -313,6 +332,25 @@ TEST test_longitude_out_of_range(void) {
     /* Test < -180 degrees */
     status = rid_location_set_longitude(&location, -185.0);
     ASSERT_EQ(RID_ERROR_OUT_OF_RANGE, status);
+
+    PASS();
+}
+
+TEST test_longitude_invalid(void) {
+    rid_location_t location;
+    rid_location_init(&location);
+
+    int status = rid_location_set_longitude(&location, RID_LONGITUDE_INVALID);
+    ASSERT_EQ(RID_SUCCESS, status);
+    ASSERT_EQ(0, location.longitude);
+
+    /* With latitude also invalid, getter returns sentinel */
+    status = rid_location_set_latitude(&location, RID_LATITUDE_INVALID);
+    ASSERT_EQ(RID_SUCCESS, status);
+    ASSERT_EQ(0, location.latitude);
+
+    ASSERT_EQ(RID_LATITUDE_INVALID, rid_location_get_latitude(&location));
+    ASSERT_EQ(RID_LONGITUDE_INVALID, rid_location_get_longitude(&location));
 
     PASS();
 }
@@ -1473,10 +1511,12 @@ SUITE(location_suite) {
 
     RUN_TEST(test_set_and_get_latitude);
     RUN_TEST(test_latitude_out_of_range);
+    RUN_TEST(test_latitude_invalid);
     RUN_TEST(test_set_latitude_null_pointer);
 
     RUN_TEST(test_set_and_get_longitude);
     RUN_TEST(test_longitude_out_of_range);
+    RUN_TEST(test_longitude_invalid);
     RUN_TEST(test_set_longitude_null_pointer);
 
     RUN_TEST(test_set_and_get_pressure_altitude);
