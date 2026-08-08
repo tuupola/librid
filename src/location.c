@@ -769,7 +769,7 @@ int rid_location_to_json(const rid_location_t *location, char *buffer, size_t bu
         buffer,
         buffer_size,
         "{\"protocol_version\": %u, \"message_type\": %u, "
-        "\"latitude\": %f, \"longitude\": %f, "
+        "\"latitude\": %.7f, \"longitude\": %.7f, "
         "\"geodetic_altitude\": %s, \"pressure_altitude\": %s, "
         "\"height\": %s, \"height_type\": %u, "
         "\"speed\": %s, \"vertical_speed\": %s, "
