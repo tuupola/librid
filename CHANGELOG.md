@@ -17,6 +17,7 @@ All notable changes to this project will be documented in this file, in reverse 
 - Latitude and longitude precision in JSON output is now seven decimals instead of six. ([#xx](https://github.com/tuupola/librid/commit/xxxxxxx))
 - `rid_location_get_latitude()` returns `RID_LATITUDE_INVALID` and `rid_location_get_longitude()` returns `RID_LONGITUDE_INVALID` when both latitude and longitude are zero. ([#xx](https://github.com/tuupola/librid/commit/xxxxxxx))
 - Invalid latitude and longitude are now rendered as `null` in JSON output. ([#xx](https://github.com/tuupola/librid/commit/xxxxxxx))
+- `rid_location_set_latitude()` now accepts `RID_LATITUDE_INVALID` and `rid_location_set_longitude()` accepts `RID_LONGITUDE_INVALID` as input. ([#xx](https://github.com/tuupola/librid/commit/xxxxxxx))
 
 
 ## [0.4.0](https://github.com/tuupola/librid/compare/0.3.0...0.4.0) - 2026-06-17
