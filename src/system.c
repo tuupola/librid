@@ -431,8 +431,8 @@ int rid_system_to_json(const rid_system_t *system, char *buffer, size_t buffer_s
         "{\"protocol_version\": %u, \"message_type\": %u, "
         "\"operator_location_type\": %u, \"classification_type\": %u, "
         "\"ua_classification_category\": %u, \"ua_classification_class\": %u, "
-        "\"operator_latitude\": %f, \"operator_longitude\": %f, \"operator_altitude\": %f, "
-        "\"area_count\": %u, \"area_radius\": %u, \"area_ceiling\": %f, \"area_floor\": %f, "
+        "\"operator_latitude\": %f, \"operator_longitude\": %f, \"operator_altitude\": %.2f, "
+        "\"area_count\": %u, \"area_radius\": %u, \"area_ceiling\": %.2f, \"area_floor\": %.2f, "
         "\"timestamp\": %lu}",
         rid_message_get_protocol_version(system),
         rid_message_get_type(system),

@@ -764,7 +764,7 @@ int rid_location_to_json(const rid_location_t *location, char *buffer, size_t bu
     if (height == RID_HEIGHT_INVALID) {
         snprintf(height_str, sizeof(height_str), "null");
     } else {
-        snprintf(height_str, sizeof(height_str), "%.1f", (double)height);
+        snprintf(height_str, sizeof(height_str), "%.2f", (double)height);
     }
 
     char pressure_altitude_str[32];
@@ -772,7 +772,7 @@ int rid_location_to_json(const rid_location_t *location, char *buffer, size_t bu
     if (pressure_altitude == RID_PRESSURE_ALTITUDE_INVALID) {
         snprintf(pressure_altitude_str, sizeof(pressure_altitude_str), "null");
     } else {
-        snprintf(pressure_altitude_str, sizeof(pressure_altitude_str), "%.1f", (double)pressure_altitude);
+        snprintf(pressure_altitude_str, sizeof(pressure_altitude_str), "%.2f", (double)pressure_altitude);
     }
 
     char geodetic_altitude_str[32];
@@ -780,7 +780,7 @@ int rid_location_to_json(const rid_location_t *location, char *buffer, size_t bu
     if (geodetic_altitude == RID_GEODETIC_ALTITUDE_INVALID) {
         snprintf(geodetic_altitude_str, sizeof(geodetic_altitude_str), "null");
     } else {
-        snprintf(geodetic_altitude_str, sizeof(geodetic_altitude_str), "%.1f", (double)geodetic_altitude);
+        snprintf(geodetic_altitude_str, sizeof(geodetic_altitude_str), "%.2f", (double)geodetic_altitude);
     }
 
     char timestamp_str[32];

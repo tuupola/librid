@@ -34,9 +34,22 @@ $ make run | jq .
     {
       "protocol_version": 2,
       "message_type": 1,
-      "latitude": 60.169857,
-      "longitude": 24.938379,
-      ...
+      "latitude": 60.1698570,
+      "longitude": 24.9383790,
+      "geodetic_altitude": 25.50,
+      "pressure_altitude": null,
+      "height": 15.00,
+      "height_type": 1,
+      "speed": 5.25,
+      "vertical_speed": null,
+      "track_direction": null,
+      "operational_status": 2,
+      "horizontal_accuracy": 0,
+      "vertical_accuracy": 0,
+      "speed_accuracy": 0,
+      "baro_altitude_accuracy": 0,
+      "timestamp": null,
+      "timestamp_accuracy": 0
     },
     {
       "protocol_version": 2,

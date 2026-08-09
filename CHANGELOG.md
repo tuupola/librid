@@ -18,7 +18,7 @@ All notable changes to this project will be documented in this file, in reverse 
 - `rid_location_get_latitude()` returns `RID_LATITUDE_INVALID` and `rid_location_get_longitude()` returns `RID_LONGITUDE_INVALID` when both latitude and longitude are zero. ([#54](https://github.com/tuupola/librid/commit/f7d48f6))
 - Invalid latitude and longitude are now rendered as `null` in JSON output. ([#55](https://github.com/tuupola/librid/commit/e44910c))
 - `rid_location_set_latitude()` now accepts `RID_LATITUDE_INVALID` and `rid_location_set_longitude()` accepts `RID_LONGITUDE_INVALID` as input. ([#56](https://github.com/tuupola/librid/commit/a94b8aa))
-
+- All floats are now rendered with two decimals in JSON output. ([#xx](https://github.com/tuupola/librid/commit/xxxxxxxx))
 
 ## [0.4.0](https://github.com/tuupola/librid/compare/0.3.0...0.4.0) - 2026-06-17
 
