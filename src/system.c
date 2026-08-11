@@ -344,6 +344,9 @@ int rid_system_set_unixtime(rid_system_t *system, uint32_t unixtime) {
     if (system == NULL) {
         return RID_ERROR_NULL_POINTER;
     }
+    if (unixtime < RID_SYSTEM_TIMESTAMP_EPOCH) {
+        return RID_ERROR_OUT_OF_RANGE;
+    }
 
     system->timestamp = unixtime - RID_SYSTEM_TIMESTAMP_EPOCH;
 

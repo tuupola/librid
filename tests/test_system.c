@@ -536,6 +536,17 @@ TEST test_set_system_timestamp_from_unixtime_null_pointer(void) {
     PASS();
 }
 
+TEST test_system_set_unixtime_before_epoch(void) {
+    rid_system_t system;
+    rid_system_init(&system);
+
+    /* Before 2019-01-01 should fail */
+    int status = rid_system_set_unixtime(&system, 1546300799);
+    ASSERT_EQ(RID_ERROR_OUT_OF_RANGE, status);
+
+    PASS();
+}
+
 TEST test_get_system_unixtime_null_pointer(void) {
     ASSERT_EQ(0, rid_system_get_unixtime(NULL));
 
@@ -769,6 +780,7 @@ SUITE(system_suite) {
     RUN_TEST(test_system_set_and_get_unixtime);
     RUN_TEST(test_set_system_timestamp_null_pointer);
     RUN_TEST(test_set_system_timestamp_from_unixtime_null_pointer);
+    RUN_TEST(test_system_set_unixtime_before_epoch);
     RUN_TEST(test_get_system_unixtime_null_pointer);
 
     RUN_TEST(test_operator_location_type_to_string);
