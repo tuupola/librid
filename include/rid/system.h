@@ -97,8 +97,20 @@ typedef struct __attribute__((__packed__)) rid_system {
 /** @brief Maximum area floor altitude in meters. */
 #define RID_AREA_FLOOR_MAX 31767.0f
 
+/** @brief Value indicating invalid area ceiling altitude. */
+#define RID_AREA_CEILING_INVALID -1000.0f
+
+/** @brief Encoded value for invalid area ceiling altitude. */
+#define RID_AREA_CEILING_INVALID_ENCODED 0
+
+/** @brief Value indicating invalid area floor altitude. */
+#define RID_AREA_FLOOR_INVALID -1000.0f
+
+/** @brief Encoded value for invalid area floor altitude. */
+#define RID_AREA_FLOOR_INVALID_ENCODED 0
+
 /** @brief Value indicating invalid operator altitude. */
-#define RID_OPERATOR_ALTITUDE_INVALID FLT_MAX
+#define RID_OPERATOR_ALTITUDE_INVALID -1000.0f
 
 /** @brief Encoded value for invalid operator altitude. */
 #define RID_OPERATOR_ALTITUDE_INVALID_ENCODED 0
@@ -356,6 +368,7 @@ uint16_t rid_system_get_area_radius(const rid_system_t *system);
  *
  * @param system Pointer to the System message structure.
  * @param altitude The ceiling altitude in meters (-1000 to 31767).
+ *        Use RID_AREA_CEILING_INVALID for invalid/unknown.
  *
  * @retval RID_SUCCESS on success.
  * @retval RID_ERROR_NULL_POINTER if system is NULL.
@@ -368,7 +381,8 @@ int rid_system_set_area_ceiling(rid_system_t *system, float altitude);
  *
  * @param system Pointer to the System message structure.
  *
- * @return The ceiling altitude in meters.
+ * @return The ceiling altitude in meters. RID_AREA_CEILING_INVALID
+ *         indicates invalid/unknown.
  */
 float rid_system_get_area_ceiling(const rid_system_t *system);
 
@@ -377,6 +391,7 @@ float rid_system_get_area_ceiling(const rid_system_t *system);
  *
  * @param system Pointer to the System message structure.
  * @param altitude The floor altitude in meters (-1000 to 31767).
+ *        Use RID_AREA_FLOOR_INVALID for invalid/unknown.
  *
  * @retval RID_SUCCESS on success.
  * @retval RID_ERROR_NULL_POINTER if system is NULL.
@@ -389,7 +404,8 @@ int rid_system_set_area_floor(rid_system_t *system, float altitude);
  *
  * @param system Pointer to the System message structure.
  *
- * @return The floor altitude in meters.
+ * @return The floor altitude in meters. RID_AREA_FLOOR_INVALID
+ *         indicates invalid/unknown.
  */
 float rid_system_get_area_floor(const rid_system_t *system);
 

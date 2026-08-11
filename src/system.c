@@ -284,6 +284,12 @@ int rid_system_set_area_ceiling(rid_system_t *system, float altitude) {
         return RID_ERROR_NULL_POINTER;
     }
 
+    /* Invalid or unknown altitude */
+    if (altitude == RID_AREA_CEILING_INVALID) {
+        system->area_ceiling = RID_AREA_CEILING_INVALID_ENCODED;
+        return RID_SUCCESS;
+    }
+
     /* ASTM F3411-22 Table 11
      * WGS-84 HAE
      * (altitude + 1000m) / 0.5
@@ -306,6 +312,12 @@ float rid_system_get_area_ceiling(const rid_system_t *system) {
 int rid_system_set_area_floor(rid_system_t *system, float altitude) {
     if (system == NULL) {
         return RID_ERROR_NULL_POINTER;
+    }
+
+    /* Invalid or unknown altitude */
+    if (altitude == RID_AREA_FLOOR_INVALID) {
+        system->area_floor = RID_AREA_FLOOR_INVALID_ENCODED;
+        return RID_SUCCESS;
     }
 
     /* ASTM F3411-22 Table 7
@@ -430,7 +442,7 @@ int rid_system_to_json(const rid_system_t *system, char *buffer, size_t buffer_s
 
     char operator_altitude_str[32];
     float operator_altitude = rid_system_get_operator_altitude(system);
-    if (operator_altitude == -1000.0f) {
+    if (operator_altitude == RID_OPERATOR_ALTITUDE_INVALID) {
         snprintf(operator_altitude_str, sizeof(operator_altitude_str), "null");
     } else {
         snprintf(operator_altitude_str, sizeof(operator_altitude_str), "%.2f", (double)operator_altitude);
@@ -438,7 +450,7 @@ int rid_system_to_json(const rid_system_t *system, char *buffer, size_t buffer_s
 
     char area_ceiling_str[32];
     float area_ceiling = rid_system_get_area_ceiling(system);
-    if (area_ceiling == -1000.0f) {
+    if (area_ceiling == RID_AREA_CEILING_INVALID) {
         snprintf(area_ceiling_str, sizeof(area_ceiling_str), "null");
     } else {
         snprintf(area_ceiling_str, sizeof(area_ceiling_str), "%.2f", (double)area_ceiling);
@@ -446,7 +458,7 @@ int rid_system_to_json(const rid_system_t *system, char *buffer, size_t buffer_s
 
     char area_floor_str[32];
     float area_floor = rid_system_get_area_floor(system);
-    if (area_floor == -1000.0f) {
+    if (area_floor == RID_AREA_FLOOR_INVALID) {
         snprintf(area_floor_str, sizeof(area_floor_str), "null");
     } else {
         snprintf(area_floor_str, sizeof(area_floor_str), "%.2f", (double)area_floor);
