@@ -700,6 +700,23 @@ TEST test_system_to_json_null(void) {
     PASS();
 }
 
+TEST test_system_to_json_invalid_as_null(void) {
+    rid_system_t system;
+    char buffer[1024];
+
+    rid_system_init(&system);
+    rid_system_set_operator_altitude(&system, RID_OPERATOR_ALTITUDE_INVALID);
+
+    int result = rid_system_to_json(&system, buffer, sizeof(buffer));
+    ASSERT(result > 0);
+
+    ASSERT(strstr(buffer, "\"operator_altitude\": null") != NULL);
+    ASSERT(strstr(buffer, "\"area_ceiling\": null") != NULL);
+    ASSERT(strstr(buffer, "\"area_floor\": null") != NULL);
+
+    PASS();
+}
+
 SUITE(system_suite) {
     RUN_TEST(test_set_and_get_operator_location_type);
     RUN_TEST(test_set_operator_location_type_out_of_range);
@@ -768,4 +785,5 @@ SUITE(system_suite) {
 
     RUN_TEST(test_system_to_json);
     RUN_TEST(test_system_to_json_null);
+    RUN_TEST(test_system_to_json_invalid_as_null);
 }

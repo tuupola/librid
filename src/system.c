@@ -425,14 +425,38 @@ int rid_system_to_json(const rid_system_t *system, char *buffer, size_t buffer_s
         return RID_ERROR_NULL_POINTER;
     }
 
+    char operator_altitude_str[32];
+    float operator_altitude = rid_system_get_operator_altitude(system);
+    if (operator_altitude == -1000.0f) {
+        snprintf(operator_altitude_str, sizeof(operator_altitude_str), "null");
+    } else {
+        snprintf(operator_altitude_str, sizeof(operator_altitude_str), "%.2f", (double)operator_altitude);
+    }
+
+    char area_ceiling_str[32];
+    float area_ceiling = rid_system_get_area_ceiling(system);
+    if (area_ceiling == -1000.0f) {
+        snprintf(area_ceiling_str, sizeof(area_ceiling_str), "null");
+    } else {
+        snprintf(area_ceiling_str, sizeof(area_ceiling_str), "%.2f", (double)area_ceiling);
+    }
+
+    char area_floor_str[32];
+    float area_floor = rid_system_get_area_floor(system);
+    if (area_floor == -1000.0f) {
+        snprintf(area_floor_str, sizeof(area_floor_str), "null");
+    } else {
+        snprintf(area_floor_str, sizeof(area_floor_str), "%.2f", (double)area_floor);
+    }
+
     return snprintf(
         buffer,
         buffer_size,
         "{\"protocol_version\": %u, \"message_type\": %u, "
         "\"operator_location_type\": %u, \"classification_type\": %u, "
         "\"ua_classification_category\": %u, \"ua_classification_class\": %u, "
-        "\"operator_latitude\": %f, \"operator_longitude\": %f, \"operator_altitude\": %.2f, "
-        "\"area_count\": %u, \"area_radius\": %u, \"area_ceiling\": %.2f, \"area_floor\": %.2f, "
+        "\"operator_latitude\": %f, \"operator_longitude\": %f, \"operator_altitude\": %s, "
+        "\"area_count\": %u, \"area_radius\": %u, \"area_ceiling\": %s, \"area_floor\": %s, "
         "\"timestamp\": %lu}",
         rid_message_get_protocol_version(system),
         rid_message_get_type(system),
@@ -442,11 +466,11 @@ int rid_system_to_json(const rid_system_t *system, char *buffer, size_t buffer_s
         rid_system_get_ua_classification_class(system),
         rid_system_get_operator_latitude(system),
         rid_system_get_operator_longitude(system),
-        (double)rid_system_get_operator_altitude(system),
+        operator_altitude_str,
         rid_system_get_area_count(system),
         rid_system_get_area_radius(system),
-        (double)rid_system_get_area_ceiling(system),
-        (double)rid_system_get_area_floor(system),
+        area_ceiling_str,
+        area_floor_str,
         (unsigned long)rid_system_get_timestamp(system)
     );
 }
