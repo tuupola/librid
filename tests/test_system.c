@@ -184,6 +184,8 @@ TEST test_set_and_get_operator_latitude(void) {
 
     for (size_t i = 0; i < sizeof(test_values) / sizeof(test_values[0]); i++) {
         memset(&system, 0, sizeof(system));
+        /* Keep longitude non-zero to avoid triggering invalid latitude. */
+        rid_system_set_operator_longitude(&system, 0.5);
 
         int status = rid_system_set_operator_latitude(&system, test_values[i]);
         ASSERT_EQ(RID_SUCCESS, status);
@@ -222,12 +224,33 @@ TEST test_set_operator_latitude_null_pointer(void) {
     PASS();
 }
 
+TEST test_set_operator_latitude_invalid(void) {
+    rid_system_t system;
+    rid_system_init(&system);
+
+    int status = rid_system_set_operator_latitude(&system, RID_OPERATOR_LATITUDE_INVALID);
+    ASSERT_EQ(RID_SUCCESS, status);
+    ASSERT_EQ(0, system.operator_latitude);
+
+    /* With longitude also invalid getter returns sentinel */
+    status = rid_system_set_operator_longitude(&system, RID_OPERATOR_LONGITUDE_INVALID);
+    ASSERT_EQ(RID_SUCCESS, status);
+    ASSERT_EQ(0, system.operator_longitude);
+
+    ASSERT_EQ(RID_OPERATOR_LATITUDE_INVALID, rid_system_get_operator_latitude(&system));
+    ASSERT_EQ(RID_OPERATOR_LONGITUDE_INVALID, rid_system_get_operator_longitude(&system));
+
+    PASS();
+}
+
 TEST test_set_and_get_operator_longitude(void) {
     rid_system_t system;
     double test_values[] = {0.0, 90.5, 120.123456, -90.5, -180.0, 180.0};
 
     for (size_t i = 0; i < sizeof(test_values) / sizeof(test_values[0]); i++) {
         memset(&system, 0, sizeof(system));
+        /* Keep latitude non-zero to avoid triggering invalid longitude. */
+        rid_system_set_operator_latitude(&system, 0.5);
 
         int status = rid_system_set_operator_longitude(&system, test_values[i]);
         ASSERT_EQ(RID_SUCCESS, status);
@@ -262,6 +285,25 @@ TEST test_set_operator_longitude_out_of_range(void) {
 TEST test_set_operator_longitude_null_pointer(void) {
     int status = rid_system_set_operator_longitude(NULL, 90.0);
     ASSERT_EQ(RID_ERROR_NULL_POINTER, status);
+
+    PASS();
+}
+
+TEST test_set_operator_longitude_invalid(void) {
+    rid_system_t system;
+    rid_system_init(&system);
+
+    int status = rid_system_set_operator_longitude(&system, RID_OPERATOR_LONGITUDE_INVALID);
+    ASSERT_EQ(RID_SUCCESS, status);
+    ASSERT_EQ(0, system.operator_longitude);
+
+    /* With latitude also invalid getter returns sentinel */
+    status = rid_system_set_operator_latitude(&system, RID_OPERATOR_LATITUDE_INVALID);
+    ASSERT_EQ(RID_SUCCESS, status);
+    ASSERT_EQ(0, system.operator_latitude);
+
+    ASSERT_EQ(RID_OPERATOR_LATITUDE_INVALID, rid_system_get_operator_latitude(&system));
+    ASSERT_EQ(RID_OPERATOR_LONGITUDE_INVALID, rid_system_get_operator_longitude(&system));
 
     PASS();
 }
@@ -747,10 +789,12 @@ SUITE(system_suite) {
 
     RUN_TEST(test_set_and_get_operator_latitude);
     RUN_TEST(test_set_operator_latitude_out_of_range);
+    RUN_TEST(test_set_operator_latitude_invalid);
     RUN_TEST(test_set_operator_latitude_null_pointer);
 
     RUN_TEST(test_set_and_get_operator_longitude);
     RUN_TEST(test_set_operator_longitude_out_of_range);
+    RUN_TEST(test_set_operator_longitude_invalid);
     RUN_TEST(test_set_operator_longitude_null_pointer);
 
     RUN_TEST(test_set_and_get_operator_altitude);

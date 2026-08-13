@@ -115,6 +115,12 @@ typedef struct __attribute__((__packed__)) rid_system {
 /** @brief Encoded value for invalid operator altitude. */
 #define RID_OPERATOR_ALTITUDE_INVALID_ENCODED 0
 
+/** @brief Value indicating invalid operator latitude. */
+#define RID_OPERATOR_LATITUDE_INVALID DBL_MAX
+
+/** @brief Value indicating invalid operator longitude. */
+#define RID_OPERATOR_LONGITUDE_INVALID DBL_MAX
+
 /** @brief Timestamp epoch (2019-01-01 00:00:00 UTC as Unix timestamp). */
 #define RID_SYSTEM_TIMESTAMP_EPOCH 1546300800
 
@@ -253,7 +259,8 @@ rid_ua_classification_class_t rid_system_get_ua_classification_class(const rid_s
  * Encodes latitude in degrees per ASTM F3411-22a (value * 10^7).
  *
  * @param system Pointer to the System message structure.
- * @param degrees Latitude in degrees (-90.0 to +90.0). Use 0.0 for invalid/unknown.
+ * @param degrees Latitude in degrees (-90.0 to +90.0). Use
+ *        RID_OPERATOR_LATITUDE_INVALID to indicate invalid/unknown.
  *
  * @retval RID_SUCCESS on success.
  * @retval RID_ERROR_NULL_POINTER if system is NULL.
@@ -268,7 +275,8 @@ int rid_system_set_operator_latitude(rid_system_t *system, double degrees);
  *
  * @param system Pointer to the System message structure.
  *
- * @return Latitude in degrees. 0.0 indicates invalid/unknown.
+ * @return Latitude in degrees or RID_OPERATOR_LATITUDE_INVALID
+ *         if both encoded latitude and longitude are 0.
  */
 double rid_system_get_operator_latitude(const rid_system_t *system);
 
@@ -278,7 +286,8 @@ double rid_system_get_operator_latitude(const rid_system_t *system);
  * Encodes longitude in degrees per ASTM F3411-22a (value * 10^7).
  *
  * @param system Pointer to the System message structure.
- * @param degrees Longitude in degrees (-180.0 to +180.0). Use 0.0 for invalid/unknown.
+ * @param degrees Longitude in degrees (-180.0 to +180.0). Use
+ *        RID_OPERATOR_LONGITUDE_INVALID to indicate invalid/unknown.
  *
  * @retval RID_SUCCESS on success.
  * @retval RID_ERROR_NULL_POINTER if system is NULL.
@@ -293,7 +302,8 @@ int rid_system_set_operator_longitude(rid_system_t *system, double degrees);
  *
  * @param system Pointer to the System message structure.
  *
- * @return Longitude in degrees. 0.0 indicates invalid/unknown.
+ * @return Longitude in degrees or RID_OPERATOR_LONGITUDE_INVALID
+ *         if both encoded latitude and longitude are 0.
  */
 double rid_system_get_operator_longitude(const rid_system_t *system);
 

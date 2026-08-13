@@ -158,6 +158,12 @@ int rid_system_set_operator_latitude(rid_system_t *system, double degrees) {
         return RID_ERROR_NULL_POINTER;
     }
 
+    /* Invalid or unknown latitude */
+    if (degrees == RID_OPERATOR_LATITUDE_INVALID) {
+        system->operator_latitude = 0;
+        return RID_SUCCESS;
+    }
+
     /* ASTM F3411-22 Table 7
      * Encoded = value * 10^7
      * -90 to +90 degrees
@@ -179,12 +185,21 @@ int rid_system_set_operator_latitude(rid_system_t *system, double degrees) {
 }
 
 double rid_system_get_operator_latitude(const rid_system_t *system) {
+    if (system->operator_latitude == 0 && system->operator_longitude == 0) {
+        return RID_OPERATOR_LATITUDE_INVALID;
+    }
     return (double)system->operator_latitude / 10000000.0;
 }
 
 int rid_system_set_operator_longitude(rid_system_t *system, double degrees) {
     if (system == NULL) {
         return RID_ERROR_NULL_POINTER;
+    }
+
+    /* Invalid or unknown longitude */
+    if (degrees == RID_OPERATOR_LONGITUDE_INVALID) {
+        system->operator_longitude = 0;
+        return RID_SUCCESS;
     }
 
     /* ASTM F3411-22 Table 7
@@ -208,6 +223,9 @@ int rid_system_set_operator_longitude(rid_system_t *system, double degrees) {
 }
 
 double rid_system_get_operator_longitude(const rid_system_t *system) {
+    if (system->operator_latitude == 0 && system->operator_longitude == 0) {
+        return RID_OPERATOR_LONGITUDE_INVALID;
+    }
     return (double)system->operator_longitude / 10000000.0;
 }
 
