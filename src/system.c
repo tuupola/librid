@@ -454,28 +454,44 @@ const char *rid_ua_classification_class_to_string(rid_ua_classification_class_t 
 }
 
 int rid_system_to_json(const rid_system_t *system, char *buffer, size_t buffer_size) {
+    char latitude_str[32], longitude_str[32], altitude_str[32];
+    char area_ceiling_str[32], area_floor_str[32];
+    double latitude, longitude;
+    float altitude, area_ceiling, area_floor;
+
     if (system == NULL || buffer == NULL) {
         return RID_ERROR_NULL_POINTER;
     }
 
-    char operator_altitude_str[32];
-    float operator_altitude = rid_system_get_operator_altitude(system);
-    if (operator_altitude == RID_OPERATOR_ALTITUDE_INVALID) {
-        snprintf(operator_altitude_str, sizeof(operator_altitude_str), "null");
+    latitude = rid_system_get_operator_latitude(system);
+    if (latitude == RID_OPERATOR_LATITUDE_INVALID) {
+        snprintf(latitude_str, sizeof(latitude_str), "null");
     } else {
-        snprintf(operator_altitude_str, sizeof(operator_altitude_str), "%.2f", (double)operator_altitude);
+        snprintf(latitude_str, sizeof(latitude_str), "%.7f", latitude);
     }
 
-    char area_ceiling_str[32];
-    float area_ceiling = rid_system_get_area_ceiling(system);
+    longitude = rid_system_get_operator_longitude(system);
+    if (longitude == RID_OPERATOR_LONGITUDE_INVALID) {
+        snprintf(longitude_str, sizeof(longitude_str), "null");
+    } else {
+        snprintf(longitude_str, sizeof(longitude_str), "%.7f", longitude);
+    }
+
+    altitude = rid_system_get_operator_altitude(system);
+    if (altitude == RID_OPERATOR_ALTITUDE_INVALID) {
+        snprintf(altitude_str, sizeof(altitude_str), "null");
+    } else {
+        snprintf(altitude_str, sizeof(altitude_str), "%.2f", (double)altitude);
+    }
+
+    area_ceiling = rid_system_get_area_ceiling(system);
     if (area_ceiling == RID_AREA_CEILING_INVALID) {
         snprintf(area_ceiling_str, sizeof(area_ceiling_str), "null");
     } else {
         snprintf(area_ceiling_str, sizeof(area_ceiling_str), "%.2f", (double)area_ceiling);
     }
 
-    char area_floor_str[32];
-    float area_floor = rid_system_get_area_floor(system);
+    area_floor = rid_system_get_area_floor(system);
     if (area_floor == RID_AREA_FLOOR_INVALID) {
         snprintf(area_floor_str, sizeof(area_floor_str), "null");
     } else {
@@ -488,7 +504,7 @@ int rid_system_to_json(const rid_system_t *system, char *buffer, size_t buffer_s
         "{\"protocol_version\": %u, \"message_type\": %u, "
         "\"operator_location_type\": %u, \"classification_type\": %u, "
         "\"ua_classification_category\": %u, \"ua_classification_class\": %u, "
-        "\"operator_latitude\": %f, \"operator_longitude\": %f, \"operator_altitude\": %s, "
+        "\"operator_latitude\": %s, \"operator_longitude\": %s, \"operator_altitude\": %s, "
         "\"area_count\": %u, \"area_radius\": %u, \"area_ceiling\": %s, \"area_floor\": %s, "
         "\"timestamp\": %lu}",
         rid_message_get_protocol_version(system),
@@ -497,9 +513,9 @@ int rid_system_to_json(const rid_system_t *system, char *buffer, size_t buffer_s
         rid_system_get_classification_type(system),
         rid_system_get_ua_classification_category(system),
         rid_system_get_ua_classification_class(system),
-        rid_system_get_operator_latitude(system),
-        rid_system_get_operator_longitude(system),
-        operator_altitude_str,
+        latitude_str,
+        longitude_str,
+        altitude_str,
         rid_system_get_area_count(system),
         rid_system_get_area_radius(system),
         area_ceiling_str,

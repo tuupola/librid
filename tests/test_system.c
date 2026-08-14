@@ -763,6 +763,8 @@ TEST test_system_to_json_invalid_as_null(void) {
     int result = rid_system_to_json(&system, buffer, sizeof(buffer));
     ASSERT(result > 0);
 
+    ASSERT(strstr(buffer, "\"operator_latitude\": null") != NULL);
+    ASSERT(strstr(buffer, "\"operator_longitude\": null") != NULL);
     ASSERT(strstr(buffer, "\"operator_altitude\": null") != NULL);
     ASSERT(strstr(buffer, "\"area_ceiling\": null") != NULL);
     ASSERT(strstr(buffer, "\"area_floor\": null") != NULL);
