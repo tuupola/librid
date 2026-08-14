@@ -366,35 +366,50 @@ int rid_auth_sign(
     return rid_auth_set_signature(auth, signature, signature_length);
 }
 
+static size_t buffer_to_hex(const uint8_t *data, size_t data_size, char *hex, size_t hex_size) {
+    size_t pos = 0;
+    for (size_t i = 0; i < data_size && pos + 2 < hex_size; ++i) {
+        int written = snprintf(hex + pos, hex_size - pos, "%02x", data[i]);
+        if (written > 0) {
+            pos += (size_t)written;
+        }
+    }
+    return pos;
+}
+
 int rid_auth_to_json(const rid_auth_t *auth, char *buffer, size_t buffer_size) {
     if (auth == NULL || buffer == NULL) {
         return RID_ERROR_NULL_POINTER;
     }
 
-    uint8_t sig_length = rid_auth_get_length(auth);
-    uint8_t signature[255];
-    rid_auth_get_signature(auth, signature, sizeof(signature));
+    /* Hex + "" + \0 */
+    char signature_str[RID_AUTH_PAGE_MAX_SIGNATURE_SIZE * 2 + 2 + 1];
+    rid_auth_type_t type = rid_auth_get_type(auth);
 
-    /* Convert signature to hex string */
-    char sig_hex[512];
-    size_t hex_pos = 0;
-    for (uint8_t i = 0; i < sig_length && hex_pos < sizeof(sig_hex) - 2; ++i) {
-        hex_pos += snprintf(sig_hex + hex_pos, sizeof(sig_hex) - hex_pos, "%02x", signature[i]);
+    if (type == RID_AUTH_TYPE_NONE || type == RID_AUTH_TYPE_NETWORK_REMOTE_ID) {
+        strcpy(signature_str, "null");
+    } else {
+        char hex[RID_AUTH_PAGE_MAX_SIGNATURE_SIZE * 2 + 1];
+        uint8_t signature[RID_AUTH_PAGE_MAX_SIGNATURE_SIZE];
+        uint8_t length = rid_auth_get_length(auth);
+
+        rid_auth_get_signature(auth, signature, sizeof(signature));
+        buffer_to_hex(signature, length, hex, sizeof(hex));
+        snprintf(signature_str, sizeof(signature_str), "\"%s\"", hex);
     }
-    sig_hex[hex_pos] = '\0';
 
     return snprintf(
         buffer,
         buffer_size,
         "{\"protocol_version\": %u, \"message_type\": %u, "
         "\"auth_type\": %u, \"page_count\": %u, \"timestamp\": %lu, "
-        "\"length\": %u, \"signature\": \"%s\"}",
+        "\"length\": %u, \"signature\": %s}",
         rid_message_get_protocol_version(&auth->page_0),
         rid_message_get_type(&auth->page_0),
         rid_auth_get_type(auth),
         rid_auth_get_page_count(auth),
         (unsigned long)rid_auth_get_timestamp(auth),
-        sig_length,
-        sig_hex
+        rid_auth_get_length(auth),
+        signature_str
     );
 }

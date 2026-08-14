@@ -440,6 +440,36 @@ TEST test_auth_to_json_null(void) {
     PASS();
 }
 
+TEST test_auth_to_json_type_none(void) {
+    rid_auth_t auth;
+    char buffer[1024];
+
+    rid_auth_init(&auth);
+    /* auth_type left at default RID_AUTH_TYPE_NONE */
+
+    int result = rid_auth_to_json(&auth, buffer, sizeof(buffer));
+    ASSERT(result > 0);
+    ASSERT(strstr(buffer, "\"auth_type\": 0") != NULL);
+    ASSERT(strstr(buffer, "\"signature\": null") != NULL);
+
+    PASS();
+}
+
+TEST test_auth_to_json_type_network_remote_id(void) {
+    rid_auth_t auth;
+    char buffer[1024];
+
+    rid_auth_init(&auth);
+    rid_auth_set_type(&auth, RID_AUTH_TYPE_NETWORK_REMOTE_ID);
+
+    int result = rid_auth_to_json(&auth, buffer, sizeof(buffer));
+    ASSERT(result > 0);
+    ASSERT(strstr(buffer, "\"auth_type\": 4") != NULL);
+    ASSERT(strstr(buffer, "\"signature\": null") != NULL);
+
+    PASS();
+}
+
 TEST test_auth_page_to_json_page_0(void) {
     rid_auth_page_0_t page;
     char buffer[512];
@@ -492,6 +522,66 @@ TEST test_auth_page_to_json_null_pointer(void) {
 
     ASSERT_EQ(RID_ERROR_NULL_POINTER, rid_auth_page_to_json(NULL, buffer, sizeof(buffer)));
     ASSERT_EQ(RID_ERROR_NULL_POINTER, rid_auth_page_to_json(&page, NULL, sizeof(buffer)));
+
+    PASS();
+}
+
+TEST test_auth_page_to_json_page_0_type_none(void) {
+    rid_auth_page_0_t page;
+    char buffer[512];
+
+    rid_auth_page_0_init(&page);
+    /* auth_type left at default RID_AUTH_TYPE_NONE */
+
+    int result = rid_auth_page_to_json(&page, buffer, sizeof(buffer));
+    ASSERT(result > 0);
+    ASSERT(strstr(buffer, "\"auth_type\": 0") != NULL);
+    ASSERT(strstr(buffer, "\"auth_data\": null") != NULL);
+
+    PASS();
+}
+
+TEST test_auth_page_to_json_page_x_type_none(void) {
+    rid_auth_page_x_t page;
+    char buffer[512];
+
+    rid_auth_page_x_init(&page, 5);
+    /* auth_type left at default RID_AUTH_TYPE_NONE */
+
+    int result = rid_auth_page_to_json(&page, buffer, sizeof(buffer));
+    ASSERT(result > 0);
+    ASSERT(strstr(buffer, "\"auth_type\": 0") != NULL);
+    ASSERT(strstr(buffer, "\"auth_data\": null") != NULL);
+
+    PASS();
+}
+
+TEST test_auth_page_to_json_page_0_type_network_remote_id(void) {
+    rid_auth_page_0_t page;
+    char buffer[512];
+
+    rid_auth_page_0_init(&page);
+    rid_auth_page_0_set_type(&page, RID_AUTH_TYPE_NETWORK_REMOTE_ID);
+
+    int result = rid_auth_page_to_json(&page, buffer, sizeof(buffer));
+    ASSERT(result > 0);
+    ASSERT(strstr(buffer, "\"auth_type\": 4") != NULL);
+    ASSERT(strstr(buffer, "\"auth_data\": null") != NULL);
+
+    PASS();
+}
+
+TEST test_auth_page_to_json_page_x_type_network_remote_id(void) {
+    rid_auth_page_x_t page;
+    char buffer[512];
+
+    rid_auth_page_x_init(&page, 5);
+    rid_auth_page_x_set_type(&page, RID_AUTH_TYPE_NETWORK_REMOTE_ID);
+
+    int result = rid_auth_page_to_json(&page, buffer, sizeof(buffer));
+    ASSERT(result > 0);
+    ASSERT(strstr(buffer, "\"auth_type\": 4") != NULL);
+    ASSERT(strstr(buffer, "\"auth_data\": null") != NULL);
 
     PASS();
 }
@@ -574,10 +664,16 @@ SUITE(auth_suite) {
 
     RUN_TEST(test_auth_to_json);
     RUN_TEST(test_auth_to_json_null);
+    RUN_TEST(test_auth_to_json_type_none);
+    RUN_TEST(test_auth_to_json_type_network_remote_id);
 
     RUN_TEST(test_auth_page_to_json_page_0);
     RUN_TEST(test_auth_page_to_json_page_x);
     RUN_TEST(test_auth_page_to_json_null_pointer);
+    RUN_TEST(test_auth_page_to_json_page_0_type_none);
+    RUN_TEST(test_auth_page_to_json_page_x_type_none);
+    RUN_TEST(test_auth_page_to_json_page_0_type_network_remote_id);
+    RUN_TEST(test_auth_page_to_json_page_x_type_network_remote_id);
 
     RUN_TEST(test_message_to_json_basic_id);
     RUN_TEST(test_message_to_json_auth_page);

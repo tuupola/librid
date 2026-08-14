@@ -53,6 +53,9 @@ SPDX-License-Identifier: MIT
 extern "C" {
 #endif /* __cplusplus */
 
+/** @brief Max signature size in bytes. */
+#define RID_AUTH_PAGE_MAX_SIGNATURE_SIZE 255
+
 /**
  * @brief Container for multi-page authentication data.
  *

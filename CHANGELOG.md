@@ -22,7 +22,8 @@ All notable changes to this project will be documented in this file, in reverse 
 - Invalid operator altitude, area ceiling and area floor are now rendered as `null` in JSON output. ([#xx](https://github.com/tuupola/librid/commit/xxxxxxx))
 - `rid_location_set_operator_latitude()` now accepts `RID_OPERATOR_LATITUDE_INVALID` and `rid_location_set_operator_longitude()` accepts `RID_OPERATOR_LONGITUDE_INVALID` as input. ([#xx](https://github.com/tuupola/librid/commit/xxxxxxx))
 - Invalid operator latitude and longitude are now rendered as `null` in JSON output. ([#xx](https://github.com/tuupola/librid/commit/xxxxxxx))
-
+- When `RID_AUTH_TYPE_NETWORK_REMOTE_ID` or `RID_AUTH_TYPE_NONE` the signature is now rendered as `null` in JSON output. ([#xx](https://github.com/tuupola/librid/commit/xxxxxxx))
+-
 ### Fixed
 - Setting system unixtime before `RID_SYSTEM_TIMESTAMP_EPOCH` reported success but produced garbage timestamp. ([#xx](https://github.com/tuupola/librid/commit/xxxxxxx))
 

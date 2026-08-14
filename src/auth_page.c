@@ -289,13 +289,21 @@ int rid_auth_page_to_json(const void *message, char *buffer, size_t buffer_size)
     }
 
     const rid_auth_page_0_t *page = (const rid_auth_page_0_t *)message;
-    uint8_t page_number = page->page_number;
 
-    if (0 == page_number) {
+    if (0 == page->page_number) {
         const rid_auth_page_0_t *page_0 = (const rid_auth_page_0_t *)message;
 
-        char auth_hex[RID_AUTH_PAGE_0_DATA_SIZE * 2 + 1];
-        auth_data_to_hex(page_0->auth_data, RID_AUTH_PAGE_0_DATA_SIZE, auth_hex, sizeof(auth_hex));
+        char auth_data_str[RID_AUTH_PAGE_0_DATA_SIZE * 2 + 3];
+        if (
+            rid_auth_page_0_get_type(page_0) == RID_AUTH_TYPE_NONE ||
+            rid_auth_page_0_get_type(page_0) == RID_AUTH_TYPE_NETWORK_REMOTE_ID
+        ) {
+            strcpy(auth_data_str, "null");
+        } else {
+            char hex_buf[RID_AUTH_PAGE_0_DATA_SIZE * 2 + 1];
+            auth_data_to_hex(page_0->auth_data, RID_AUTH_PAGE_0_DATA_SIZE, hex_buf, sizeof(hex_buf));
+            snprintf(auth_data_str, sizeof(auth_data_str), "\"%s\"", hex_buf);
+        }
 
         return snprintf(
             buffer,
@@ -303,7 +311,7 @@ int rid_auth_page_to_json(const void *message, char *buffer, size_t buffer_size)
             "{\"protocol_version\": %u, \"message_type\": %u, "
             "\"page_number\": %u, \"auth_type\": %u, "
             "\"last_page_index\": %u, \"length\": %u, "
-            "\"timestamp\": %lu, \"auth_data\": \"%s\"}",
+            "\"timestamp\": %lu, \"auth_data\": %s}",
             rid_message_get_protocol_version(page_0),
             rid_message_get_type(page_0),
             page_0->page_number,
@@ -311,25 +319,34 @@ int rid_auth_page_to_json(const void *message, char *buffer, size_t buffer_size)
             rid_auth_page_0_get_last_page_index(page_0),
             rid_auth_page_0_get_length(page_0),
             (unsigned long)rid_auth_page_0_get_timestamp(page_0),
-            auth_hex
+            auth_data_str
         );
     } else {
         const rid_auth_page_x_t *page_x = (const rid_auth_page_x_t *)message;
 
-        char auth_hex[RID_AUTH_PAGE_DATA_SIZE * 2 + 1];
-        auth_data_to_hex(page_x->auth_data, RID_AUTH_PAGE_DATA_SIZE, auth_hex, sizeof(auth_hex));
+        char auth_data_str[RID_AUTH_PAGE_DATA_SIZE * 2 + 3];
+        if (
+            rid_auth_page_x_get_type(page_x) == RID_AUTH_TYPE_NONE ||
+            rid_auth_page_x_get_type(page_x) == RID_AUTH_TYPE_NETWORK_REMOTE_ID
+        ) {
+            strcpy(auth_data_str, "null");
+        } else {
+            char hex_buf[RID_AUTH_PAGE_DATA_SIZE * 2 + 1];
+            auth_data_to_hex(page_x->auth_data, RID_AUTH_PAGE_DATA_SIZE, hex_buf, sizeof(hex_buf));
+            snprintf(auth_data_str, sizeof(auth_data_str), "\"%s\"", hex_buf);
+        }
 
         return snprintf(
             buffer,
             buffer_size,
             "{\"protocol_version\": %u, \"message_type\": %u, "
             "\"page_number\": %u, \"auth_type\": %u, "
-            "\"auth_data\": \"%s\"}",
+            "\"auth_data\": %s}",
             rid_message_get_protocol_version(page_x),
             rid_message_get_type(page_x),
             rid_auth_page_x_get_number(page_x),
             rid_auth_page_x_get_type(page_x),
-            auth_hex
+            auth_data_str
         );
     }
 }
