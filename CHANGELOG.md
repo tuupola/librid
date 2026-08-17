@@ -5,28 +5,18 @@ All notable changes to this project will be documented in this file, in reverse 
 ## [0.5.0-dev](https://github.com/tuupola/librid/compare/0.4.0...master) - unreleased
 
 ### Changed
-- Invalid horizontal and vertical speed are now rendered as `null` in JSON output. ([#44](https://github.com/tuupola/librid/commit/2e4a834))
+
+- Invalid and missing values are now rendered as `null` in JSON output ([#44](https://github.com/tuupola/librid/commit/2e4a834), [#49](https://github.com/tuupola/librid/commit/bed97d5), [#50](https://github.com/tuupola/librid/commit/3304c51), [#52](https://github.com/tuupola/librid/commit/215f57e), [#55](https://github.com/tuupola/librid/commit/e44910c), [#58](https://github.com/tuupola/librid/commit/c998d07), [#62](https://github.com/tuupola/librid/commit/973f8a3), [#63](https://github.com/tuupola/librid/commit/b3630ac))
 - Value of `RID_VERTICAL_SPEED_INVALID` sentinel is now `FLT_MAX`. ([#45](https://github.com/tuupola/librid/commit/a7b23aa))
-- `rid_location_get_height()` returns `RID_HEIGHT_INVALID` instead of `-1000.0` when height is invalid. ([#46](https://github.com/tuupola/librid/commit/99b79c4))
-- `rid_location_get_pressure_altitude()` returns `RID_PRESSURE_ALTITUDE_INVALID` instead of `-1000.0` when pressure altitude is invalid. ([#47](https://github.com/tuupola/librid/commit/c6b7765))
-- `rid_location_get_geodetic_altitude()` returns `RID_GEODETIC_ALTITUDE_INVALID` instead of `-1000.0` when geodetic altitude is invalid. ([#48](https://github.com/tuupola/librid/commit/9456b0a))
-- Invalid height and altitudes are now rendered as `null` in JSON output. ([#49](https://github.com/tuupola/librid/commit/bed97d5))
-- Invalid timestamp now rendered as `null` in JSON output. ([#50](https://github.com/tuupola/librid/commit/3304c51))
+- All getters now return `RID_XXX_INVALID` sentinel for missing and invalid values. ([#46](https://github.com/tuupola/librid/commit/99b79c4), [#47](https://github.com/tuupola/librid/commit/c6b7765), [#48](https://github.com/tuupola/librid/commit/9456b0a), [#54](https://github.com/tuupola/librid/commit/f7d48f6))
 - Location timestamp is now initialised as `RID_TIMESTAMP_INVALID`. ([#51](https://github.com/tuupola/librid/commit/5773340))
-- Unknown track direction is now rendered as `null` in JSON output. ([#52](https://github.com/tuupola/librid/commit/215f57e))
 - Latitude and longitude precision in JSON output is now seven decimals instead of six. ([#53](https://github.com/tuupola/librid/commit/ddf5545))
-- `rid_location_get_latitude()` returns `RID_LATITUDE_INVALID` and `rid_location_get_longitude()` returns `RID_LONGITUDE_INVALID` when both latitude and longitude are zero. ([#54](https://github.com/tuupola/librid/commit/f7d48f6))
-- Invalid latitude and longitude are now rendered as `null` in JSON output. ([#55](https://github.com/tuupola/librid/commit/e44910c))
-- `rid_location_set_latitude()` now accepts `RID_LATITUDE_INVALID` and `rid_location_set_longitude()` accepts `RID_LONGITUDE_INVALID` as input. ([#56](https://github.com/tuupola/librid/commit/a94b8aa))
+- All setters now accept `RID_XXX_INVALID` sentinel as input for missing and invalid values. ([#56](https://github.com/tuupola/librid/commit/a94b8aa), [#61](https://github.com/tuupola/librid/commit/4e6b7e6))
 - All floats are now rendered with two decimals in JSON output. ([#57](https://github.com/tuupola/librid/commit/168e4e9))
-- Invalid operator altitude, area ceiling and area floor are now rendered as `null` in JSON output. ([#58](https://github.com/tuupola/librid/commit/c998d07))
-- `rid_location_set_operator_latitude()` now accepts `RID_OPERATOR_LATITUDE_INVALID` and `rid_location_set_operator_longitude()` accepts `RID_OPERATOR_LONGITUDE_INVALID` as input. ([#61](https://github.com/tuupola/librid/commit/4e6b7e6))
-- Invalid operator latitude and longitude are now rendered as `null` in JSON output. ([#62](https://github.com/tuupola/librid/commit/973f8a3))
-- When `RID_AUTH_TYPE_NETWORK_REMOTE_ID` or `RID_AUTH_TYPE_NONE` the signature is now rendered as `null` in JSON output. ([#63](https://github.com/tuupola/librid/commit/b3630ac))
 
 ### Fixed
-- Setting system unixtime before `RID_SYSTEM_TIMESTAMP_EPOCH` reported success but produced garbage timestamp. ([#59](https://github.com/tuupola/librid/commit/2b7732f))
 
+- Setting system unixtime before `RID_SYSTEM_TIMESTAMP_EPOCH` reported success but produced garbage timestamp. ([#59](https://github.com/tuupola/librid/commit/2b7732f))
 
 ## [0.4.0](https://github.com/tuupola/librid/compare/0.3.0...0.4.0) - 2026-06-17
 
