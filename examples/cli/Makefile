@@ -6,7 +6,7 @@ SRC_DIR = ../../src
 SRC = $(SRC_DIR)/message.c $(SRC_DIR)/basic_id.c $(SRC_DIR)/location.c \
       $(SRC_DIR)/self_id.c $(SRC_DIR)/system.c $(SRC_DIR)/operator_id.c \
       $(SRC_DIR)/message_pack.c $(SRC_DIR)/auth_page.c $(SRC_DIR)/auth.c \
-      $(SRC_DIR)/transport.c
+      $(SRC_DIR)/transport.c $(SRC_DIR)/json.c
 
 TARGET = rid
 

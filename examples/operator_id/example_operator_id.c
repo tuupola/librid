@@ -27,7 +27,7 @@ int main(void) {
 
     hexdump(&operator_id, sizeof(operator_id));
 
-    char id[21];
+    char id[RID_OPERATOR_ID_SIZE + 1];
     rid_operator_id_get(&operator_id, id, sizeof(id));
     rid_operator_id_type_t id_type = rid_operator_id_get_type(&operator_id);
 

@@ -449,8 +449,8 @@ TEST test_auth_to_json_type_none(void) {
 
     int result = rid_auth_to_json(&auth, buffer, sizeof(buffer));
     ASSERT(result > 0);
-    ASSERT(strstr(buffer, "\"auth_type\": 0") != NULL);
-    ASSERT(strstr(buffer, "\"signature\": null") != NULL);
+    ASSERT(strstr(buffer, "\"auth_type\":0") != NULL);
+    ASSERT(strstr(buffer, "\"signature\":null") != NULL);
 
     PASS();
 }
@@ -464,8 +464,8 @@ TEST test_auth_to_json_type_network_remote_id(void) {
 
     int result = rid_auth_to_json(&auth, buffer, sizeof(buffer));
     ASSERT(result > 0);
-    ASSERT(strstr(buffer, "\"auth_type\": 4") != NULL);
-    ASSERT(strstr(buffer, "\"signature\": null") != NULL);
+    ASSERT(strstr(buffer, "\"auth_type\":4") != NULL);
+    ASSERT(strstr(buffer, "\"signature\":null") != NULL);
 
     PASS();
 }
@@ -485,10 +485,10 @@ TEST test_auth_page_to_json_page_0(void) {
 
     int result = rid_auth_page_to_json(&page, buffer, sizeof(buffer));
     ASSERT(result > 0);
-    ASSERT(strstr(buffer, "\"page_number\": 0") != NULL);
-    ASSERT(strstr(buffer, "\"auth_type\": 1") != NULL);
-    ASSERT(strstr(buffer, "\"last_page_index\": 2") != NULL);
-    ASSERT(strstr(buffer, "\"length\": 63") != NULL);
+    ASSERT(strstr(buffer, "\"page_number\":0") != NULL);
+    ASSERT(strstr(buffer, "\"auth_type\":1") != NULL);
+    ASSERT(strstr(buffer, "\"last_page_index\":2") != NULL);
+    ASSERT(strstr(buffer, "\"length\":63") != NULL);
     ASSERT(strstr(buffer, "\"timestamp\":") != NULL);
     ASSERT(strstr(buffer, "cafebabe") != NULL);
 
@@ -507,8 +507,8 @@ TEST test_auth_page_to_json_page_x(void) {
 
     int result = rid_auth_page_to_json(&page, buffer, sizeof(buffer));
     ASSERT(result > 0);
-    ASSERT(strstr(buffer, "\"page_number\": 5") != NULL);
-    ASSERT(strstr(buffer, "\"auth_type\": 3") != NULL);
+    ASSERT(strstr(buffer, "\"page_number\":5") != NULL);
+    ASSERT(strstr(buffer, "\"auth_type\":3") != NULL);
     ASSERT(strstr(buffer, "deadbeef") != NULL);
 
     PASS();
@@ -535,8 +535,8 @@ TEST test_auth_page_to_json_page_0_type_none(void) {
 
     int result = rid_auth_page_to_json(&page, buffer, sizeof(buffer));
     ASSERT(result > 0);
-    ASSERT(strstr(buffer, "\"auth_type\": 0") != NULL);
-    ASSERT(strstr(buffer, "\"auth_data\": null") != NULL);
+    ASSERT(strstr(buffer, "\"auth_type\":0") != NULL);
+    ASSERT(strstr(buffer, "\"auth_data\":null") != NULL);
 
     PASS();
 }
@@ -550,8 +550,8 @@ TEST test_auth_page_to_json_page_x_type_none(void) {
 
     int result = rid_auth_page_to_json(&page, buffer, sizeof(buffer));
     ASSERT(result > 0);
-    ASSERT(strstr(buffer, "\"auth_type\": 0") != NULL);
-    ASSERT(strstr(buffer, "\"auth_data\": null") != NULL);
+    ASSERT(strstr(buffer, "\"auth_type\":0") != NULL);
+    ASSERT(strstr(buffer, "\"auth_data\":null") != NULL);
 
     PASS();
 }
@@ -565,8 +565,8 @@ TEST test_auth_page_to_json_page_0_type_network_remote_id(void) {
 
     int result = rid_auth_page_to_json(&page, buffer, sizeof(buffer));
     ASSERT(result > 0);
-    ASSERT(strstr(buffer, "\"auth_type\": 4") != NULL);
-    ASSERT(strstr(buffer, "\"auth_data\": null") != NULL);
+    ASSERT(strstr(buffer, "\"auth_type\":4") != NULL);
+    ASSERT(strstr(buffer, "\"auth_data\":null") != NULL);
 
     PASS();
 }
@@ -580,8 +580,8 @@ TEST test_auth_page_to_json_page_x_type_network_remote_id(void) {
 
     int result = rid_auth_page_to_json(&page, buffer, sizeof(buffer));
     ASSERT(result > 0);
-    ASSERT(strstr(buffer, "\"auth_type\": 4") != NULL);
-    ASSERT(strstr(buffer, "\"auth_data\": null") != NULL);
+    ASSERT(strstr(buffer, "\"auth_type\":4") != NULL);
+    ASSERT(strstr(buffer, "\"auth_data\":null") != NULL);
 
     PASS();
 }
@@ -595,7 +595,7 @@ TEST test_message_to_json_basic_id(void) {
 
     int result = rid_message_to_json(&message, buffer, sizeof(buffer));
     ASSERT(result > 0);
-    ASSERT(strstr(buffer, "\"message_type\": 0") != NULL);
+    ASSERT(strstr(buffer, "\"message_type\":0") != NULL);
     ASSERT(strstr(buffer, "BRAWNDO001") != NULL);
 
     PASS();
@@ -611,8 +611,8 @@ TEST test_message_to_json_auth_page(void) {
 
     int result = rid_message_to_json(&page, buffer, sizeof(buffer));
     ASSERT(result > 0);
-    ASSERT(strstr(buffer, "\"message_type\": 2") != NULL);
-    ASSERT(strstr(buffer, "\"page_number\": 0") != NULL);
+    ASSERT(strstr(buffer, "\"message_type\":2") != NULL);
+    ASSERT(strstr(buffer, "\"page_number\":0") != NULL);
     ASSERT(strstr(buffer, "\"timestamp\":") != NULL);
 
     PASS();

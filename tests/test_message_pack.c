@@ -258,8 +258,8 @@ TEST test_add_message_null_pointer(void) {
 TEST test_get_message_at(void) {
     rid_message_pack_t pack;
     rid_basic_id_t basic_id;
-    char uas_id[21];
-    char expected[21];
+    char uas_id[RID_UAS_ID_SIZE + 1];
+    char expected[RID_UAS_ID_SIZE + 1];
 
     rid_message_pack_init(&pack);
 
@@ -666,7 +666,7 @@ TEST test_set_auth_null_pointer_auth(void) {
 TEST test_delete_message_at(void) {
     rid_message_pack_t pack;
     rid_basic_id_t basic_id;
-    char uas_id[21];
+    char uas_id[RID_UAS_ID_SIZE + 1];
 
     rid_message_pack_init(&pack);
 
@@ -707,7 +707,7 @@ TEST test_delete_message_at(void) {
 TEST test_delete_message_at_first(void) {
     rid_message_pack_t pack;
     rid_basic_id_t basic_id;
-    char uas_id[21];
+    char uas_id[RID_UAS_ID_SIZE + 1];
 
     rid_message_pack_init(&pack);
 
@@ -736,7 +736,7 @@ TEST test_delete_message_at_first(void) {
 TEST test_delete_message_at_last(void) {
     rid_message_pack_t pack;
     rid_basic_id_t basic_id;
-    char uas_id[21];
+    char uas_id[RID_UAS_ID_SIZE + 1];
 
     rid_message_pack_init(&pack);
 
@@ -794,7 +794,7 @@ TEST test_delete_message_at_out_of_range(void) {
 TEST test_set_message_at(void) {
     rid_message_pack_t pack;
     rid_basic_id_t basic_id;
-    char uas_id[21];
+    char uas_id[RID_UAS_ID_SIZE + 1];
 
     rid_message_pack_init(&pack);
 

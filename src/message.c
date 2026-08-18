@@ -31,7 +31,6 @@ SPDX-License-Identifier: MIT
 */
 
 #include <stdint.h>
-#include <stdio.h>
 
 #include "rid/auth_page.h"
 #include "rid/basic_id.h"
@@ -41,6 +40,8 @@ SPDX-License-Identifier: MIT
 #include "rid/operator_id.h"
 #include "rid/self_id.h"
 #include "rid/system.h"
+
+#include "json.h"
 
 rid_message_type_t rid_message_get_type(const void *message) {
     rid_message_t *msg = (rid_message_t *)message;
@@ -223,13 +224,15 @@ int rid_message_to_json(const void *message, char *buffer, size_t buffer_size) {
                 buffer,
                 buffer_size
             );
-        default:
-            return snprintf(
-                buffer,
-                buffer_size,
-                "{\"protocol_version\": %u, \"message_type\": %u}",
-                rid_message_get_protocol_version(message),
-                type
-            );
+        default: {
+            rid_json_t json;
+
+            rid_json_start(&json, buffer, buffer_size);
+            rid_json_key(&json, "protocol_version");
+            rid_json_uint(&json, rid_message_get_protocol_version(message));
+            rid_json_key(&json, "message_type");
+            rid_json_uint(&json, type);
+            return rid_json_end(&json);
+        }
     }
 }

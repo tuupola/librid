@@ -35,7 +35,7 @@ int main(void) {
     rid_basic_id_set_ua_type(&basic_id, RID_UA_TYPE_HELICOPTER_OR_MULTIROTOR);
     rid_basic_id_set_uas_id(&basic_id, "1ABCD2345EF678XYZ");
 
-    char uas_id[21];
+    char uas_id[RID_UAS_ID_SIZE + 1];
     rid_basic_id_get_uas_id(&basic_id, uas_id, sizeof(uas_id));
 
     printf("=== Remote ID to MAVLink =======================\n\n");
@@ -75,12 +75,12 @@ int main(void) {
     rid_basic_id_set_ua_type(&roundtrip, decoded.ua_type);
 
     /* MAVLink uas_id is not guaranteed to be null terminated */
-    char decoded_id[21];
-    memcpy(decoded_id, decoded.uas_id, 20);
-    decoded_id[20] = '\0';
+    char decoded_id[RID_UAS_ID_SIZE + 1];
+    memcpy(decoded_id, decoded.uas_id, RID_UAS_ID_SIZE);
+    decoded_id[RID_UAS_ID_SIZE] = '\0';
     rid_basic_id_set_uas_id(&roundtrip, decoded_id);
 
-    char roundtrip_id[21];
+    char roundtrip_id[RID_UAS_ID_SIZE + 1];
     rid_basic_id_get_uas_id(&roundtrip, roundtrip_id, sizeof(roundtrip_id));
 
     printf("Remote ID Basic ID (%zu bytes):\n", sizeof(roundtrip));

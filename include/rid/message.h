@@ -160,7 +160,7 @@ int rid_message_validate(const void *message);
  * @brief Format any Remote ID message as a JSON string.
  *
  * Determines the message type and calls the appropriate type-specific
- * snprintf function.
+ * *_to_json() function.
  *
  * @param message Pointer to any Remote ID message structure.
  * @param buffer Buffer to store the JSON string.

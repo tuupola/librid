@@ -32,11 +32,12 @@ SPDX-License-Identifier: MIT
 
 #include <stddef.h>
 #include <stdint.h>
-#include <stdio.h>
 #include <string.h>
 
 #include "rid/message.h"
 #include "rid/self_id.h"
+
+#include "json.h"
 
 int rid_self_id_init(rid_self_id_t *message) {
     if (message == NULL) {
@@ -66,7 +67,7 @@ int rid_self_id_validate(const rid_self_id_t *message) {
     }
 
     /* Description must be ASCII only */
-    for (size_t i = 0; i < 23; ++i) {
+    for (size_t i = 0; i < RID_DESCRIPTION_SIZE; ++i) {
         if ((unsigned char)message->description[i] > 127) {
             return RID_ERROR_INVALID_CHARACTER;
         }
@@ -94,12 +95,12 @@ int rid_self_id_get_description(const rid_self_id_t *message, char *buffer, size
         return RID_ERROR_NULL_POINTER;
     }
 
-    if (buffer_size < 24) {
+    if (buffer_size < RID_DESCRIPTION_SIZE + 1) {
         return RID_ERROR_BUFFER_TOO_SMALL;
     }
 
-    memcpy(buffer, message->description, 23);
-    buffer[23] = '\0';
+    memcpy(buffer, message->description, RID_DESCRIPTION_SIZE);
+    buffer[RID_DESCRIPTION_SIZE] = '\0';
 
     return RID_SUCCESS;
 }
@@ -111,7 +112,7 @@ int rid_self_id_set_description(rid_self_id_t *message, const char *description)
 
     size_t size = strlen(description);
 
-    if (size > 23) {
+    if (size > RID_DESCRIPTION_SIZE) {
         return RID_ERROR_BUFFER_TOO_LARGE;
     }
 
@@ -122,7 +123,7 @@ int rid_self_id_set_description(rid_self_id_t *message, const char *description)
         }
     }
 
-    memset(message->description, 0, 23);
+    memset(message->description, 0, RID_DESCRIPTION_SIZE);
     memcpy(message->description, description, size);
 
     return RID_SUCCESS;
@@ -142,21 +143,23 @@ const char *rid_description_type_to_string(rid_description_type_t type) {
 }
 
 int rid_self_id_to_json(const rid_self_id_t *message, char *buffer, size_t buffer_size) {
+    rid_json_t json;
+    char description[RID_DESCRIPTION_SIZE + 1];
+
     if (message == NULL || buffer == NULL) {
         return RID_ERROR_NULL_POINTER;
     }
 
-    char description[24];
     rid_self_id_get_description(message, description, sizeof(description));
 
-    return snprintf(
-        buffer,
-        buffer_size,
-        "{\"protocol_version\": %u, \"message_type\": %u, "
-        "\"description_type\": %u, \"description\": \"%s\"}",
-        rid_message_get_protocol_version(message),
-        rid_message_get_type(message),
-        rid_self_id_get_description_type(message),
-        description
-    );
+    rid_json_start(&json, buffer, buffer_size);
+    rid_json_key(&json, "protocol_version");
+    rid_json_uint(&json, rid_message_get_protocol_version(message));
+    rid_json_key(&json, "message_type");
+    rid_json_uint(&json, rid_message_get_type(message));
+    rid_json_key(&json, "description_type");
+    rid_json_uint(&json, rid_self_id_get_description_type(message));
+    rid_json_key(&json, "description");
+    rid_json_string(&json, description);
+    return rid_json_end(&json);
 }

@@ -12,6 +12,7 @@ if(ESP_PLATFORM)
              "src/self_id.c"
              "src/transport.c"
              "src/version.c"
+             "src/json.c"
         INCLUDE_DIRS "include"
     )
 else()
@@ -49,6 +50,7 @@ else()
         src/self_id.c
         src/transport.c
         src/version.c
+        src/json.c
     )
 
     target_include_directories(rid PUBLIC include)

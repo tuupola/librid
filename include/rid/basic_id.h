@@ -47,6 +47,10 @@ SPDX-License-Identifier: MIT
 extern "C" {
 #endif /* __cplusplus */
 
+/** @brief UAS ID field size in bytes per ASTM F3411-22a. */
+#define RID_UAS_ID_SIZE 20
+#define RID_UAS_ID_UUID_SIZE 36
+
 /**
  * @brief Basic ID message structure per ASTM F3411-22a.
  */
@@ -55,7 +59,7 @@ typedef struct __attribute__((__packed__)) rid_basic_id {
     uint8_t message_type: 4;
     uint8_t ua_type: 4;
     uint8_t id_type: 4;
-    char uas_id[20];
+    char uas_id[RID_UAS_ID_SIZE];
     char reserved[3];
 } rid_basic_id_t;
 
@@ -172,14 +176,14 @@ rid_ua_type_t rid_basic_id_get_ua_type(const rid_basic_id_t *message);
 /**
  * @brief Set the UAS ID for a Basic ID message.
  *
- * The UAS ID is a null-terminated string up to 20 characters.
+ * The UAS ID is a null-terminated string up to RID_UAS_ID_SIZE characters.
  *
  * @param message Pointer to the Basic ID message structure.
  * @param uas_id The UAS ID string to set.
  *
  * @retval RID_SUCCESS on success.
  * @retval RID_ERROR_NULL_POINTER if message or uas_id is NULL.
- * @retval RID_ERROR_BUFFER_TOO_LARGE if uas_id exceeds 20 characters.
+ * @retval RID_ERROR_BUFFER_TOO_LARGE if uas_id exceeds RID_UAS_ID_SIZE characters.
  */
 int rid_basic_id_set_uas_id(rid_basic_id_t *message, const char *uas_id);
 
@@ -190,7 +194,7 @@ int rid_basic_id_set_uas_id(rid_basic_id_t *message, const char *uas_id);
  *
  * @param message Pointer to the Basic ID message structure.
  * @param buffer Buffer to store the UAS ID.
- * @param buffer_size Size of the buffer (must be at least 21 for full ID).
+ * @param buffer_size Size of the buffer (must be at least RID_UAS_ID_SIZE + 1).
  *
  * @retval RID_SUCCESS on success.
  * @retval RID_ERROR_NULL_POINTER if message or buffer is NULL.

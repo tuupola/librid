@@ -1475,15 +1475,15 @@ TEST test_location_to_json_invalid_as_null(void) {
     int result = rid_location_to_json(&location, buffer, sizeof(buffer));
     ASSERT(result > 0);
 
-    ASSERT(strstr(buffer, "\"speed\": null") != NULL);
-    ASSERT(strstr(buffer, "\"vertical_speed\": null") != NULL);
-    ASSERT(strstr(buffer, "\"height\": null") != NULL);
-    ASSERT(strstr(buffer, "\"pressure_altitude\": null") != NULL);
-    ASSERT(strstr(buffer, "\"geodetic_altitude\": null") != NULL);
-    ASSERT(strstr(buffer, "\"track_direction\": null") != NULL);
-    ASSERT(strstr(buffer, "\"timestamp\": null") != NULL);
-    ASSERT(strstr(buffer, "\"latitude\": null") != NULL);
-    ASSERT(strstr(buffer, "\"longitude\": null") != NULL);
+    ASSERT(strstr(buffer, "\"speed\":null") != NULL);
+    ASSERT(strstr(buffer, "\"vertical_speed\":null") != NULL);
+    ASSERT(strstr(buffer, "\"height\":null") != NULL);
+    ASSERT(strstr(buffer, "\"pressure_altitude\":null") != NULL);
+    ASSERT(strstr(buffer, "\"geodetic_altitude\":null") != NULL);
+    ASSERT(strstr(buffer, "\"track_direction\":null") != NULL);
+    ASSERT(strstr(buffer, "\"timestamp\":null") != NULL);
+    ASSERT(strstr(buffer, "\"latitude\":null") != NULL);
+    ASSERT(strstr(buffer, "\"longitude\":null") != NULL);
 
     PASS();
 }

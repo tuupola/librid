@@ -51,7 +51,7 @@ TEST test_set_and_get_description(void) {
         status = rid_self_id_set_description(&message, test_descriptions[i]);
         ASSERT_EQ(RID_SUCCESS, status);
 
-        char buffer[24];
+        char buffer[RID_DESCRIPTION_SIZE + 1];
         status = rid_self_id_get_description(&message, buffer, sizeof(buffer));
         ASSERT_EQ(RID_SUCCESS, status);
 
@@ -88,7 +88,7 @@ TEST test_set_description_too_long(void) {
 
     memset(&message, 0, sizeof(message));
 
-    /* Test with description > 23 characters */
+    /* Test with description > RID_DESCRIPTION_SIZE characters */
     status = rid_self_id_set_description(&message, "All your base are belong to us...");
     ASSERT_EQ(RID_ERROR_BUFFER_TOO_LARGE, status);
 
@@ -112,7 +112,7 @@ TEST test_set_description_null_pointer(void) {
 TEST test_get_description_null_pointer(void) {
     int status;
     rid_self_id_t message;
-    char buffer[24];
+    char buffer[RID_DESCRIPTION_SIZE + 1];
 
     memset(&message, 0, sizeof(message));
 
@@ -152,7 +152,7 @@ TEST test_self_id_init(void) {
     ASSERT_EQ(RID_MESSAGE_TYPE_SELF_ID, message.message_type);
     ASSERT_EQ(RID_DESCRIPTION_TYPE_TEXT, message.description_type);
 
-    for (size_t i = 0; i < 23; i++) {
+    for (size_t i = 0; i < RID_DESCRIPTION_SIZE; i++) {
         ASSERT_EQ(0, message.description[i]);
     }
 

@@ -28,7 +28,7 @@ int main(void) {
 
     hexdump(&basic_id, sizeof(basic_id));
 
-    char uas_id[21];
+    char uas_id[RID_UAS_ID_SIZE + 1];
     rid_basic_id_get_uas_id(&basic_id, uas_id, sizeof(uas_id));
     rid_ua_type_t ua_type = rid_basic_id_get_ua_type(&basic_id);
     rid_basic_id_type_t id_type = rid_basic_id_get_type(&basic_id);

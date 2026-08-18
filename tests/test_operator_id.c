@@ -57,7 +57,7 @@ TEST test_set_and_get_operator_id(void) {
         status = rid_operator_id_set(&message, test_ids[i]);
         ASSERT_EQ(RID_SUCCESS, status);
 
-        char buffer[21];
+        char buffer[RID_OPERATOR_ID_SIZE + 1];
         status = rid_operator_id_get(&message, buffer, sizeof(buffer));
         ASSERT_EQ(RID_SUCCESS, status);
 
@@ -92,7 +92,7 @@ TEST test_set_operator_id_too_long(void) {
     rid_operator_id_t message;
     memset(&message, 0, sizeof(message));
 
-    /* 21 characters - one over limit */
+    /* RID_OPERATOR_ID_SIZE + 1 characters - one over limit */
     int status = rid_operator_id_set(&message, "123456789012345678901");
     ASSERT_EQ(RID_ERROR_BUFFER_TOO_LARGE, status);
 
@@ -100,7 +100,7 @@ TEST test_set_operator_id_too_long(void) {
     status = rid_operator_id_set(&message, "12345678901234567890123456789012345678901234567890");
     ASSERT_EQ(RID_ERROR_BUFFER_TOO_LARGE, status);
 
-    /* Exactly 20 characters should work */
+    /* Exactly RID_OPERATOR_ID_SIZE characters should work */
     status = rid_operator_id_set(&message, "12345678901234567890");
     ASSERT_EQ(RID_SUCCESS, status);
 
@@ -126,7 +126,7 @@ TEST test_decode_operator_id_buffer(void) {
 
     ASSERT_EQ(RID_ID_TYPE_OPERATOR_ID, rid_operator_id_get_type(message));
 
-    char operator_id[21];
+    char operator_id[RID_OPERATOR_ID_SIZE + 1];
     int status = rid_operator_id_get(message, operator_id, sizeof(operator_id));
     ASSERT_EQ(RID_SUCCESS, status);
     ASSERT_STR_EQ("FIN87astrdge12k8", operator_id);
@@ -137,7 +137,7 @@ TEST test_decode_operator_id_buffer(void) {
 TEST test_get_operator_id_null_pointer(void) {
     int status;
     rid_operator_id_t message;
-    char buf[21];
+    char buf[RID_OPERATOR_ID_SIZE + 1];
 
     memset(&message, 0, sizeof(message));
 
@@ -177,7 +177,7 @@ TEST test_operator_id_init(void) {
     ASSERT_EQ(RID_MESSAGE_TYPE_OPERATOR_ID, message.message_type);
     ASSERT_EQ(RID_ID_TYPE_OPERATOR_ID, message.id_type);
 
-    for (size_t i = 0; i < 20; i++) {
+    for (size_t i = 0; i < RID_OPERATOR_ID_SIZE; i++) {
         ASSERT_EQ(0, message.operator_id[i]);
     }
 

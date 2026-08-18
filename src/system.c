@@ -38,6 +38,8 @@ SPDX-License-Identifier: MIT
 #include "rid/message.h"
 #include "rid/system.h"
 
+#include "json.h"
+
 int rid_system_init(rid_system_t *system) {
     if (system == NULL) {
         return RID_ERROR_NULL_POINTER;
@@ -454,8 +456,9 @@ const char *rid_ua_classification_class_to_string(rid_ua_classification_class_t 
 }
 
 int rid_system_to_json(const rid_system_t *system, char *buffer, size_t buffer_size) {
-    char latitude_str[32], longitude_str[32], altitude_str[32];
-    char area_ceiling_str[32], area_floor_str[32];
+    rid_json_t json;
+    char token[32];
+    int token_length;
     double latitude, longitude;
     float altitude, area_ceiling, area_floor;
 
@@ -463,63 +466,74 @@ int rid_system_to_json(const rid_system_t *system, char *buffer, size_t buffer_s
         return RID_ERROR_NULL_POINTER;
     }
 
+    rid_json_start(&json, buffer, buffer_size);
+
+    rid_json_key(&json, "protocol_version");
+    rid_json_uint(&json, rid_message_get_protocol_version(system));
+    rid_json_key(&json, "message_type");
+    rid_json_uint(&json, rid_message_get_type(system));
+
+    rid_json_key(&json, "operator_location_type");
+    rid_json_uint(&json, rid_system_get_operator_location_type(system));
+    rid_json_key(&json, "classification_type");
+    rid_json_uint(&json, rid_system_get_classification_type(system));
+    rid_json_key(&json, "ua_classification_category");
+    rid_json_uint(&json, rid_system_get_ua_classification_category(system));
+    rid_json_key(&json, "ua_classification_class");
+    rid_json_uint(&json, rid_system_get_ua_classification_class(system));
+
+    rid_json_key(&json, "operator_latitude");
     latitude = rid_system_get_operator_latitude(system);
     if (latitude == RID_OPERATOR_LATITUDE_INVALID) {
-        snprintf(latitude_str, sizeof(latitude_str), "null");
+        rid_json_null(&json);
     } else {
-        snprintf(latitude_str, sizeof(latitude_str), "%.7f", latitude);
+        token_length = snprintf(token, sizeof(token), "%.7f", latitude);
+        rid_json_raw(&json, token, (size_t)token_length);
     }
 
+    rid_json_key(&json, "operator_longitude");
     longitude = rid_system_get_operator_longitude(system);
     if (longitude == RID_OPERATOR_LONGITUDE_INVALID) {
-        snprintf(longitude_str, sizeof(longitude_str), "null");
+        rid_json_null(&json);
     } else {
-        snprintf(longitude_str, sizeof(longitude_str), "%.7f", longitude);
+        token_length = snprintf(token, sizeof(token), "%.7f", longitude);
+        rid_json_raw(&json, token, (size_t)token_length);
     }
 
+    rid_json_key(&json, "operator_altitude");
     altitude = rid_system_get_operator_altitude(system);
     if (altitude == RID_OPERATOR_ALTITUDE_INVALID) {
-        snprintf(altitude_str, sizeof(altitude_str), "null");
+        rid_json_null(&json);
     } else {
-        snprintf(altitude_str, sizeof(altitude_str), "%.2f", (double)altitude);
+        token_length = snprintf(token, sizeof(token), "%.2f", (double)altitude);
+        rid_json_raw(&json, token, (size_t)token_length);
     }
 
+    rid_json_key(&json, "area_count");
+    rid_json_uint(&json, rid_system_get_area_count(system));
+    rid_json_key(&json, "area_radius");
+    rid_json_uint(&json, rid_system_get_area_radius(system));
+
+    rid_json_key(&json, "area_ceiling");
     area_ceiling = rid_system_get_area_ceiling(system);
     if (area_ceiling == RID_AREA_CEILING_INVALID) {
-        snprintf(area_ceiling_str, sizeof(area_ceiling_str), "null");
+        rid_json_null(&json);
     } else {
-        snprintf(area_ceiling_str, sizeof(area_ceiling_str), "%.2f", (double)area_ceiling);
+        token_length = snprintf(token, sizeof(token), "%.2f", (double)area_ceiling);
+        rid_json_raw(&json, token, (size_t)token_length);
     }
 
+    rid_json_key(&json, "area_floor");
     area_floor = rid_system_get_area_floor(system);
     if (area_floor == RID_AREA_FLOOR_INVALID) {
-        snprintf(area_floor_str, sizeof(area_floor_str), "null");
+        rid_json_null(&json);
     } else {
-        snprintf(area_floor_str, sizeof(area_floor_str), "%.2f", (double)area_floor);
+        token_length = snprintf(token, sizeof(token), "%.2f", (double)area_floor);
+        rid_json_raw(&json, token, (size_t)token_length);
     }
 
-    return snprintf(
-        buffer,
-        buffer_size,
-        "{\"protocol_version\": %u, \"message_type\": %u, "
-        "\"operator_location_type\": %u, \"classification_type\": %u, "
-        "\"ua_classification_category\": %u, \"ua_classification_class\": %u, "
-        "\"operator_latitude\": %s, \"operator_longitude\": %s, \"operator_altitude\": %s, "
-        "\"area_count\": %u, \"area_radius\": %u, \"area_ceiling\": %s, \"area_floor\": %s, "
-        "\"timestamp\": %lu}",
-        rid_message_get_protocol_version(system),
-        rid_message_get_type(system),
-        rid_system_get_operator_location_type(system),
-        rid_system_get_classification_type(system),
-        rid_system_get_ua_classification_category(system),
-        rid_system_get_ua_classification_class(system),
-        latitude_str,
-        longitude_str,
-        altitude_str,
-        rid_system_get_area_count(system),
-        rid_system_get_area_radius(system),
-        area_ceiling_str,
-        area_floor_str,
-        (unsigned long)rid_system_get_timestamp(system)
-    );
+    rid_json_key(&json, "timestamp");
+    rid_json_uint(&json, rid_system_get_timestamp(system));
+
+    return rid_json_end(&json);
 }

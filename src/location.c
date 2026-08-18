@@ -38,6 +38,8 @@ SPDX-License-Identifier: MIT
 #include "rid/location.h"
 #include "rid/message.h"
 
+#include "json.h"
+
 int rid_location_init(rid_location_t *location) {
     if (location == NULL) {
         return RID_ERROR_NULL_POINTER;
@@ -723,111 +725,119 @@ const char *rid_timestamp_accuracy_to_string(rid_timestamp_accuracy_t accuracy) 
 }
 
 int rid_location_to_json(const rid_location_t *location, char *buffer, size_t buffer_size) {
+    rid_json_t json;
+    char token[32];
+    int token_length;
+    double latitude, longitude;
+    float speed, vertical_speed, height, pressure_altitude, geodetic_altitude;
+    uint16_t timestamp, track_direction;
+
     if (location == NULL || buffer == NULL) {
         return RID_ERROR_NULL_POINTER;
     }
 
-    char speed_str[32];
-    float speed = rid_location_get_speed(location);
-    if (speed == RID_SPEED_INVALID) {
-        snprintf(speed_str, sizeof(speed_str), "null");
-    } else {
-        snprintf(speed_str, sizeof(speed_str), "%.2f", (double)speed);
-    }
+    rid_json_start(&json, buffer, buffer_size);
 
-    char latitude_str[32];
-    double latitude = rid_location_get_latitude(location);
+    rid_json_key(&json, "protocol_version");
+    rid_json_uint(&json, rid_message_get_protocol_version(location));
+    rid_json_key(&json, "message_type");
+    rid_json_uint(&json, rid_message_get_type(location));
+
+    rid_json_key(&json, "latitude");
+    latitude = rid_location_get_latitude(location);
     if (latitude == RID_LATITUDE_INVALID) {
-        snprintf(latitude_str, sizeof(latitude_str), "null");
+        rid_json_null(&json);
     } else {
-        snprintf(latitude_str, sizeof(latitude_str), "%.7f", latitude);
+        token_length = snprintf(token, sizeof(token), "%.7f", latitude);
+        rid_json_raw(&json, token, (size_t)token_length);
     }
 
-    char longitude_str[32];
-    double longitude = rid_location_get_longitude(location);
+    rid_json_key(&json, "longitude");
+    longitude = rid_location_get_longitude(location);
     if (longitude == RID_LONGITUDE_INVALID) {
-        snprintf(longitude_str, sizeof(longitude_str), "null");
+        rid_json_null(&json);
     } else {
-        snprintf(longitude_str, sizeof(longitude_str), "%.7f", longitude);
+        token_length = snprintf(token, sizeof(token), "%.7f", longitude);
+        rid_json_raw(&json, token, (size_t)token_length);
     }
 
-    char vertical_speed_str[32];
-    float vertical_speed = rid_location_get_vertical_speed(location);
-    if (vertical_speed == RID_VERTICAL_SPEED_INVALID) {
-        snprintf(vertical_speed_str, sizeof(vertical_speed_str), "null");
-    } else {
-        snprintf(vertical_speed_str, sizeof(vertical_speed_str), "%.2f", (double)vertical_speed);
-    }
-
-    char height_str[32];
-    float height = rid_location_get_height(location);
-    if (height == RID_HEIGHT_INVALID) {
-        snprintf(height_str, sizeof(height_str), "null");
-    } else {
-        snprintf(height_str, sizeof(height_str), "%.2f", (double)height);
-    }
-
-    char pressure_altitude_str[32];
-    float pressure_altitude = rid_location_get_pressure_altitude(location);
-    if (pressure_altitude == RID_PRESSURE_ALTITUDE_INVALID) {
-        snprintf(pressure_altitude_str, sizeof(pressure_altitude_str), "null");
-    } else {
-        snprintf(pressure_altitude_str, sizeof(pressure_altitude_str), "%.2f", (double)pressure_altitude);
-    }
-
-    char geodetic_altitude_str[32];
-    float geodetic_altitude = rid_location_get_geodetic_altitude(location);
+    rid_json_key(&json, "geodetic_altitude");
+    geodetic_altitude = rid_location_get_geodetic_altitude(location);
     if (geodetic_altitude == RID_GEODETIC_ALTITUDE_INVALID) {
-        snprintf(geodetic_altitude_str, sizeof(geodetic_altitude_str), "null");
+        rid_json_null(&json);
     } else {
-        snprintf(geodetic_altitude_str, sizeof(geodetic_altitude_str), "%.2f", (double)geodetic_altitude);
+        token_length = snprintf(token, sizeof(token), "%.2f", (double)geodetic_altitude);
+        rid_json_raw(&json, token, (size_t)token_length);
     }
 
-    char timestamp_str[32];
-    uint16_t timestamp = rid_location_get_timestamp(location);
-    if (timestamp == RID_TIMESTAMP_INVALID) {
-        snprintf(timestamp_str, sizeof(timestamp_str), "null");
+    rid_json_key(&json, "pressure_altitude");
+    pressure_altitude = rid_location_get_pressure_altitude(location);
+    if (pressure_altitude == RID_PRESSURE_ALTITUDE_INVALID) {
+        rid_json_null(&json);
     } else {
-        snprintf(timestamp_str, sizeof(timestamp_str), "%u", timestamp);
+        token_length = snprintf(token, sizeof(token), "%.2f", (double)pressure_altitude);
+        rid_json_raw(&json, token, (size_t)token_length);
     }
 
-    char track_direction_str[32];
-    uint16_t track_direction = rid_location_get_track_direction(location);
+    rid_json_key(&json, "height");
+    height = rid_location_get_height(location);
+    if (height == RID_HEIGHT_INVALID) {
+        rid_json_null(&json);
+    } else {
+        token_length = snprintf(token, sizeof(token), "%.2f", (double)height);
+        rid_json_raw(&json, token, (size_t)token_length);
+    }
+
+    rid_json_key(&json, "height_type");
+    rid_json_uint(&json, rid_location_get_height_type(location));
+
+    rid_json_key(&json, "speed");
+    speed = rid_location_get_speed(location);
+    if (speed == RID_SPEED_INVALID) {
+        rid_json_null(&json);
+    } else {
+        token_length = snprintf(token, sizeof(token), "%.2f", (double)speed);
+        rid_json_raw(&json, token, (size_t)token_length);
+    }
+
+    rid_json_key(&json, "vertical_speed");
+    vertical_speed = rid_location_get_vertical_speed(location);
+    if (vertical_speed == RID_VERTICAL_SPEED_INVALID) {
+        rid_json_null(&json);
+    } else {
+        token_length = snprintf(token, sizeof(token), "%.2f", (double)vertical_speed);
+        rid_json_raw(&json, token, (size_t)token_length);
+    }
+
+    rid_json_key(&json, "track_direction");
+    track_direction = rid_location_get_track_direction(location);
     if (track_direction == RID_TRACK_DIRECTION_UNKNOWN) {
-        snprintf(track_direction_str, sizeof(track_direction_str), "null");
+        rid_json_null(&json);
     } else {
-        snprintf(track_direction_str, sizeof(track_direction_str), "%u", track_direction);
+        rid_json_uint(&json, track_direction);
     }
 
-    return snprintf(
-        buffer,
-        buffer_size,
-        "{\"protocol_version\": %u, \"message_type\": %u, "
-        "\"latitude\": %s, \"longitude\": %s, "
-        "\"geodetic_altitude\": %s, \"pressure_altitude\": %s, "
-        "\"height\": %s, \"height_type\": %u, "
-        "\"speed\": %s, \"vertical_speed\": %s, "
-        "\"track_direction\": %s, \"operational_status\": %u, "
-        "\"horizontal_accuracy\": %u, \"vertical_accuracy\": %u, "
-        "\"speed_accuracy\": %u, \"baro_altitude_accuracy\": %u, "
-        "\"timestamp\": %s, \"timestamp_accuracy\": %u}",
-        rid_message_get_protocol_version(location),
-        rid_message_get_type(location),
-        latitude_str,
-        longitude_str,
-        geodetic_altitude_str,
-        pressure_altitude_str,
-        height_str,
-        rid_location_get_height_type(location),
-        speed_str,
-        vertical_speed_str,
-        track_direction_str,
-        rid_location_get_operational_status(location),
-        rid_location_get_horizontal_accuracy(location),
-        rid_location_get_vertical_accuracy(location),
-        rid_location_get_speed_accuracy(location),
-        rid_location_get_baro_altitude_accuracy(location),
-        timestamp_str,
-        rid_location_get_timestamp_accuracy(location)
-    );
+    rid_json_key(&json, "operational_status");
+    rid_json_uint(&json, rid_location_get_operational_status(location));
+    rid_json_key(&json, "horizontal_accuracy");
+    rid_json_uint(&json, rid_location_get_horizontal_accuracy(location));
+    rid_json_key(&json, "vertical_accuracy");
+    rid_json_uint(&json, rid_location_get_vertical_accuracy(location));
+    rid_json_key(&json, "speed_accuracy");
+    rid_json_uint(&json, rid_location_get_speed_accuracy(location));
+    rid_json_key(&json, "baro_altitude_accuracy");
+    rid_json_uint(&json, rid_location_get_baro_altitude_accuracy(location));
+
+    rid_json_key(&json, "timestamp");
+    timestamp = rid_location_get_timestamp(location);
+    if (timestamp == RID_TIMESTAMP_INVALID) {
+        rid_json_null(&json);
+    } else {
+        rid_json_uint(&json, timestamp);
+    }
+
+    rid_json_key(&json, "timestamp_accuracy");
+    rid_json_uint(&json, rid_location_get_timestamp_accuracy(location));
+
+    return rid_json_end(&json);
 }

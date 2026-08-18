@@ -41,6 +41,8 @@ SPDX-License-Identifier: MIT
 #include "rid/message.h"
 #include "rid/message_pack.h"
 
+#include "json.h"
+
 int rid_auth_init(rid_auth_t *auth) {
     if (NULL == auth) {
         return RID_ERROR_NULL_POINTER;
@@ -378,38 +380,39 @@ static size_t buffer_to_hex(const uint8_t *data, size_t data_size, char *hex, si
 }
 
 int rid_auth_to_json(const rid_auth_t *auth, char *buffer, size_t buffer_size) {
+    rid_json_t json;
+    char hex[RID_AUTH_PAGE_MAX_SIGNATURE_SIZE * 2 + 1];
+    uint8_t signature[RID_AUTH_PAGE_MAX_SIGNATURE_SIZE];
+    rid_auth_type_t type;
+    uint8_t length;
+
     if (auth == NULL || buffer == NULL) {
         return RID_ERROR_NULL_POINTER;
     }
 
-    /* Hex + "" + \0 */
-    char signature_str[RID_AUTH_PAGE_MAX_SIGNATURE_SIZE * 2 + 2 + 1];
-    rid_auth_type_t type = rid_auth_get_type(auth);
+    type = rid_auth_get_type(auth);
+    length = rid_auth_get_length(auth);
 
+    rid_json_start(&json, buffer, buffer_size);
+    rid_json_key(&json, "protocol_version");
+    rid_json_uint(&json, rid_message_get_protocol_version(&auth->page_0));
+    rid_json_key(&json, "message_type");
+    rid_json_uint(&json, rid_message_get_type(&auth->page_0));
+    rid_json_key(&json, "auth_type");
+    rid_json_uint(&json, type);
+    rid_json_key(&json, "page_count");
+    rid_json_uint(&json, rid_auth_get_page_count(auth));
+    rid_json_key(&json, "timestamp");
+    rid_json_uint(&json, rid_auth_get_timestamp(auth));
+    rid_json_key(&json, "length");
+    rid_json_uint(&json, length);
+    rid_json_key(&json, "signature");
     if (type == RID_AUTH_TYPE_NONE || type == RID_AUTH_TYPE_NETWORK_REMOTE_ID) {
-        strcpy(signature_str, "null");
+        rid_json_null(&json);
     } else {
-        char hex[RID_AUTH_PAGE_MAX_SIGNATURE_SIZE * 2 + 1];
-        uint8_t signature[RID_AUTH_PAGE_MAX_SIGNATURE_SIZE];
-        uint8_t length = rid_auth_get_length(auth);
-
         rid_auth_get_signature(auth, signature, sizeof(signature));
         buffer_to_hex(signature, length, hex, sizeof(hex));
-        snprintf(signature_str, sizeof(signature_str), "\"%s\"", hex);
+        rid_json_string(&json, hex);
     }
-
-    return snprintf(
-        buffer,
-        buffer_size,
-        "{\"protocol_version\": %u, \"message_type\": %u, "
-        "\"auth_type\": %u, \"page_count\": %u, \"timestamp\": %lu, "
-        "\"length\": %u, \"signature\": %s}",
-        rid_message_get_protocol_version(&auth->page_0),
-        rid_message_get_type(&auth->page_0),
-        rid_auth_get_type(auth),
-        rid_auth_get_page_count(auth),
-        (unsigned long)rid_auth_get_timestamp(auth),
-        rid_auth_get_length(auth),
-        signature_str
-    );
+    return rid_json_end(&json);
 }

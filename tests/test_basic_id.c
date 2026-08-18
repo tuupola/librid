@@ -173,7 +173,7 @@ TEST test_set_and_get_uas_id(void) {
         status = rid_basic_id_set_uas_id(&message, test_ids[i]);
         ASSERT_EQ(RID_SUCCESS, status);
 
-        char buffer[21];
+        char buffer[RID_UAS_ID_SIZE + 1];
         status = rid_basic_id_get_uas_id(&message, buffer, sizeof(buffer));
         ASSERT_EQ(RID_SUCCESS, status);
 
@@ -201,7 +201,7 @@ TEST test_set_uas_id_null_pointer_id(void) {
 }
 
 TEST test_get_uas_id_null_pointer_message(void) {
-    char buffer[21];
+    char buffer[RID_UAS_ID_SIZE + 1];
     int status = rid_basic_id_get_uas_id(NULL, buffer, sizeof(buffer));
     ASSERT_EQ(RID_ERROR_NULL_POINTER, status);
 
@@ -212,7 +212,7 @@ TEST test_get_uas_id_null_pointer_buffer(void) {
     rid_basic_id_t message;
     rid_basic_id_init(&message);
 
-    int status = rid_basic_id_get_uas_id(&message, NULL, 21);
+    int status = rid_basic_id_get_uas_id(&message, NULL, RID_UAS_ID_SIZE + 1);
     ASSERT_EQ(RID_ERROR_NULL_POINTER, status);
 
     PASS();
@@ -222,7 +222,7 @@ TEST test_set_uas_id_too_long(void) {
     rid_basic_id_t message;
     rid_basic_id_init(&message);
 
-    /* 21 characters - one over limit */
+    /* RID_UAS_ID_SIZE + 1 characters - one over limit */
     int status = rid_basic_id_set_uas_id(&message, "123456789012345678901");
     ASSERT_EQ(RID_ERROR_BUFFER_TOO_LARGE, status);
 
@@ -251,7 +251,7 @@ TEST test_decode_basic_id_buffer(void) {
     ASSERT_EQ(RID_UA_TYPE_NONE, rid_basic_id_get_ua_type(message));
     ASSERT_EQ(RID_ID_TYPE_SERIAL_NUMBER, rid_basic_id_get_type(message));
 
-    char uas_id[21];
+    char uas_id[RID_UAS_ID_SIZE + 1];
     int status = rid_basic_id_get_uas_id(message, uas_id, sizeof(uas_id));
     ASSERT_EQ(RID_SUCCESS, status);
     ASSERT_STR_EQ("2596A403716430B", uas_id);
@@ -471,12 +471,12 @@ TEST test_basic_id_validate_utm_uuid_valid(void) {
     rid_basic_id_set_type(&message, RID_ID_TYPE_UTM_ASSIGNED_UUID);
 
     /* Valid UUID v4: 550e8400-e29b-41d4-a716-446655440000 */
-    uint8_t uuid[20] = {
+    uint8_t uuid[RID_UAS_ID_SIZE] = {
         0x55, 0x0e, 0x84, 0x00, 0xe2, 0x9b, 0x41, 0xd4,
         0xa7, 0x16, 0x44, 0x66, 0x55, 0x44, 0x00, 0x00,
         0x00, 0x00, 0x00, 0x00
     };
-    memcpy(message.uas_id, uuid, 20);
+    memcpy(message.uas_id, uuid, RID_UAS_ID_SIZE);
 
     int status = rid_basic_id_validate(&message);
     ASSERT_EQ(RID_SUCCESS, status);
@@ -498,12 +498,12 @@ TEST test_basic_id_validate_utm_uuid_invalid_version_0(void) {
     rid_basic_id_set_type(&message, RID_ID_TYPE_UTM_ASSIGNED_UUID);
 
     /* UUID with version 0 (nil UUID) */
-    uint8_t uuid[20] = {
+    uint8_t uuid[RID_UAS_ID_SIZE] = {
         0x55, 0x0e, 0x84, 0x00, 0xe2, 0x9b, 0x01, 0xd4,
         0xa7, 0x16, 0x44, 0x66, 0x55, 0x44, 0x00, 0x00,
         0x00, 0x00, 0x00, 0x00
     };
-    memcpy(message.uas_id, uuid, 20);
+    memcpy(message.uas_id, uuid, RID_UAS_ID_SIZE);
 
     int status = rid_basic_id_validate(&message);
     ASSERT_EQ(RID_ERROR_INVALID_UUID_VERSION, status);
@@ -518,12 +518,12 @@ TEST test_basic_id_validate_utm_uuid_invalid_version_6(void) {
     rid_basic_id_set_type(&message, RID_ID_TYPE_UTM_ASSIGNED_UUID);
 
     /* UUID with version 6 (invalid for RFC4122) */
-    uint8_t uuid[20] = {
+    uint8_t uuid[RID_UAS_ID_SIZE] = {
         0x55, 0x0e, 0x84, 0x00, 0xe2, 0x9b, 0x61, 0xd4,
         0xa7, 0x16, 0x44, 0x66, 0x55, 0x44, 0x00, 0x00,
         0x00, 0x00, 0x00, 0x00
     };
-    memcpy(message.uas_id, uuid, 20);
+    memcpy(message.uas_id, uuid, RID_UAS_ID_SIZE);
 
     int status = rid_basic_id_validate(&message);
     ASSERT_EQ(RID_ERROR_INVALID_UUID_VERSION, status);
@@ -538,12 +538,12 @@ TEST test_basic_id_validate_utm_uuid_invalid_variant(void) {
     rid_basic_id_set_type(&message, RID_ID_TYPE_UTM_ASSIGNED_UUID);
 
     /* UUID with variant 0b00 (NCS backward compatibility) */
-    uint8_t uuid[20] = {
+    uint8_t uuid[RID_UAS_ID_SIZE] = {
         0x55, 0x0e, 0x84, 0x00, 0xe2, 0x9b, 0x41, 0xd4,
         0x27, 0x16, 0x44, 0x66, 0x55, 0x44, 0x00, 0x00,
         0x00, 0x00, 0x00, 0x00
     };
-    memcpy(message.uas_id, uuid, 20);
+    memcpy(message.uas_id, uuid, RID_UAS_ID_SIZE);
 
     int status = rid_basic_id_validate(&message);
     ASSERT_EQ(RID_ERROR_INVALID_UUID_VARIANT, status);
@@ -563,18 +563,18 @@ TEST test_basic_id_validate_utm_uuid_invalid_padding(void) {
     rid_basic_id_set_type(&message, RID_ID_TYPE_UTM_ASSIGNED_UUID);
 
     /* Valid UUID but with non-zero padding */
-    uint8_t uuid[20] = {
+    uint8_t uuid[RID_UAS_ID_SIZE] = {
         0x55, 0x0e, 0x84, 0x00, 0xe2, 0x9b, 0x41, 0xd4,
         0xa7, 0x16, 0x44, 0x66, 0x55, 0x44, 0x00, 0x00,
         0x00, 0x00, 0x00, 0x01
     };
-    memcpy(message.uas_id, uuid, 20);
+    memcpy(message.uas_id, uuid, RID_UAS_ID_SIZE);
 
     int status = rid_basic_id_validate(&message);
     ASSERT_EQ(RID_ERROR_INVALID_UUID_PADDING, status);
 
     /* Non-zero in middle of padding */
-    message.uas_id[19] = 0x00;
+    message.uas_id[RID_UAS_ID_SIZE - 1] = 0x00;
     message.uas_id[17] = 0xff;
     status = rid_basic_id_validate(&message);
     ASSERT_EQ(RID_ERROR_INVALID_UUID_PADDING, status);
@@ -621,17 +621,17 @@ TEST test_basic_id_to_json_uuid(void) {
     rid_basic_id_set_type(&message, RID_ID_TYPE_UTM_ASSIGNED_UUID);
     rid_basic_id_set_ua_type(&message, RID_UA_TYPE_HELICOPTER_OR_MULTIROTOR);
 
-    uint8_t uuid[20] = {
+    uint8_t uuid[RID_UAS_ID_SIZE] = {
         0x55, 0x0e, 0x84, 0x00, 0xe2, 0x9b, 0x41, 0xd4,
         0xa7, 0x16, 0x44, 0x66, 0x55, 0x44, 0x00, 0x00,
         0x00, 0x00, 0x00, 0x00
     };
-    memcpy(message.uas_id, uuid, 20);
+    memcpy(message.uas_id, uuid, RID_UAS_ID_SIZE);
 
     int result = rid_basic_id_to_json(&message, json, sizeof(json));
     ASSERT(result > 0);
-    ASSERT(strstr(json, "\"id_type\": 3") != NULL);
-    ASSERT(strstr(json, "\"ua_type\": 2") != NULL);
+    ASSERT(strstr(json, "\"id_type\":3") != NULL);
+    ASSERT(strstr(json, "\"ua_type\":2") != NULL);
     ASSERT(strstr(json, "550e8400-e29b-41d4-a716-446655440000") != NULL);
 
     PASS();

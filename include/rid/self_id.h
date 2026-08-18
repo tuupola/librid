@@ -50,6 +50,9 @@ SPDX-License-Identifier: MIT
 extern "C" {
 #endif /* __cplusplus */
 
+/** @brief Self ID description field size in bytes per ASTM F3411-22a. */
+#define RID_DESCRIPTION_SIZE 23
+
 /**
  * @brief Self ID message structure per ASTM F3411-22a.
  */
@@ -57,7 +60,7 @@ typedef struct __attribute__((__packed__)) rid_self_id {
     uint8_t protocol_version: 4;
     uint8_t message_type: 4;
     uint8_t description_type;
-    char description[23];
+    char description[RID_DESCRIPTION_SIZE];
 } rid_self_id_t;
 
 /**
@@ -98,7 +101,7 @@ int rid_self_id_set_description_type(rid_self_id_t *message, rid_description_typ
  *
  * @param message Pointer to the Self ID message structure.
  * @param buffer Buffer to store the description.
- * @param buffer_size Size of the buffer (must be at least 24 for full description).
+ * @param buffer_size Size of the buffer (must be at least RID_DESCRIPTION_SIZE + 1).
  *
  * @retval RID_SUCCESS on success.
  * @retval RID_ERROR_NULL_POINTER if message or buffer is NULL.
@@ -109,14 +112,14 @@ int rid_self_id_get_description(const rid_self_id_t *message, char *buffer, size
 /**
  * @brief Set the description for a Self ID message.
  *
- * The description is a null-terminated string up to 23 characters.
+ * The description is a null-terminated string up to RID_DESCRIPTION_SIZE characters.
  *
  * @param message Pointer to the Self ID message structure.
  * @param description The description string to set.
  *
  * @retval RID_SUCCESS on success.
  * @retval RID_ERROR_NULL_POINTER if message or description is NULL.
- * @retval RID_ERROR_BUFFER_TOO_LARGE if description exceeds 23 characters.
+ * @retval RID_ERROR_BUFFER_TOO_LARGE if description exceeds RID_DESCRIPTION_SIZE characters.
  */
 int rid_self_id_set_description(rid_self_id_t *message, const char *description);
 

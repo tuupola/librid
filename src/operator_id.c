@@ -32,11 +32,12 @@ SPDX-License-Identifier: MIT
 
 #include <stddef.h>
 #include <stdint.h>
-#include <stdio.h>
 #include <string.h>
 
 #include "rid/message.h"
 #include "rid/operator_id.h"
+
+#include "json.h"
 
 int rid_operator_id_init(rid_operator_id_t *message) {
     if (message == NULL) {
@@ -66,7 +67,7 @@ int rid_operator_id_validate(const rid_operator_id_t *message) {
     }
 
     /* Operator ID must be ASCII only */
-    for (size_t i = 0; i < 20; ++i) {
+    for (size_t i = 0; i < RID_OPERATOR_ID_SIZE; ++i) {
         if ((unsigned char)message->operator_id[i] > 127) {
             return RID_ERROR_INVALID_CHARACTER;
         }
@@ -94,12 +95,12 @@ int rid_operator_id_get(const rid_operator_id_t *message, char *buffer, size_t b
         return RID_ERROR_NULL_POINTER;
     }
 
-    if (buffer_size < 21) {
+    if (buffer_size < RID_OPERATOR_ID_SIZE + 1) {
         return RID_ERROR_BUFFER_TOO_SMALL;
     }
 
-    memcpy(buffer, message->operator_id, 20);
-    buffer[20] = '\0';
+    memcpy(buffer, message->operator_id, RID_OPERATOR_ID_SIZE);
+    buffer[RID_OPERATOR_ID_SIZE] = '\0';
 
     return RID_SUCCESS;
 }
@@ -111,7 +112,7 @@ int rid_operator_id_set(rid_operator_id_t *message, const char *operator_id) {
 
     size_t size = strlen(operator_id);
 
-    if (size > 20) {
+    if (size > RID_OPERATOR_ID_SIZE) {
         return RID_ERROR_BUFFER_TOO_LARGE;
     }
 
@@ -122,7 +123,7 @@ int rid_operator_id_set(rid_operator_id_t *message, const char *operator_id) {
         }
     }
 
-    memset(message->operator_id, 0, 20);
+    memset(message->operator_id, 0, RID_OPERATOR_ID_SIZE);
     memcpy(message->operator_id, operator_id, size);
 
     return RID_SUCCESS;
@@ -138,21 +139,23 @@ const char *rid_operator_id_type_to_string(rid_operator_id_type_t type) {
 }
 
 int rid_operator_id_to_json(const rid_operator_id_t *message, char *buffer, size_t buffer_size) {
+    rid_json_t json;
+    char operator_id[RID_OPERATOR_ID_SIZE + 1];
+
     if (message == NULL || buffer == NULL) {
         return RID_ERROR_NULL_POINTER;
     }
 
-    char operator_id[21];
     rid_operator_id_get(message, operator_id, sizeof(operator_id));
 
-    return snprintf(
-        buffer,
-        buffer_size,
-        "{\"protocol_version\": %u, \"message_type\": %u, "
-        "\"id_type\": %u, \"operator_id\": \"%s\"}",
-        rid_message_get_protocol_version(message),
-        rid_message_get_type(message),
-        rid_operator_id_get_type(message),
-        operator_id
-    );
+    rid_json_start(&json, buffer, buffer_size);
+    rid_json_key(&json, "protocol_version");
+    rid_json_uint(&json, rid_message_get_protocol_version(message));
+    rid_json_key(&json, "message_type");
+    rid_json_uint(&json, rid_message_get_type(message));
+    rid_json_key(&json, "id_type");
+    rid_json_uint(&json, rid_operator_id_get_type(message));
+    rid_json_key(&json, "operator_id");
+    rid_json_string(&json, operator_id);
+    return rid_json_end(&json);
 }

@@ -14,7 +14,7 @@ Provides UAS identification (serial number, registration ID, or UUID) and charac
 
 ```c
 rid_basic_id_t basic_id;
-char uas_id[21];
+char uas_id[RID_UAS_ID_SIZE + 1];
 char json[255];
 
 rid_basic_id_init(&basic_id);
@@ -129,7 +129,7 @@ Allows operators to declare their identity or describe the purpose of a flight.
 
 ```c
 rid_self_id_t self_id;
-char description[24];
+char description[RID_DESCRIPTION_SIZE + 1];
 char json[256];
 
 rid_self_id_init(&self_id);
@@ -201,7 +201,7 @@ Provides CAA-issued registration or license ID for the remote pilot or operator.
 
 ```c
 rid_operator_id_t operator_id;
-char id[21];
+char id[RID_OPERATOR_ID_SIZE + 1];
 char json[256];
 
 rid_operator_id_init(&operator_id);

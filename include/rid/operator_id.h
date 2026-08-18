@@ -50,6 +50,9 @@ SPDX-License-Identifier: MIT
 extern "C" {
 #endif /* __cplusplus */
 
+/** @brief Operator ID field size in bytes per ASTM F3411-22a. */
+#define RID_OPERATOR_ID_SIZE 20
+
 /**
  * @brief Operator ID message structure per ASTM F3411-22a.
  */
@@ -57,7 +60,7 @@ typedef struct __attribute__((__packed__)) rid_operator_id {
     uint8_t protocol_version: 4;
     uint8_t message_type: 4;
     uint8_t id_type;
-    char operator_id[20];
+    char operator_id[RID_OPERATOR_ID_SIZE];
     char reserved[3];
 } rid_operator_id_t;
 
@@ -126,7 +129,7 @@ int rid_operator_id_set_type(rid_operator_id_t *message, rid_operator_id_type_t 
  *
  * @param message Pointer to the Operator ID message structure.
  * @param buffer Buffer to store the Operator ID.
- * @param buffer_size Size of the buffer (must be at least 21 for full ID).
+ * @param buffer_size Size of the buffer (must be at least RID_OPERATOR_ID_SIZE + 1).
  *
  * @retval RID_SUCCESS on success.
  * @retval RID_ERROR_NULL_POINTER if message or buffer is NULL.
@@ -137,14 +140,14 @@ int rid_operator_id_get(const rid_operator_id_t *message, char *buffer, size_t b
 /**
  * @brief Set the Operator ID for an Operator ID message.
  *
- * The Operator ID is a null-terminated string up to 20 characters.
+ * The Operator ID is a null-terminated string up to RID_OPERATOR_ID_SIZE characters.
  *
  * @param message Pointer to the Operator ID message structure.
  * @param uas_id The Operator ID string to set.
  *
  * @retval RID_SUCCESS on success.
  * @retval RID_ERROR_NULL_POINTER if message or uas_id is NULL.
- * @retval RID_ERROR_BUFFER_TOO_LARGE if uas_id exceeds 20 characters.
+ * @retval RID_ERROR_BUFFER_TOO_LARGE if uas_id exceeds RID_OPERATOR_ID_SIZE characters.
  */
 int rid_operator_id_set(rid_operator_id_t *message, const char *uas_id);
 

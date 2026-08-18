@@ -27,7 +27,7 @@ int main(void) {
 
     hexdump(&self_id, sizeof(self_id));
 
-    char description[24];
+    char description[RID_DESCRIPTION_SIZE + 1];
     rid_self_id_get_description(&self_id, description, sizeof(description));
     rid_description_type_t desc_type = rid_self_id_get_description_type(&self_id);
 

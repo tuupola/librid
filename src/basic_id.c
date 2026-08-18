@@ -38,6 +38,8 @@ SPDX-License-Identifier: MIT
 #include "rid/basic_id.h"
 #include "rid/message.h"
 
+#include "json.h"
+
 int rid_basic_id_init(rid_basic_id_t *message) {
     if (message == NULL) {
         return RID_ERROR_NULL_POINTER;
@@ -115,7 +117,7 @@ int rid_basic_id_validate(const rid_basic_id_t *message) {
         }
 
         /* Check padding bytes (16-19) are zero */
-        for (size_t i = 16; i < 20; ++i) {
+        for (size_t i = 16; i < RID_UAS_ID_SIZE; ++i) {
             if (message->uas_id[i] != 0) {
                 return RID_ERROR_INVALID_UUID_PADDING;
             }
@@ -174,11 +176,11 @@ int rid_basic_id_set_uas_id(rid_basic_id_t *message, const char *uas_id) {
 
     size_t len = strlen(uas_id);
 
-    if (len > 20) {
+    if (len > RID_UAS_ID_SIZE) {
         return RID_ERROR_BUFFER_TOO_LARGE;
     }
 
-    memset(message->uas_id, 0, 20);
+    memset(message->uas_id, 0, RID_UAS_ID_SIZE);
     memcpy(message->uas_id, uas_id, len);
 
     return RID_SUCCESS;
@@ -189,12 +191,12 @@ int rid_basic_id_get_uas_id(const rid_basic_id_t *message, char *buffer, size_t 
         return RID_ERROR_NULL_POINTER;
     }
 
-    if (buffer_size < 21) {
+    if (buffer_size < RID_UAS_ID_SIZE + 1) {
         return RID_ERROR_BUFFER_TOO_SMALL;
     }
 
-    memcpy(buffer, message->uas_id, 20);
-    buffer[20] = '\0';
+    memcpy(buffer, message->uas_id, RID_UAS_ID_SIZE);
+    buffer[RID_UAS_ID_SIZE] = '\0';
 
     return RID_SUCCESS;
 }
@@ -274,29 +276,31 @@ static void uuid_to_string(const unsigned char uuid[16], char *buffer, size_t bu
 }
 
 int rid_basic_id_to_json(const rid_basic_id_t *message, char *buffer, size_t buffer_size) {
+    rid_json_t json;
+    char uas_id[RID_UAS_ID_UUID_SIZE + 1];
+
     if (message == NULL || buffer == NULL) {
         return RID_ERROR_NULL_POINTER;
     }
 
-    char uas_id[37];
-
     if (rid_basic_id_get_type(message) == RID_ID_TYPE_UTM_ASSIGNED_UUID) {
-        char raw[21];
+        char raw[RID_UAS_ID_SIZE + 1];
         rid_basic_id_get_uas_id(message, raw, sizeof(raw));
         uuid_to_string((const unsigned char *)raw, uas_id, sizeof(uas_id));
     } else {
         rid_basic_id_get_uas_id(message, uas_id, sizeof(uas_id));
     }
 
-    return snprintf(
-        buffer,
-        buffer_size,
-        "{\"protocol_version\": %u, \"message_type\": %u, "
-        "\"id_type\": %u, \"ua_type\": %u, \"uas_id\": \"%s\"}",
-        rid_message_get_protocol_version(message),
-        rid_message_get_type(message),
-        rid_basic_id_get_type(message),
-        rid_basic_id_get_ua_type(message),
-        uas_id
-    );
+    rid_json_start(&json, buffer, buffer_size);
+    rid_json_key(&json, "protocol_version");
+    rid_json_uint(&json, rid_message_get_protocol_version(message));
+    rid_json_key(&json, "message_type");
+    rid_json_uint(&json, rid_message_get_type(message));
+    rid_json_key(&json, "id_type");
+    rid_json_uint(&json, rid_basic_id_get_type(message));
+    rid_json_key(&json, "ua_type");
+    rid_json_uint(&json, rid_basic_id_get_ua_type(message));
+    rid_json_key(&json, "uas_id");
+    rid_json_string(&json, uas_id);
+    return rid_json_end(&json);
 }
