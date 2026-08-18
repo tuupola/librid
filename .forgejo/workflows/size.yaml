@@ -1,0 +1,34 @@
+on: [push]
+jobs:
+  size:
+    runs-on: docker
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          path: head
+      - uses: actions/checkout@v4
+        with:
+          ref: master
+          path: master
+      - name: Install dependencies
+        run: |
+          apt-get update
+          apt-get install -y gcc make cmake
+      - name: Compare
+        run: |
+          build_size() {
+            cmake -B "$1/build" -S "$1" -DCMAKE_BUILD_TYPE=MinSizeRel
+            cmake --build "$1/build" --target rid
+            size -t "$1/build/librid.a"
+          }
+
+          echo "=== master ==="
+          build_size master | tee /tmp/size-master.txt
+          echo "=== HEAD ==="
+          build_size head | tee /tmp/size-head.txt
+
+          master_text=$(awk '/\(TOTALS\)/ { print $1 }' /tmp/size-master.txt)
+          head_text=$(awk '/\(TOTALS\)/ { print $1 }' /tmp/size-head.txt)
+          delta=$((head_text - master_text))
+          printf 'TOTAL text  master=%s  HEAD=%s  delta=%+d\n' \
+            "$master_text" "$head_text" "$delta"

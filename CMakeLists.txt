@@ -54,6 +54,24 @@ else()
     target_include_directories(rid PUBLIC include)
     target_compile_options(rid PRIVATE -Wall -Wextra -Wdouble-promotion)
 
+    find_program(RID_SIZE_COMMAND size)
+
+    if(RID_SIZE_COMMAND)
+        if(CMAKE_BUILD_TYPE)
+            set(RID_SIZE_BUILD_TYPE "${CMAKE_BUILD_TYPE}")
+        else()
+            set(RID_SIZE_BUILD_TYPE "unspecified")
+        endif()
+
+        add_custom_target(size
+            COMMAND ${CMAKE_COMMAND} -E echo "=== Flash ${RID_SIZE_BUILD_TYPE} ==="
+            COMMAND ${RID_SIZE_COMMAND} -t $<TARGET_FILE:rid>
+            DEPENDS rid
+            COMMENT "Report library flash size"
+            VERBATIM
+        )
+    endif()
+
     include(GNUInstallDirs)
 
     install(TARGETS rid
