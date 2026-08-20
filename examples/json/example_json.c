@@ -45,7 +45,7 @@ int main(void) {
     rid_message_pack_add_message(&pack, &operator_id);
 
     /* Print the Message Pack as JSON */
-    rid_message_pack_to_json(&pack, buffer, sizeof(buffer));
+    rid_message_pack_to_json(&pack, buffer, sizeof(buffer), NULL);
     printf("%s\n", buffer);
 
     return 0;

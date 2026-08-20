@@ -30,15 +30,15 @@ SPDX-License-Identifier: MIT
 
 */
 
-#include <stdbool.h>
 #include <stddef.h>
 #include <stdint.h>
-#include <stdio.h>
 #include <string.h>
 
 #include "rid/auth.h"
 #include "rid/message.h"
 #include "rid/message_pack.h"
+
+#include "json.h"
 
 int rid_message_pack_init(rid_message_pack_t *pack) {
     if (pack == NULL) {
@@ -319,78 +319,83 @@ int rid_message_pack_sort(rid_message_pack_t *pack) {
     return RID_SUCCESS;
 }
 
-int rid_message_pack_to_json(const rid_message_pack_t *pack, char *buffer, size_t buffer_size) {
-    if (pack == NULL || buffer == NULL) {
+int rid_message_pack_to_json(const rid_message_pack_t *pack, char *buffer, size_t buffer_size, size_t *needed_size) {
+    rid_json_t json;
+    rid_auth_t auth;
+    uint8_t count;
+
+    if (pack == NULL || (buffer == NULL && needed_size == NULL)) {
         return RID_ERROR_NULL_POINTER;
     }
 
-    int written = snprintf(
-        buffer, buffer_size,
-        "{\"protocol_version\": %u, \"message_type\": %u, "
-        "\"message_count\": %u, \"messages\": [",
-        rid_message_get_protocol_version(pack),
-        rid_message_get_type(pack),
-        rid_message_pack_message_count(pack)
-    );
+    rid_json_start(&json, buffer, buffer_size);
+    rid_json_key(&json, "protocol_version");
+    rid_json_uint(&json, rid_message_get_protocol_version(pack));
+    rid_json_key(&json, "message_type");
+    rid_json_uint(&json, rid_message_get_type(pack));
+    rid_json_key(&json, "message_count");
+    rid_json_uint(&json, rid_message_pack_message_count(pack));
+    rid_json_key(&json, "messages");
+    rid_json_array_start(&json);
 
-    if (written < 0) {
-        return written;
-    }
-
-    size_t pos = (size_t)written;
-    uint8_t count = rid_message_pack_message_count(pack);
-    bool first = true;
-
+    count = rid_message_pack_message_count(pack);
     for (uint8_t i = 0; i < count; ++i) {
         const void *msg = rid_message_pack_get_message_at(pack, i);
+        char *dest = NULL;
+        size_t remaining = 0;
+        size_t needed = 0;
 
         if (rid_message_get_type(msg) == RID_MESSAGE_TYPE_AUTH) {
             continue;
         }
 
-        if (!first && pos < buffer_size) {
-            written = snprintf(buffer + pos, buffer_size - pos, ", ");
-            if (written > 0) {
-                pos += (size_t)written;
-            }
+        if (json.need_comma) {
+            rid_json_raw(&json, ",", 1);
         }
-
-        if (pos >= buffer_size) {
-            break;
+        if (json.buffer != NULL && json.buffer_size > json.position) {
+            dest = json.buffer + json.position;
+            remaining = json.buffer_size - json.position;
         }
-
-        size_t needed_size = 0;
-        int rc = rid_message_to_json(msg, buffer + pos, buffer_size - pos, &needed_size);
-        if (rc == RID_SUCCESS) {
-            pos += needed_size - 1;
-            first = false;
+        rid_message_to_json(msg, dest, remaining, &needed);
+        if (needed > 0) {
+            json.position += needed - 1;
+            json.need_comma = 1;
         }
     }
 
-    rid_auth_t auth;
     if (rid_message_pack_get_auth(pack, &auth) == RID_SUCCESS) {
-        if (!first && pos < buffer_size) {
-            written = snprintf(buffer + pos, buffer_size - pos, ", ");
-            if (written > 0) {
-                pos += (size_t)written;
-            }
-        }
+        char *dest = NULL;
+        size_t remaining = 0;
+        size_t needed = 0;
 
-        if (pos < buffer_size) {
-            size_t needed_size = 0;
-            int rc = rid_auth_to_json(&auth, buffer + pos, buffer_size - pos, &needed_size);
-            if (rc == RID_SUCCESS) {
-                pos += needed_size - 1;
-            }
+        if (json.need_comma) {
+            rid_json_raw(&json, ",", 1);
         }
-    }
-
-    if (pos < buffer_size) {
-        written = snprintf(buffer + pos, buffer_size - pos, "]}");
-        if (written > 0) {
-            pos += (size_t)written;
+        if (json.buffer != NULL && json.buffer_size > json.position) {
+            dest = json.buffer + json.position;
+            remaining = json.buffer_size - json.position;
+        }
+        rid_auth_to_json(&auth, dest, remaining, &needed);
+        if (needed > 0) {
+            json.position += needed - 1;
+            json.need_comma = 1;
         }
     }
 
-    return (int)pos;
+    rid_json_array_end(&json);
+    rid_json_end(&json);
+
+    if (needed_size != NULL) {
+        *needed_size = json.position + 1;
+    }
+
+    if (buffer == NULL) {
+        return RID_SUCCESS;
+    }
+
+    if (json.position + 1 > buffer_size) {
+        return RID_ERROR_BUFFER_TOO_SMALL;
+    }
+
+    return RID_SUCCESS;
 }

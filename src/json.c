@@ -91,6 +91,19 @@ int rid_json_end(rid_json_t *json) {
     return (int)json->position;
 }
 
+void rid_json_array_start(rid_json_t *json) {
+    if (json->need_comma) {
+        rid_json_putc(json, ',');
+    }
+    rid_json_putc(json, '[');
+    json->need_comma = 0;
+}
+
+void rid_json_array_end(rid_json_t *json) {
+    rid_json_putc(json, ']');
+    json->need_comma = 1;
+}
+
 void rid_json_key(rid_json_t *json, const char *key) {
     if (json->need_comma) {
         rid_json_putc(json, ',');

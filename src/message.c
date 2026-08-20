@@ -228,7 +228,8 @@ int rid_message_to_json(const void *message, char *buffer, size_t buffer_size, s
             return rid_message_pack_to_json(
                 (const rid_message_pack_t *)message,
                 buffer,
-                buffer_size
+                buffer_size,
+                needed_size
             );
         default: {
             rid_json_t json;

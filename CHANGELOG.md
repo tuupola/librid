@@ -13,7 +13,7 @@ All notable changes to this project will be documented in this file, in reverse 
 - Latitude and longitude precision in JSON output is now seven decimals instead of six. ([#53](https://github.com/tuupola/librid/commit/ddf5545))
 - All setters now accept `RID_XXX_INVALID` sentinel as input for missing and invalid values. ([#56](https://github.com/tuupola/librid/commit/a94b8aa), [#61](https://github.com/tuupola/librid/commit/4e6b7e6))
 - All floats are now rendered with two decimals in JSON output. ([#57](https://github.com/tuupola/librid/commit/168e4e9))
-- All `rid_*_to_json()` functions now take an optional `needed_size` parameter which receives the required buffer size. The return value is now only an error code. ([#67](https://github.com/tuupola/librid/commit/xxxxxxx))
+- All `rid_*_to_json()` functions now take an optional `needed_size` parameter which receives the required buffer size. The function return value is now only an error code. ([#67](https://github.com/tuupola/librid/commit/xxxxxxx), [#68](https://github.com/tuupola/librid/commit/xxxxxxx))
 
 ### Fixed
 

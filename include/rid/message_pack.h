@@ -288,13 +288,16 @@ int rid_message_pack_sort(rid_message_pack_t *pack);
  * @brief Format a Message Pack as a JSON string.
  *
  * @param pack Pointer to the Message Pack structure.
- * @param buffer Buffer to store the JSON string.
+ * @param buffer Buffer to store the JSON string or NULL.
  * @param buffer_size Size of the buffer.
+ * @param needed_size If non-NULL receives the required buffer size.
  *
- * @return Number of characters written (excluding null terminator),
- *         or negative value on error.
+ * @retval RID_SUCCESS on success.
+ * @retval RID_ERROR_NULL_POINTER if @p pack is NULL or if both
+ *         @p buffer and @p needed_size are NULL.
+ * @retval RID_ERROR_BUFFER_TOO_SMALL if @p buffer is too small.
  */
-int rid_message_pack_to_json(const rid_message_pack_t *pack, char *buffer, size_t buffer_size);
+int rid_message_pack_to_json(const rid_message_pack_t *pack, char *buffer, size_t buffer_size, size_t *needed_size);
 
 #ifdef __cplusplus
 }

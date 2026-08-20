@@ -1229,9 +1229,8 @@ TEST test_message_pack_to_json(void) {
     rid_message_pack_add_message(&pack, &basic_id);
     rid_message_pack_add_message(&pack, &location);
 
-    int result = rid_message_pack_to_json(&pack, buffer, sizeof(buffer));
-    ASSERT(result > 0);
-    ASSERT(strstr(buffer, "\"message_count\": 2") != NULL);
+    ASSERT_EQ(RID_SUCCESS, rid_message_pack_to_json(&pack, buffer, sizeof(buffer), NULL));
+    ASSERT(strstr(buffer, "\"message_count\":2") != NULL);
     ASSERT(strstr(buffer, "\"messages\":") != NULL);
     ASSERT(strstr(buffer, "1ABCD2345EF678XYZ") != NULL);
 
@@ -1244,8 +1243,27 @@ TEST test_message_pack_to_json_null(void) {
 
     rid_message_pack_init(&pack);
 
-    ASSERT_EQ(RID_ERROR_NULL_POINTER, rid_message_pack_to_json(NULL, buffer, sizeof(buffer)));
-    ASSERT_EQ(RID_ERROR_NULL_POINTER, rid_message_pack_to_json(&pack, NULL, sizeof(buffer)));
+    ASSERT_EQ(RID_ERROR_NULL_POINTER, rid_message_pack_to_json(NULL, buffer, sizeof(buffer), NULL));
+    ASSERT_EQ(RID_ERROR_NULL_POINTER, rid_message_pack_to_json(&pack, NULL, sizeof(buffer), NULL));
+    ASSERT_EQ(RID_ERROR_NULL_POINTER, rid_message_pack_to_json(&pack, NULL, 0, NULL));
+
+    PASS();
+}
+
+TEST test_message_pack_to_json_needed(void) {
+    rid_message_pack_t pack;
+    rid_basic_id_t basic_id;
+    char buffer[2048];
+    size_t needed = 0;
+
+    rid_message_pack_init(&pack);
+    rid_basic_id_init(&basic_id);
+    rid_basic_id_set_uas_id(&basic_id, "1ABCD2345EF678XYZ");
+    rid_message_pack_add_message(&pack, &basic_id);
+
+    ASSERT_EQ(RID_SUCCESS, rid_message_pack_to_json(&pack, NULL, 0, &needed));
+    ASSERT(needed > 0);
+    ASSERT_EQ(RID_SUCCESS, rid_message_pack_to_json(&pack, buffer, needed, NULL));
 
     PASS();
 }
@@ -1414,4 +1432,5 @@ SUITE(message_pack_suite) {
 
     RUN_TEST(test_message_pack_to_json);
     RUN_TEST(test_message_pack_to_json_null);
+    RUN_TEST(test_message_pack_to_json_needed);
 }

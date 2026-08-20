@@ -45,6 +45,8 @@ typedef struct rid_json {
 
 void rid_json_start(rid_json_t *json, char *buffer, size_t buffer_size);
 int rid_json_end(rid_json_t *json);
+void rid_json_array_start(rid_json_t *json);
+void rid_json_array_end(rid_json_t *json);
 void rid_json_key(rid_json_t *json, const char *key);
 void rid_json_uint(rid_json_t *json, unsigned value);
 void rid_json_string(rid_json_t *json, const char *string);

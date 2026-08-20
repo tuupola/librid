@@ -31,7 +31,7 @@ rid_basic_id_get_uas_id(&basic_id, uas_id, sizeof(uas_id));
 const char *id_type_string = rid_basic_id_type_to_string(id_type);
 const char *ua_type_string = rid_ua_type_to_string(ua_type);
 
-rid_basic_id_to_json(&basic_id, json, sizeof(json));
+rid_basic_id_to_json(&basic_id, json, sizeof(json), NULL);
 ```
 
 See [examples/basic_id/](examples/basic_id/) for usage example.
@@ -88,7 +88,7 @@ const char *vertical_accuracy_string = rid_vertical_accuracy_to_string(v_accurac
 const char *speed_accuracy_string = rid_speed_accuracy_to_string(s_accuracy);
 const char *timestamp_accuracy_string = rid_timestamp_accuracy_to_string(ts_accuracy);
 
-rid_location_to_json(&location, json, sizeof(json));
+rid_location_to_json(&location, json, sizeof(json), NULL);
 ```
 
 See [examples/location/](examples/location/) for usage example.
@@ -119,7 +119,7 @@ rid_auth_get_signature(&auth, retrieved, sizeof(retrieved));
 
 const char *auth_type_string = rid_auth_type_to_string(auth_type);
 
-rid_auth_to_json(&auth, json, sizeof(json));
+rid_auth_to_json(&auth, json, sizeof(json), NULL);
 ```
 
 See [examples/auth/](examples/auth/) for usage example.
@@ -143,7 +143,7 @@ rid_self_id_get_description(&self_id, description, sizeof(description));
 
 const char *description_type_string = rid_description_type_to_string(desc_type);
 
-rid_self_id_to_json(&self_id, json, sizeof(json));
+rid_self_id_to_json(&self_id, json, sizeof(json), NULL);
 ```
 
 See [examples/self_id/](examples/self_id/) for usage example.
@@ -191,7 +191,7 @@ const char *classification_type_string = rid_classification_type_to_string(class
 const char *ua_category_string = rid_ua_classification_category_to_string(ua_category);
 const char *ua_class_string = rid_ua_classification_class_to_string(ua_class);
 
-rid_system_to_json(&system, json, sizeof(json));
+rid_system_to_json(&system, json, sizeof(json), NULL);
 ```
 
 See [examples/system/](examples/system/) for usage example.
@@ -215,7 +215,7 @@ rid_operator_id_get(&operator_id, id, sizeof(id));
 
 const char *id_type_string = rid_operator_id_type_to_string(id_type);
 
-rid_operator_id_to_json(&operator_id, json, sizeof(json));
+rid_operator_id_to_json(&operator_id, json, sizeof(json), NULL);
 ```
 
 See [examples/operator_id/](examples/operator_id/) for usage example.
@@ -241,7 +241,7 @@ uint8_t count = rid_message_pack_message_count(&pack);
 size_t size = rid_message_pack_size(&pack);
 const void *message = rid_message_pack_get_message_at(&pack, 0);
 
-rid_message_pack_to_json(&pack, json, sizeof(json));
+rid_message_pack_to_json(&pack, json, sizeof(json), NULL);
 ```
 
 See [examples/message_pack/](examples/message_pack/) for usage example.
