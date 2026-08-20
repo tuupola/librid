@@ -79,7 +79,7 @@ typedef enum rid_description_type {
  *
  * @param message Pointer to the Self ID message structure.
  *
- * @return The description type value.
+ * @return The description type or RID_DESCRIPTION_TYPE_TEXT if message is NULL.
  */
 rid_description_type_t rid_self_id_get_description_type(const rid_self_id_t *message);
 

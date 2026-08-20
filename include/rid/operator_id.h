@@ -107,7 +107,7 @@ int rid_operator_id_validate(const rid_operator_id_t *message);
  *
  * @param message Pointer to the Operator ID message structure.
  *
- * @return The ID type.
+ * @return The ID type or RID_ID_TYPE_OPERATOR_ID if message is NULL.
  */
 rid_operator_id_type_t rid_operator_id_get_type(const rid_operator_id_t *message);
 

@@ -47,6 +47,12 @@ TEST test_set_operator_location_type_null_pointer(void) {
     PASS();
 }
 
+TEST test_get_operator_location_type_null_pointer(void) {
+    ASSERT_EQ(RID_OPERATOR_LOCATION_TYPE_TAKEOFF, rid_system_get_operator_location_type(NULL));
+
+    PASS();
+}
+
 TEST test_set_and_get_classification_type(void) {
     rid_classification_type_t types[] = {
         RID_CLASSIFICATION_TYPE_UNDECLARED,
@@ -84,6 +90,12 @@ TEST test_set_classification_type_out_of_range(void) {
 TEST test_set_classification_type_null_pointer(void) {
     int status = rid_system_set_classification_type(NULL, RID_CLASSIFICATION_TYPE_UNDECLARED);
     ASSERT_EQ(RID_ERROR_NULL_POINTER, status);
+
+    PASS();
+}
+
+TEST test_get_classification_type_null_pointer(void) {
+    ASSERT_EQ(RID_CLASSIFICATION_TYPE_UNDECLARED, rid_system_get_classification_type(NULL));
 
     PASS();
 }
@@ -127,6 +139,12 @@ TEST test_set_ua_classification_category_out_of_range(void) {
 TEST test_set_ua_classification_category_null_pointer(void) {
     int status = rid_system_set_ua_classification_category(NULL, RID_UA_CLASSIFICATION_CATEGORY_OPEN);
     ASSERT_EQ(RID_ERROR_NULL_POINTER, status);
+
+    PASS();
+}
+
+TEST test_get_ua_classification_category_null_pointer(void) {
+    ASSERT_EQ(RID_UA_CLASSIFICATION_CATEGORY_UNDEFINED, rid_system_get_ua_classification_category(NULL));
 
     PASS();
 }
@@ -178,6 +196,12 @@ TEST test_set_ua_classification_class_null_pointer(void) {
     PASS();
 }
 
+TEST test_get_ua_classification_class_null_pointer(void) {
+    ASSERT_EQ(RID_UA_CLASSIFICATION_CLASS_UNDEFINED, rid_system_get_ua_classification_class(NULL));
+
+    PASS();
+}
+
 TEST test_set_and_get_operator_latitude(void) {
     rid_system_t system;
     double test_values[] = {0.0, 45.5, 60.123456, -45.5, -90.0, 90.0};
@@ -220,6 +244,12 @@ TEST test_set_operator_latitude_out_of_range(void) {
 TEST test_set_operator_latitude_null_pointer(void) {
     int status = rid_system_set_operator_latitude(NULL, 45.0);
     ASSERT_EQ(RID_ERROR_NULL_POINTER, status);
+
+    PASS();
+}
+
+TEST test_get_operator_latitude_null_pointer(void) {
+    ASSERT_EQ(RID_OPERATOR_LATITUDE_INVALID, rid_system_get_operator_latitude(NULL));
 
     PASS();
 }
@@ -289,6 +319,12 @@ TEST test_set_operator_longitude_null_pointer(void) {
     PASS();
 }
 
+TEST test_get_operator_longitude_null_pointer(void) {
+    ASSERT_EQ(RID_OPERATOR_LONGITUDE_INVALID, rid_system_get_operator_longitude(NULL));
+
+    PASS();
+}
+
 TEST test_set_operator_longitude_invalid(void) {
     rid_system_t system;
     rid_system_init(&system);
@@ -331,6 +367,12 @@ TEST test_set_and_get_operator_altitude(void) {
 TEST test_set_operator_altitude_null_pointer(void) {
     int status = rid_system_set_operator_altitude(NULL, 100.0f);
     ASSERT_EQ(RID_ERROR_NULL_POINTER, status);
+
+    PASS();
+}
+
+TEST test_get_operator_altitude_null_pointer(void) {
+    ASSERT_EQ(RID_OPERATOR_ALTITUDE_INVALID, rid_system_get_operator_altitude(NULL));
 
     PASS();
 }
@@ -410,6 +452,12 @@ TEST test_set_area_count_null_pointer(void) {
     PASS();
 }
 
+TEST test_get_area_count_null_pointer(void) {
+    ASSERT_EQ(0, rid_system_get_area_count(NULL));
+
+    PASS();
+}
+
 TEST test_set_and_get_area_radius(void) {
     rid_system_t system;
     memset(&system, 0, sizeof(system));
@@ -444,6 +492,12 @@ TEST test_set_area_radius_out_of_range(void) {
 TEST test_set_area_radius_null_pointer(void) {
     int status = rid_system_set_area_radius(NULL, 100);
     ASSERT_EQ(RID_ERROR_NULL_POINTER, status);
+
+    PASS();
+}
+
+TEST test_get_area_radius_null_pointer(void) {
+    ASSERT_EQ(0, rid_system_get_area_radius(NULL));
 
     PASS();
 }
@@ -488,6 +542,12 @@ TEST test_set_area_ceiling_null_pointer(void) {
     PASS();
 }
 
+TEST test_get_area_ceiling_null_pointer(void) {
+    ASSERT_EQ(RID_AREA_CEILING_INVALID, rid_system_get_area_ceiling(NULL));
+
+    PASS();
+}
+
 TEST test_set_and_get_area_floor(void) {
     rid_system_t system;
     float test_values[] = {-1000.0f, 0.0f, 100.0f, 1000.0f, 31767.0f};
@@ -524,6 +584,12 @@ TEST test_set_area_floor_out_of_range(void) {
 TEST test_set_area_floor_null_pointer(void) {
     int status = rid_system_set_area_floor(NULL, 100.0f);
     ASSERT_EQ(RID_ERROR_NULL_POINTER, status);
+
+    PASS();
+}
+
+TEST test_get_area_floor_null_pointer(void) {
+    ASSERT_EQ(RID_AREA_FLOOR_INVALID, rid_system_get_area_floor(NULL));
 
     PASS();
 }
@@ -567,6 +633,12 @@ TEST test_system_set_and_get_unixtime(void) {
 TEST test_set_system_timestamp_null_pointer(void) {
     int status = rid_system_set_timestamp(NULL, 164205645);
     ASSERT_EQ(RID_ERROR_NULL_POINTER, status);
+
+    PASS();
+}
+
+TEST test_get_system_timestamp_null_pointer(void) {
+    ASSERT_EQ(0, rid_system_get_timestamp(NULL));
 
     PASS();
 }
@@ -789,55 +861,67 @@ SUITE(system_suite) {
     RUN_TEST(test_set_and_get_operator_location_type);
     RUN_TEST(test_set_operator_location_type_out_of_range);
     RUN_TEST(test_set_operator_location_type_null_pointer);
+    RUN_TEST(test_get_operator_location_type_null_pointer);
 
     RUN_TEST(test_set_and_get_classification_type);
     RUN_TEST(test_set_classification_type_out_of_range);
     RUN_TEST(test_set_classification_type_null_pointer);
+    RUN_TEST(test_get_classification_type_null_pointer);
 
     RUN_TEST(test_set_and_get_ua_classification_category);
     RUN_TEST(test_set_ua_classification_category_out_of_range);
     RUN_TEST(test_set_ua_classification_category_null_pointer);
+    RUN_TEST(test_get_ua_classification_category_null_pointer);
 
     RUN_TEST(test_set_and_get_ua_classification_class);
     RUN_TEST(test_set_ua_classification_class_out_of_range);
     RUN_TEST(test_set_ua_classification_class_null_pointer);
+    RUN_TEST(test_get_ua_classification_class_null_pointer);
 
     RUN_TEST(test_set_and_get_operator_latitude);
     RUN_TEST(test_set_operator_latitude_out_of_range);
     RUN_TEST(test_set_operator_latitude_invalid);
     RUN_TEST(test_set_operator_latitude_null_pointer);
+    RUN_TEST(test_get_operator_latitude_null_pointer);
 
     RUN_TEST(test_set_and_get_operator_longitude);
     RUN_TEST(test_set_operator_longitude_out_of_range);
     RUN_TEST(test_set_operator_longitude_invalid);
     RUN_TEST(test_set_operator_longitude_null_pointer);
+    RUN_TEST(test_get_operator_longitude_null_pointer);
 
     RUN_TEST(test_set_and_get_operator_altitude);
     RUN_TEST(test_set_operator_altitude_out_of_range);
     RUN_TEST(test_set_operator_altitude_invalid);
     RUN_TEST(test_set_operator_altitude_null_pointer);
+    RUN_TEST(test_get_operator_altitude_null_pointer);
 
     RUN_TEST(test_system_init);
     RUN_TEST(test_system_init_null_pointer);
 
     RUN_TEST(test_set_and_get_area_count);
     RUN_TEST(test_set_area_count_null_pointer);
+    RUN_TEST(test_get_area_count_null_pointer);
 
     RUN_TEST(test_set_and_get_area_radius);
     RUN_TEST(test_set_area_radius_out_of_range);
     RUN_TEST(test_set_area_radius_null_pointer);
+    RUN_TEST(test_get_area_radius_null_pointer);
 
     RUN_TEST(test_set_and_get_area_ceiling);
     RUN_TEST(test_set_area_ceiling_out_of_range);
     RUN_TEST(test_set_area_ceiling_null_pointer);
+    RUN_TEST(test_get_area_ceiling_null_pointer);
 
     RUN_TEST(test_set_and_get_area_floor);
     RUN_TEST(test_set_area_floor_out_of_range);
     RUN_TEST(test_set_area_floor_null_pointer);
+    RUN_TEST(test_get_area_floor_null_pointer);
 
     RUN_TEST(test_set_and_get_system_timestamp);
     RUN_TEST(test_system_set_and_get_unixtime);
     RUN_TEST(test_set_system_timestamp_null_pointer);
+    RUN_TEST(test_get_system_timestamp_null_pointer);
     RUN_TEST(test_set_system_timestamp_from_unixtime_null_pointer);
     RUN_TEST(test_system_set_unixtime_before_epoch);
     RUN_TEST(test_get_system_unixtime_null_pointer);

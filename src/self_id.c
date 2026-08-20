@@ -77,6 +77,9 @@ int rid_self_id_validate(const rid_self_id_t *message) {
 }
 
 rid_description_type_t rid_self_id_get_description_type(const rid_self_id_t *message) {
+    if (message == NULL) {
+        return RID_DESCRIPTION_TYPE_TEXT;
+    }
     return (rid_description_type_t)message->description_type;
 }
 

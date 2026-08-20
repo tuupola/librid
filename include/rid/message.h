@@ -108,7 +108,22 @@ typedef enum rid_protocol_version {
     RID_PROTOCOL_PRIVATE_USE = 0x0F,
 } rid_protocol_version_t;
 
+/**
+ * @brief Get the message type from a generic message structure.
+ *
+ * @param message Pointer to the message structure.
+ *
+ * @return The message type or RID_MESSAGE_TYPE_BASIC_ID if message is NULL.
+ */
 rid_message_type_t rid_message_get_type(const void *message);
+
+/**
+ * @brief Get the protocol version from a generic message structure.
+ *
+ * @param message Pointer to the message structure.
+ *
+ * @return The protocol version or RID_PROTOCOL_VERSION_0 if message is NULL.
+ */
 rid_protocol_version_t rid_message_get_protocol_version(const void *message);
 
 /**

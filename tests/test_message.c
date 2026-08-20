@@ -85,9 +85,23 @@ TEST test_error_to_string(void) {
     PASS();
 }
 
+TEST test_get_message_type_null_pointer(void) {
+    ASSERT_EQ(RID_MESSAGE_TYPE_BASIC_ID, rid_message_get_type(NULL));
+
+    PASS();
+}
+
+TEST test_get_protocol_version_null_pointer(void) {
+    ASSERT_EQ(RID_PROTOCOL_VERSION_0, rid_message_get_protocol_version(NULL));
+
+    PASS();
+}
+
 SUITE(header_suite) {
     RUN_TEST(test_get_message_type);
     RUN_TEST(test_get_protocol_version);
+    RUN_TEST(test_get_message_type_null_pointer);
+    RUN_TEST(test_get_protocol_version_null_pointer);
     RUN_TEST(test_message_type_to_string);
     RUN_TEST(test_protocol_version_to_string);
     RUN_TEST(test_error_to_string);

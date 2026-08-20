@@ -56,6 +56,12 @@ TEST test_set_track_direction_null_pointer(void) {
     PASS();
 }
 
+TEST test_get_track_direction_null_pointer(void) {
+    ASSERT_EQ(RID_TRACK_DIRECTION_UNKNOWN, rid_location_get_track_direction(NULL));
+
+    PASS();
+}
+
 TEST test_set_and_get_speed_slow(void) {
     rid_location_t location;
 
@@ -173,6 +179,12 @@ TEST test_set_speed_null_pointer(void) {
     PASS();
 }
 
+TEST test_get_speed_null_pointer(void) {
+    ASSERT_EQ(RID_SPEED_INVALID, rid_location_get_speed(NULL));
+
+    PASS();
+}
+
 TEST test_set_and_get_vertical_speed(void) {
     rid_location_t location;
 
@@ -230,6 +242,12 @@ TEST test_vertical_speed_invalid(void) {
 TEST test_set_vertical_speed_null_pointer(void) {
     int status = rid_location_set_vertical_speed(NULL, 10.5f);
     ASSERT_EQ(RID_ERROR_NULL_POINTER, status);
+
+    PASS();
+}
+
+TEST test_get_vertical_speed_null_pointer(void) {
+    ASSERT_EQ(RID_VERTICAL_SPEED_INVALID, rid_location_get_vertical_speed(NULL));
 
     PASS();
 }
@@ -321,6 +339,12 @@ TEST test_set_latitude_null_pointer(void) {
     PASS();
 }
 
+TEST test_get_latitude_null_pointer(void) {
+    ASSERT_EQ(RID_LATITUDE_INVALID, rid_location_get_latitude(NULL));
+
+    PASS();
+}
+
 TEST test_longitude_out_of_range(void) {
     rid_location_t location;
     memset(&location, 0, sizeof(location));
@@ -358,6 +382,12 @@ TEST test_longitude_invalid(void) {
 TEST test_set_longitude_null_pointer(void) {
     int status = rid_location_set_longitude(NULL, 90.5);
     ASSERT_EQ(RID_ERROR_NULL_POINTER, status);
+
+    PASS();
+}
+
+TEST test_get_longitude_null_pointer(void) {
+    ASSERT_EQ(RID_LONGITUDE_INVALID, rid_location_get_longitude(NULL));
 
     PASS();
 }
@@ -421,6 +451,12 @@ TEST test_set_height_null_pointer(void) {
     PASS();
 }
 
+TEST test_get_height_null_pointer(void) {
+    ASSERT_EQ(RID_HEIGHT_INVALID, rid_location_get_height(NULL));
+
+    PASS();
+}
+
 TEST test_set_and_get_pressure_altitude(void) {
     rid_location_t location;
 
@@ -476,6 +512,12 @@ TEST test_pressure_altitude_invalid(void) {
 TEST test_set_pressure_altitude_null_pointer(void) {
     int status = rid_location_set_pressure_altitude(NULL, 100.0f);
     ASSERT_EQ(RID_ERROR_NULL_POINTER, status);
+
+    PASS();
+}
+
+TEST test_get_pressure_altitude_null_pointer(void) {
+    ASSERT_EQ(RID_PRESSURE_ALTITUDE_INVALID, rid_location_get_pressure_altitude(NULL));
 
     PASS();
 }
@@ -539,6 +581,12 @@ TEST test_set_geodetic_altitude_null_pointer(void) {
     PASS();
 }
 
+TEST test_get_geodetic_altitude_null_pointer(void) {
+    ASSERT_EQ(RID_GEODETIC_ALTITUDE_INVALID, rid_location_get_geodetic_altitude(NULL));
+
+    PASS();
+}
+
 TEST test_set_and_get_height_type(void) {
     rid_location_t location;
     memset(&location, 0, sizeof(location));
@@ -580,6 +628,12 @@ TEST test_height_type_out_of_range(void) {
 TEST test_set_height_type_null_pointer(void) {
     int status = rid_location_set_height_type(NULL, RID_HEIGHT_TYPE_ABOVE_TAKEOFF);
     ASSERT_EQ(RID_ERROR_NULL_POINTER, status);
+
+    PASS();
+}
+
+TEST test_get_height_type_null_pointer(void) {
+    ASSERT_EQ(RID_HEIGHT_TYPE_ABOVE_TAKEOFF, rid_location_get_height_type(NULL));
 
     PASS();
 }
@@ -665,6 +719,12 @@ TEST test_set_operational_status_null_pointer(void) {
     PASS();
 }
 
+TEST test_get_operational_status_null_pointer(void) {
+    ASSERT_EQ(RID_OPERATIONAL_STATUS_UNDECLARED, rid_location_get_operational_status(NULL));
+
+    PASS();
+}
+
 TEST test_set_and_get_speed_accuracy(void) {
     rid_location_t location;
     memset(&location, 0, sizeof(location));
@@ -746,6 +806,12 @@ TEST test_set_speed_accuracy_null_pointer(void) {
     PASS();
 }
 
+TEST test_get_speed_accuracy_null_pointer(void) {
+    ASSERT_EQ(RID_SPEED_ACCURACY_UNKNOWN, rid_location_get_speed_accuracy(NULL));
+
+    PASS();
+}
+
 TEST test_set_and_get_horizontal_accuracy(void) {
     rid_location_t location;
     memset(&location, 0, sizeof(location));
@@ -823,6 +889,12 @@ TEST test_horizontal_accuracy_out_of_range(void) {
 TEST test_set_horizontal_accuracy_null_pointer(void) {
     int status = rid_location_set_horizontal_accuracy(NULL, RID_HORIZONTAL_ACCURACY_1M);
     ASSERT_EQ(RID_ERROR_NULL_POINTER, status);
+
+    PASS();
+}
+
+TEST test_get_horizontal_accuracy_null_pointer(void) {
+    ASSERT_EQ(RID_HORIZONTAL_ACCURACY_UNKNOWN, rid_location_get_horizontal_accuracy(NULL));
 
     PASS();
 }
@@ -926,6 +998,12 @@ TEST test_set_vertical_accuracy_null_pointer(void) {
     PASS();
 }
 
+TEST test_get_vertical_accuracy_null_pointer(void) {
+    ASSERT_EQ(RID_VERTICAL_ACCURACY_UNKNOWN, rid_location_get_vertical_accuracy(NULL));
+
+    PASS();
+}
+
 TEST test_set_and_get_baro_altitude_accuracy(void) {
     rid_location_t location;
     memset(&location, 0, sizeof(location));
@@ -1025,6 +1103,12 @@ TEST test_set_baro_altitude_accuracy_null_pointer(void) {
     PASS();
 }
 
+TEST test_get_baro_altitude_accuracy_null_pointer(void) {
+    ASSERT_EQ(RID_VERTICAL_ACCURACY_UNKNOWN, rid_location_get_baro_altitude_accuracy(NULL));
+
+    PASS();
+}
+
 TEST test_set_and_get_timestamp(void) {
     rid_location_t location;
 
@@ -1075,6 +1159,12 @@ TEST test_timestamp_out_of_range(void) {
 TEST test_set_timestamp_null_pointer(void) {
     int status = rid_location_set_timestamp(NULL, 1800);
     ASSERT_EQ(RID_ERROR_NULL_POINTER, status);
+
+    PASS();
+}
+
+TEST test_get_timestamp_null_pointer(void) {
+    ASSERT_EQ(RID_TIMESTAMP_INVALID, rid_location_get_timestamp(NULL));
 
     PASS();
 }
@@ -1186,6 +1276,12 @@ TEST test_timestamp_accuracy_out_of_range(void) {
 TEST test_set_timestamp_accuracy_null_pointer(void) {
     int status = rid_location_set_timestamp_accuracy(NULL, RID_TIMESTAMP_ACCURACY_1_0S);
     ASSERT_EQ(RID_ERROR_NULL_POINTER, status);
+
+    PASS();
+}
+
+TEST test_get_timestamp_accuracy_null_pointer(void) {
+    ASSERT_EQ(RID_TIMESTAMP_ACCURACY_UNKNOWN, rid_location_get_timestamp_accuracy(NULL));
 
     PASS();
 }
@@ -1509,6 +1605,7 @@ SUITE(location_suite) {
     RUN_TEST(test_track_direction_unknown);
     RUN_TEST(test_track_direction_out_of_range);
     RUN_TEST(test_set_track_direction_null_pointer);
+    RUN_TEST(test_get_track_direction_null_pointer);
 
     RUN_TEST(test_set_and_get_speed_slow);
     RUN_TEST(test_set_and_get_speed_fast);
@@ -1517,65 +1614,79 @@ SUITE(location_suite) {
     RUN_TEST(test_negative_speed);
     RUN_TEST(test_invalid_speed);
     RUN_TEST(test_set_speed_null_pointer);
+    RUN_TEST(test_get_speed_null_pointer);
 
     RUN_TEST(test_set_and_get_vertical_speed);
     RUN_TEST(test_vertical_speed_clamping);
     RUN_TEST(test_vertical_speed_invalid);
     RUN_TEST(test_set_vertical_speed_null_pointer);
+    RUN_TEST(test_get_vertical_speed_null_pointer);
 
     RUN_TEST(test_set_and_get_latitude);
     RUN_TEST(test_latitude_out_of_range);
     RUN_TEST(test_latitude_invalid);
     RUN_TEST(test_set_latitude_null_pointer);
+    RUN_TEST(test_get_latitude_null_pointer);
 
     RUN_TEST(test_set_and_get_longitude);
     RUN_TEST(test_longitude_out_of_range);
     RUN_TEST(test_longitude_invalid);
     RUN_TEST(test_set_longitude_null_pointer);
+    RUN_TEST(test_get_longitude_null_pointer);
 
     RUN_TEST(test_set_and_get_pressure_altitude);
     RUN_TEST(test_pressure_altitude_out_of_range);
     RUN_TEST(test_pressure_altitude_invalid);
     RUN_TEST(test_set_pressure_altitude_null_pointer);
+    RUN_TEST(test_get_pressure_altitude_null_pointer);
 
     RUN_TEST(test_set_and_get_geodetic_altitude);
     RUN_TEST(test_geodetic_altitude_out_of_range);
     RUN_TEST(test_geodetic_altitude_invalid);
     RUN_TEST(test_set_geodetic_altitude_null_pointer);
+    RUN_TEST(test_get_geodetic_altitude_null_pointer);
 
     RUN_TEST(test_set_and_get_height);
     RUN_TEST(test_height_out_of_range);
     RUN_TEST(test_height_invalid);
     RUN_TEST(test_set_height_null_pointer);
+    RUN_TEST(test_get_height_null_pointer);
 
     RUN_TEST(test_set_and_get_height_type);
     RUN_TEST(test_height_type_out_of_range);
     RUN_TEST(test_set_height_type_null_pointer);
+    RUN_TEST(test_get_height_type_null_pointer);
 
     RUN_TEST(test_set_and_gte_operational_status);
     RUN_TEST(test_operational_status_out_of_range);
     RUN_TEST(test_set_operational_status_null_pointer);
+    RUN_TEST(test_get_operational_status_null_pointer);
 
     RUN_TEST(test_set_and_get_speed_accuracy);
     RUN_TEST(test_speed_accuracy_out_of_range);
     RUN_TEST(test_set_speed_accuracy_null_pointer);
+    RUN_TEST(test_get_speed_accuracy_null_pointer);
 
     RUN_TEST(test_set_and_get_horizontal_accuracy);
     RUN_TEST(test_horizontal_accuracy_out_of_range);
     RUN_TEST(test_set_horizontal_accuracy_null_pointer);
+    RUN_TEST(test_get_horizontal_accuracy_null_pointer);
 
     RUN_TEST(test_set_and_get_vertical_accuracy);
     RUN_TEST(test_vertical_accuracy_out_of_range);
     RUN_TEST(test_set_vertical_accuracy_null_pointer);
+    RUN_TEST(test_get_vertical_accuracy_null_pointer);
 
     RUN_TEST(test_set_and_get_baro_altitude_accuracy);
     RUN_TEST(test_baro_altitude_accuracy_out_of_range);
     RUN_TEST(test_set_baro_altitude_accuracy_null_pointer);
+    RUN_TEST(test_get_baro_altitude_accuracy_null_pointer);
 
     RUN_TEST(test_set_and_get_timestamp);
     RUN_TEST(test_timestamp_invalid);
     RUN_TEST(test_timestamp_out_of_range);
     RUN_TEST(test_set_timestamp_null_pointer);
+    RUN_TEST(test_get_timestamp_null_pointer);
 
     RUN_TEST(test_set_timestamp_from_unixtime);
     RUN_TEST(test_set_timestamp_from_unixtime_null_pointer);
@@ -1583,6 +1694,7 @@ SUITE(location_suite) {
     RUN_TEST(test_set_and_get_timestamp_accuracy);
     RUN_TEST(test_timestamp_accuracy_out_of_range);
     RUN_TEST(test_set_timestamp_accuracy_null_pointer);
+    RUN_TEST(test_get_timestamp_accuracy_null_pointer);
 
     RUN_TEST(test_height_type_to_string);
     RUN_TEST(test_operational_status_to_string);

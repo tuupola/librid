@@ -44,11 +44,17 @@ SPDX-License-Identifier: MIT
 #include "json.h"
 
 rid_message_type_t rid_message_get_type(const void *message) {
+    if (message == NULL) {
+        return RID_MESSAGE_TYPE_BASIC_ID;
+    }
     rid_message_t *msg = (rid_message_t *)message;
     return (rid_message_type_t)msg->message_type;
 }
 
 rid_protocol_version_t rid_message_get_protocol_version(const void *message) {
+    if (message == NULL) {
+        return RID_PROTOCOL_VERSION_0;
+    }
     rid_message_t *msg = (rid_message_t *)message;
     return msg->protocol_version;
 }

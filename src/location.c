@@ -136,6 +136,9 @@ int rid_location_set_track_direction(rid_location_t *location, uint16_t degrees)
 }
 
 uint16_t rid_location_get_track_direction(const rid_location_t *location) {
+    if (location == NULL) {
+        return RID_TRACK_DIRECTION_UNKNOWN;
+    }
 
     /* Unknown or invalid */
     if (location->track_direction == RID_TRACK_DIRECTION_UNKNOWN_ENCODED) {
@@ -195,6 +198,9 @@ int rid_location_set_speed(rid_location_t *location, float speed_ms) {
 }
 
 float rid_location_get_speed(const rid_location_t *location) {
+    if (location == NULL) {
+        return RID_SPEED_INVALID;
+    }
 
     /* Invalid or unknown speed */
     if (location->speed == RID_SPEED_INVALID_ENCODED && location->speed_multiplier == 1) {
@@ -239,6 +245,9 @@ int rid_location_set_vertical_speed(rid_location_t *location, float speed_ms) {
 }
 
 float rid_location_get_vertical_speed(const rid_location_t *location) {
+    if (location == NULL) {
+        return RID_VERTICAL_SPEED_INVALID;
+    }
 
     if (location->vertical_speed == RID_VERTICAL_SPEED_INVALID_ENCODED) {
         return RID_VERTICAL_SPEED_INVALID;
@@ -279,6 +288,9 @@ int rid_location_set_latitude(rid_location_t *location, double degrees) {
 }
 
 double rid_location_get_latitude(const rid_location_t *location) {
+    if (location == NULL) {
+        return RID_LATITUDE_INVALID;
+    }
     if (location->latitude == 0 && location->longitude == 0) {
         return RID_LATITUDE_INVALID;
     }
@@ -317,6 +329,9 @@ int rid_location_set_longitude(rid_location_t *location, double degrees) {
 }
 
 double rid_location_get_longitude(const rid_location_t *location) {
+    if (location == NULL) {
+        return RID_LONGITUDE_INVALID;
+    }
     if (location->latitude == 0 && location->longitude == 0) {
         return RID_LONGITUDE_INVALID;
     }
@@ -351,6 +366,9 @@ int rid_location_set_height(rid_location_t *location, float height_m) {
 }
 
 float rid_location_get_height(const rid_location_t *location) {
+    if (location == NULL) {
+        return RID_HEIGHT_INVALID;
+    }
     if (location->height == RID_HEIGHT_INVALID_ENCODED) {
         return RID_HEIGHT_INVALID;
     }
@@ -385,6 +403,9 @@ int rid_location_set_pressure_altitude(rid_location_t *location, float altitude_
 }
 
 float rid_location_get_pressure_altitude(const rid_location_t *location) {
+    if (location == NULL) {
+        return RID_PRESSURE_ALTITUDE_INVALID;
+    }
     if (location->pressure_altitude == RID_PRESSURE_ALTITUDE_INVALID_ENCODED) {
         return RID_PRESSURE_ALTITUDE_INVALID;
     }
@@ -419,6 +440,9 @@ int rid_location_set_geodetic_altitude(rid_location_t *location, float altitude_
 }
 
 float rid_location_get_geodetic_altitude(const rid_location_t *location) {
+    if (location == NULL) {
+        return RID_GEODETIC_ALTITUDE_INVALID;
+    }
     if (location->geodetic_altitude == RID_GEODETIC_ALTITUDE_INVALID_ENCODED) {
         return RID_GEODETIC_ALTITUDE_INVALID;
     }
@@ -440,6 +464,9 @@ int rid_location_set_height_type(rid_location_t *location, rid_height_type_t typ
 }
 
 rid_height_type_t rid_location_get_height_type(const rid_location_t *location) {
+    if (location == NULL) {
+        return RID_HEIGHT_TYPE_ABOVE_TAKEOFF;
+    }
     return (rid_height_type_t)location->height_type;
 }
 
@@ -458,6 +485,9 @@ int rid_location_set_operational_status(rid_location_t *location, rid_operationa
 }
 
 rid_operational_status_t rid_location_get_operational_status(const rid_location_t *location) {
+    if (location == NULL) {
+        return RID_OPERATIONAL_STATUS_UNDECLARED;
+    }
     return (rid_operational_status_t)location->operational_status;
 }
 
@@ -476,6 +506,9 @@ int rid_location_set_speed_accuracy(rid_location_t *location, rid_speed_accuracy
 }
 
 rid_speed_accuracy_t rid_location_get_speed_accuracy(const rid_location_t *location) {
+    if (location == NULL) {
+        return RID_SPEED_ACCURACY_UNKNOWN;
+    }
     return (rid_speed_accuracy_t)location->speed_accuracy;
 }
 
@@ -494,6 +527,9 @@ int rid_location_set_horizontal_accuracy(rid_location_t *location, rid_horizonta
 }
 
 rid_horizontal_accuracy_t rid_location_get_horizontal_accuracy(const rid_location_t *location) {
+    if (location == NULL) {
+        return RID_HORIZONTAL_ACCURACY_UNKNOWN;
+    }
     return (rid_horizontal_accuracy_t)location->horizontal_accuracy;
 }
 
@@ -512,6 +548,9 @@ int rid_location_set_vertical_accuracy(rid_location_t *location, rid_vertical_ac
 }
 
 rid_vertical_accuracy_t rid_location_get_vertical_accuracy(const rid_location_t *location) {
+    if (location == NULL) {
+        return RID_VERTICAL_ACCURACY_UNKNOWN;
+    }
     return (rid_vertical_accuracy_t)location->vertical_accuracy;
 }
 
@@ -530,6 +569,9 @@ int rid_location_set_baro_altitude_accuracy(rid_location_t *location, rid_vertic
 }
 
 rid_vertical_accuracy_t rid_location_get_baro_altitude_accuracy(const rid_location_t *location) {
+    if (location == NULL) {
+        return RID_VERTICAL_ACCURACY_UNKNOWN;
+    }
     return (rid_vertical_accuracy_t)location->baro_altitude_accuracy;
 }
 
@@ -554,6 +596,9 @@ int rid_location_set_timestamp(rid_location_t *location, uint16_t deciseconds) {
 }
 
 uint16_t rid_location_get_timestamp(const rid_location_t *location) {
+    if (location == NULL) {
+        return RID_TIMESTAMP_INVALID;
+    }
     return location->timestamp;
 }
 
@@ -583,6 +628,9 @@ int rid_location_set_timestamp_accuracy(rid_location_t *location, rid_timestamp_
 }
 
 rid_timestamp_accuracy_t rid_location_get_timestamp_accuracy(const rid_location_t *location) {
+    if (location == NULL) {
+        return RID_TIMESTAMP_ACCURACY_UNKNOWN;
+    }
     return (rid_timestamp_accuracy_t)location->timestamp_accuracy;
 }
 

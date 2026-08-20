@@ -188,7 +188,7 @@ int rid_system_set_operator_location_type(rid_system_t *system, rid_operator_loc
  *
  * @param system Pointer to the System message structure.
  *
- * @return The operator location type value.
+ * @return The operator location type or RID_OPERATOR_LOCATION_TYPE_TAKEOFF if system is NULL.
  */
 rid_operator_location_type_t rid_system_get_operator_location_type(const rid_system_t *system);
 
@@ -208,7 +208,7 @@ int rid_system_set_classification_type(rid_system_t *system, rid_classification_
  *
  * @param system Pointer to the System message structure.
  *
- * @return The classification type value.
+ * @return The classification type or RID_CLASSIFICATION_TYPE_UNDECLARED if system is NULL.
  */
 rid_classification_type_t rid_system_get_classification_type(const rid_system_t *system);
 
@@ -228,7 +228,7 @@ int rid_system_set_ua_classification_category(rid_system_t *system, rid_ua_class
  *
  * @param system Pointer to the System message structure.
  *
- * @return The UA classification category value.
+ * @return The UA classification category or RID_UA_CLASSIFICATION_CATEGORY_UNDEFINED if system is NULL.
  */
 rid_ua_classification_category_t rid_system_get_ua_classification_category(const rid_system_t *system);
 
@@ -249,7 +249,7 @@ int rid_system_set_ua_classification_class(rid_system_t *system, rid_ua_classifi
  *
  * @param system Pointer to the System message structure.
  *
- * @return The UA classification class value.
+ * @return The UA classification class or RID_UA_CLASSIFICATION_CLASS_UNDEFINED if system is NULL.
  */
 rid_ua_classification_class_t rid_system_get_ua_classification_class(const rid_system_t *system);
 
@@ -276,7 +276,7 @@ int rid_system_set_operator_latitude(rid_system_t *system, double degrees);
  * @param system Pointer to the System message structure.
  *
  * @return Latitude in degrees or RID_OPERATOR_LATITUDE_INVALID
- *         if both encoded latitude and longitude are 0.
+ *         if system is NULL or if both encoded latitude and longitude are 0.
  */
 double rid_system_get_operator_latitude(const rid_system_t *system);
 
@@ -303,7 +303,7 @@ int rid_system_set_operator_longitude(rid_system_t *system, double degrees);
  * @param system Pointer to the System message structure.
  *
  * @return Longitude in degrees or RID_OPERATOR_LONGITUDE_INVALID
- *         if both encoded latitude and longitude are 0.
+ *         if system is NULL or if both encoded latitude and longitude are 0.
  */
 double rid_system_get_operator_longitude(const rid_system_t *system);
 
@@ -328,7 +328,8 @@ int rid_system_set_operator_altitude(rid_system_t *system, float altitude);
  *
  * @param system Pointer to the System message structure.
  *
- * @return Altitude in meters. -1000.0 indicates invalid/unknown.
+ * @return Altitude in meters or RID_OPERATOR_ALTITUDE_INVALID when uknown,
+ *         including when system is NULL.
  */
 float rid_system_get_operator_altitude(const rid_system_t *system);
 
@@ -348,7 +349,7 @@ int rid_system_set_area_count(rid_system_t *system, uint16_t count);
  *
  * @param system Pointer to the System message structure.
  *
- * @return The number of aircraft in the area.
+ * @return The number of aircraft in the area or 0 if system is NULL.
  */
 uint16_t rid_system_get_area_count(const rid_system_t *system);
 
@@ -369,7 +370,7 @@ int rid_system_set_area_radius(rid_system_t *system, uint16_t meters);
  *
  * @param system Pointer to the System message structure.
  *
- * @return The radius in meters.
+ * @return The radius in meters or 0 if system is NULL.
  */
 uint16_t rid_system_get_area_radius(const rid_system_t *system);
 
@@ -391,8 +392,8 @@ int rid_system_set_area_ceiling(rid_system_t *system, float altitude);
  *
  * @param system Pointer to the System message structure.
  *
- * @return The ceiling altitude in meters. RID_AREA_CEILING_INVALID
- *         indicates invalid/unknown.
+ * @return The ceiling altitude in meters or RID_AREA_CEILING_INVALID
+ *         when uknnown, including when system is NULL.
  */
 float rid_system_get_area_ceiling(const rid_system_t *system);
 
@@ -414,8 +415,8 @@ int rid_system_set_area_floor(rid_system_t *system, float altitude);
  *
  * @param system Pointer to the System message structure.
  *
- * @return The floor altitude in meters. RID_AREA_FLOOR_INVALID
- *         indicates invalid/unknown.
+ * @return The floor altitude in meters or RID_AREA_FLOOR_INVALID
+ *         when unknown, including when system is NULL.
  */
 float rid_system_get_area_floor(const rid_system_t *system);
 
@@ -435,7 +436,8 @@ int rid_system_set_timestamp(rid_system_t *system, uint32_t timestamp);
  *
  * @param system Pointer to the System message structure.
  *
- * @return Seconds since RID epoch (2019-01-01 00:00:00 UTC).
+ * @return Seconds since RID epoch (2019-01-01 00:00:00 UTC)
+ *         or 0 if system is NULL.
  */
 uint32_t rid_system_get_timestamp(const rid_system_t *system);
 
@@ -459,7 +461,7 @@ int rid_system_set_unixtime(rid_system_t *system, uint32_t unixtime);
  *
  * @param system Pointer to the System message structure.
  *
- * @return Unix timestamp (seconds since 1970-01-01 00:00:00 UTC),
+ * @return Unix timestamp (seconds since 1970-01-01 00:00:00 UTC)
  *         or 0 if system is NULL.
  */
 uint32_t rid_system_get_unixtime(const rid_system_t *system);

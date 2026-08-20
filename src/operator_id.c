@@ -77,6 +77,10 @@ int rid_operator_id_validate(const rid_operator_id_t *message) {
 }
 
 rid_operator_id_type_t rid_operator_id_get_type(const rid_operator_id_t *message) {
+    if (message == NULL) {
+        return RID_ID_TYPE_OPERATOR_ID;
+    }
+
     return (rid_operator_id_type_t)message->id_type;
 }
 
