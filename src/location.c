@@ -724,7 +724,7 @@ const char *rid_timestamp_accuracy_to_string(rid_timestamp_accuracy_t accuracy) 
     }
 }
 
-int rid_location_to_json(const rid_location_t *location, char *buffer, size_t buffer_size) {
+int rid_location_to_json(const rid_location_t *location, char *buffer, size_t buffer_size, size_t *needed_size) {
     rid_json_t json;
     char token[32];
     int token_length;
@@ -732,7 +732,7 @@ int rid_location_to_json(const rid_location_t *location, char *buffer, size_t bu
     float speed, vertical_speed, height, pressure_altitude, geodetic_altitude;
     uint16_t timestamp, track_direction;
 
-    if (location == NULL || buffer == NULL) {
+    if (location == NULL || (buffer == NULL && needed_size == NULL)) {
         return RID_ERROR_NULL_POINTER;
     }
 
@@ -839,5 +839,19 @@ int rid_location_to_json(const rid_location_t *location, char *buffer, size_t bu
     rid_json_key(&json, "timestamp_accuracy");
     rid_json_uint(&json, rid_location_get_timestamp_accuracy(location));
 
-    return rid_json_end(&json);
+    rid_json_end(&json);
+
+    if (needed_size != NULL) {
+        *needed_size = json.position + 1;
+    }
+
+    if (buffer == NULL) {
+        return RID_SUCCESS;
+    }
+
+    if (json.position + 1 > buffer_size) {
+        return RID_ERROR_BUFFER_TOO_SMALL;
+    }
+
+    return RID_SUCCESS;
 }

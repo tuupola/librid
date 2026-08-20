@@ -331,13 +331,18 @@ int rid_auth_get_signature(const rid_auth_t *auth, uint8_t *buffer, size_t buffe
  * @brief Format an Auth message as a JSON string.
  *
  * @param auth Pointer to the Auth container structure.
- * @param buffer Buffer to store the JSON string.
+ * @param buffer Buffer to store the JSON string or NULL.
  * @param buffer_size Size of the buffer.
+ * @param needed_size If non-NULL receives the required buffer size.
  *
- * @return Number of characters written (excluding null terminator),
- *         or negative value on error.
+ * @retval RID_SUCCESS on success.
+ * @retval RID_ERROR_NULL_POINTER if @p auth is NULL or if both
+ *         @p buffer and @p needed_size are NULL.
+ * @retval RID_ERROR_BUFFER_TOO_SMALL if @p buffer is too small.
  */
-int rid_auth_to_json(const rid_auth_t *auth, char *buffer, size_t buffer_size);
+int rid_auth_to_json(
+    const rid_auth_t *auth, char *buffer, size_t buffer_size, size_t *needed_size
+);
 
 #ifdef __cplusplus
 }

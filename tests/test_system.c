@@ -732,8 +732,7 @@ TEST test_system_to_json(void) {
     rid_system_set_operator_latitude(&system, 60.2870324);
     rid_system_set_operator_longitude(&system, 24.5397187);
 
-    int result = rid_system_to_json(&system, buffer, sizeof(buffer));
-    ASSERT(result > 0);
+    ASSERT_EQ(RID_SUCCESS, rid_system_to_json(&system, buffer, sizeof(buffer), NULL));
     ASSERT(strstr(buffer, "\"operator_location_type\":") != NULL);
     ASSERT(strstr(buffer, "\"operator_latitude\":") != NULL);
     ASSERT(strstr(buffer, "\"operator_longitude\":") != NULL);
@@ -747,8 +746,9 @@ TEST test_system_to_json_null(void) {
 
     rid_system_init(&system);
 
-    ASSERT_EQ(RID_ERROR_NULL_POINTER, rid_system_to_json(NULL, buffer, sizeof(buffer)));
-    ASSERT_EQ(RID_ERROR_NULL_POINTER, rid_system_to_json(&system, NULL, sizeof(buffer)));
+    ASSERT_EQ(RID_ERROR_NULL_POINTER, rid_system_to_json(NULL, buffer, sizeof(buffer), NULL));
+    ASSERT_EQ(RID_ERROR_NULL_POINTER, rid_system_to_json(&system, NULL, sizeof(buffer), NULL));
+    ASSERT_EQ(RID_ERROR_NULL_POINTER, rid_system_to_json(&system, NULL, 0, NULL));
 
     PASS();
 }
@@ -760,14 +760,27 @@ TEST test_system_to_json_invalid_as_null(void) {
     rid_system_init(&system);
     rid_system_set_operator_altitude(&system, RID_OPERATOR_ALTITUDE_INVALID);
 
-    int result = rid_system_to_json(&system, buffer, sizeof(buffer));
-    ASSERT(result > 0);
+    ASSERT_EQ(RID_SUCCESS, rid_system_to_json(&system, buffer, sizeof(buffer), NULL));
 
     ASSERT(strstr(buffer, "\"operator_latitude\":null") != NULL);
     ASSERT(strstr(buffer, "\"operator_longitude\":null") != NULL);
     ASSERT(strstr(buffer, "\"operator_altitude\":null") != NULL);
     ASSERT(strstr(buffer, "\"area_ceiling\":null") != NULL);
     ASSERT(strstr(buffer, "\"area_floor\":null") != NULL);
+
+    PASS();
+}
+
+TEST test_system_to_json_needed(void) {
+    rid_system_t system;
+    char buffer[1024];
+    size_t needed = 0;
+
+    rid_system_init(&system);
+
+    ASSERT_EQ(RID_SUCCESS, rid_system_to_json(&system, NULL, 0, &needed));
+    ASSERT(needed > 0);
+    ASSERT_EQ(RID_SUCCESS, rid_system_to_json(&system, buffer, needed, NULL));
 
     PASS();
 }
@@ -844,4 +857,5 @@ SUITE(system_suite) {
     RUN_TEST(test_system_to_json);
     RUN_TEST(test_system_to_json_null);
     RUN_TEST(test_system_to_json_invalid_as_null);
+    RUN_TEST(test_system_to_json_needed);
 }

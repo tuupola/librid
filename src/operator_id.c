@@ -138,11 +138,11 @@ const char *rid_operator_id_type_to_string(rid_operator_id_type_t type) {
     }
 }
 
-int rid_operator_id_to_json(const rid_operator_id_t *message, char *buffer, size_t buffer_size) {
+int rid_operator_id_to_json(const rid_operator_id_t *message, char *buffer, size_t buffer_size, size_t *needed_size) {
     rid_json_t json;
     char operator_id[RID_OPERATOR_ID_SIZE + 1];
 
-    if (message == NULL || buffer == NULL) {
+    if (message == NULL || (buffer == NULL && needed_size == NULL)) {
         return RID_ERROR_NULL_POINTER;
     }
 
@@ -157,5 +157,19 @@ int rid_operator_id_to_json(const rid_operator_id_t *message, char *buffer, size
     rid_json_uint(&json, rid_operator_id_get_type(message));
     rid_json_key(&json, "operator_id");
     rid_json_string(&json, operator_id);
-    return rid_json_end(&json);
+    rid_json_end(&json);
+
+    if (needed_size != NULL) {
+        *needed_size = json.position + 1;
+    }
+
+    if (buffer == NULL) {
+        return RID_SUCCESS;
+    }
+
+    if (json.position + 1 > buffer_size) {
+        return RID_ERROR_BUFFER_TOO_SMALL;
+    }
+
+    return RID_SUCCESS;
 }

@@ -140,8 +140,8 @@ const void *rid_message_pack_get_message_at(const rid_message_pack_t *pack, uint
 }
 
 int rid_message_pack_get_message_type_at(
-    const rid_message_pack_t *pack, uint8_t index, rid_message_type_t *type)
-{
+    const rid_message_pack_t *pack, uint8_t index, rid_message_type_t *type
+) {
     if (pack == NULL || type == NULL) {
         return RID_ERROR_NULL_POINTER;
     }
@@ -157,8 +157,8 @@ int rid_message_pack_get_message_type_at(
 }
 
 int rid_message_pack_find_message_index_by_type(
-    const rid_message_pack_t *pack, rid_message_type_t type, uint8_t start_index, uint8_t *index)
-{
+    const rid_message_pack_t *pack, rid_message_type_t type, uint8_t start_index, uint8_t *index
+) {
     if (pack == NULL || index == NULL) {
         return RID_ERROR_NULL_POINTER;
     }
@@ -359,10 +359,11 @@ int rid_message_pack_to_json(const rid_message_pack_t *pack, char *buffer, size_
             break;
         }
 
-        int msg_written = rid_message_to_json(msg, buffer + pos, buffer_size - pos);
-        if (msg_written > 0) {
-            pos += (size_t)msg_written;
-            first = 0;
+        size_t needed_size = 0;
+        int rc = rid_message_to_json(msg, buffer + pos, buffer_size - pos, &needed_size);
+        if (rc == RID_SUCCESS) {
+            pos += needed_size - 1;
+            first = false;
         }
     }
 
@@ -376,9 +377,10 @@ int rid_message_pack_to_json(const rid_message_pack_t *pack, char *buffer, size_
         }
 
         if (pos < buffer_size) {
-            written = rid_auth_to_json(&auth, buffer + pos, buffer_size - pos);
-            if (written > 0) {
-                pos += (size_t)written;
+            size_t needed_size = 0;
+            int rc = rid_auth_to_json(&auth, buffer + pos, buffer_size - pos, &needed_size);
+            if (rc == RID_SUCCESS) {
+                pos += needed_size - 1;
             }
         }
     }

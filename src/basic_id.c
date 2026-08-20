@@ -275,11 +275,11 @@ static void uuid_to_string(const unsigned char uuid[16], char *buffer, size_t bu
     /* clang-format on */
 }
 
-int rid_basic_id_to_json(const rid_basic_id_t *message, char *buffer, size_t buffer_size) {
+int rid_basic_id_to_json(const rid_basic_id_t *message, char *buffer, size_t buffer_size, size_t *needed_size) {
     rid_json_t json;
     char uas_id[RID_UAS_ID_UUID_SIZE + 1];
 
-    if (message == NULL || buffer == NULL) {
+    if (message == NULL || (buffer == NULL && needed_size == NULL)) {
         return RID_ERROR_NULL_POINTER;
     }
 
@@ -302,5 +302,19 @@ int rid_basic_id_to_json(const rid_basic_id_t *message, char *buffer, size_t buf
     rid_json_uint(&json, rid_basic_id_get_ua_type(message));
     rid_json_key(&json, "uas_id");
     rid_json_string(&json, uas_id);
-    return rid_json_end(&json);
+    rid_json_end(&json);
+
+    if (needed_size != NULL) {
+        *needed_size = json.position + 1;
+    }
+
+    if (buffer == NULL) {
+        return RID_SUCCESS;
+    }
+
+    if (json.position + 1 > buffer_size) {
+        return RID_ERROR_BUFFER_TOO_SMALL;
+    }
+
+    return RID_SUCCESS;
 }

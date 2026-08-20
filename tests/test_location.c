@@ -1445,8 +1445,7 @@ TEST test_location_to_json(void) {
     rid_location_set_speed(&location, 15.5f);
     rid_location_set_geodetic_altitude(&location, 120.5f);
 
-    int result = rid_location_to_json(&location, buffer, sizeof(buffer));
-    ASSERT(result > 0);
+    ASSERT_EQ(RID_SUCCESS, rid_location_to_json(&location, buffer, sizeof(buffer), NULL));
     ASSERT(strstr(buffer, "\"latitude\":") != NULL);
     ASSERT(strstr(buffer, "\"longitude\":") != NULL);
     ASSERT(strstr(buffer, "\"speed\":") != NULL);
@@ -1461,8 +1460,9 @@ TEST test_location_to_json_null(void) {
 
     rid_location_init(&location);
 
-    ASSERT_EQ(RID_ERROR_NULL_POINTER, rid_location_to_json(NULL, buffer, sizeof(buffer)));
-    ASSERT_EQ(RID_ERROR_NULL_POINTER, rid_location_to_json(&location, NULL, sizeof(buffer)));
+    ASSERT_EQ(RID_ERROR_NULL_POINTER, rid_location_to_json(NULL, buffer, sizeof(buffer), NULL));
+    ASSERT_EQ(RID_ERROR_NULL_POINTER, rid_location_to_json(&location, NULL, sizeof(buffer), NULL));
+    ASSERT_EQ(RID_ERROR_NULL_POINTER, rid_location_to_json(&location, NULL, 0, NULL));
 
     PASS();
 }
@@ -1472,8 +1472,7 @@ TEST test_location_to_json_invalid_as_null(void) {
     char buffer[1024];
 
     rid_location_init(&location);
-    int result = rid_location_to_json(&location, buffer, sizeof(buffer));
-    ASSERT(result > 0);
+    ASSERT_EQ(RID_SUCCESS, rid_location_to_json(&location, buffer, sizeof(buffer), NULL));
 
     ASSERT(strstr(buffer, "\"speed\":null") != NULL);
     ASSERT(strstr(buffer, "\"vertical_speed\":null") != NULL);
@@ -1484,6 +1483,21 @@ TEST test_location_to_json_invalid_as_null(void) {
     ASSERT(strstr(buffer, "\"timestamp\":null") != NULL);
     ASSERT(strstr(buffer, "\"latitude\":null") != NULL);
     ASSERT(strstr(buffer, "\"longitude\":null") != NULL);
+
+    PASS();
+}
+
+TEST test_location_to_json_needed(void) {
+    rid_location_t location;
+    char buffer[1024];
+    size_t needed = 0;
+
+    rid_location_init(&location);
+    rid_location_set_latitude(&location, 60.1699);
+
+    ASSERT_EQ(RID_SUCCESS, rid_location_to_json(&location, NULL, 0, &needed));
+    ASSERT(needed > 0);
+    ASSERT_EQ(RID_SUCCESS, rid_location_to_json(&location, buffer, needed, NULL));
 
     PASS();
 }
@@ -1589,4 +1603,5 @@ SUITE(location_suite) {
     RUN_TEST(test_location_to_json);
     RUN_TEST(test_location_to_json_null);
     RUN_TEST(test_location_to_json_invalid_as_null);
+    RUN_TEST(test_location_to_json_needed);
 }

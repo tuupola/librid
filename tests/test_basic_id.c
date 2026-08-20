@@ -591,8 +591,7 @@ TEST test_basic_id_to_json(void) {
     rid_basic_id_set_ua_type(&message, RID_UA_TYPE_HELICOPTER_OR_MULTIROTOR);
     rid_basic_id_set_uas_id(&message, "1ABCD2345EF678XYZ");
 
-    int result = rid_basic_id_to_json(&message, buffer, sizeof(buffer));
-    ASSERT(result > 0);
+    ASSERT_EQ(RID_SUCCESS, rid_basic_id_to_json(&message, buffer, sizeof(buffer), NULL));
     ASSERT(strstr(buffer, "\"id_type\":") != NULL);
     ASSERT(strstr(buffer, "\"ua_type\":") != NULL);
     ASSERT(strstr(buffer, "\"uas_id\":") != NULL);
@@ -607,8 +606,29 @@ TEST test_basic_id_to_json_null(void) {
 
     rid_basic_id_init(&message);
 
-    ASSERT_EQ(RID_ERROR_NULL_POINTER, rid_basic_id_to_json(NULL, buffer, sizeof(buffer)));
-    ASSERT_EQ(RID_ERROR_NULL_POINTER, rid_basic_id_to_json(&message, NULL, sizeof(buffer)));
+    ASSERT_EQ(RID_ERROR_NULL_POINTER, rid_basic_id_to_json(NULL, buffer, sizeof(buffer), NULL));
+    ASSERT_EQ(RID_ERROR_NULL_POINTER, rid_basic_id_to_json(&message, NULL, sizeof(buffer), NULL));
+    ASSERT_EQ(RID_ERROR_NULL_POINTER, rid_basic_id_to_json(&message, NULL, 0, NULL));
+
+    PASS();
+}
+
+TEST test_basic_id_to_json_needed(void) {
+    rid_basic_id_t message;
+    char buffer[256];
+    size_t needed = 0;
+
+    rid_basic_id_init(&message);
+    rid_basic_id_set_type(&message, RID_ID_TYPE_SERIAL_NUMBER);
+    rid_basic_id_set_ua_type(&message, RID_UA_TYPE_HELICOPTER_OR_MULTIROTOR);
+    rid_basic_id_set_uas_id(&message, "1ABCD2345EF678XYZ");
+
+    /* Size-only query: no buffer required. */
+    ASSERT_EQ(RID_SUCCESS, rid_basic_id_to_json(&message, NULL, 0, &needed));
+    ASSERT(needed > 0);
+
+    /* Buffer too small. */
+    ASSERT_EQ(RID_ERROR_BUFFER_TOO_SMALL, rid_basic_id_to_json(&message, buffer, 16, NULL));
 
     PASS();
 }
@@ -628,8 +648,8 @@ TEST test_basic_id_to_json_uuid(void) {
     };
     memcpy(message.uas_id, uuid, RID_UAS_ID_SIZE);
 
-    int result = rid_basic_id_to_json(&message, json, sizeof(json));
-    ASSERT(result > 0);
+    int result = rid_basic_id_to_json(&message, json, sizeof(json), NULL);
+    ASSERT_EQ(RID_SUCCESS, result);
     ASSERT(strstr(json, "\"id_type\":3") != NULL);
     ASSERT(strstr(json, "\"ua_type\":2") != NULL);
     ASSERT(strstr(json, "550e8400-e29b-41d4-a716-446655440000") != NULL);
@@ -682,5 +702,6 @@ SUITE(basic_id_suite) {
 
     RUN_TEST(test_basic_id_to_json);
     RUN_TEST(test_basic_id_to_json_null);
+    RUN_TEST(test_basic_id_to_json_needed);
     RUN_TEST(test_basic_id_to_json_uuid);
 }

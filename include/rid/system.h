@@ -538,13 +538,16 @@ const char *rid_ua_classification_class_to_string(rid_ua_classification_class_t 
  * @brief Format a System message as a JSON string.
  *
  * @param system Pointer to the System message structure.
- * @param buffer Buffer to store the JSON string.
+ * @param buffer Buffer to store the JSON string or NULL.
  * @param buffer_size Size of the buffer.
+ * @param needed_size If non-NULL receives the required buffer size.
  *
- * @return Number of characters written (excluding null terminator),
- *         or negative value on error.
+ * @retval RID_SUCCESS on success.
+ * @retval RID_ERROR_NULL_POINTER if @p system is NULL or if both
+ *         @p buffer and @p needed_size are NULL.
+ * @retval RID_ERROR_BUFFER_TOO_SMALL if @p buffer is too small.
  */
-int rid_system_to_json(const rid_system_t *system, char *buffer, size_t buffer_size);
+int rid_system_to_json(const rid_system_t *system, char *buffer, size_t buffer_size, size_t *needed_size);
 
 #ifdef __cplusplus
 }

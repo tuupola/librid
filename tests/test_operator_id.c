@@ -277,8 +277,7 @@ TEST test_operator_id_to_json(void) {
     rid_operator_id_set_type(&message, RID_ID_TYPE_OPERATOR_ID);
     rid_operator_id_set(&message, "FIN87astrdge12k8");
 
-    int result = rid_operator_id_to_json(&message, buffer, sizeof(buffer));
-    ASSERT(result > 0);
+    ASSERT_EQ(RID_SUCCESS, rid_operator_id_to_json(&message, buffer, sizeof(buffer), NULL));
     ASSERT(strstr(buffer, "\"id_type\":") != NULL);
     ASSERT(strstr(buffer, "\"operator_id\":") != NULL);
     ASSERT(strstr(buffer, "FIN87astrdge12k8") != NULL);
@@ -292,8 +291,24 @@ TEST test_operator_id_to_json_null(void) {
 
     rid_operator_id_init(&message);
 
-    ASSERT_EQ(RID_ERROR_NULL_POINTER, rid_operator_id_to_json(NULL, buffer, sizeof(buffer)));
-    ASSERT_EQ(RID_ERROR_NULL_POINTER, rid_operator_id_to_json(&message, NULL, sizeof(buffer)));
+    ASSERT_EQ(RID_ERROR_NULL_POINTER, rid_operator_id_to_json(NULL, buffer, sizeof(buffer), NULL));
+    ASSERT_EQ(RID_ERROR_NULL_POINTER, rid_operator_id_to_json(&message, NULL, sizeof(buffer), NULL));
+    ASSERT_EQ(RID_ERROR_NULL_POINTER, rid_operator_id_to_json(&message, NULL, 0, NULL));
+
+    PASS();
+}
+
+TEST test_operator_id_to_json_needed(void) {
+    rid_operator_id_t message;
+    char buffer[256];
+    size_t needed = 0;
+
+    rid_operator_id_init(&message);
+    rid_operator_id_set(&message, "FIN87astrdge12k8");
+
+    ASSERT_EQ(RID_SUCCESS, rid_operator_id_to_json(&message, NULL, 0, &needed));
+    ASSERT(needed > 0);
+    ASSERT_EQ(RID_SUCCESS, rid_operator_id_to_json(&message, buffer, needed, NULL));
 
     PASS();
 }
@@ -324,4 +339,5 @@ SUITE(operator_id_suite) {
 
     RUN_TEST(test_operator_id_to_json);
     RUN_TEST(test_operator_id_to_json_null);
+    RUN_TEST(test_operator_id_to_json_needed);
 }

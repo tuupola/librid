@@ -75,7 +75,7 @@ static int decode_and_print(const char *hex_string, int force) {
     }
 
     char json[4096];
-    rc = rid_message_to_json(message, json, sizeof(json));
+    rc = rid_message_to_json(message, json, sizeof(json), NULL);
     if (rc < 0) {
         fprintf(stderr, "Error: %s\n", rid_error_to_string(rc));
         return 1;

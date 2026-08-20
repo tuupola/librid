@@ -285,11 +285,11 @@ static size_t auth_data_to_hex(const uint8_t *data, size_t data_size, char *hex,
     return pos;
 }
 
-int rid_auth_page_to_json(const void *message, char *buffer, size_t buffer_size) {
+int rid_auth_page_to_json(const void *message, char *buffer, size_t buffer_size, size_t *needed_size) {
     rid_json_t json;
     rid_auth_type_t auth_type;
 
-    if (NULL == message || NULL == buffer) {
+    if (NULL == message || (NULL == buffer && NULL == needed_size)) {
         return RID_ERROR_NULL_POINTER;
     }
 
@@ -342,5 +342,19 @@ int rid_auth_page_to_json(const void *message, char *buffer, size_t buffer_size)
         }
     }
 
-    return rid_json_end(&json);
+    rid_json_end(&json);
+
+    if (needed_size != NULL) {
+        *needed_size = json.position + 1;
+    }
+
+    if (buffer == NULL) {
+        return RID_SUCCESS;
+    }
+
+    if (json.position + 1 > buffer_size) {
+        return RID_ERROR_BUFFER_TOO_SMALL;
+    }
+
+    return RID_SUCCESS;
 }

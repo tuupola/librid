@@ -163,15 +163,16 @@ int rid_message_validate(const void *message);
  * *_to_json() function.
  *
  * @param message Pointer to any Remote ID message structure.
- * @param buffer Buffer to store the JSON string.
+ * @param buffer Buffer to store the JSON string or NULL.
  * @param buffer_size Size of the buffer.
+ * @param needed_size If non-NULL receives the required buffer size.
  *
- * @return Number of characters written (excluding null terminator),
- *         or negative error code on failure.
- *
- * @retval RID_ERROR_NULL_POINTER if message or buffer is NULL.
+ * @retval RID_SUCCESS on success.
+ * @retval RID_ERROR_NULL_POINTER if @p message is NULL or if both
+ *         @p buffer and @p needed_size are NULL.
+ * @retval RID_ERROR_BUFFER_TOO_SMALL if @p buffer is too small.
  */
-int rid_message_to_json(const void *message, char *buffer, size_t buffer_size);
+int rid_message_to_json(const void *message, char *buffer, size_t buffer_size, size_t *needed_size);
 
 #ifdef __cplusplus
 }

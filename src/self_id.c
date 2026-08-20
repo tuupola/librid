@@ -142,11 +142,11 @@ const char *rid_description_type_to_string(rid_description_type_t type) {
     }
 }
 
-int rid_self_id_to_json(const rid_self_id_t *message, char *buffer, size_t buffer_size) {
+int rid_self_id_to_json(const rid_self_id_t *message, char *buffer, size_t buffer_size, size_t *needed_size) {
     rid_json_t json;
     char description[RID_DESCRIPTION_SIZE + 1];
 
-    if (message == NULL || buffer == NULL) {
+    if (message == NULL || (buffer == NULL && needed_size == NULL)) {
         return RID_ERROR_NULL_POINTER;
     }
 
@@ -161,5 +161,19 @@ int rid_self_id_to_json(const rid_self_id_t *message, char *buffer, size_t buffe
     rid_json_uint(&json, rid_self_id_get_description_type(message));
     rid_json_key(&json, "description");
     rid_json_string(&json, description);
-    return rid_json_end(&json);
+    rid_json_end(&json);
+
+    if (needed_size != NULL) {
+        *needed_size = json.position + 1;
+    }
+
+    if (buffer == NULL) {
+        return RID_SUCCESS;
+    }
+
+    if (json.position + 1 > buffer_size) {
+        return RID_ERROR_BUFFER_TOO_SMALL;
+    }
+
+    return RID_SUCCESS;
 }

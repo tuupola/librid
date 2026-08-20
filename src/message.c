@@ -174,8 +174,8 @@ int rid_message_validate(const void *message) {
     }
 }
 
-int rid_message_to_json(const void *message, char *buffer, size_t buffer_size) {
-    if (NULL == message || NULL == buffer) {
+int rid_message_to_json(const void *message, char *buffer, size_t buffer_size, size_t *needed_size) {
+    if (NULL == message || (NULL == buffer && NULL == needed_size)) {
         return RID_ERROR_NULL_POINTER;
     }
 
@@ -186,37 +186,43 @@ int rid_message_to_json(const void *message, char *buffer, size_t buffer_size) {
             return rid_basic_id_to_json(
                 (const rid_basic_id_t *)message,
                 buffer,
-                buffer_size
+                buffer_size,
+                needed_size
             );
         case RID_MESSAGE_TYPE_LOCATION:
             return rid_location_to_json(
                 (const rid_location_t *)message,
                 buffer,
-                buffer_size
+                buffer_size,
+                needed_size
             );
         case RID_MESSAGE_TYPE_AUTH:
             return rid_auth_page_to_json(
                 message,
                 buffer,
-                buffer_size
+                buffer_size,
+                needed_size
             );
         case RID_MESSAGE_TYPE_SELF_ID:
             return rid_self_id_to_json(
                 (const rid_self_id_t *)message,
                 buffer,
-                buffer_size
+                buffer_size,
+                needed_size
             );
         case RID_MESSAGE_TYPE_SYSTEM:
             return rid_system_to_json(
                 (const rid_system_t *)message,
                 buffer,
-                buffer_size
+                buffer_size,
+                needed_size
             );
         case RID_MESSAGE_TYPE_OPERATOR_ID:
             return rid_operator_id_to_json(
                 (const rid_operator_id_t *)message,
                 buffer,
-                buffer_size
+                buffer_size,
+                needed_size
             );
         case RID_MESSAGE_TYPE_MESSAGE_PACK:
             return rid_message_pack_to_json(
@@ -232,7 +238,21 @@ int rid_message_to_json(const void *message, char *buffer, size_t buffer_size) {
             rid_json_uint(&json, rid_message_get_protocol_version(message));
             rid_json_key(&json, "message_type");
             rid_json_uint(&json, type);
-            return rid_json_end(&json);
+            rid_json_end(&json);
+
+            if (needed_size != NULL) {
+                *needed_size = json.position + 1;
+            }
+
+            if (buffer == NULL) {
+                return RID_SUCCESS;
+            }
+
+            if (json.position + 1 > buffer_size) {
+                return RID_ERROR_BUFFER_TOO_SMALL;
+            }
+
+            return RID_SUCCESS;
         }
     }
 }

@@ -455,14 +455,14 @@ const char *rid_ua_classification_class_to_string(rid_ua_classification_class_t 
     }
 }
 
-int rid_system_to_json(const rid_system_t *system, char *buffer, size_t buffer_size) {
+int rid_system_to_json(const rid_system_t *system, char *buffer, size_t buffer_size, size_t *needed_size) {
     rid_json_t json;
     char token[32];
     int token_length;
     double latitude, longitude;
     float altitude, area_ceiling, area_floor;
 
-    if (system == NULL || buffer == NULL) {
+    if (system == NULL || (buffer == NULL && needed_size == NULL)) {
         return RID_ERROR_NULL_POINTER;
     }
 
@@ -535,5 +535,19 @@ int rid_system_to_json(const rid_system_t *system, char *buffer, size_t buffer_s
     rid_json_key(&json, "timestamp");
     rid_json_uint(&json, rid_system_get_timestamp(system));
 
-    return rid_json_end(&json);
+    rid_json_end(&json);
+
+    if (needed_size != NULL) {
+        *needed_size = json.position + 1;
+    }
+
+    if (buffer == NULL) {
+        return RID_SUCCESS;
+    }
+
+    if (json.position + 1 > buffer_size) {
+        return RID_ERROR_BUFFER_TOO_SMALL;
+    }
+
+    return RID_SUCCESS;
 }
