@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ## [0.5.0-dev](https://github.com/tuupola/librid/compare/0.4.0...master) - unreleased
 
+### Added
+
+- `RID_DISABLE_JSON` compile time flag to reduce flash usage on embedded targets. ([#72](https://github.com/tuupola/librid/commit/xxxxxxx))
+
 ### Changed
 
 - Invalid and missing values are now rendered as `null` in JSON output ([#44](https://github.com/tuupola/librid/commit/2e4a834), [#49](https://github.com/tuupola/librid/commit/bed97d5), [#50](https://github.com/tuupola/librid/commit/3304c51), [#52](https://github.com/tuupola/librid/commit/215f57e), [#55](https://github.com/tuupola/librid/commit/e44910c), [#58](https://github.com/tuupola/librid/commit/c998d07), [#62](https://github.com/tuupola/librid/commit/973f8a3), [#63](https://github.com/tuupola/librid/commit/b3630ac))
