@@ -1,6 +1,7 @@
 # Changelog
 
-All notable changes to this project will be documented in this file, in reverse chronological order by release.
+All notable changes to this project will be documented in this file, in reverse
+chronological order by release.
 
 ## [0.5.0](https://github.com/tuupola/librid/compare/0.4.0...0.5.0) - 2026-08-21
 
