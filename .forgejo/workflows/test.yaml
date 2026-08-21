@@ -14,3 +14,9 @@ jobs:
         run: cmake --build build
       - name: Test
         run: cd build && ctest --output-on-failure --verbose
+      - name: Configure with RID_DISABLE_JSON
+        run: cmake -B build-nojson -DRID_BUILD_TESTS=ON -DRID_DISABLE_JSON=ON
+      - name: Test with RID_DISABLE_JSON
+        run: cmake --build build-nojson
+      - name: Test without JSON
+        run: cd build-nojson && ctest --output-on-failure --verbose
