@@ -657,6 +657,31 @@ TEST test_basic_id_to_json_uuid(void) {
     PASS();
 }
 
+TEST test_basic_id_to_json_session_id(void) {
+    rid_basic_id_t message;
+    char json[256];
+
+    rid_basic_id_init(&message);
+    rid_basic_id_set_type(&message, RID_ID_TYPE_SPECIFIC_SESSION_ID);
+    rid_basic_id_set_ua_type(&message, RID_UA_TYPE_HELICOPTER_OR_MULTIROTOR);
+
+    /* 20 bytes with embedded NUL, high bytes, and JSON-hostile bytes */
+    uint8_t session[RID_UAS_ID_SIZE] = {
+        0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07,
+        0x08, 0x09, 0x0a, 0x0b, 0xff, 0xfe, 0x22, 0x5c,
+        0x7f, 0x80, 0x90, 0xa0
+    };
+    memcpy(message.uas_id, session, RID_UAS_ID_SIZE);
+
+    int result = rid_basic_id_to_json(&message, json, sizeof(json), NULL);
+    ASSERT_EQ(RID_SUCCESS, result);
+    ASSERT(strstr(json, "\"id_type\":4") != NULL);
+    ASSERT(strstr(json, "\"ua_type\":2") != NULL);
+    ASSERT(strstr(json, "\"uas_id\":\"000102030405060708090a0bfffe225c7f8090a0\"") != NULL);
+
+    PASS();
+}
+
 SUITE(basic_id_suite) {
     RUN_TEST(test_basic_id_init);
 
@@ -704,4 +729,5 @@ SUITE(basic_id_suite) {
     RUN_TEST(test_basic_id_to_json_null);
     RUN_TEST(test_basic_id_to_json_needed);
     RUN_TEST(test_basic_id_to_json_uuid);
+    RUN_TEST(test_basic_id_to_json_session_id);
 }

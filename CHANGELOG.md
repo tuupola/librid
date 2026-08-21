@@ -15,6 +15,7 @@ All notable changes to this project will be documented in this file, in reverse 
 - All floats are now rendered with two decimals in JSON output. ([#57](https://github.com/tuupola/librid/commit/168e4e9))
 - All `rid_*_to_json()` functions now take an optional `needed_size` parameter which receives the required buffer size. The function return value is now only an error code. ([#67](https://github.com/tuupola/librid/commit/21591d9), [#68](https://github.com/tuupola/librid/commit/8bbe610))
 - All getter functions now return either `RID_X_INVALID`, `RID_X_UNKNOWN` or `0` when the input message is `NULL`. ([#69](https://github.com/tuupola/librid/commit/8bbe610))
+- Binary session id is now rendered as hex in JSON. ([#70](https://github.com/tuupola/librid/commit/xxxxxxx))
 
 ### Fixed
 

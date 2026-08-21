@@ -275,9 +275,20 @@ static void uuid_to_string(const unsigned char uuid[16], char *buffer, size_t bu
     /* clang-format on */
 }
 
+static size_t session_id_to_hex(const uint8_t *data, size_t data_size, char *hex, size_t hex_size) {
+    size_t pos = 0;
+    for (size_t i = 0; i < data_size && pos + 2 < hex_size; ++i) {
+        int written = snprintf(hex + pos, hex_size - pos, "%02x", data[i]);
+        if (written > 0) {
+            pos += (size_t)written;
+        }
+    }
+    return pos;
+}
+
 int rid_basic_id_to_json(const rid_basic_id_t *message, char *buffer, size_t buffer_size, size_t *needed_size) {
     rid_json_t json;
-    char uas_id[RID_UAS_ID_UUID_SIZE + 1];
+    char uas_id[RID_UAS_ID_SIZE * 2 + 1];
 
     if (message == NULL || (buffer == NULL && needed_size == NULL)) {
         return RID_ERROR_NULL_POINTER;
@@ -287,6 +298,10 @@ int rid_basic_id_to_json(const rid_basic_id_t *message, char *buffer, size_t buf
         char raw[RID_UAS_ID_SIZE + 1];
         rid_basic_id_get_uas_id(message, raw, sizeof(raw));
         uuid_to_string((const unsigned char *)raw, uas_id, sizeof(uas_id));
+    } else if (rid_basic_id_get_type(message) == RID_ID_TYPE_SPECIFIC_SESSION_ID) {
+        char raw[RID_UAS_ID_SIZE + 1];
+        rid_basic_id_get_uas_id(message, raw, sizeof(raw));
+        session_id_to_hex((const uint8_t *)raw, RID_UAS_ID_SIZE, uas_id, sizeof(uas_id));
     } else {
         rid_basic_id_get_uas_id(message, uas_id, sizeof(uas_id));
     }
