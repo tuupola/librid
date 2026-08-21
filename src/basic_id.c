@@ -32,13 +32,16 @@ SPDX-License-Identifier: MIT
 
 #include <stddef.h>
 #include <stdint.h>
-#include <stdio.h>
 #include <string.h>
 
 #include "rid/basic_id.h"
 #include "rid/message.h"
 
+#ifndef RID_DISABLE_JSON
+#include <stdio.h>
+
 #include "json.h"
+#endif
 
 int rid_basic_id_init(rid_basic_id_t *message) {
     if (message == NULL) {
@@ -257,6 +260,7 @@ const char *rid_ua_type_to_string(rid_ua_type_t type) {
     }
 }
 
+#ifndef RID_DISABLE_JSON
 static void uuid_to_string(const unsigned char uuid[16], char *buffer, size_t buffer_size) {
     if (buffer_size < 37) {
         return;
@@ -333,3 +337,4 @@ int rid_basic_id_to_json(const rid_basic_id_t *message, char *buffer, size_t buf
 
     return RID_SUCCESS;
 }
+#endif /* RID_DISABLE_JSON */

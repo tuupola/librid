@@ -33,6 +33,8 @@
 #ifndef RID_JSON_H
 #define RID_JSON_H
 
+#ifndef RID_DISABLE_JSON
+
 #include <stddef.h>
 #include <stdint.h>
 
@@ -52,5 +54,7 @@ void rid_json_uint(rid_json_t *json, unsigned value);
 void rid_json_string(rid_json_t *json, const char *string);
 void rid_json_null(rid_json_t *json);
 void rid_json_raw(rid_json_t *json, const char *token, size_t length);
+
+#endif /* RID_DISABLE_JSON */
 
 #endif /* RID_JSON_H */
