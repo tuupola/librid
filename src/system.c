@@ -32,13 +32,16 @@ SPDX-License-Identifier: MIT
 
 #include <stddef.h>
 #include <stdint.h>
-#include <stdio.h>
 #include <string.h>
 
 #include "rid/message.h"
 #include "rid/system.h"
 
+#ifndef RID_DISABLE_JSON
+#include <stdio.h>
+
 #include "json.h"
+#endif
 
 int rid_system_init(rid_system_t *system) {
     if (system == NULL) {
@@ -155,7 +158,7 @@ int rid_system_set_ua_classification_class(rid_system_t *system, rid_ua_classifi
         return RID_ERROR_OUT_OF_RANGE;
     }
 
-    system->ua_classification_class = (uint8_t) class;
+    system->ua_classification_class = (uint8_t)class;
 
     return RID_SUCCESS;
 }
@@ -491,6 +494,7 @@ const char *rid_ua_classification_class_to_string(rid_ua_classification_class_t 
     }
 }
 
+#ifndef RID_DISABLE_JSON
 int rid_system_to_json(const rid_system_t *system, char *buffer, size_t buffer_size, size_t *needed_size) {
     rid_json_t json;
     char token[32];
@@ -587,3 +591,4 @@ int rid_system_to_json(const rid_system_t *system, char *buffer, size_t buffer_s
 
     return RID_SUCCESS;
 }
+#endif /* RID_DISABLE_JSON */

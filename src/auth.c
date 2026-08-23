@@ -32,7 +32,6 @@ SPDX-License-Identifier: MIT
 
 #include <stddef.h>
 #include <stdint.h>
-#include <stdio.h>
 #include <string.h>
 #include <time.h>
 
@@ -41,7 +40,11 @@ SPDX-License-Identifier: MIT
 #include "rid/message.h"
 #include "rid/message_pack.h"
 
+#ifndef RID_DISABLE_JSON
+#include <stdio.h>
+
 #include "json.h"
+#endif
 
 int rid_auth_init(rid_auth_t *auth) {
     if (NULL == auth) {
@@ -368,6 +371,7 @@ int rid_auth_sign(
     return rid_auth_set_signature(auth, signature, signature_length);
 }
 
+#ifndef RID_DISABLE_JSON
 static size_t buffer_to_hex(const uint8_t *data, size_t data_size, char *hex, size_t hex_size) {
     size_t pos = 0;
     for (size_t i = 0; i < data_size && pos + 2 < hex_size; ++i) {
@@ -430,3 +434,4 @@ int rid_auth_to_json(const rid_auth_t *auth, char *buffer, size_t buffer_size, s
 
     return RID_SUCCESS;
 }
+#endif /* RID_DISABLE_JSON */

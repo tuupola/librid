@@ -1,20 +1,28 @@
 if(ESP_PLATFORM)
+    set(RID_SRCS
+        "src/basic_id.c"
+        "src/location.c"
+        "src/message.c"
+        "src/system.c"
+        "src/message_pack.c"
+        "src/header.c"
+        "src/auth.c"
+        "src/auth_page.c"
+        "src/operator_id.c"
+        "src/self_id.c"
+        "src/transport.c"
+        "src/version.c"
+    )
+    if(NOT RID_DISABLE_JSON)
+        list(APPEND RID_SRCS "src/json.c")
+    endif()
     idf_component_register(
-        SRCS "src/basic_id.c"
-             "src/location.c"
-             "src/message.c"
-             "src/system.c"
-             "src/message_pack.c"
-             "src/header.c"
-             "src/auth.c"
-             "src/auth_page.c"
-             "src/operator_id.c"
-             "src/self_id.c"
-             "src/transport.c"
-             "src/version.c"
-             "src/json.c"
+        SRCS ${RID_SRCS}
         INCLUDE_DIRS "include"
     )
+    if(RID_DISABLE_JSON)
+        target_compile_definitions(${COMPONENT_LIB} PUBLIC RID_DISABLE_JSON)
+    endif()
 else()
     cmake_minimum_required(VERSION 3.10)
     project(librid LANGUAGES C)
@@ -36,8 +44,9 @@ else()
 
     option(RID_BUILD_EXAMPLES "Build example programs" OFF)
     option(RID_BUILD_TESTS "Build unit tests" OFF)
+    option(RID_DISABLE_JSON "Exclude JSON serialization" OFF)
 
-    add_library(rid
+    set(RID_SRCS
         src/basic_id.c
         src/location.c
         src/message.c
@@ -50,11 +59,18 @@ else()
         src/self_id.c
         src/transport.c
         src/version.c
-        src/json.c
     )
+    if(NOT RID_DISABLE_JSON)
+        list(APPEND RID_SRCS src/json.c)
+    endif()
+
+    add_library(rid ${RID_SRCS})
 
     target_include_directories(rid PUBLIC include)
     target_compile_options(rid PRIVATE -Wall -Wextra -Wdouble-promotion)
+    if(RID_DISABLE_JSON)
+        target_compile_definitions(rid PUBLIC RID_DISABLE_JSON)
+    endif()
 
     find_program(RID_SIZE_COMMAND size)
 

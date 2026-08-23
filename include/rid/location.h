@@ -711,6 +711,7 @@ const char *rid_speed_accuracy_to_string(rid_speed_accuracy_t accuracy);
  */
 const char *rid_timestamp_accuracy_to_string(rid_timestamp_accuracy_t accuracy);
 
+#ifndef RID_DISABLE_JSON
 /**
  * @brief Format a Location message as a JSON string.
  *
@@ -727,6 +728,7 @@ const char *rid_timestamp_accuracy_to_string(rid_timestamp_accuracy_t accuracy);
 int rid_location_to_json(
     const rid_location_t *location, char *buffer, size_t buffer_size, size_t *needed_size
 );
+#endif /* RID_DISABLE_JSON */
 
 #ifdef __cplusplus
 }

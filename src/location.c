@@ -32,13 +32,16 @@ SPDX-License-Identifier: MIT
 
 #include <stddef.h>
 #include <stdint.h>
-#include <stdio.h>
 #include <string.h>
 
 #include "rid/location.h"
 #include "rid/message.h"
 
+#ifndef RID_DISABLE_JSON
+#include <stdio.h>
+
 #include "json.h"
+#endif
 
 int rid_location_init(rid_location_t *location) {
     if (location == NULL) {
@@ -772,6 +775,7 @@ const char *rid_timestamp_accuracy_to_string(rid_timestamp_accuracy_t accuracy) 
     }
 }
 
+#ifndef RID_DISABLE_JSON
 int rid_location_to_json(const rid_location_t *location, char *buffer, size_t buffer_size, size_t *needed_size) {
     rid_json_t json;
     char token[32];
@@ -903,3 +907,4 @@ int rid_location_to_json(const rid_location_t *location, char *buffer, size_t bu
 
     return RID_SUCCESS;
 }
+#endif /* RID_DISABLE_JSON */

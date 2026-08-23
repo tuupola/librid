@@ -327,6 +327,7 @@ uint8_t rid_auth_get_length(const rid_auth_t *auth);
  */
 int rid_auth_get_signature(const rid_auth_t *auth, uint8_t *buffer, size_t buffer_size);
 
+#ifndef RID_DISABLE_JSON
 /**
  * @brief Format an Auth message as a JSON string.
  *
@@ -343,6 +344,7 @@ int rid_auth_get_signature(const rid_auth_t *auth, uint8_t *buffer, size_t buffe
 int rid_auth_to_json(
     const rid_auth_t *auth, char *buffer, size_t buffer_size, size_t *needed_size
 );
+#endif /* RID_DISABLE_JSON */
 
 #ifdef __cplusplus
 }

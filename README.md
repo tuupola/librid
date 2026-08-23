@@ -9,7 +9,9 @@ The library provides struct definitions for all Remote ID messages. It also prov
 This is a read only mirror of the repository. Actual developing happens elsewhere. I do monitor the bug reports, feature requests and any discussion here though.
 
 # Message types
+
 ## Basic ID (0x00)
+
 Provides UAS identification (serial number, registration ID, or UUID) and characterizes the aircraft type.
 
 ```c
@@ -37,6 +39,7 @@ rid_basic_id_to_json(&basic_id, json, sizeof(json), NULL);
 See [examples/basic_id/](examples/basic_id/) for usage example.
 
 ## Location (0x01)
+
 Contains current position, altitude, speed, direction, and timestamp of the UA.
 
 ```c
@@ -94,6 +97,7 @@ rid_location_to_json(&location, json, sizeof(json), NULL);
 See [examples/location/](examples/location/) for usage example.
 
 ## Auth (0x02)
+
 Provides authentication data for verifying the identity of the UA sending the message.
 
 ```c
@@ -125,6 +129,7 @@ rid_auth_to_json(&auth, json, sizeof(json), NULL);
 See [examples/auth/](examples/auth/) for usage example.
 
 ## Self ID (0x03)
+
 Allows operators to declare their identity or describe the purpose of a flight.
 
 ```c
@@ -149,6 +154,7 @@ rid_self_id_to_json(&self_id, json, sizeof(json), NULL);
 See [examples/self_id/](examples/self_id/) for usage example.
 
 ## System (0x04)
+
 Contains remote pilot location, operating area details, and group aircraft information.
 
 ```c
@@ -197,6 +203,7 @@ rid_system_to_json(&system, json, sizeof(json), NULL);
 See [examples/system/](examples/system/) for usage example.
 
 ## Operator ID (0x05)
+
 Provides CAA-issued registration or license ID for the remote pilot or operator.
 
 ```c
@@ -221,6 +228,7 @@ rid_operator_id_to_json(&operator_id, json, sizeof(json), NULL);
 See [examples/operator_id/](examples/operator_id/) for usage example.
 
 ## Message Pack (0x0F)
+
 Combines multiple message types into a single payload for transmission.
 
 ```c
@@ -275,6 +283,14 @@ $ mkdir build && cd build
 $ cmake -DRID_BUILD_TESTS=ON ..
 $ make
 $ ctest
+```
+
+# Disable JSON
+
+Omit all JSON serialization functions to reduce flash size.
+
+```
+$ cmake -DRID_DISABLE_JSON=ON ..
 ```
 
 # Installation
