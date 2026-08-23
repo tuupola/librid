@@ -38,8 +38,6 @@ SPDX-License-Identifier: MIT
 #include "rid/message.h"
 
 #ifndef RID_DISABLE_JSON
-#include <stdio.h>
-
 #include "json.h"
 #endif
 
@@ -261,54 +259,16 @@ const char *rid_ua_type_to_string(rid_ua_type_t type) {
 }
 
 #ifndef RID_DISABLE_JSON
-static void uuid_to_string(const unsigned char uuid[16], char *buffer, size_t buffer_size) {
-    if (buffer_size < 37) {
-        return;
-    }
-
-    /* clang-format off */
-    snprintf(
-        buffer, buffer_size,
-        "%02x%02x%02x%02x-%02x%02x-%02x%02x-%02x%02x-%02x%02x%02x%02x%02x%02x",
-        uuid[0], uuid[1], uuid[2],  uuid[3],
-        uuid[4], uuid[5],
-        uuid[6], uuid[7],
-        uuid[8], uuid[9],
-        uuid[10], uuid[11], uuid[12], uuid[13], uuid[14], uuid[15]
-    );
-    /* clang-format on */
-}
-
-static size_t session_id_to_hex(const uint8_t *data, size_t data_size, char *hex, size_t hex_size) {
-    size_t pos = 0;
-    for (size_t i = 0; i < data_size && pos + 2 < hex_size; ++i) {
-        int written = snprintf(hex + pos, hex_size - pos, "%02x", data[i]);
-        if (written > 0) {
-            pos += (size_t)written;
-        }
-    }
-    return pos;
-}
-
 int rid_basic_id_to_json(const rid_basic_id_t *message, char *buffer, size_t buffer_size, size_t *needed_size) {
     rid_json_t json;
-    char uas_id[RID_UAS_ID_SIZE * 2 + 1];
+    rid_basic_id_type_t type;
+    char uas_id[RID_UAS_ID_SIZE + 1];
 
     if (message == NULL || (buffer == NULL && needed_size == NULL)) {
         return RID_ERROR_NULL_POINTER;
     }
 
-    if (rid_basic_id_get_type(message) == RID_ID_TYPE_UTM_ASSIGNED_UUID) {
-        char raw[RID_UAS_ID_SIZE + 1];
-        rid_basic_id_get_uas_id(message, raw, sizeof(raw));
-        uuid_to_string((const unsigned char *)raw, uas_id, sizeof(uas_id));
-    } else if (rid_basic_id_get_type(message) == RID_ID_TYPE_SPECIFIC_SESSION_ID) {
-        char raw[RID_UAS_ID_SIZE + 1];
-        rid_basic_id_get_uas_id(message, raw, sizeof(raw));
-        session_id_to_hex((const uint8_t *)raw, RID_UAS_ID_SIZE, uas_id, sizeof(uas_id));
-    } else {
-        rid_basic_id_get_uas_id(message, uas_id, sizeof(uas_id));
-    }
+    type = rid_basic_id_get_type(message);
 
     rid_json_start(&json, buffer, buffer_size);
     rid_json_key(&json, "protocol_version");
@@ -316,11 +276,18 @@ int rid_basic_id_to_json(const rid_basic_id_t *message, char *buffer, size_t buf
     rid_json_key(&json, "message_type");
     rid_json_uint(&json, rid_message_get_type(message));
     rid_json_key(&json, "id_type");
-    rid_json_uint(&json, rid_basic_id_get_type(message));
+    rid_json_uint(&json, type);
     rid_json_key(&json, "ua_type");
     rid_json_uint(&json, rid_basic_id_get_ua_type(message));
     rid_json_key(&json, "uas_id");
-    rid_json_string(&json, uas_id);
+    if (type == RID_ID_TYPE_UTM_ASSIGNED_UUID) {
+        rid_json_uuid(&json, (const uint8_t *)message->uas_id);
+    } else if (type == RID_ID_TYPE_SPECIFIC_SESSION_ID) {
+        rid_json_hex(&json, (const uint8_t *)message->uas_id, RID_UAS_ID_SIZE);
+    } else {
+        rid_basic_id_get_uas_id(message, uas_id, sizeof(uas_id));
+        rid_json_string(&json, uas_id);
+    }
     rid_json_end(&json);
 
     if (needed_size != NULL) {

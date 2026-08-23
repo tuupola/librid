@@ -36,6 +36,8 @@
 
 #include "json.h"
 
+static const char hex_chars[] = "0123456789abcdef";
+
 static void rid_json_putc(rid_json_t *json, char c) {
     if (json->buffer != NULL && json->buffer_size > 0) {
         if (json->position + 1 < json->buffer_size) {
@@ -57,7 +59,6 @@ static void rid_json_puts(rid_json_t *json, const char *s, size_t length) {
 }
 
 static void rid_json_escape(rid_json_t *json, const char *s) {
-    static const char hex[] = "0123456789abcdef";
     const unsigned char *p;
 
     for (p = (const unsigned char *)s; *p != '\0'; ++p) {
@@ -69,8 +70,8 @@ static void rid_json_escape(rid_json_t *json, const char *s) {
             rid_json_putc(json, 'u');
             rid_json_putc(json, '0');
             rid_json_putc(json, '0');
-            rid_json_putc(json, hex[*p >> 4]);
-            rid_json_putc(json, hex[*p & 0x0FU]);
+            rid_json_putc(json, hex_chars[*p >> 4]);
+            rid_json_putc(json, hex_chars[*p & 0x0F]);
         } else {
             rid_json_putc(json, (char)*p);
         }
@@ -135,13 +136,40 @@ void rid_json_string(rid_json_t *json, const char *string) {
     json->need_comma = 1;
 }
 
+void rid_json_hex(rid_json_t *json, const uint8_t *data, size_t data_size) {
+    size_t i;
+
+    rid_json_putc(json, '"');
+    for (i = 0; i < data_size; ++i) {
+        rid_json_putc(json, hex_chars[data[i] >> 4]);
+        rid_json_putc(json, hex_chars[data[i] & 0x0F]);
+    }
+    rid_json_putc(json, '"');
+    json->need_comma = 1;
+}
+
+void rid_json_uuid(rid_json_t *json, const uint8_t *uuid) {
+    size_t i;
+
+    rid_json_putc(json, '"');
+    for (i = 0; i < 16; ++i) {
+        if (i == 4 || i == 6 || i == 8 || i == 10) {
+            rid_json_putc(json, '-');
+        }
+        rid_json_putc(json, hex_chars[uuid[i] >> 4]);
+        rid_json_putc(json, hex_chars[uuid[i] & 0x0F]);
+    }
+    rid_json_putc(json, '"');
+    json->need_comma = 1;
+}
+
 void rid_json_null(rid_json_t *json) {
     rid_json_puts(json, "null", 4);
     json->need_comma = 1;
 }
 
-void rid_json_raw(rid_json_t *json, const char *token, size_t length) {
-    rid_json_puts(json, token, length);
+void rid_json_raw(rid_json_t *json, const char *token, size_t token_length) {
+    rid_json_puts(json, token, token_length);
     json->need_comma = 1;
 }
 

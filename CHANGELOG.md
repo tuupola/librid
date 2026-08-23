@@ -6,7 +6,7 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Added
 
-- `RID_DISABLE_JSON` compile time flag to reduce flash usage on embedded targets. ([#72](https://github.com/tuupola/librid/commit/xxxxxxx))
+- Reduce flash usage by adding `RID_DISABLE_JSON` compile time flag and hex and uuid json helpers. ([#72](https://github.com/tuupola/librid/commit/xxxxxxx), [#73](https://github.com/tuupola/librid/commit/xxxxxxx))
 
 ### Changed
 

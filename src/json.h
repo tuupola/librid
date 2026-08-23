@@ -52,8 +52,10 @@ void rid_json_array_end(rid_json_t *json);
 void rid_json_key(rid_json_t *json, const char *key);
 void rid_json_uint(rid_json_t *json, unsigned value);
 void rid_json_string(rid_json_t *json, const char *string);
+void rid_json_hex(rid_json_t *json, const uint8_t *data, size_t data_size);
+void rid_json_uuid(rid_json_t *json, const uint8_t *uuid);
 void rid_json_null(rid_json_t *json);
-void rid_json_raw(rid_json_t *json, const char *token, size_t length);
+void rid_json_raw(rid_json_t *json, const char *token, size_t token_length);
 
 #endif /* RID_DISABLE_JSON */
 

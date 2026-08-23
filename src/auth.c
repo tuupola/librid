@@ -41,8 +41,6 @@ SPDX-License-Identifier: MIT
 #include "rid/message_pack.h"
 
 #ifndef RID_DISABLE_JSON
-#include <stdio.h>
-
 #include "json.h"
 #endif
 
@@ -372,20 +370,8 @@ int rid_auth_sign(
 }
 
 #ifndef RID_DISABLE_JSON
-static size_t buffer_to_hex(const uint8_t *data, size_t data_size, char *hex, size_t hex_size) {
-    size_t pos = 0;
-    for (size_t i = 0; i < data_size && pos + 2 < hex_size; ++i) {
-        int written = snprintf(hex + pos, hex_size - pos, "%02x", data[i]);
-        if (written > 0) {
-            pos += (size_t)written;
-        }
-    }
-    return pos;
-}
-
 int rid_auth_to_json(const rid_auth_t *auth, char *buffer, size_t buffer_size, size_t *needed_size) {
     rid_json_t json;
-    char hex[RID_AUTH_PAGE_MAX_SIGNATURE_SIZE * 2 + 1];
     uint8_t signature[RID_AUTH_PAGE_MAX_SIGNATURE_SIZE];
     rid_auth_type_t type;
     uint8_t length;
@@ -415,8 +401,7 @@ int rid_auth_to_json(const rid_auth_t *auth, char *buffer, size_t buffer_size, s
         rid_json_null(&json);
     } else {
         rid_auth_get_signature(auth, signature, sizeof(signature));
-        buffer_to_hex(signature, length, hex, sizeof(hex));
-        rid_json_string(&json, hex);
+        rid_json_hex(&json, signature, length);
     }
     rid_json_end(&json);
 
