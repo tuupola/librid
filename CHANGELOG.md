@@ -3,6 +3,8 @@
 All notable changes to this project will be documented in this file, in reverse
 chronological order by release.
 
+## [0.6.0-dev](https://github.com/tuupola/librid/compare/0.5.0...master) - unreleased
+
 ## [0.5.0](https://github.com/tuupola/librid/compare/0.4.0...0.5.0) - 2026-08-24
 
 This release is mostly about JSON output correctness. Invalid and missing values
