@@ -7,10 +7,9 @@ jobs:
       - name: Install dependencies
         run: |
           apt-get update
-          apt-get install -y doxygen pipx
-          pipx install esp-doxybook
+          apt-get install -y doxygen python3-pip
+          pip3 install esp-doxybook
       - name: Generate API.md
         run: |
-          export PATH="$HOME/.local/bin:$PATH"
           doxygen
           esp-doxybook -i docs/xml -o API.md
