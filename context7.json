@@ -1,5 +1,7 @@
 {
+  "$schema": "https://context7.com/schema/context7.json",
   "url": "https://context7.com/tuupola/librid",
-  "public_key": "pk_hT3DLbwHOdNq035QdSBM0"
+  "public_key": "pk_hT3DLbwHOdNq035QdSBM0",
+  "excludeFolders": ["src", "tests", "docs", "examples"],
+  "excludeFiles": ["CHANGELOG.md"]
 }
-

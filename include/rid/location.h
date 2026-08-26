@@ -191,7 +191,7 @@ typedef enum rid_timestamp_accuracy {
 /**
  * @brief Location message structure per ASTM F3411-22a.
  */
-typedef struct __attribute__((__packed__)) rid_location {
+typedef struct rid_location {
     uint8_t protocol_version: 4;
     uint8_t message_type: 4;
 
@@ -222,7 +222,7 @@ typedef struct __attribute__((__packed__)) rid_location {
     uint8_t timestamp_accuracy: 4;
     uint8_t reserved_2: 4;
     uint8_t reserved_3;
-} rid_location_t;
+} __attribute__((__packed__)) rid_location_t;
 
 /**
  * @brief Initialize a Location message structure.

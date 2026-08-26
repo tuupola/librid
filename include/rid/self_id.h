@@ -56,12 +56,12 @@ extern "C" {
 /**
  * @brief Self ID message structure per ASTM F3411-22a.
  */
-typedef struct __attribute__((__packed__)) rid_self_id {
+typedef struct rid_self_id {
     uint8_t protocol_version: 4;
     uint8_t message_type: 4;
     uint8_t description_type;
     char description[RID_DESCRIPTION_SIZE];
-} rid_self_id_t;
+} __attribute__((__packed__)) rid_self_id_t;
 
 /**
  * @brief Description type classification per ASTM F3411-22a.

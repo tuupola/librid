@@ -54,7 +54,7 @@ extern "C" {
 /**
  * @brief System message structure per ASTM F3411-22a.
  */
-typedef struct __attribute__((__packed__)) rid_system {
+typedef struct rid_system {
     uint8_t protocol_version: 4;
     uint8_t message_type: 4;
 
@@ -77,7 +77,7 @@ typedef struct __attribute__((__packed__)) rid_system {
     uint32_t timestamp;
 
     uint8_t reserved_2;
-} rid_system_t;
+} __attribute__((__packed__)) rid_system_t;
 
 /** @brief Maximum area count value. */
 #define RID_AREA_COUNT_MAX UINT16_MAX

@@ -85,11 +85,11 @@ typedef enum {
  * All messages are 25 bytes with a common header. Cast to specific
  * message type after checking message_type field.
  */
-typedef struct __attribute__((__packed__)) rid_message {
+typedef struct rid_message {
     uint8_t protocol_version: 4;
     uint8_t message_type: 4;
     uint8_t body[24];
-} rid_message_t;
+} __attribute__((__packed__)) rid_message_t;
 
 typedef enum rid_message_type {
     RID_MESSAGE_TYPE_BASIC_ID = 0x00,

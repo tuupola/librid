@@ -96,7 +96,7 @@ typedef enum rid_auth_page_0_type {
  *
  * Page 0 contains header information including timestamp and total length.
  */
-typedef struct __attribute__((__packed__)) rid_auth_page_0 {
+typedef struct rid_auth_page_0 {
     uint8_t protocol_version: 4;
     uint8_t message_type: 4;
     uint8_t page_number: 4;
@@ -105,20 +105,20 @@ typedef struct __attribute__((__packed__)) rid_auth_page_0 {
     uint8_t length;
     uint32_t timestamp;
     uint8_t auth_data[17];
-} rid_auth_page_0_t;
+} __attribute__((__packed__)) rid_auth_page_0_t;
 
 /**
  * @brief Authentication message pages 1-15 structure per ASTM F3411-22a.
  *
  * Pages 1-15 contain only auth type, page number, and authentication data.
  */
-typedef struct __attribute__((__packed__)) rid_auth_page_x {
+typedef struct rid_auth_page_x {
     uint8_t protocol_version: 4;
     uint8_t message_type: 4;
     uint8_t page_number: 4;
     uint8_t auth_type: 4;
     uint8_t auth_data[23];
-} rid_auth_page_x_t;
+} __attribute__((__packed__)) rid_auth_page_x_t;
 
 /**
  * @brief Initialize an Authentication message page 0 structure.
