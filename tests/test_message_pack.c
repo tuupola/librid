@@ -141,7 +141,7 @@ TEST test_message_pack_get_messages(void) {
 
     rid_message_pack_init(&pack);
     rid_basic_id_init(&basic_id);
-    rid_basic_id_set_uas_id(&basic_id, "TEST123");
+    rid_basic_id_set_uas_id(&basic_id, "TEST123", strlen("TEST123"));
 
     rid_message_pack_add_message(&pack, &basic_id);
 
@@ -170,7 +170,7 @@ TEST test_add_message(void) {
 
     rid_message_pack_init(&pack);
     rid_basic_id_init(&basic_id);
-    rid_basic_id_set_uas_id(&basic_id, "1596A3037164309A");
+    rid_basic_id_set_uas_id(&basic_id, "1596A3037164309A", strlen("1596A3037164309A"));
     rid_basic_id_set_type(&basic_id, RID_ID_TYPE_SERIAL_NUMBER);
     rid_basic_id_set_ua_type(&basic_id, RID_UA_TYPE_HELICOPTER_OR_MULTIROTOR);
 
@@ -266,7 +266,7 @@ TEST test_get_message_at(void) {
     for (uint8_t i = 0; i < 3; ++i) {
         rid_basic_id_init(&basic_id);
         snprintf(uas_id, sizeof(uas_id), "DRONE%03u", i + 1);
-        rid_basic_id_set_uas_id(&basic_id, uas_id);
+        rid_basic_id_set_uas_id(&basic_id, uas_id, strlen(uas_id));
         rid_message_pack_add_message(&pack, &basic_id);
     }
 
@@ -353,8 +353,8 @@ TEST test_find_message_index_by_type_with_start_index(void) {
     rid_location_init(&location);
     rid_basic_id_init(&basic_id_2);
 
-    rid_basic_id_set_uas_id(&basic_id, "DRONE0000000000001");
-    rid_basic_id_set_uas_id(&basic_id_2, "DRONE0000000000002");
+    rid_basic_id_set_uas_id(&basic_id, "DRONE0000000000001", strlen("DRONE0000000000001"));
+    rid_basic_id_set_uas_id(&basic_id_2, "DRONE0000000000002", strlen("DRONE0000000000002"));
 
     rid_message_pack_add_message(&pack, &basic_id);
     rid_message_pack_add_message(&pack, &location);
@@ -674,7 +674,7 @@ TEST test_delete_message_at(void) {
     for (uint8_t i = 0; i < 5; ++i) {
         rid_basic_id_init(&basic_id);
         snprintf(uas_id, sizeof(uas_id), "DRONE%03u", i + 1);
-        rid_basic_id_set_uas_id(&basic_id, uas_id);
+        rid_basic_id_set_uas_id(&basic_id, uas_id, strlen(uas_id));
         rid_message_pack_add_message(&pack, &basic_id);
     }
     ASSERT_EQ(5, rid_message_pack_message_count(&pack));
@@ -714,7 +714,7 @@ TEST test_delete_message_at_first(void) {
     for (uint8_t i = 0; i < 3; ++i) {
         rid_basic_id_init(&basic_id);
         snprintf(uas_id, sizeof(uas_id), "DRONE%03u", i + 1);
-        rid_basic_id_set_uas_id(&basic_id, uas_id);
+        rid_basic_id_set_uas_id(&basic_id, uas_id, strlen(uas_id));
         rid_message_pack_add_message(&pack, &basic_id);
     }
 
@@ -743,7 +743,7 @@ TEST test_delete_message_at_last(void) {
     for (uint8_t i = 0; i < 3; ++i) {
         rid_basic_id_init(&basic_id);
         snprintf(uas_id, sizeof(uas_id), "DRONE%03u", i + 1);
-        rid_basic_id_set_uas_id(&basic_id, uas_id);
+        rid_basic_id_set_uas_id(&basic_id, uas_id, strlen(uas_id));
         rid_message_pack_add_message(&pack, &basic_id);
     }
 
@@ -802,13 +802,13 @@ TEST test_set_message_at(void) {
     for (uint8_t i = 0; i < 3; ++i) {
         rid_basic_id_init(&basic_id);
         snprintf(uas_id, sizeof(uas_id), "DRONE%03u", i + 1);
-        rid_basic_id_set_uas_id(&basic_id, uas_id);
+        rid_basic_id_set_uas_id(&basic_id, uas_id, strlen(uas_id));
         rid_message_pack_add_message(&pack, &basic_id);
     }
 
     /* Replace middle message */
     rid_basic_id_init(&basic_id);
-    rid_basic_id_set_uas_id(&basic_id, "REPLACED");
+    rid_basic_id_set_uas_id(&basic_id, "REPLACED", strlen("REPLACED"));
     int status = rid_message_pack_set_message_at(&pack, 1, &basic_id);
     ASSERT_EQ(RID_SUCCESS, status);
     ASSERT_EQ(3, rid_message_pack_message_count(&pack));
@@ -1223,7 +1223,7 @@ TEST test_message_pack_to_json(void) {
     rid_basic_id_init(&basic_id);
     rid_location_init(&location);
 
-    rid_basic_id_set_uas_id(&basic_id, "1ABCD2345EF678XYZ");
+    rid_basic_id_set_uas_id(&basic_id, "1ABCD2345EF678XYZ", strlen("1ABCD2345EF678XYZ"));
     rid_location_set_latitude(&location, 60.1699);
 
     rid_message_pack_add_message(&pack, &basic_id);
@@ -1258,7 +1258,7 @@ TEST test_message_pack_to_json_needed(void) {
 
     rid_message_pack_init(&pack);
     rid_basic_id_init(&basic_id);
-    rid_basic_id_set_uas_id(&basic_id, "1ABCD2345EF678XYZ");
+    rid_basic_id_set_uas_id(&basic_id, "1ABCD2345EF678XYZ", strlen("1ABCD2345EF678XYZ"));
     rid_message_pack_add_message(&pack, &basic_id);
 
     ASSERT_EQ(RID_SUCCESS, rid_message_pack_to_json(&pack, NULL, 0, &needed));

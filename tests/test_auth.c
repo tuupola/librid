@@ -612,7 +612,7 @@ TEST test_message_to_json_basic_id(void) {
     char buffer[256];
 
     rid_basic_id_init(&message);
-    rid_basic_id_set_uas_id(&message, "BRAWNDO001");
+    rid_basic_id_set_uas_id(&message, "BRAWNDO001", strlen("BRAWNDO001"));
 
     ASSERT_EQ(RID_SUCCESS, rid_message_to_json(&message, buffer, sizeof(buffer), NULL));
     ASSERT(strstr(buffer, "\"message_type\":0") != NULL);
@@ -656,7 +656,7 @@ TEST test_message_to_json_needed(void) {
     size_t needed = 0;
 
     rid_basic_id_init(&message);
-    rid_basic_id_set_uas_id(&message, "BRAWNDO001");
+    rid_basic_id_set_uas_id(&message, "BRAWNDO001", strlen("BRAWNDO001"));
 
     ASSERT_EQ(RID_SUCCESS, rid_message_to_json(&message, NULL, 0, &needed));
     ASSERT(needed > 0);

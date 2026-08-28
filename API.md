@@ -1266,23 +1266,23 @@ _Basic ID message handling per ASTM F3411-22a._
 
 Example usage: 
 ````cpp
-    rid_basic_id_t basic_id;
+rid_basic_id_t basic_id;
 
-    rid_basic_id_init(&basic_id);
-    rid_basic_id_set_type(&basic_id, RID_ID_TYPE_SERIAL_NUMBER);
-    rid_basic_id_set_ua_type(&basic_id, RID_UA_TYPE_HELICOPTER_OR_MULTIROTOR);
-    rid_basic_id_set_uas_id(&basic_id, "1ABCD2345EF678XYZ");
+rid_basic_id_init(&basic_id);
+rid_basic_id_set_type(&basic_id, RID_ID_TYPE_SERIAL_NUMBER);
+rid_basic_id_set_ua_type(&basic_id, RID_UA_TYPE_HELICOPTER_OR_MULTIROTOR);
+rid_basic_id_set_uas_id(&basic_id, "1ABCD2345EF678XYZ", strlen("1ABCD2345EF678XYZ"));
 
-    hexdump(&basic_id, sizeof(basic_id));
+hexdump(&basic_id, sizeof(basic_id));
 
-    char uas_id[RID_UAS_ID_SIZE + 1];
-    rid_basic_id_get_uas_id(&basic_id, uas_id, sizeof(uas_id));
-    rid_ua_type_t ua_type = rid_basic_id_get_ua_type(&basic_id);
-    rid_basic_id_type_t id_type = rid_basic_id_get_type(&basic_id);
+char uas_id[RID_UAS_ID_SIZE + 1];
+rid_basic_id_get_uas_id(&basic_id, uas_id, sizeof(uas_id));
+rid_ua_type_t ua_type = rid_basic_id_get_ua_type(&basic_id);
+rid_basic_id_type_t id_type = rid_basic_id_get_type(&basic_id);
 
-    printf("UAS ID:  %s\n", uas_id);
-    printf("UA type: %d\n", ua_type);
-    printf("ID type: %d\n", id_type);
+printf("UAS ID:  %s\n", uas_id);
+printf("UA type: %d\n", ua_type);
+printf("ID type: %d\n", id_type);
 ````
 
 ## Structures and Types
@@ -1303,7 +1303,7 @@ Example usage:
 |  int | [**rid\_basic\_id\_init**](#function-rid_basic_id_init) ([**rid\_basic\_id\_t**](#struct-rid_basic_id_t) \*message) <br>_Initialize a Basic ID message structure._ |
 |  int | [**rid\_basic\_id\_set\_type**](#function-rid_basic_id_set_type) ([**rid\_basic\_id\_t**](#struct-rid_basic_id_t) \*message, [**rid\_basic\_id\_type\_t**](#enum-rid_basic_id_type_t) type) <br>_Set the ID type for a Basic ID message._ |
 |  int | [**rid\_basic\_id\_set\_ua\_type**](#function-rid_basic_id_set_ua_type) ([**rid\_basic\_id\_t**](#struct-rid_basic_id_t) \*message, [**rid\_ua\_type\_t**](#enum-rid_ua_type_t) type) <br>_Set the UA (unmanned aircraft) type for a Basic ID message._ |
-|  int | [**rid\_basic\_id\_set\_uas\_id**](#function-rid_basic_id_set_uas_id) ([**rid\_basic\_id\_t**](#struct-rid_basic_id_t) \*message, const char \*uas\_id) <br>_Set the UAS ID for a Basic ID message._ |
+|  int | [**rid\_basic\_id\_set\_uas\_id**](#function-rid_basic_id_set_uas_id) ([**rid\_basic\_id\_t**](#struct-rid_basic_id_t) \*message, const void \*uas\_id, size\_t uas\_id\_size) <br>_Set the UAS ID for a Basic ID message._ |
 |  int | [**rid\_basic\_id\_to\_json**](#function-rid_basic_id_to_json) (const [**rid\_basic\_id\_t**](#struct-rid_basic_id_t) \*message, char \*buffer, size\_t buffer\_size, size\_t \*needed\_size) <br>_Format a Basic ID message as a JSON string._ |
 |  const char \* | [**rid\_basic\_id\_type\_to\_string**](#function-rid_basic_id_type_to_string) ([**rid\_basic\_id\_type\_t**](#enum-rid_basic_id_type_t) type) <br>_Convert ID type to string representation._ |
 |  int | [**rid\_basic\_id\_validate**](#function-rid_basic_id_validate) (const [**rid\_basic\_id\_t**](#struct-rid_basic_id_t) \*message) <br>_Validate a Basic ID message structure._ |
@@ -1314,7 +1314,7 @@ Example usage:
 | Type | Name |
 | ---: | :--- |
 | define  | [**RID\_UAS\_ID\_SIZE**](#define-rid_uas_id_size)  20<br>_UAS ID field size in bytes per ASTM F3411-22a._ |
-| define  | [**RID\_UAS\_ID\_UUID\_SIZE**](#define-rid_uas_id_uuid_size)  36<br> |
+| define  | [**RID\_UAS\_ID\_UUID\_SIZE**](#define-rid_uas_id_uuid_size)  16<br>_RFC4122 UUID size in bytes._ |
 
 ## Structures and Types Documentation
 
@@ -1525,12 +1525,13 @@ _Set the UAS ID for a Basic ID message._
 ```c
 int rid_basic_id_set_uas_id (
     rid_basic_id_t *message,
-    const char *uas_id
+    const void *uas_id,
+    size_t uas_id_size
 ) 
 ```
 
 
-The UAS ID is a null-terminated string up to RID\_UAS\_ID\_SIZE characters.
+Copies up to uas\_id\_size bytes and zero-pads the remainder.
 
 
 
@@ -1538,7 +1539,8 @@ The UAS ID is a null-terminated string up to RID\_UAS\_ID\_SIZE characters.
 
 
 * `message` Pointer to the Basic ID message structure. 
-* `uas_id` The UAS ID string to set.
+* `uas_id` The UAS ID bytes to set. 
+* `uas_id_size` Number of bytes in the uas\_id.
 
 
 **Return value:**
@@ -1546,7 +1548,7 @@ The UAS ID is a null-terminated string up to RID\_UAS\_ID\_SIZE characters.
 
 * `RID_SUCCESS` on success. 
 * `RID_ERROR_NULL_POINTER` if message or uas\_id is NULL. 
-* `RID_ERROR_BUFFER_TOO_LARGE` if uas\_id exceeds RID\_UAS\_ID\_SIZE characters.
+* `RID_ERROR_BUFFER_TOO_LARGE` if uas\_id\_size exceeds RID\_UAS\_ID\_SIZE.
 ### function `rid_basic_id_to_json`
 
 _Format a Basic ID message as a JSON string._
@@ -1656,8 +1658,9 @@ _UAS ID field size in bytes per ASTM F3411-22a._
 
 ### define `RID_UAS_ID_UUID_SIZE`
 
+_RFC4122 UUID size in bytes._
 ```c
-#define RID_UAS_ID_UUID_SIZE 36
+#define RID_UAS_ID_UUID_SIZE 16
 ```
 
 

@@ -170,19 +170,17 @@ rid_ua_type_t rid_basic_id_get_ua_type(const rid_basic_id_t *message) {
     return (rid_ua_type_t)message->ua_type;
 }
 
-int rid_basic_id_set_uas_id(rid_basic_id_t *message, const char *uas_id) {
+int rid_basic_id_set_uas_id(rid_basic_id_t *message, const void *uas_id, size_t uas_id_size) {
     if (message == NULL || uas_id == NULL) {
         return RID_ERROR_NULL_POINTER;
     }
 
-    size_t len = strlen(uas_id);
-
-    if (len > RID_UAS_ID_SIZE) {
+    if (uas_id_size > RID_UAS_ID_SIZE) {
         return RID_ERROR_BUFFER_TOO_LARGE;
     }
 
     memset(message->uas_id, 0, RID_UAS_ID_SIZE);
-    memcpy(message->uas_id, uas_id, len);
+    memcpy(message->uas_id, uas_id, uas_id_size);
 
     return RID_SUCCESS;
 }

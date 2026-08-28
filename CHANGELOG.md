@@ -5,6 +5,10 @@ chronological order by release.
 
 ## [0.6.0-dev](https://github.com/tuupola/librid/compare/0.5.0...master) - unreleased
 
+### Changed
+
+- `rid_basic_id_set_uas_id()` now takes a pointer and length instead of a C string. ([#75](https://github.com/tuupola/librid/commit/xxxxxxx))
+
 ## [0.5.0](https://github.com/tuupola/librid/compare/0.4.0...0.5.0) - 2026-08-24
 
 This release is mostly about JSON output correctness. Invalid and missing values

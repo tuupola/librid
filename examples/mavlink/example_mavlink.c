@@ -33,7 +33,7 @@ int main(void) {
     rid_basic_id_init(&basic_id);
     rid_basic_id_set_type(&basic_id, RID_ID_TYPE_SERIAL_NUMBER);
     rid_basic_id_set_ua_type(&basic_id, RID_UA_TYPE_HELICOPTER_OR_MULTIROTOR);
-    rid_basic_id_set_uas_id(&basic_id, "1ABCD2345EF678XYZ");
+    rid_basic_id_set_uas_id(&basic_id, "1ABCD2345EF678XYZ", strlen("1ABCD2345EF678XYZ"));
 
     char uas_id[RID_UAS_ID_SIZE + 1];
     rid_basic_id_get_uas_id(&basic_id, uas_id, sizeof(uas_id));
@@ -74,11 +74,7 @@ int main(void) {
     rid_basic_id_set_type(&roundtrip, decoded.id_type);
     rid_basic_id_set_ua_type(&roundtrip, decoded.ua_type);
 
-    /* MAVLink uas_id is not guaranteed to be null terminated */
-    char decoded_id[RID_UAS_ID_SIZE + 1];
-    memcpy(decoded_id, decoded.uas_id, RID_UAS_ID_SIZE);
-    decoded_id[RID_UAS_ID_SIZE] = '\0';
-    rid_basic_id_set_uas_id(&roundtrip, decoded_id);
+    rid_basic_id_set_uas_id(&roundtrip, decoded.uas_id, sizeof(decoded.uas_id));
 
     char roundtrip_id[RID_UAS_ID_SIZE + 1];
     rid_basic_id_get_uas_id(&roundtrip, roundtrip_id, sizeof(roundtrip_id));

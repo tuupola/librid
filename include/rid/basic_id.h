@@ -38,9 +38,10 @@ SPDX-License-Identifier: MIT
  * @brief Basic ID message handling per ASTM F3411-22a.
  *
  * Example usage:
- * @snippet basic_id/example_basic_id.c full_example
+ * @snippet{trimleft} basic_id/example_basic_id.c full_example
  */
 
+#include <stddef.h>
 #include <stdint.h>
 
 #ifdef __cplusplus
@@ -49,7 +50,9 @@ extern "C" {
 
 /** @brief UAS ID field size in bytes per ASTM F3411-22a. */
 #define RID_UAS_ID_SIZE 20
-#define RID_UAS_ID_UUID_SIZE 36
+
+/** @brief RFC4122 UUID size in bytes. */
+#define RID_UAS_ID_UUID_SIZE 16
 
 /**
  * @brief Basic ID message structure per ASTM F3411-22a.
@@ -176,16 +179,17 @@ rid_ua_type_t rid_basic_id_get_ua_type(const rid_basic_id_t *message);
 /**
  * @brief Set the UAS ID for a Basic ID message.
  *
- * The UAS ID is a null-terminated string up to RID_UAS_ID_SIZE characters.
+ * Copies up to uas_id_size bytes and zero-pads the remainder.
  *
  * @param message Pointer to the Basic ID message structure.
- * @param uas_id The UAS ID string to set.
+ * @param uas_id The UAS ID bytes to set.
+ * @param uas_id_size Number of bytes in the uas_id.
  *
  * @retval RID_SUCCESS on success.
  * @retval RID_ERROR_NULL_POINTER if message or uas_id is NULL.
- * @retval RID_ERROR_BUFFER_TOO_LARGE if uas_id exceeds RID_UAS_ID_SIZE characters.
+ * @retval RID_ERROR_BUFFER_TOO_LARGE if uas_id_size exceeds RID_UAS_ID_SIZE.
  */
-int rid_basic_id_set_uas_id(rid_basic_id_t *message, const char *uas_id);
+int rid_basic_id_set_uas_id(rid_basic_id_t *message, const void *uas_id, size_t uas_id_size);
 
 /**
  * @brief Get the UAS ID from a Basic ID message.

@@ -170,7 +170,7 @@ TEST test_set_and_get_uas_id(void) {
 
         memset(&message, 0, sizeof(message));
 
-        status = rid_basic_id_set_uas_id(&message, test_ids[i]);
+        status = rid_basic_id_set_uas_id(&message, test_ids[i], strlen(test_ids[i]));
         ASSERT_EQ(RID_SUCCESS, status);
 
         char buffer[RID_UAS_ID_SIZE + 1];
@@ -183,8 +183,29 @@ TEST test_set_and_get_uas_id(void) {
     PASS();
 }
 
+TEST test_set_and_get_uas_id_binary(void) {
+    rid_basic_id_t message;
+    uint8_t session[RID_UAS_ID_SIZE] = {
+        0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07,
+        0x08, 0x09, 0x0a, 0x0b, 0xff, 0xfe, 0x00, 0x5c,
+        0x7f, 0x80, 0x90, 0xa0
+    };
+    char buffer[RID_UAS_ID_SIZE + 1];
+    int status;
+
+    rid_basic_id_init(&message);
+    status = rid_basic_id_set_uas_id(&message, session, sizeof(session));
+    ASSERT_EQ(RID_SUCCESS, status);
+
+    status = rid_basic_id_get_uas_id(&message, buffer, sizeof(buffer));
+    ASSERT_EQ(RID_SUCCESS, status);
+    ASSERT_EQ(0, memcmp(session, buffer, RID_UAS_ID_SIZE));
+
+    PASS();
+}
+
 TEST test_set_uas_id_null_pointer_message(void) {
-    int status = rid_basic_id_set_uas_id(NULL, "TEST");
+    int status = rid_basic_id_set_uas_id(NULL, "TEST", strlen("TEST"));
     ASSERT_EQ(RID_ERROR_NULL_POINTER, status);
 
     PASS();
@@ -194,7 +215,7 @@ TEST test_set_uas_id_null_pointer_id(void) {
     rid_basic_id_t message;
     memset(&message, 0, sizeof(message));
 
-    int status = rid_basic_id_set_uas_id(&message, NULL);
+    int status = rid_basic_id_set_uas_id(&message, NULL, 0);
     ASSERT_EQ(RID_ERROR_NULL_POINTER, status);
 
     PASS();
@@ -222,12 +243,14 @@ TEST test_set_uas_id_too_long(void) {
     rid_basic_id_t message;
     rid_basic_id_init(&message);
 
-    /* RID_UAS_ID_SIZE + 1 characters - one over limit */
-    int status = rid_basic_id_set_uas_id(&message, "123456789012345678901");
+    /* RID_UAS_ID_SIZE + 1 bytes - one over limit */
+    int status = rid_basic_id_set_uas_id(&message, "123456789012345678901", strlen("123456789012345678901"));
     ASSERT_EQ(RID_ERROR_BUFFER_TOO_LARGE, status);
 
     /* Even longer string */
-    status = rid_basic_id_set_uas_id(&message, "Welcome to Costco, I love you.");
+    status = rid_basic_id_set_uas_id(
+        &message, "Welcome to Costco, I love you.", strlen("Welcome to Costco, I love you.")
+    );
     ASSERT_EQ(RID_ERROR_BUFFER_TOO_LARGE, status);
 
     PASS();
@@ -236,7 +259,7 @@ TEST test_set_uas_id_too_long(void) {
 TEST test_get_uas_id_buffer_too_small(void) {
     rid_basic_id_t message;
     rid_basic_id_init(&message);
-    rid_basic_id_set_uas_id(&message, "TEST-DRONE-001");
+    rid_basic_id_set_uas_id(&message, "TEST-DRONE-001", strlen("TEST-DRONE-001"));
 
     char buffer[10];
     int status = rid_basic_id_get_uas_id(&message, buffer, sizeof(buffer));
@@ -355,15 +378,15 @@ TEST test_basic_id_validate_registration_id_valid(void) {
     rid_basic_id_init(&message);
     rid_basic_id_set_type(&message, RID_ID_TYPE_CAA_REGISTRATION_ID);
 
-    rid_basic_id_set_uas_id(&message, "FIN.ABC123");
+    rid_basic_id_set_uas_id(&message, "FIN.ABC123", strlen("FIN.ABC123"));
     int status = rid_basic_id_validate(&message);
     ASSERT_EQ(RID_SUCCESS, status);
 
-    rid_basic_id_set_uas_id(&message, "USA123456789");
+    rid_basic_id_set_uas_id(&message, "USA123456789", strlen("USA123456789"));
     status = rid_basic_id_validate(&message);
     ASSERT_EQ(RID_SUCCESS, status);
 
-    rid_basic_id_set_uas_id(&message, "X.Y.Z");
+    rid_basic_id_set_uas_id(&message, "X.Y.Z", strlen("X.Y.Z"));
     status = rid_basic_id_validate(&message);
     ASSERT_EQ(RID_SUCCESS, status);
 
@@ -375,7 +398,7 @@ TEST test_basic_id_validate_registration_id_invalid_lowercase(void) {
 
     rid_basic_id_init(&message);
     rid_basic_id_set_type(&message, RID_ID_TYPE_CAA_REGISTRATION_ID);
-    rid_basic_id_set_uas_id(&message, "FIN.abc123");
+    rid_basic_id_set_uas_id(&message, "FIN.abc123", strlen("FIN.abc123"));
 
     int status = rid_basic_id_validate(&message);
     ASSERT_EQ(RID_ERROR_INVALID_CAA_REGISTRATION_ID, status);
@@ -389,15 +412,15 @@ TEST test_basic_id_validate_registration_id_invalid_char(void) {
     rid_basic_id_init(&message);
     rid_basic_id_set_type(&message, RID_ID_TYPE_CAA_REGISTRATION_ID);
 
-    rid_basic_id_set_uas_id(&message, "FIN-ABC123");
+    rid_basic_id_set_uas_id(&message, "FIN-ABC123", strlen("FIN-ABC123"));
     int status = rid_basic_id_validate(&message);
     ASSERT_EQ(RID_ERROR_INVALID_CAA_REGISTRATION_ID, status);
 
-    rid_basic_id_set_uas_id(&message, "FIN_ABC123");
+    rid_basic_id_set_uas_id(&message, "FIN_ABC123", strlen("FIN_ABC123"));
     status = rid_basic_id_validate(&message);
     ASSERT_EQ(RID_ERROR_INVALID_CAA_REGISTRATION_ID, status);
 
-    rid_basic_id_set_uas_id(&message, "FIN ABC123");
+    rid_basic_id_set_uas_id(&message, "FIN ABC123", strlen("FIN ABC123"));
     status = rid_basic_id_validate(&message);
     ASSERT_EQ(RID_ERROR_INVALID_CAA_REGISTRATION_ID, status);
 
@@ -410,15 +433,15 @@ TEST test_basic_id_validate_serial_number_valid(void) {
     rid_basic_id_init(&message);
     rid_basic_id_set_type(&message, RID_ID_TYPE_SERIAL_NUMBER);
 
-    rid_basic_id_set_uas_id(&message, "1234567890ABCDEFGHJK");
+    rid_basic_id_set_uas_id(&message, "1234567890ABCDEFGHJK", strlen("1234567890ABCDEFGHJK"));
     int status = rid_basic_id_validate(&message);
     ASSERT_EQ(RID_SUCCESS, status);
 
-    rid_basic_id_set_uas_id(&message, "LMNPQRSTUVWXYZ");
+    rid_basic_id_set_uas_id(&message, "LMNPQRSTUVWXYZ", strlen("LMNPQRSTUVWXYZ"));
     status = rid_basic_id_validate(&message);
     ASSERT_EQ(RID_SUCCESS, status);
 
-    rid_basic_id_set_uas_id(&message, "2596A403716430B");
+    rid_basic_id_set_uas_id(&message, "2596A403716430B", strlen("2596A403716430B"));
     status = rid_basic_id_validate(&message);
     ASSERT_EQ(RID_SUCCESS, status);
 
@@ -430,7 +453,7 @@ TEST test_basic_id_validate_serial_number_invalid_i(void) {
 
     rid_basic_id_init(&message);
     rid_basic_id_set_type(&message, RID_ID_TYPE_SERIAL_NUMBER);
-    rid_basic_id_set_uas_id(&message, "ABC123I456");
+    rid_basic_id_set_uas_id(&message, "ABC123I456", strlen("ABC123I456"));
 
     int status = rid_basic_id_validate(&message);
     ASSERT_EQ(RID_ERROR_INVALID_SERIAL_NUMBER, status);
@@ -443,7 +466,7 @@ TEST test_basic_id_validate_serial_number_invalid_o(void) {
 
     rid_basic_id_init(&message);
     rid_basic_id_set_type(&message, RID_ID_TYPE_SERIAL_NUMBER);
-    rid_basic_id_set_uas_id(&message, "ABC123O456");
+    rid_basic_id_set_uas_id(&message, "ABC123O456", strlen("ABC123O456"));
 
     int status = rid_basic_id_validate(&message);
     ASSERT_EQ(RID_ERROR_INVALID_SERIAL_NUMBER, status);
@@ -456,7 +479,7 @@ TEST test_basic_id_validate_serial_number_invalid_lowercase(void) {
 
     rid_basic_id_init(&message);
     rid_basic_id_set_type(&message, RID_ID_TYPE_SERIAL_NUMBER);
-    rid_basic_id_set_uas_id(&message, "abc123");
+    rid_basic_id_set_uas_id(&message, "abc123", strlen("abc123"));
 
     int status = rid_basic_id_validate(&message);
     ASSERT_EQ(RID_ERROR_INVALID_SERIAL_NUMBER, status);
@@ -471,12 +494,11 @@ TEST test_basic_id_validate_utm_uuid_valid(void) {
     rid_basic_id_set_type(&message, RID_ID_TYPE_UTM_ASSIGNED_UUID);
 
     /* Valid UUID v4: 550e8400-e29b-41d4-a716-446655440000 */
-    uint8_t uuid[RID_UAS_ID_SIZE] = {
+    uint8_t uuid[RID_UAS_ID_UUID_SIZE] = {
         0x55, 0x0e, 0x84, 0x00, 0xe2, 0x9b, 0x41, 0xd4,
-        0xa7, 0x16, 0x44, 0x66, 0x55, 0x44, 0x00, 0x00,
-        0x00, 0x00, 0x00, 0x00
+        0xa7, 0x16, 0x44, 0x66, 0x55, 0x44, 0x00, 0x00
     };
-    memcpy(message.uas_id, uuid, RID_UAS_ID_SIZE);
+    rid_basic_id_set_uas_id(&message, uuid, sizeof(uuid));
 
     int status = rid_basic_id_validate(&message);
     ASSERT_EQ(RID_SUCCESS, status);
@@ -498,12 +520,11 @@ TEST test_basic_id_validate_utm_uuid_invalid_version_0(void) {
     rid_basic_id_set_type(&message, RID_ID_TYPE_UTM_ASSIGNED_UUID);
 
     /* UUID with version 0 (nil UUID) */
-    uint8_t uuid[RID_UAS_ID_SIZE] = {
+    uint8_t uuid[RID_UAS_ID_UUID_SIZE] = {
         0x55, 0x0e, 0x84, 0x00, 0xe2, 0x9b, 0x01, 0xd4,
-        0xa7, 0x16, 0x44, 0x66, 0x55, 0x44, 0x00, 0x00,
-        0x00, 0x00, 0x00, 0x00
+        0xa7, 0x16, 0x44, 0x66, 0x55, 0x44, 0x00, 0x00
     };
-    memcpy(message.uas_id, uuid, RID_UAS_ID_SIZE);
+    rid_basic_id_set_uas_id(&message, uuid, sizeof(uuid));
 
     int status = rid_basic_id_validate(&message);
     ASSERT_EQ(RID_ERROR_INVALID_UUID_VERSION, status);
@@ -518,12 +539,11 @@ TEST test_basic_id_validate_utm_uuid_invalid_version_6(void) {
     rid_basic_id_set_type(&message, RID_ID_TYPE_UTM_ASSIGNED_UUID);
 
     /* UUID with version 6 (invalid for RFC4122) */
-    uint8_t uuid[RID_UAS_ID_SIZE] = {
+    uint8_t uuid[RID_UAS_ID_UUID_SIZE] = {
         0x55, 0x0e, 0x84, 0x00, 0xe2, 0x9b, 0x61, 0xd4,
-        0xa7, 0x16, 0x44, 0x66, 0x55, 0x44, 0x00, 0x00,
-        0x00, 0x00, 0x00, 0x00
+        0xa7, 0x16, 0x44, 0x66, 0x55, 0x44, 0x00, 0x00
     };
-    memcpy(message.uas_id, uuid, RID_UAS_ID_SIZE);
+    rid_basic_id_set_uas_id(&message, uuid, sizeof(uuid));
 
     int status = rid_basic_id_validate(&message);
     ASSERT_EQ(RID_ERROR_INVALID_UUID_VERSION, status);
@@ -538,12 +558,11 @@ TEST test_basic_id_validate_utm_uuid_invalid_variant(void) {
     rid_basic_id_set_type(&message, RID_ID_TYPE_UTM_ASSIGNED_UUID);
 
     /* UUID with variant 0b00 (NCS backward compatibility) */
-    uint8_t uuid[RID_UAS_ID_SIZE] = {
+    uint8_t uuid[RID_UAS_ID_UUID_SIZE] = {
         0x55, 0x0e, 0x84, 0x00, 0xe2, 0x9b, 0x41, 0xd4,
-        0x27, 0x16, 0x44, 0x66, 0x55, 0x44, 0x00, 0x00,
-        0x00, 0x00, 0x00, 0x00
+        0x27, 0x16, 0x44, 0x66, 0x55, 0x44, 0x00, 0x00
     };
-    memcpy(message.uas_id, uuid, RID_UAS_ID_SIZE);
+    rid_basic_id_set_uas_id(&message, uuid, sizeof(uuid));
 
     int status = rid_basic_id_validate(&message);
     ASSERT_EQ(RID_ERROR_INVALID_UUID_VARIANT, status);
@@ -568,7 +587,7 @@ TEST test_basic_id_validate_utm_uuid_invalid_padding(void) {
         0xa7, 0x16, 0x44, 0x66, 0x55, 0x44, 0x00, 0x00,
         0x00, 0x00, 0x00, 0x01
     };
-    memcpy(message.uas_id, uuid, RID_UAS_ID_SIZE);
+    rid_basic_id_set_uas_id(&message, uuid, sizeof(uuid));
 
     int status = rid_basic_id_validate(&message);
     ASSERT_EQ(RID_ERROR_INVALID_UUID_PADDING, status);
@@ -589,7 +608,7 @@ TEST test_basic_id_to_json(void) {
     rid_basic_id_init(&message);
     rid_basic_id_set_type(&message, RID_ID_TYPE_SERIAL_NUMBER);
     rid_basic_id_set_ua_type(&message, RID_UA_TYPE_HELICOPTER_OR_MULTIROTOR);
-    rid_basic_id_set_uas_id(&message, "1ABCD2345EF678XYZ");
+    rid_basic_id_set_uas_id(&message, "1ABCD2345EF678XYZ", strlen("1ABCD2345EF678XYZ"));
 
     ASSERT_EQ(RID_SUCCESS, rid_basic_id_to_json(&message, buffer, sizeof(buffer), NULL));
     ASSERT(strstr(buffer, "\"id_type\":") != NULL);
@@ -621,7 +640,7 @@ TEST test_basic_id_to_json_needed(void) {
     rid_basic_id_init(&message);
     rid_basic_id_set_type(&message, RID_ID_TYPE_SERIAL_NUMBER);
     rid_basic_id_set_ua_type(&message, RID_UA_TYPE_HELICOPTER_OR_MULTIROTOR);
-    rid_basic_id_set_uas_id(&message, "1ABCD2345EF678XYZ");
+    rid_basic_id_set_uas_id(&message, "1ABCD2345EF678XYZ", strlen("1ABCD2345EF678XYZ"));
 
     /* Size-only query: no buffer required. */
     ASSERT_EQ(RID_SUCCESS, rid_basic_id_to_json(&message, NULL, 0, &needed));
@@ -641,12 +660,11 @@ TEST test_basic_id_to_json_uuid(void) {
     rid_basic_id_set_type(&message, RID_ID_TYPE_UTM_ASSIGNED_UUID);
     rid_basic_id_set_ua_type(&message, RID_UA_TYPE_HELICOPTER_OR_MULTIROTOR);
 
-    uint8_t uuid[RID_UAS_ID_SIZE] = {
+    uint8_t uuid[RID_UAS_ID_UUID_SIZE] = {
         0x55, 0x0e, 0x84, 0x00, 0xe2, 0x9b, 0x41, 0xd4,
-        0xa7, 0x16, 0x44, 0x66, 0x55, 0x44, 0x00, 0x00,
-        0x00, 0x00, 0x00, 0x00
+        0xa7, 0x16, 0x44, 0x66, 0x55, 0x44, 0x00, 0x00
     };
-    memcpy(message.uas_id, uuid, RID_UAS_ID_SIZE);
+    rid_basic_id_set_uas_id(&message, uuid, sizeof(uuid));
 
     int result = rid_basic_id_to_json(&message, json, sizeof(json), NULL);
     ASSERT_EQ(RID_SUCCESS, result);
@@ -671,7 +689,7 @@ TEST test_basic_id_to_json_session_id(void) {
         0x08, 0x09, 0x0a, 0x0b, 0xff, 0xfe, 0x22, 0x5c,
         0x7f, 0x80, 0x90, 0xa0
     };
-    memcpy(message.uas_id, session, RID_UAS_ID_SIZE);
+    rid_basic_id_set_uas_id(&message, session, sizeof(session));
 
     int result = rid_basic_id_to_json(&message, json, sizeof(json), NULL);
     ASSERT_EQ(RID_SUCCESS, result);
@@ -696,6 +714,7 @@ SUITE(basic_id_suite) {
     RUN_TEST(test_get_ua_type_null_pointer);
 
     RUN_TEST(test_set_and_get_uas_id);
+    RUN_TEST(test_set_and_get_uas_id_binary);
     RUN_TEST(test_set_uas_id_null_pointer_message);
     RUN_TEST(test_set_uas_id_null_pointer_id);
     RUN_TEST(test_set_uas_id_too_long);

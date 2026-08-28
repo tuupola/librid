@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <string.h>
 
 #include "rid/basic_id.h"
 #include "rid/location.h"
@@ -17,7 +18,7 @@ int main(void) {
     rid_basic_id_init(&basic_id);
     rid_basic_id_set_type(&basic_id, RID_ID_TYPE_SERIAL_NUMBER);
     rid_basic_id_set_ua_type(&basic_id, RID_UA_TYPE_HELICOPTER_OR_MULTIROTOR);
-    rid_basic_id_set_uas_id(&basic_id, "1ABCD2345EF678XYZ");
+    rid_basic_id_set_uas_id(&basic_id, "1ABCD2345EF678XYZ", strlen("1ABCD2345EF678XYZ"));
     rid_message_pack_add_message(&pack, &basic_id);
 
     /* Location */
