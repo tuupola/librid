@@ -1290,24 +1290,24 @@ printf("ID type: %d\n", id_type);
 | Type | Name |
 | ---: | :--- |
 | struct | [**rid\_basic\_id\_t**](#struct-rid_basic_id_t) <br>_Basic ID message structure per ASTM F3411-22a._ |
-| enum  | [**rid\_basic\_id\_type\_t**](#enum-rid_basic_id_type_t)  <br>_UAS ID type classification per ASTM F3411-22a._ |
-| enum  | [**rid\_ua\_type\_t**](#enum-rid_ua_type_t)  <br>_Unmanned aircraft type classification per ASTM F3411-22a._ |
+| enum  | [**rid\_basic\_id\_type\_t**](#enum-rid_basic_id_type_t)  <br>_Basic ID type classification per ASTM F3411-22a._ |
+| enum  | [**rid\_ua\_type\_t**](#enum-rid_ua_type_t)  <br>_Unmanned Aircraft type classification per ASTM F3411-22a._ |
 
 ## Functions
 
 | Type | Name |
 | ---: | :--- |
 |  [**rid\_basic\_id\_type\_t**](#enum-rid_basic_id_type_t) | [**rid\_basic\_id\_get\_type**](#function-rid_basic_id_get_type) (const [**rid\_basic\_id\_t**](#struct-rid_basic_id_t) \*message) <br>_Get the ID type from a Basic ID message._ |
-|  [**rid\_ua\_type\_t**](#enum-rid_ua_type_t) | [**rid\_basic\_id\_get\_ua\_type**](#function-rid_basic_id_get_ua_type) (const [**rid\_basic\_id\_t**](#struct-rid_basic_id_t) \*message) <br>_Get the UA (unmanned aircraft) type from a Basic ID message._ |
-|  int | [**rid\_basic\_id\_get\_uas\_id**](#function-rid_basic_id_get_uas_id) (const [**rid\_basic\_id\_t**](#struct-rid_basic_id_t) \*message, char \*buffer, size\_t buffer\_size) <br>_Get the UAS ID from a Basic ID message._ |
+|  [**rid\_ua\_type\_t**](#enum-rid_ua_type_t) | [**rid\_basic\_id\_get\_ua\_type**](#function-rid_basic_id_get_ua_type) (const [**rid\_basic\_id\_t**](#struct-rid_basic_id_t) \*message) <br>_Get the Unmanned Aircraft type from a Basic ID message._ |
+|  int | [**rid\_basic\_id\_get\_uas\_id**](#function-rid_basic_id_get_uas_id) (const [**rid\_basic\_id\_t**](#struct-rid_basic_id_t) \*message, char \*buffer, size\_t buffer\_size) <br>_Get the Unmanned Aircraft System ID from a Basic ID message._ |
 |  int | [**rid\_basic\_id\_init**](#function-rid_basic_id_init) ([**rid\_basic\_id\_t**](#struct-rid_basic_id_t) \*message) <br>_Initialize a Basic ID message structure._ |
 |  int | [**rid\_basic\_id\_set\_type**](#function-rid_basic_id_set_type) ([**rid\_basic\_id\_t**](#struct-rid_basic_id_t) \*message, [**rid\_basic\_id\_type\_t**](#enum-rid_basic_id_type_t) type) <br>_Set the ID type for a Basic ID message._ |
-|  int | [**rid\_basic\_id\_set\_ua\_type**](#function-rid_basic_id_set_ua_type) ([**rid\_basic\_id\_t**](#struct-rid_basic_id_t) \*message, [**rid\_ua\_type\_t**](#enum-rid_ua_type_t) type) <br>_Set the UA (unmanned aircraft) type for a Basic ID message._ |
-|  int | [**rid\_basic\_id\_set\_uas\_id**](#function-rid_basic_id_set_uas_id) ([**rid\_basic\_id\_t**](#struct-rid_basic_id_t) \*message, const void \*uas\_id, size\_t uas\_id\_size) <br>_Set the UAS ID for a Basic ID message._ |
+|  int | [**rid\_basic\_id\_set\_ua\_type**](#function-rid_basic_id_set_ua_type) ([**rid\_basic\_id\_t**](#struct-rid_basic_id_t) \*message, [**rid\_ua\_type\_t**](#enum-rid_ua_type_t) type) <br>_Set the Unmanned Aircraft type for a Basic ID message._ |
+|  int | [**rid\_basic\_id\_set\_uas\_id**](#function-rid_basic_id_set_uas_id) ([**rid\_basic\_id\_t**](#struct-rid_basic_id_t) \*message, const void \*uas\_id, size\_t uas\_id\_size) <br>_Set the Unmanned Aircraft System ID for a Basic ID message._ |
 |  int | [**rid\_basic\_id\_to\_json**](#function-rid_basic_id_to_json) (const [**rid\_basic\_id\_t**](#struct-rid_basic_id_t) \*message, char \*buffer, size\_t buffer\_size, size\_t \*needed\_size) <br>_Format a Basic ID message as a JSON string._ |
 |  const char \* | [**rid\_basic\_id\_type\_to\_string**](#function-rid_basic_id_type_to_string) ([**rid\_basic\_id\_type\_t**](#enum-rid_basic_id_type_t) type) <br>_Convert ID type to string representation._ |
 |  int | [**rid\_basic\_id\_validate**](#function-rid_basic_id_validate) (const [**rid\_basic\_id\_t**](#struct-rid_basic_id_t) \*message) <br>_Validate a Basic ID message structure._ |
-|  const char \* | [**rid\_ua\_type\_to\_string**](#function-rid_ua_type_to_string) ([**rid\_ua\_type\_t**](#enum-rid_ua_type_t) type) <br>_Convert UA type to string representation._ |
+|  const char \* | [**rid\_ua\_type\_to\_string**](#function-rid_ua_type_to_string) ([**rid\_ua\_type\_t**](#enum-rid_ua_type_t) type) <br>_Convert Unmanned Aircraft type to string representation._ |
 
 ## Macros
 
@@ -1338,7 +1338,7 @@ Variables:
 
 ### enum `rid_basic_id_type_t`
 
-_UAS ID type classification per ASTM F3411-22a._
+_Basic ID type classification per ASTM F3411-22a._
 ```c
 enum rid_basic_id_type_t {
     RID_ID_TYPE_NONE = 0,
@@ -1352,7 +1352,7 @@ enum rid_basic_id_type_t {
 
 ### enum `rid_ua_type_t`
 
-_Unmanned aircraft type classification per ASTM F3411-22a._
+_Unmanned Aircraft type classification per ASTM F3411-22a._
 ```c
 enum rid_ua_type_t {
     RID_UA_TYPE_NONE = 0,
@@ -1399,7 +1399,7 @@ rid_basic_id_type_t rid_basic_id_get_type (
 The ID type or RID\_ID\_TYPE\_NONE if message is NULL.
 ### function `rid_basic_id_get_ua_type`
 
-_Get the UA (unmanned aircraft) type from a Basic ID message._
+_Get the Unmanned Aircraft type from a Basic ID message._
 ```c
 rid_ua_type_t rid_basic_id_get_ua_type (
     const rid_basic_id_t *message
@@ -1418,7 +1418,7 @@ rid_ua_type_t rid_basic_id_get_ua_type (
 The UA type or RID\_UA\_TYPE\_NONE if message is NULL.
 ### function `rid_basic_id_get_uas_id`
 
-_Get the UAS ID from a Basic ID message._
+_Get the Unmanned Aircraft System ID from a Basic ID message._
 ```c
 int rid_basic_id_get_uas_id (
     const rid_basic_id_t *message,
@@ -1437,7 +1437,7 @@ Copies the UAS ID to the provided buffer as a null-terminated string.
 
 * `message` Pointer to the Basic ID message structure. 
 * `buffer` Buffer to store the UAS ID. 
-* `buffer_size` Size of the buffer (must be at least RID\_UAS\_ID\_SIZE + 1).
+* `buffer_size` Size of the buffer. Must be at least RID\_UAS\_ID\_SIZE + 1.
 
 
 **Return value:**
@@ -1497,7 +1497,7 @@ int rid_basic_id_set_type (
 * `RID_ERROR_OUT_OF_RANGE` if type exceeds RID\_ID\_TYPE\_MAX.
 ### function `rid_basic_id_set_ua_type`
 
-_Set the UA (unmanned aircraft) type for a Basic ID message._
+_Set the Unmanned Aircraft type for a Basic ID message._
 ```c
 int rid_basic_id_set_ua_type (
     rid_basic_id_t *message,
@@ -1521,7 +1521,7 @@ int rid_basic_id_set_ua_type (
 * `RID_ERROR_OUT_OF_RANGE` if type exceeds RID\_UA\_TYPE\_MAX.
 ### function `rid_basic_id_set_uas_id`
 
-_Set the UAS ID for a Basic ID message._
+_Set the Unmanned Aircraft System ID for a Basic ID message._
 ```c
 int rid_basic_id_set_uas_id (
     rid_basic_id_t *message,
@@ -1531,7 +1531,7 @@ int rid_basic_id_set_uas_id (
 ```
 
 
-Copies up to uas\_id\_size bytes and zero-pads the remainder.
+Copies uas\_id\_size bytes and zero-pads the remainder.
 
 
 
@@ -1568,15 +1568,15 @@ int rid_basic_id_to_json (
 * `message` Pointer to the Basic ID message structure. 
 * `buffer` Buffer to store the JSON string or NULL. 
 * `buffer_size` Size of the buffer. 
-* `needed_size` If non-NULL receives the required buffer size.
+* `needed_size` Receives the required buffer size. Can be NULL.
 
 
 **Return value:**
 
 
 * `RID_SUCCESS` on success. 
-* `RID_ERROR_NULL_POINTER` if `message` is NULL or if both`buffer` and`needed_size` are NULL.
-* `RID_ERROR_BUFFER_TOO_SMALL` if `buffer` is too small.
+* `RID_ERROR_NULL_POINTER` if message is NULL or if both buffer and needed\_size are NULL. 
+* `RID_ERROR_BUFFER_TOO_SMALL` if buffer is too small.
 ### function `rid_basic_id_type_to_string`
 
 _Convert ID type to string representation._
@@ -1595,7 +1595,7 @@ const char * rid_basic_id_type_to_string (
 
 **Returns:**
 
-String representation of the ID type (e.g., "RID\_ID\_TYPE\_NONE"). Returns "UNKNOWN" for invalid values.
+String representation of the ID type. Returns "UNKNOWN" for invalid values.
 ### function `rid_basic_id_validate`
 
 _Validate a Basic ID message structure._
@@ -1606,7 +1606,7 @@ int rid_basic_id_validate (
 ```
 
 
-Checks that all fields contain valid encoded values according to ASTM F3411-22a.
+Checks that all fields contain valid encoded values according to ASTM F3411-22a. Reserved values are considered valid.
 
 
 
@@ -1623,13 +1623,14 @@ Checks that all fields contain valid encoded values according to ASTM F3411-22a.
 * `RID_ERROR_NULL_POINTER` if message is NULL. 
 * `RID_ERROR_INVALID_PROTOCOL_VERSION` if protocol version is invalid. 
 * `RID_ERROR_UNKNOWN_MESSAGE_TYPE` if message type is not BASIC\_ID. 
-* `RID_ERROR_INVALID_CHARACTER` if Registration ID or Serial Number contains invalid characters. 
+* `RID_ERROR_INVALID_CAA_REGISTRATION_ID` if Registration ID contains invalid characters. 
+* `RID_ERROR_INVALID_SERIAL_NUMBER` if Serial Number contains invalid characters. 
 * `RID_ERROR_INVALID_UUID_VERSION` if UTM UUID version is not 1-5. 
 * `RID_ERROR_INVALID_UUID_VARIANT` if UTM UUID variant is not RFC4122. 
 * `RID_ERROR_INVALID_UUID_PADDING` if UTM UUID padding bytes are non-zero.
 ### function `rid_ua_type_to_string`
 
-_Convert UA type to string representation._
+_Convert Unmanned Aircraft type to string representation._
 ```c
 const char * rid_ua_type_to_string (
     rid_ua_type_t type
@@ -1645,7 +1646,7 @@ const char * rid_ua_type_to_string (
 
 **Returns:**
 
-String representation of the UA type (e.g., "RID\_UA\_TYPE\_NONE"). Returns "UNKNOWN" for invalid values.
+String representation of the UA type. Returns "UNKNOWN" for invalid values.
 
 ## Macros Documentation
 

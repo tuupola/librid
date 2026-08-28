@@ -67,7 +67,7 @@ typedef struct rid_basic_id {
 } __attribute__((__packed__)) rid_basic_id_t;
 
 /**
- * @brief UAS ID type classification per ASTM F3411-22a.
+ * @brief Basic ID type classification per ASTM F3411-22a.
  */
 typedef enum rid_basic_id_type {
     RID_ID_TYPE_NONE = 0,
@@ -80,7 +80,7 @@ typedef enum rid_basic_id_type {
 } rid_basic_id_type_t;
 
 /**
- * @brief Unmanned aircraft type classification per ASTM F3411-22a.
+ * @brief Unmanned Aircraft type classification per ASTM F3411-22a.
  */
 typedef enum rid_ua_type {
     RID_UA_TYPE_NONE = 0,
@@ -119,7 +119,7 @@ int rid_basic_id_init(rid_basic_id_t *message);
  * @brief Validate a Basic ID message structure.
  *
  * Checks that all fields contain valid encoded values according to
- * ASTM F3411-22a.
+ * ASTM F3411-22a. Reserved values are considered valid.
  *
  * @param message Pointer to the Basic ID message structure to validate.
  *
@@ -127,7 +127,8 @@ int rid_basic_id_init(rid_basic_id_t *message);
  * @retval RID_ERROR_NULL_POINTER if message is NULL.
  * @retval RID_ERROR_INVALID_PROTOCOL_VERSION if protocol version is invalid.
  * @retval RID_ERROR_UNKNOWN_MESSAGE_TYPE if message type is not BASIC_ID.
- * @retval RID_ERROR_INVALID_CHARACTER if Registration ID or Serial Number contains invalid characters.
+ * @retval RID_ERROR_INVALID_CAA_REGISTRATION_ID if Registration ID contains invalid characters.
+ * @retval RID_ERROR_INVALID_SERIAL_NUMBER if Serial Number contains invalid characters.
  * @retval RID_ERROR_INVALID_UUID_VERSION if UTM UUID version is not 1-5.
  * @retval RID_ERROR_INVALID_UUID_VARIANT if UTM UUID variant is not RFC4122.
  * @retval RID_ERROR_INVALID_UUID_PADDING if UTM UUID padding bytes are non-zero.
@@ -156,7 +157,7 @@ int rid_basic_id_set_type(rid_basic_id_t *message, rid_basic_id_type_t type);
 rid_basic_id_type_t rid_basic_id_get_type(const rid_basic_id_t *message);
 
 /**
- * @brief Set the UA (unmanned aircraft) type for a Basic ID message.
+ * @brief Set the Unmanned Aircraft type for a Basic ID message.
  *
  * @param message Pointer to the Basic ID message structure.
  * @param type The UA type to set.
@@ -168,7 +169,7 @@ rid_basic_id_type_t rid_basic_id_get_type(const rid_basic_id_t *message);
 int rid_basic_id_set_ua_type(rid_basic_id_t *message, rid_ua_type_t type);
 
 /**
- * @brief Get the UA (unmanned aircraft) type from a Basic ID message.
+ * @brief Get the Unmanned Aircraft type from a Basic ID message.
  *
  * @param message Pointer to the Basic ID message structure.
  *
@@ -177,9 +178,9 @@ int rid_basic_id_set_ua_type(rid_basic_id_t *message, rid_ua_type_t type);
 rid_ua_type_t rid_basic_id_get_ua_type(const rid_basic_id_t *message);
 
 /**
- * @brief Set the UAS ID for a Basic ID message.
+ * @brief Set the Unmanned Aircraft System ID for a Basic ID message.
  *
- * Copies up to uas_id_size bytes and zero-pads the remainder.
+ * Copies uas_id_size bytes and zero-pads the remainder.
  *
  * @param message Pointer to the Basic ID message structure.
  * @param uas_id The UAS ID bytes to set.
@@ -192,13 +193,13 @@ rid_ua_type_t rid_basic_id_get_ua_type(const rid_basic_id_t *message);
 int rid_basic_id_set_uas_id(rid_basic_id_t *message, const void *uas_id, size_t uas_id_size);
 
 /**
- * @brief Get the UAS ID from a Basic ID message.
+ * @brief Get the Unmanned Aircraft System ID from a Basic ID message.
  *
  * Copies the UAS ID to the provided buffer as a null-terminated string.
  *
  * @param message Pointer to the Basic ID message structure.
  * @param buffer Buffer to store the UAS ID.
- * @param buffer_size Size of the buffer (must be at least RID_UAS_ID_SIZE + 1).
+ * @param buffer_size Size of the buffer. Must be at least RID_UAS_ID_SIZE + 1.
  *
  * @retval RID_SUCCESS on success.
  * @retval RID_ERROR_NULL_POINTER if message or buffer is NULL.
@@ -211,18 +212,16 @@ int rid_basic_id_get_uas_id(const rid_basic_id_t *message, char *buffer, size_t 
  *
  * @param type The ID type to convert.
  *
- * @return String representation of the ID type (e.g., "RID_ID_TYPE_NONE").
- *         Returns "UNKNOWN" for invalid values.
+ * @return String representation of the ID type. Returns "UNKNOWN" for invalid values.
  */
 const char *rid_basic_id_type_to_string(rid_basic_id_type_t type);
 
 /**
- * @brief Convert UA type to string representation.
+ * @brief Convert Unmanned Aircraft type to string representation.
  *
  * @param type The UA type to convert.
  *
- * @return String representation of the UA type (e.g., "RID_UA_TYPE_NONE").
- *         Returns "UNKNOWN" for invalid values.
+ * @return String representation of the UA type. Returns "UNKNOWN" for invalid values.
  */
 const char *rid_ua_type_to_string(rid_ua_type_t type);
 
@@ -233,12 +232,12 @@ const char *rid_ua_type_to_string(rid_ua_type_t type);
  * @param message Pointer to the Basic ID message structure.
  * @param buffer Buffer to store the JSON string or NULL.
  * @param buffer_size Size of the buffer.
- * @param needed_size If non-NULL receives the required buffer size.
+ * @param needed_size Receives the required buffer size. Can be NULL.
  *
  * @retval RID_SUCCESS on success.
- * @retval RID_ERROR_NULL_POINTER if @p message is NULL or if both
- *         @p buffer and @p needed_size are NULL.
- * @retval RID_ERROR_BUFFER_TOO_SMALL if @p buffer is too small.
+ * @retval RID_ERROR_NULL_POINTER if message is NULL or if both buffer and
+ *         needed_size are NULL.
+ * @retval RID_ERROR_BUFFER_TOO_SMALL if buffer is too small.
  */
 int rid_basic_id_to_json(
     const rid_basic_id_t *message, char *buffer, size_t buffer_size, size_t *needed_size
