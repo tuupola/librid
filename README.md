@@ -45,7 +45,7 @@ Functions generally follow the init, validate, get and set pattern.
 
 ## Examples
 
-See the [examples/](examples/) directory for better usage examples.
+See the [examples](https://github.com/tuupola/librid/tree/master/examples) directory for better usage examples.
 
 ## Differences from the Open Drone ID library.
 
@@ -99,4 +99,4 @@ $ sudo make uninstall
 
 # License
 
-The MIT License (MIT). Please see [License File](LICENSE) for more information.
+The MIT License (MIT). Please see [License File](https://github.com/tuupola/librid/blob/master/LICENSE) for more information.
