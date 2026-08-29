@@ -195,17 +195,18 @@ int rid_basic_id_set_uas_id(rid_basic_id_t *message, const void *uas_id, size_t 
 /**
  * @brief Get the Unmanned Aircraft System ID from a Basic ID message.
  *
- * Copies the UAS ID to the provided buffer as a null-terminated string.
+ * Copies RID_UAS_ID_SIZE bytes to the provided buffer. String callers should
+ * pass a buffer of RID_UAS_ID_SIZE + 1 to get a null-terminated C string.
  *
  * @param message Pointer to the Basic ID message structure.
  * @param buffer Buffer to store the UAS ID.
- * @param buffer_size Size of the buffer. Must be at least RID_UAS_ID_SIZE + 1.
+ * @param buffer_size Size of the buffer. Must be at least RID_UAS_ID_SIZE.
  *
  * @retval RID_SUCCESS on success.
  * @retval RID_ERROR_NULL_POINTER if message or buffer is NULL.
  * @retval RID_ERROR_BUFFER_TOO_SMALL if buffer_size is insufficient.
  */
-int rid_basic_id_get_uas_id(const rid_basic_id_t *message, char *buffer, size_t buffer_size);
+int rid_basic_id_get_uas_id(const rid_basic_id_t *message, void *buffer, size_t buffer_size);
 
 /**
  * @brief Convert ID type to string representation.

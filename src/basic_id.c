@@ -185,17 +185,20 @@ int rid_basic_id_set_uas_id(rid_basic_id_t *message, const void *uas_id, size_t 
     return RID_SUCCESS;
 }
 
-int rid_basic_id_get_uas_id(const rid_basic_id_t *message, char *buffer, size_t buffer_size) {
+int rid_basic_id_get_uas_id(const rid_basic_id_t *message, void *buffer, size_t buffer_size) {
     if (message == NULL || buffer == NULL) {
         return RID_ERROR_NULL_POINTER;
     }
 
-    if (buffer_size < RID_UAS_ID_SIZE + 1) {
+    if (buffer_size < RID_UAS_ID_SIZE) {
         return RID_ERROR_BUFFER_TOO_SMALL;
     }
 
+    if (buffer_size > RID_UAS_ID_SIZE) {
+        memset(buffer, 0, RID_UAS_ID_SIZE + 1);
+    }
+
     memcpy(buffer, message->uas_id, RID_UAS_ID_SIZE);
-    buffer[RID_UAS_ID_SIZE] = '\0';
 
     return RID_SUCCESS;
 }

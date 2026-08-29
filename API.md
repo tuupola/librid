@@ -1299,7 +1299,7 @@ printf("ID type: %d\n", id_type);
 | ---: | :--- |
 |  [**rid\_basic\_id\_type\_t**](#enum-rid_basic_id_type_t) | [**rid\_basic\_id\_get\_type**](#function-rid_basic_id_get_type) (const [**rid\_basic\_id\_t**](#struct-rid_basic_id_t) \*message) <br>_Get the ID type from a Basic ID message._ |
 |  [**rid\_ua\_type\_t**](#enum-rid_ua_type_t) | [**rid\_basic\_id\_get\_ua\_type**](#function-rid_basic_id_get_ua_type) (const [**rid\_basic\_id\_t**](#struct-rid_basic_id_t) \*message) <br>_Get the Unmanned Aircraft type from a Basic ID message._ |
-|  int | [**rid\_basic\_id\_get\_uas\_id**](#function-rid_basic_id_get_uas_id) (const [**rid\_basic\_id\_t**](#struct-rid_basic_id_t) \*message, char \*buffer, size\_t buffer\_size) <br>_Get the Unmanned Aircraft System ID from a Basic ID message._ |
+|  int | [**rid\_basic\_id\_get\_uas\_id**](#function-rid_basic_id_get_uas_id) (const [**rid\_basic\_id\_t**](#struct-rid_basic_id_t) \*message, void \*buffer, size\_t buffer\_size) <br>_Get the Unmanned Aircraft System ID from a Basic ID message._ |
 |  int | [**rid\_basic\_id\_init**](#function-rid_basic_id_init) ([**rid\_basic\_id\_t**](#struct-rid_basic_id_t) \*message) <br>_Initialize a Basic ID message structure._ |
 |  int | [**rid\_basic\_id\_set\_type**](#function-rid_basic_id_set_type) ([**rid\_basic\_id\_t**](#struct-rid_basic_id_t) \*message, [**rid\_basic\_id\_type\_t**](#enum-rid_basic_id_type_t) type) <br>_Set the ID type for a Basic ID message._ |
 |  int | [**rid\_basic\_id\_set\_ua\_type**](#function-rid_basic_id_set_ua_type) ([**rid\_basic\_id\_t**](#struct-rid_basic_id_t) \*message, [**rid\_ua\_type\_t**](#enum-rid_ua_type_t) type) <br>_Set the Unmanned Aircraft type for a Basic ID message._ |
@@ -1422,13 +1422,13 @@ _Get the Unmanned Aircraft System ID from a Basic ID message._
 ```c
 int rid_basic_id_get_uas_id (
     const rid_basic_id_t *message,
-    char *buffer,
+    void *buffer,
     size_t buffer_size
 ) 
 ```
 
 
-Copies the UAS ID to the provided buffer as a null-terminated string.
+Copies RID\_UAS\_ID\_SIZE bytes to the provided buffer. String callers should pass a buffer of RID\_UAS\_ID\_SIZE + 1 to get a null-terminated C string.
 
 
 
@@ -1437,7 +1437,7 @@ Copies the UAS ID to the provided buffer as a null-terminated string.
 
 * `message` Pointer to the Basic ID message structure. 
 * `buffer` Buffer to store the UAS ID. 
-* `buffer_size` Size of the buffer. Must be at least RID\_UAS\_ID\_SIZE + 1.
+* `buffer_size` Size of the buffer. Must be at least RID\_UAS\_ID\_SIZE.
 
 
 **Return value:**

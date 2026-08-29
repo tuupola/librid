@@ -7,7 +7,8 @@ chronological order by release.
 
 ### Changed
 
-- `rid_basic_id_set_uas_id()` now takes a pointer and length instead of a C string. ([#75](https://github.com/tuupola/librid/commit/xxxxxxx))
+- `rid_basic_id_set_uas_id()` now takes a `void *` buffer and length instead of a C string. ([#75](https://github.com/tuupola/librid/commit/xxxxxxx))
+- `rid_basic_id_get_uas_id()` now takes a `void *` buffer and copies `RID_UAS_ID_SIZE` bytes. ([#76](https://github.com/tuupola/librid/commit/xxxxxxx))
 
 ## [0.5.0](https://github.com/tuupola/librid/compare/0.4.0...0.5.0) - 2026-08-24
 
