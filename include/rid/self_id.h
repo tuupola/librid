@@ -120,6 +120,7 @@ int rid_self_id_get_description(const rid_self_id_t *message, char *buffer, size
  * @retval RID_SUCCESS on success.
  * @retval RID_ERROR_NULL_POINTER if message or description is NULL.
  * @retval RID_ERROR_BUFFER_TOO_LARGE if description exceeds RID_DESCRIPTION_SIZE characters.
+ * @retval RID_ERROR_INVALID_CHARACTER if description contains non-ASCII or control characters.
  */
 int rid_self_id_set_description(rid_self_id_t *message, const char *description);
 
@@ -148,7 +149,7 @@ int rid_self_id_init(rid_self_id_t *message);
  * @retval RID_ERROR_NULL_POINTER if message is NULL.
  * @retval RID_ERROR_INVALID_PROTOCOL_VERSION if protocol version is invalid.
  * @retval RID_ERROR_UNKNOWN_MESSAGE_TYPE if message type is not SELF_ID.
- * @retval RID_ERROR_INVALID_CHARACTER if description contains non-ASCII characters.
+ * @retval RID_ERROR_INVALID_CHARACTER if description contains non-ASCII or control characters.
  */
 int rid_self_id_validate(const rid_self_id_t *message);
 

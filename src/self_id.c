@@ -68,9 +68,10 @@ int rid_self_id_validate(const rid_self_id_t *message) {
         return RID_ERROR_UNKNOWN_MESSAGE_TYPE;
     }
 
-    /* Description must be ASCII only */
+    /* Must be printable ASCII and NUL. */
     for (size_t i = 0; i < RID_DESCRIPTION_SIZE; ++i) {
-        if ((unsigned char)message->description[i] > 127) {
+        unsigned char c = (unsigned char)message->description[i];
+        if (c != 0x00 && (c < 0x20 || c > 0x7E)) {
             return RID_ERROR_INVALID_CHARACTER;
         }
     }
@@ -121,9 +122,10 @@ int rid_self_id_set_description(rid_self_id_t *message, const char *description)
         return RID_ERROR_BUFFER_TOO_LARGE;
     }
 
-    /* Must be ASCII only */
+    /* Must be printable ASCII */
     for (size_t i = 0; i < size; i++) {
-        if ((unsigned char)description[i] > 127) {
+        unsigned char c = (unsigned char)description[i];
+        if (c < 0x20 || c > 0x7E) {
             return RID_ERROR_INVALID_CHARACTER;
         }
     }

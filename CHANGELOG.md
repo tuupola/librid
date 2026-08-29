@@ -9,6 +9,7 @@ chronological order by release.
 
 - `rid_basic_id_set_uas_id()` now takes a `void *` buffer and length instead of a C string. ([#75](https://github.com/tuupola/librid/commit/f4d832c))
 - `rid_basic_id_get_uas_id()` now takes a `void *` buffer and copies `RID_UAS_ID_SIZE` bytes. ([#81](https://github.com/tuupola/librid/commit/ede5f75))
+- `rid_self_id_set_description()` and `rid_self_id_validate()` now reject ASCII control characters. ([#82](https://github.com/tuupola/librid/commit/xxxxxx))
 
 ## [0.5.0](https://github.com/tuupola/librid/compare/0.4.0...0.5.0) - 2026-08-24
 

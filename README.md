@@ -67,8 +67,18 @@ _"Vertical speed upward relative to the WGS-84 datum, meters per second. Special
 Values: Invalid, No Value, or Unknown: 63 m/s, if speed is >= 62 m/s: 62 m/s,
 if speed is <= -62 m/s: -62 m/s"_
 
-ODID rejects any input value outside the valid bounds. Instead of rejecting,
-this library clamps the values.
+Open Drone ID rejects any input value outside the valid bounds. Instead of
+rejecting this library clamps the values.
+
+### Reject ASCII control characters
+
+ASTM F3411-22 specifies the Self ID as ASCII text, a string of ASCII characters.
+It is [unclear](https://github.com/opendroneid/opendroneid-core-c/issues/111) if
+ASCII control characters should be accepted.
+
+This library only allows printable ASCII characters and NUL. It is possible
+that this requirement will be relaxed in the future. Open Drone ID does not do
+an ASCII character check and also allows bytes `> 127`.
 
 ## Build
 

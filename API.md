@@ -4405,7 +4405,8 @@ The description is a null-terminated string up to RID\_DESCRIPTION\_SIZE charact
 
 * `RID_SUCCESS` on success. 
 * `RID_ERROR_NULL_POINTER` if message or description is NULL. 
-* `RID_ERROR_BUFFER_TOO_LARGE` if description exceeds RID\_DESCRIPTION\_SIZE characters.
+* `RID_ERROR_BUFFER_TOO_LARGE` if description exceeds RID\_DESCRIPTION\_SIZE characters. 
+* `RID_ERROR_INVALID_CHARACTER` if description contains non-ASCII or control characters.
 ### function `rid_self_id_set_description_type`
 
 _Set the description type for a Self ID message._
@@ -4484,7 +4485,7 @@ Checks that all fields contain valid encoded values according to ASTM F3411-22a.
 * `RID_ERROR_NULL_POINTER` if message is NULL. 
 * `RID_ERROR_INVALID_PROTOCOL_VERSION` if protocol version is invalid. 
 * `RID_ERROR_UNKNOWN_MESSAGE_TYPE` if message type is not SELF\_ID. 
-* `RID_ERROR_INVALID_CHARACTER` if description contains non-ASCII characters.
+* `RID_ERROR_INVALID_CHARACTER` if description contains non-ASCII or control characters.
 
 ## Macros Documentation
 

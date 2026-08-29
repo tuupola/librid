@@ -75,6 +75,22 @@ TEST test_set_description_must_be_ascii(void) {
     status = rid_self_id_set_description(&message, "TEST\xFF");
     ASSERT_EQ(RID_ERROR_INVALID_CHARACTER, status);
 
+    /* Test with ASCII control characters */
+    status = rid_self_id_set_description(&message, "TEST\tFOO");
+    ASSERT_EQ(RID_ERROR_INVALID_CHARACTER, status);
+
+    status = rid_self_id_set_description(&message, "TEST\nFOO");
+    ASSERT_EQ(RID_ERROR_INVALID_CHARACTER, status);
+
+    status = rid_self_id_set_description(&message, "TEST\rFOO");
+    ASSERT_EQ(RID_ERROR_INVALID_CHARACTER, status);
+
+    status = rid_self_id_set_description(&message, "TEST\x01");
+    ASSERT_EQ(RID_ERROR_INVALID_CHARACTER, status);
+
+    status = rid_self_id_set_description(&message, "TEST\x7F");
+    ASSERT_EQ(RID_ERROR_INVALID_CHARACTER, status);
+
     /* Test valid ASCII */
     status = rid_self_id_set_description(&message, "All your base are");
     ASSERT_EQ(RID_SUCCESS, status);
@@ -236,12 +252,39 @@ TEST test_self_id_validate_invalid_message_type(void) {
 
 TEST test_self_id_validate_invalid_description(void) {
     rid_self_id_t message;
+    int status;
 
     rid_self_id_init(&message);
     message.description[5] = (char)0xFF;
 
-    int status = rid_self_id_validate(&message);
+    status = rid_self_id_validate(&message);
     ASSERT_EQ(RID_ERROR_INVALID_CHARACTER, status);
+
+    rid_self_id_init(&message);
+    message.description[5] = '\t';
+    status = rid_self_id_validate(&message);
+    ASSERT_EQ(RID_ERROR_INVALID_CHARACTER, status);
+
+    rid_self_id_init(&message);
+    message.description[5] = '\n';
+    status = rid_self_id_validate(&message);
+    ASSERT_EQ(RID_ERROR_INVALID_CHARACTER, status);
+
+    rid_self_id_init(&message);
+    message.description[5] = '\x01';
+    status = rid_self_id_validate(&message);
+    ASSERT_EQ(RID_ERROR_INVALID_CHARACTER, status);
+
+    rid_self_id_init(&message);
+    message.description[5] = '\x7F';
+    status = rid_self_id_validate(&message);
+    ASSERT_EQ(RID_ERROR_INVALID_CHARACTER, status);
+
+    rid_self_id_init(&message);
+    status = rid_self_id_set_description(&message, "Welcome to Costco");
+    ASSERT_EQ(RID_SUCCESS, status);
+    status = rid_self_id_validate(&message);
+    ASSERT_EQ(RID_SUCCESS, status);
 
     PASS();
 }
