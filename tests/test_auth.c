@@ -372,6 +372,30 @@ TEST test_auth_get_signature_buffer_too_small(void) {
     PASS();
 }
 
+TEST test_auth_set_signature_clears_lingering_data(void) {
+    rid_auth_t auth;
+    rid_auth_page_x_t empty_page;
+    uint8_t long_signature[63];
+    uint8_t short_signature[10];
+    size_t i;
+
+    rid_auth_init(&auth);
+    memset(&empty_page, 0, sizeof(empty_page));
+    memset(long_signature, 0xAA, sizeof(long_signature));
+    memset(short_signature, 0xBB, sizeof(short_signature));
+
+    ASSERT_EQ(RID_SUCCESS, rid_auth_set_signature(&auth, long_signature, sizeof(long_signature)));
+    ASSERT_EQ(3, rid_auth_get_page_count(&auth));
+
+    ASSERT_EQ(RID_SUCCESS, rid_auth_set_signature(&auth, short_signature, sizeof(short_signature)));
+    ASSERT_EQ(1, rid_auth_get_page_count(&auth));
+    for (i = 0; i < RID_AUTH_MAX_PAGE_INDEX; ++i) {
+        ASSERT_MEM_EQ(&empty_page, &auth.page_x[i], sizeof(empty_page));
+    }
+
+    PASS();
+}
+
 TEST test_auth_signature_preserves_type(void) {
     rid_auth_t auth;
     rid_auth_init(&auth);
@@ -694,6 +718,7 @@ SUITE(auth_suite) {
     RUN_TEST(test_auth_get_length_null_pointer);
     RUN_TEST(test_auth_get_signature_null_pointer);
     RUN_TEST(test_auth_get_signature_buffer_too_small);
+    RUN_TEST(test_auth_set_signature_clears_lingering_data);
     RUN_TEST(test_auth_signature_preserves_type);
     RUN_TEST(test_auth_set_type_network_remote_id_clears_signature);
 

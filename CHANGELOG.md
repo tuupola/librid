@@ -11,6 +11,10 @@ chronological order by release.
 - `rid_basic_id_get_uas_id()` now takes a `void *` buffer and copies `RID_UAS_ID_SIZE` bytes. ([#81](https://github.com/tuupola/librid/commit/ede5f75))
 - `rid_self_id_set_description()` and `rid_self_id_validate()` now reject ASCII control characters. ([#82](https://github.com/tuupola/librid/commit/xxxxxx))
 
+### Fixed
+
+- `rid_auth_set_signature()` now clears any lingering data if new signature is shorter than the previous. ([#83](https://github.com/tuupola/librid/commit/xxxxxx))
+
 ## [0.5.0](https://github.com/tuupola/librid/compare/0.4.0...0.5.0) - 2026-08-24
 
 This release is mostly about JSON output correctness. Invalid and missing values

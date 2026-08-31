@@ -165,6 +165,9 @@ int rid_auth_set_signature(rid_auth_t *auth, const uint8_t *signature, size_t si
         return RID_ERROR_BUFFER_TOO_LARGE;
     }
 
+    /* Clear any lingering data. */
+    memset(auth->page_x, 0, sizeof(auth->page_x));
+
     /* Calculate last page index */
     uint8_t last_page_index = 0;
     if (size > RID_AUTH_PAGE_0_DATA_SIZE) {
