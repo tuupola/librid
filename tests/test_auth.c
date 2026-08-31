@@ -321,6 +321,9 @@ TEST test_auth_set_signature_null_pointer(void) {
     status = rid_auth_set_signature(&auth, NULL, 10);
     ASSERT_EQ(RID_ERROR_NULL_POINTER, status);
 
+    status = rid_auth_set_signature(&auth, NULL, 0);
+    ASSERT_EQ(RID_SUCCESS, status);
+
     PASS();
 }
 
@@ -332,6 +335,44 @@ TEST test_auth_set_signature_too_large(void) {
 
     int status = rid_auth_set_signature(&auth, signature, 256);
     ASSERT_EQ(RID_ERROR_BUFFER_TOO_LARGE, status);
+
+    PASS();
+}
+
+TEST test_auth_set_signature_empty(void) {
+    rid_auth_t auth;
+    rid_auth_page_x_t empty_page;
+    uint8_t empty_data[RID_AUTH_PAGE_0_DATA_SIZE];
+    uint8_t signature[40];
+    size_t i;
+
+    rid_auth_init(&auth);
+    memset(&empty_page, 0, sizeof(empty_page));
+    memset(empty_data, 0, sizeof(empty_data));
+    memset(signature, 0xCC, sizeof(signature));
+
+    /* Fill with OXCCCCCCCCCC... */
+    rid_auth_set_signature(&auth, signature, sizeof(signature));
+
+    /* Clear by setting NULL with zero length. */
+    int status = rid_auth_set_signature(&auth, NULL, 0);
+    ASSERT_EQ(RID_SUCCESS, status);
+    ASSERT_EQ(0, rid_auth_get_length(&auth));
+    ASSERT_EQ(1, rid_auth_get_page_count(&auth));
+    ASSERT_MEM_EQ(empty_data, auth.page_0.auth_data, sizeof(empty_data));
+    for (i = 0; i < RID_AUTH_MAX_PAGE_INDEX; ++i) {
+        ASSERT_MEM_EQ(&empty_page, &auth.page_x[i], sizeof(empty_page));
+    }
+
+    /* Fill with OXCCCCCCCCCC... */
+    rid_auth_set_signature(&auth, signature, sizeof(signature));
+
+    /* Clear by setting signature with zero length. */
+    status = rid_auth_set_signature(&auth, signature, 0);
+    ASSERT_EQ(RID_SUCCESS, status);
+    ASSERT_EQ(0, rid_auth_get_length(&auth));
+    ASSERT_EQ(1, rid_auth_get_page_count(&auth));
+    ASSERT_MEM_EQ(empty_data, auth.page_0.auth_data, sizeof(empty_data));
 
     PASS();
 }
@@ -715,6 +756,7 @@ SUITE(auth_suite) {
     RUN_TEST(test_auth_set_and_get_signature_max_size);
     RUN_TEST(test_auth_set_signature_null_pointer);
     RUN_TEST(test_auth_set_signature_too_large);
+    RUN_TEST(test_auth_set_signature_empty);
     RUN_TEST(test_auth_get_length_null_pointer);
     RUN_TEST(test_auth_get_signature_null_pointer);
     RUN_TEST(test_auth_get_signature_buffer_too_small);

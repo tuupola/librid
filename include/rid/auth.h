@@ -292,16 +292,18 @@ uint32_t rid_auth_get_unixtime(const rid_auth_t *auth);
  *
  * Distributes signature data across page 0 and additional pages as needed.
  * Page 0 holds up to 17 bytes, each additional page holds up to 23 bytes.
+ * You can clear the signature by passing signature_size 0.
  *
  * @param auth Pointer to the authentication data container.
- * @param signature Pointer to the signature data.
- * @param size Size of the signature data (max 255 bytes).
+ * @param signature Pointer to the signature data. May be NULL if signature_size is 0.
+ * @param signature_size Size of the signature data (0 to 255 bytes).
  *
  * @retval RID_SUCCESS on success.
- * @retval RID_ERROR_NULL_POINTER if auth or signature is NULL.
- * @retval RID_ERROR_BUFFER_TOO_LARGE if size exceeds 255 bytes.
+ * @retval RID_ERROR_NULL_POINTER if auth is NULL, or if signature is NULL and
+ *         signature_size is not 0.
+ * @retval RID_ERROR_BUFFER_TOO_LARGE if signature_size exceeds 255 bytes.
  */
-int rid_auth_set_signature(rid_auth_t *auth, const uint8_t *signature, size_t size);
+int rid_auth_set_signature(rid_auth_t *auth, const uint8_t *signature, size_t signature_size);
 
 /**
  * @brief Get the total signature length in bytes.

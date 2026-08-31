@@ -72,7 +72,7 @@ Example usage:
 |  [**rid\_auth\_type\_t**](#enum-rid_auth_type_t) | [**rid\_auth\_get\_type**](#function-rid_auth_get_type) (const [**rid\_auth\_t**](#struct-rid_auth_t) \*auth) <br>_Get the authentication type._ |
 |  uint32\_t | [**rid\_auth\_get\_unixtime**](#function-rid_auth_get_unixtime) (const [**rid\_auth\_t**](#struct-rid_auth_t) \*auth) <br>_Get the timestamp as Unix time._ |
 |  int | [**rid\_auth\_init**](#function-rid_auth_init) ([**rid\_auth\_t**](#struct-rid_auth_t) \*auth) <br>_Initialize an authentication data container._ |
-|  int | [**rid\_auth\_set\_signature**](#function-rid_auth_set_signature) ([**rid\_auth\_t**](#struct-rid_auth_t) \*auth, const uint8\_t \*signature, size\_t size) <br>_Set the signature data._ |
+|  int | [**rid\_auth\_set\_signature**](#function-rid_auth_set_signature) ([**rid\_auth\_t**](#struct-rid_auth_t) \*auth, const uint8\_t \*signature, size\_t signature\_size) <br>_Set the signature data._ |
 |  int | [**rid\_auth\_set\_timestamp**](#function-rid_auth_set_timestamp) ([**rid\_auth\_t**](#struct-rid_auth_t) \*auth, uint32\_t timestamp) <br>_Set the timestamp._ |
 |  int | [**rid\_auth\_set\_type**](#function-rid_auth_set_type) ([**rid\_auth\_t**](#struct-rid_auth_t) \*auth, [**rid\_auth\_type\_t**](#enum-rid_auth_type_t) type) <br>_Set the authentication type._ |
 |  int | [**rid\_auth\_set\_unixtime**](#function-rid_auth_set_unixtime) ([**rid\_auth\_t**](#struct-rid_auth_t) \*auth, uint32\_t unixtime) <br>_Set the timestamp from Unix time._ |
@@ -320,12 +320,12 @@ _Set the signature data._
 int rid_auth_set_signature (
     rid_auth_t *auth,
     const uint8_t *signature,
-    size_t size
+    size_t signature_size
 ) 
 ```
 
 
-Distributes signature data across page 0 and additional pages as needed. Page 0 holds up to 17 bytes, each additional page holds up to 23 bytes.
+Distributes signature data across page 0 and additional pages as needed. Page 0 holds up to 17 bytes, each additional page holds up to 23 bytes. You can clear the signature by passing signature\_size 0.
 
 
 
@@ -333,16 +333,16 @@ Distributes signature data across page 0 and additional pages as needed. Page 0 
 
 
 * `auth` Pointer to the authentication data container. 
-* `signature` Pointer to the signature data. 
-* `size` Size of the signature data (max 255 bytes).
+* `signature` Pointer to the signature data. May be NULL if signature\_size is 0. 
+* `signature_size` Size of the signature data (0 to 255 bytes).
 
 
 **Return value:**
 
 
 * `RID_SUCCESS` on success. 
-* `RID_ERROR_NULL_POINTER` if auth or signature is NULL. 
-* `RID_ERROR_BUFFER_TOO_LARGE` if size exceeds 255 bytes.
+* `RID_ERROR_NULL_POINTER` if auth is NULL, or if signature is NULL and signature\_size is not 0. 
+* `RID_ERROR_BUFFER_TOO_LARGE` if signature\_size exceeds 255 bytes.
 ### function `rid_auth_set_timestamp`
 
 _Set the timestamp._
