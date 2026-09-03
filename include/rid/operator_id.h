@@ -147,10 +147,10 @@ int rid_operator_id_get(const rid_operator_id_t *message, char *buffer, size_t b
  *
  * @retval RID_SUCCESS on success.
  * @retval RID_ERROR_NULL_POINTER if message or uas_id is NULL.
- * @retval RID_ERROR_BUFFER_TOO_LARGE if uas_id exceeds RID_OPERATOR_ID_SIZE characters.
+ * @retval RID_ERROR_BUFFER_TOO_LARGE if operator_id exceeds RID_OPERATOR_ID_SIZE characters.
  * @retval RID_ERROR_INVALID_CHARACTER if operator ID contains non-ASCII or control characters.
  */
-int rid_operator_id_set(rid_operator_id_t *message, const char *uas_id);
+int rid_operator_id_set(rid_operator_id_t *message, const char *operator_id);
 
 /**
  * @brief Convert operator ID type to string representation.
