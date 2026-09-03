@@ -68,9 +68,10 @@ int rid_operator_id_validate(const rid_operator_id_t *message) {
         return RID_ERROR_UNKNOWN_MESSAGE_TYPE;
     }
 
-    /* Operator ID must be ASCII only */
+    /* Must be printable ASCII or NUL. */
     for (size_t i = 0; i < RID_OPERATOR_ID_SIZE; ++i) {
-        if ((unsigned char)message->operator_id[i] > 127) {
+        unsigned char c = (unsigned char)message->operator_id[i];
+        if (c != 0x00 && (c < 0x20 || c > 0x7E)) {
             return RID_ERROR_INVALID_CHARACTER;
         }
     }
@@ -122,9 +123,10 @@ int rid_operator_id_set(rid_operator_id_t *message, const char *operator_id) {
         return RID_ERROR_BUFFER_TOO_LARGE;
     }
 
-    /* Must be ASCII only */
+    /* Must be printable ASCII */
     for (size_t i = 0; i < size; i++) {
-        if ((unsigned char)operator_id[i] > 127) {
+        unsigned char c = (unsigned char)operator_id[i];
+        if (c < 0x20 || c > 0x7E) {
             return RID_ERROR_INVALID_CHARACTER;
         }
     }

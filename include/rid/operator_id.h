@@ -98,7 +98,7 @@ int rid_operator_id_init(rid_operator_id_t *message);
  * @retval RID_ERROR_NULL_POINTER if message is NULL.
  * @retval RID_ERROR_INVALID_PROTOCOL_VERSION if protocol version is invalid.
  * @retval RID_ERROR_UNKNOWN_MESSAGE_TYPE if message type is not OPERATOR_ID.
- * @retval RID_ERROR_INVALID_CHARACTER if operator ID contains non-ASCII characters.
+ * @retval RID_ERROR_INVALID_CHARACTER if operator ID contains non-ASCII or control characters.
  */
 int rid_operator_id_validate(const rid_operator_id_t *message);
 
@@ -148,6 +148,7 @@ int rid_operator_id_get(const rid_operator_id_t *message, char *buffer, size_t b
  * @retval RID_SUCCESS on success.
  * @retval RID_ERROR_NULL_POINTER if message or uas_id is NULL.
  * @retval RID_ERROR_BUFFER_TOO_LARGE if uas_id exceeds RID_OPERATOR_ID_SIZE characters.
+ * @retval RID_ERROR_INVALID_CHARACTER if operator ID contains non-ASCII or control characters.
  */
 int rid_operator_id_set(rid_operator_id_t *message, const char *uas_id);
 

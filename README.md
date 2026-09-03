@@ -72,9 +72,9 @@ rejecting this library clamps the values.
 
 ### Reject ASCII control characters
 
-ASTM F3411-22 specifies the Self ID as ASCII text, a string of ASCII characters.
-It is [unclear](https://github.com/opendroneid/opendroneid-core-c/issues/111) if
-ASCII control characters should be accepted.
+ASTM F3411-22 specifies the Self ID and Operator ID as ASCII text, a string of
+ASCII characters. It is [unclear](https://github.com/opendroneid/opendroneid-core-c/issues/111)
+if ASCII control characters should be accepted.
 
 This library only allows printable ASCII characters and NUL. It is possible
 that this requirement will be relaxed in the future. Open Drone ID does not do

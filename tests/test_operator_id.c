@@ -81,6 +81,22 @@ TEST test_set_operator_id_must_be_ascii(void) {
     status = rid_operator_id_set(&message, "TEST\xFF");
     ASSERT_EQ(RID_ERROR_INVALID_CHARACTER, status);
 
+    /* Test with ASCII control characters */
+    status = rid_operator_id_set(&message, "TEST\tFOO");
+    ASSERT_EQ(RID_ERROR_INVALID_CHARACTER, status);
+
+    status = rid_operator_id_set(&message, "TEST\nFOO");
+    ASSERT_EQ(RID_ERROR_INVALID_CHARACTER, status);
+
+    status = rid_operator_id_set(&message, "TEST\rFOO");
+    ASSERT_EQ(RID_ERROR_INVALID_CHARACTER, status);
+
+    status = rid_operator_id_set(&message, "TEST\x01");
+    ASSERT_EQ(RID_ERROR_INVALID_CHARACTER, status);
+
+    status = rid_operator_id_set(&message, "TEST\x7F");
+    ASSERT_EQ(RID_ERROR_INVALID_CHARACTER, status);
+
     /* Test valid ASCII */
     status = rid_operator_id_set(&message, "BRAWND0");
     ASSERT_EQ(RID_SUCCESS, status);
@@ -259,12 +275,39 @@ TEST test_operator_id_validate_invalid_message_type(void) {
 
 TEST test_operator_id_validate_invalid_operator_id(void) {
     rid_operator_id_t message;
+    int status;
 
     rid_operator_id_init(&message);
     message.operator_id[10] = (char)0xFF;
 
-    int status = rid_operator_id_validate(&message);
+    status = rid_operator_id_validate(&message);
     ASSERT_EQ(RID_ERROR_INVALID_CHARACTER, status);
+
+    rid_operator_id_init(&message);
+    message.operator_id[10] = '\t';
+    status = rid_operator_id_validate(&message);
+    ASSERT_EQ(RID_ERROR_INVALID_CHARACTER, status);
+
+    rid_operator_id_init(&message);
+    message.operator_id[10] = '\n';
+    status = rid_operator_id_validate(&message);
+    ASSERT_EQ(RID_ERROR_INVALID_CHARACTER, status);
+
+    rid_operator_id_init(&message);
+    message.operator_id[10] = '\x01';
+    status = rid_operator_id_validate(&message);
+    ASSERT_EQ(RID_ERROR_INVALID_CHARACTER, status);
+
+    rid_operator_id_init(&message);
+    message.operator_id[10] = '\x7F';
+    status = rid_operator_id_validate(&message);
+    ASSERT_EQ(RID_ERROR_INVALID_CHARACTER, status);
+
+    rid_operator_id_init(&message);
+    status = rid_operator_id_set(&message, "Welcome to Costco");
+    ASSERT_EQ(RID_SUCCESS, status);
+    status = rid_operator_id_validate(&message);
+    ASSERT_EQ(RID_SUCCESS, status);
 
     PASS();
 }
