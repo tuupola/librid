@@ -26,6 +26,16 @@ TEST test_set_and_get_description_type(void) {
     PASS();
 }
 
+TEST test_set_description_type_out_of_range(void) {
+    rid_self_id_t message;
+    memset(&message, 0, sizeof(message));
+
+    int status = rid_self_id_set_description_type(&message, RID_DESCRIPTION_TYPE_MAX + 1);
+    ASSERT_EQ(RID_ERROR_OUT_OF_RANGE, status);
+
+    PASS();
+}
+
 TEST test_set_description_type_null_pointer(void) {
     int status = rid_self_id_set_description_type(NULL, RID_DESCRIPTION_TYPE_TEXT);
     ASSERT_EQ(RID_ERROR_NULL_POINTER, status);
@@ -338,6 +348,7 @@ SUITE(self_id_suite) {
     RUN_TEST(test_self_id_init_null_pointer);
 
     RUN_TEST(test_set_and_get_description_type);
+    RUN_TEST(test_set_description_type_out_of_range);
     RUN_TEST(test_set_description_type_null_pointer);
 
     RUN_TEST(test_set_and_get_description);

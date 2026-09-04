@@ -91,6 +91,10 @@ int rid_self_id_set_description_type(rid_self_id_t *message, rid_description_typ
         return RID_ERROR_NULL_POINTER;
     }
 
+    if (type > RID_DESCRIPTION_TYPE_MAX) {
+        return RID_ERROR_OUT_OF_RANGE;
+    }
+
     message->description_type = type;
 
     return RID_SUCCESS;

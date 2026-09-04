@@ -70,8 +70,9 @@ typedef enum rid_description_type {
     RID_DESCRIPTION_TYPE_TEXT = 0,
     RID_DESCRIPTION_TYPE_EMERGENCY = 1,
     RID_DESCRIPTION_TYPE_EXTENDED_STATUS = 2,
+    RID_DESCRIPTION_TYPE_MAX = 255,
     /* 3-200: Reserved */
-    /* 201-255: Private use*/
+    /* 201-255: Private use */
 } rid_description_type_t;
 
 /**
@@ -91,6 +92,7 @@ rid_description_type_t rid_self_id_get_description_type(const rid_self_id_t *mes
  *
  * @retval RID_SUCCESS on success.
  * @retval RID_ERROR_NULL_POINTER if message is NULL.
+ * @retval RID_ERROR_OUT_OF_RANGE if type exceeds RID_DESCRIPTION_TYPE_MAX.
  */
 int rid_self_id_set_description_type(rid_self_id_t *message, rid_description_type_t type);
 
