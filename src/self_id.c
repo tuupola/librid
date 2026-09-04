@@ -105,8 +105,8 @@ int rid_self_id_get_description(const rid_self_id_t *message, char *buffer, size
         return RID_ERROR_BUFFER_TOO_SMALL;
     }
 
+    memset(buffer, 0, RID_DESCRIPTION_SIZE + 1);
     memcpy(buffer, message->description, RID_DESCRIPTION_SIZE);
-    buffer[RID_DESCRIPTION_SIZE] = '\0';
 
     return RID_SUCCESS;
 }
