@@ -11,11 +11,14 @@ chronological order by release.
 - `rid_basic_id_get_uas_id()` now takes a `void *` buffer and copies `RID_UAS_ID_SIZE` bytes. ([#81](https://github.com/tuupola/librid/commit/ede5f75))
 - `rid_self_id_set_description()` and `rid_self_id_validate()` now reject ASCII control characters. ([#82](https://github.com/tuupola/librid/commit/xxxxxx))
 - `rid_operator_id_set()` and `rid_operator_id_validate()` now reject ASCII control characters. ([#85](https://github.com/tuupola/librid/commit/xxxxxx))
+- `RID_ID_TYPE_OPERATOR_ID` was renamed to `RID_OPERATOR_ID_TYPE_DEFAULT`. ([#88](https://github.com/tuupola/librid/commit/xxxxxx))
+-
 
 ### Fixed
 
 - `rid_auth_set_signature()` now clears any lingering data if new signature is shorter than the previous. ([#83](https://github.com/tuupola/librid/commit/xxxxxx))
 - `rid_auth_set_signature()` now accepts NULL if signature length is 0. ([#84](https://github.com/tuupola/librid/commit/xxxxxx))
+- `rid_operator_id_set_type()` now has a range check. ([#87](https://github.com/tuupola/librid/commit/xxxxxx))
 
 ## [0.5.0](https://github.com/tuupola/librid/compare/0.4.0...0.5.0) - 2026-08-24
 

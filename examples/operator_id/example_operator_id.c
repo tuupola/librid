@@ -22,7 +22,7 @@ int main(void) {
     rid_operator_id_t operator_id;
 
     rid_operator_id_init(&operator_id);
-    rid_operator_id_set_type(&operator_id, RID_ID_TYPE_OPERATOR_ID);
+    rid_operator_id_set_type(&operator_id, RID_OPERATOR_ID_TYPE_DEFAULT);
     rid_operator_id_set(&operator_id, "FIN87astrdge12k8");
 
     hexdump(&operator_id, sizeof(operator_id));

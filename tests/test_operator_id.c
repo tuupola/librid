@@ -14,7 +14,7 @@ static uint8_t buffer[] = {
 
 TEST test_set_and_get_operator_id_type(void) {
     rid_operator_id_type_t types[] = {
-        RID_ID_TYPE_OPERATOR_ID
+        RID_OPERATOR_ID_TYPE_DEFAULT
     };
 
     for (size_t i = 0; i < sizeof(types) / sizeof(types[0]); i++) {
@@ -43,7 +43,7 @@ TEST test_set_operator_id_type_out_of_range(void) {
 }
 
 TEST test_set_operator_id_type_null_pointer(void) {
-    int status = rid_operator_id_set_type(NULL, RID_ID_TYPE_OPERATOR_ID);
+    int status = rid_operator_id_set_type(NULL, RID_OPERATOR_ID_TYPE_DEFAULT);
     ASSERT_EQ(RID_ERROR_NULL_POINTER, status);
 
     PASS();
@@ -150,7 +150,7 @@ TEST test_set_operator_id_null_pointer(void) {
 TEST test_decode_operator_id_buffer(void) {
     rid_operator_id_t *message = (rid_operator_id_t *)buffer;
 
-    ASSERT_EQ(RID_ID_TYPE_OPERATOR_ID, rid_operator_id_get_type(message));
+    ASSERT_EQ(RID_OPERATOR_ID_TYPE_DEFAULT, rid_operator_id_get_type(message));
 
     char operator_id[RID_OPERATOR_ID_SIZE + 1];
     int status = rid_operator_id_get(message, operator_id, sizeof(operator_id));
@@ -201,7 +201,7 @@ TEST test_operator_id_init(void) {
 
     ASSERT_EQ(RID_PROTOCOL_VERSION_2, message.protocol_version);
     ASSERT_EQ(RID_MESSAGE_TYPE_OPERATOR_ID, message.message_type);
-    ASSERT_EQ(RID_ID_TYPE_OPERATOR_ID, message.id_type);
+    ASSERT_EQ(RID_OPERATOR_ID_TYPE_DEFAULT, message.id_type);
 
     for (size_t i = 0; i < RID_OPERATOR_ID_SIZE; i++) {
         ASSERT_EQ(0, message.operator_id[i]);
@@ -218,7 +218,7 @@ TEST test_operator_id_init_null_pointer(void) {
 }
 
 TEST test_operator_id_type_to_string(void) {
-    ASSERT_STR_EQ("RID_ID_TYPE_OPERATOR_ID", rid_operator_id_type_to_string(RID_ID_TYPE_OPERATOR_ID));
+    ASSERT_STR_EQ("RID_OPERATOR_ID_TYPE_DEFAULT", rid_operator_id_type_to_string(RID_OPERATOR_ID_TYPE_DEFAULT));
     ASSERT_STR_EQ("UNKNOWN", rid_operator_id_type_to_string((rid_operator_id_type_t)99));
     PASS();
 }
@@ -327,7 +327,7 @@ TEST test_operator_id_to_json(void) {
     char buffer[256];
 
     rid_operator_id_init(&message);
-    rid_operator_id_set_type(&message, RID_ID_TYPE_OPERATOR_ID);
+    rid_operator_id_set_type(&message, RID_OPERATOR_ID_TYPE_DEFAULT);
     rid_operator_id_set(&message, "FIN87astrdge12k8");
 
     ASSERT_EQ(RID_SUCCESS, rid_operator_id_to_json(&message, buffer, sizeof(buffer), NULL));

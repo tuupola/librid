@@ -81,7 +81,7 @@ int rid_operator_id_validate(const rid_operator_id_t *message) {
 
 rid_operator_id_type_t rid_operator_id_get_type(const rid_operator_id_t *message) {
     if (message == NULL) {
-        return RID_ID_TYPE_OPERATOR_ID;
+        return RID_OPERATOR_ID_TYPE_DEFAULT;
     }
 
     return (rid_operator_id_type_t)message->id_type;
@@ -143,8 +143,8 @@ int rid_operator_id_set(rid_operator_id_t *message, const char *operator_id) {
 
 const char *rid_operator_id_type_to_string(rid_operator_id_type_t type) {
     switch (type) {
-        case RID_ID_TYPE_OPERATOR_ID:
-            return "RID_ID_TYPE_OPERATOR_ID";
+        case RID_OPERATOR_ID_TYPE_DEFAULT:
+            return "RID_OPERATOR_ID_TYPE_DEFAULT";
         default:
             return "UNKNOWN";
     }

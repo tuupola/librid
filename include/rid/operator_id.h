@@ -68,7 +68,7 @@ typedef struct rid_operator_id {
  * @brief Operator ID type classification per ASTM F3411-22a.
  */
 typedef enum rid_operator_id_type {
-    RID_ID_TYPE_OPERATOR_ID = 0,
+    RID_OPERATOR_ID_TYPE_DEFAULT = 0,
     RID_OPERATOR_ID_TYPE_MAX = 255,
     /* 1-200: Reserved */
     /* 201-255: Private use */
@@ -108,7 +108,7 @@ int rid_operator_id_validate(const rid_operator_id_t *message);
  *
  * @param message Pointer to the Operator ID message structure.
  *
- * @return The ID type or RID_ID_TYPE_OPERATOR_ID if message is NULL.
+ * @return The ID type or RID_OPERATOR_ID_TYPE_DEFAULT if message is NULL.
  */
 rid_operator_id_type_t rid_operator_id_get_type(const rid_operator_id_t *message);
 
