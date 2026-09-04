@@ -106,8 +106,8 @@ int rid_operator_id_get(const rid_operator_id_t *message, char *buffer, size_t b
         return RID_ERROR_BUFFER_TOO_SMALL;
     }
 
+    memset(buffer, 0, buffer_size);
     memcpy(buffer, message->operator_id, RID_OPERATOR_ID_SIZE);
-    buffer[RID_OPERATOR_ID_SIZE] = '\0';
 
     return RID_SUCCESS;
 }
