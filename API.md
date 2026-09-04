@@ -3915,7 +3915,7 @@ Example usage:
     rid_operator_id_t operator_id;
 
     rid_operator_id_init(&operator_id);
-    rid_operator_id_set_type(&operator_id, RID_ID_TYPE_OPERATOR_ID);
+    rid_operator_id_set_type(&operator_id, RID_OPERATOR_ID_TYPE_DEFAULT);
     rid_operator_id_set(&operator_id, "FIN87astrdge12k8");
 
     hexdump(&operator_id, sizeof(operator_id));
@@ -3942,7 +3942,7 @@ Example usage:
 |  int | [**rid\_operator\_id\_get**](#function-rid_operator_id_get) (const [**rid\_operator\_id\_t**](#struct-rid_operator_id_t) \*message, char \*buffer, size\_t buffer\_size) <br>_Get the Operator ID from an Operator ID message._ |
 |  [**rid\_operator\_id\_type\_t**](#enum-rid_operator_id_type_t) | [**rid\_operator\_id\_get\_type**](#function-rid_operator_id_get_type) (const [**rid\_operator\_id\_t**](#struct-rid_operator_id_t) \*message) <br>_Get the ID type from an Operator ID message._ |
 |  int | [**rid\_operator\_id\_init**](#function-rid_operator_id_init) ([**rid\_operator\_id\_t**](#struct-rid_operator_id_t) \*message) <br>_Initialize an Operator ID message with default values._ |
-|  int | [**rid\_operator\_id\_set**](#function-rid_operator_id_set) ([**rid\_operator\_id\_t**](#struct-rid_operator_id_t) \*message, const char \*uas\_id) <br>_Set the Operator ID for an Operator ID message._ |
+|  int | [**rid\_operator\_id\_set**](#function-rid_operator_id_set) ([**rid\_operator\_id\_t**](#struct-rid_operator_id_t) \*message, const char \*operator\_id) <br>_Set the Operator ID for an Operator ID message._ |
 |  int | [**rid\_operator\_id\_set\_type**](#function-rid_operator_id_set_type) ([**rid\_operator\_id\_t**](#struct-rid_operator_id_t) \*message, [**rid\_operator\_id\_type\_t**](#enum-rid_operator_id_type_t) type) <br>_Set the ID type for an Operator ID message._ |
 |  int | [**rid\_operator\_id\_to\_json**](#function-rid_operator_id_to_json) (const [**rid\_operator\_id\_t**](#struct-rid_operator_id_t) \*message, char \*buffer, size\_t buffer\_size, size\_t \*needed\_size) <br>_Format an Operator ID message as a JSON string._ |
 |  const char \* | [**rid\_operator\_id\_type\_to\_string**](#function-rid_operator_id_type_to_string) ([**rid\_operator\_id\_type\_t**](#enum-rid_operator_id_type_t) type) <br>_Convert operator ID type to string representation._ |
@@ -3977,7 +3977,8 @@ Variables:
 _Operator ID type classification per ASTM F3411-22a._
 ```c
 enum rid_operator_id_type_t {
-    RID_ID_TYPE_OPERATOR_ID = 0
+    RID_OPERATOR_ID_TYPE_DEFAULT = 0,
+    RID_OPERATOR_ID_TYPE_MAX = 255
 };
 ```
 
@@ -4032,7 +4033,7 @@ rid_operator_id_type_t rid_operator_id_get_type (
 
 **Returns:**
 
-The ID type or RID\_ID\_TYPE\_OPERATOR\_ID if message is NULL.
+The ID type or RID\_OPERATOR\_ID\_TYPE\_DEFAULT if message is NULL.
 ### function `rid_operator_id_init`
 
 _Initialize an Operator ID message with default values._
@@ -4064,7 +4065,7 @@ _Set the Operator ID for an Operator ID message._
 ```c
 int rid_operator_id_set (
     rid_operator_id_t *message,
-    const char *uas_id
+    const char *operator_id
 ) 
 ```
 
@@ -4077,15 +4078,16 @@ The Operator ID is a null-terminated string up to RID\_OPERATOR\_ID\_SIZE charac
 
 
 * `message` Pointer to the Operator ID message structure. 
-* `uas_id` The Operator ID string to set.
+* `operator_id` The Operator ID string to set.
 
 
 **Return value:**
 
 
 * `RID_SUCCESS` on success. 
-* `RID_ERROR_NULL_POINTER` if message or uas\_id is NULL. 
-* `RID_ERROR_BUFFER_TOO_LARGE` if uas\_id exceeds RID\_OPERATOR\_ID\_SIZE characters.
+* `RID_ERROR_NULL_POINTER` if message or operator\_id is NULL. 
+* `RID_ERROR_BUFFER_TOO_LARGE` if operator\_id exceeds RID\_OPERATOR\_ID\_SIZE characters. 
+* `RID_ERROR_INVALID_CHARACTER` if operator ID contains non-ASCII or control characters.
 ### function `rid_operator_id_set_type`
 
 _Set the ID type for an Operator ID message._
@@ -4108,7 +4110,8 @@ int rid_operator_id_set_type (
 
 
 * `RID_SUCCESS` on success. 
-* `RID_ERROR_NULL_POINTER` if message is NULL.
+* `RID_ERROR_NULL_POINTER` if message is NULL. 
+* `RID_ERROR_OUT_OF_RANGE` if type exceeds RID\_OPERATOR\_ID\_TYPE\_MAX.
 ### function `rid_operator_id_to_json`
 
 _Format an Operator ID message as a JSON string._
@@ -4183,7 +4186,7 @@ Checks that all fields contain valid encoded values according to ASTM F3411-22a.
 * `RID_ERROR_NULL_POINTER` if message is NULL. 
 * `RID_ERROR_INVALID_PROTOCOL_VERSION` if protocol version is invalid. 
 * `RID_ERROR_UNKNOWN_MESSAGE_TYPE` if message type is not OPERATOR\_ID. 
-* `RID_ERROR_INVALID_CHARACTER` if operator ID contains non-ASCII characters.
+* `RID_ERROR_INVALID_CHARACTER` if operator ID contains non-ASCII or control characters.
 
 ## Macros Documentation
 
