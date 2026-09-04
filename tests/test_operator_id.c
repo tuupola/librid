@@ -32,6 +32,16 @@ TEST test_set_and_get_operator_id_type(void) {
     PASS();
 }
 
+TEST test_set_operator_id_type_out_of_range(void) {
+    rid_operator_id_t message;
+    memset(&message, 0, sizeof(message));
+
+    int status = rid_operator_id_set_type(&message, RID_OPERATOR_ID_TYPE_MAX + 1);
+    ASSERT_EQ(RID_ERROR_OUT_OF_RANGE, status);
+
+    PASS();
+}
+
 TEST test_set_operator_id_type_null_pointer(void) {
     int status = rid_operator_id_set_type(NULL, RID_ID_TYPE_OPERATOR_ID);
     ASSERT_EQ(RID_ERROR_NULL_POINTER, status);
@@ -361,6 +371,7 @@ SUITE(operator_id_suite) {
     RUN_TEST(test_operator_id_init_null_pointer);
 
     RUN_TEST(test_set_and_get_operator_id_type);
+    RUN_TEST(test_set_operator_id_type_out_of_range);
     RUN_TEST(test_set_operator_id_type_null_pointer);
 
     RUN_TEST(test_set_and_get_operator_id);

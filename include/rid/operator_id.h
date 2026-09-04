@@ -69,8 +69,9 @@ typedef struct rid_operator_id {
  */
 typedef enum rid_operator_id_type {
     RID_ID_TYPE_OPERATOR_ID = 0,
+    RID_OPERATOR_ID_TYPE_MAX = 255,
     /* 1-200: Reserved */
-    /* 201-255: Private use*/
+    /* 201-255: Private use */
 } rid_operator_id_type_t;
 
 /**
@@ -119,6 +120,7 @@ rid_operator_id_type_t rid_operator_id_get_type(const rid_operator_id_t *message
  *
  * @retval RID_SUCCESS on success.
  * @retval RID_ERROR_NULL_POINTER if message is NULL.
+ * @retval RID_ERROR_OUT_OF_RANGE if type exceeds RID_OPERATOR_ID_TYPE_MAX.
  */
 int rid_operator_id_set_type(rid_operator_id_t *message, rid_operator_id_type_t type);
 
