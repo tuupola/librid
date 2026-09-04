@@ -145,10 +145,10 @@ int rid_operator_id_get(const rid_operator_id_t *message, char *buffer, size_t b
  * The Operator ID is a null-terminated string up to RID_OPERATOR_ID_SIZE characters.
  *
  * @param message Pointer to the Operator ID message structure.
- * @param uas_id The Operator ID string to set.
+ * @param operator_id The Operator ID string to set.
  *
  * @retval RID_SUCCESS on success.
- * @retval RID_ERROR_NULL_POINTER if message or uas_id is NULL.
+ * @retval RID_ERROR_NULL_POINTER if message or operator_id is NULL.
  * @retval RID_ERROR_BUFFER_TOO_LARGE if operator_id exceeds RID_OPERATOR_ID_SIZE characters.
  * @retval RID_ERROR_INVALID_CHARACTER if operator ID contains non-ASCII or control characters.
  */
