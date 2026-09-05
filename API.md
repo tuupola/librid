@@ -329,6 +329,20 @@ Distributes signature data across page 0 and additional pages as needed. Page 0 
 
 
 
+**Note:**
+
+Authentication type must be set before setting a signature.
+
+
+````cpp
+rid_auth_set_type(auth, RID_AUTH_TYPE_MESSAGE_SET_SIGNATURE);
+rid_auth_set_signature(auth, signature, signature_size);
+````
+
+
+
+
+
 **Parameters:**
 
 
@@ -342,7 +356,8 @@ Distributes signature data across page 0 and additional pages as needed. Page 0 
 
 * `RID_SUCCESS` on success. 
 * `RID_ERROR_NULL_POINTER` if auth is NULL, or if signature is NULL and signature\_size is not 0. 
-* `RID_ERROR_BUFFER_TOO_LARGE` if signature\_size exceeds 255 bytes.
+* `RID_ERROR_BUFFER_TOO_LARGE` if signature\_size exceeds 255 bytes. 
+* `RID_ERROR_NON_EMPTY_SIGNATURE` if type is RID\_AUTH\_TYPE\_NONE or RID\_AUTH\_TYPE\_NETWORK\_REMOTE\_ID but signature is not empty.
 ### function `rid_auth_set_timestamp`
 
 _Set the timestamp._
@@ -377,6 +392,20 @@ int rid_auth_set_type (
 ```
 
 
+**Note:**
+
+When setting RID\_AUTH\_TYPE\_NONE or RID\_AUTH\_TYPE\_NETWORK\_REMOTE\_ID you should clear the signature first.
+
+
+````cpp
+rid_auth_set_signature(auth, NULL, 0);
+rid_auth_set_type(auth, RID_AUTH_TYPE_NETWORK_REMOTE_ID);
+````
+
+
+
+
+
 **Parameters:**
 
 
@@ -389,7 +418,8 @@ int rid_auth_set_type (
 
 * `RID_SUCCESS` on success. 
 * `RID_ERROR_NULL_POINTER` if auth is NULL. 
-* `RID_ERROR_OUT_OF_RANGE` if type exceeds RID\_AUTH\_TYPE\_MAX.
+* `RID_ERROR_OUT_OF_RANGE` if type exceeds RID\_AUTH\_TYPE\_MAX. 
+* `RID_ERROR_NON_EMPTY_SIGNATURE` if type is RID\_AUTH\_TYPE\_NONE or RID\_AUTH\_TYPE\_NETWORK\_REMOTE\_ID but signature is not empty.
 ### function `rid_auth_set_unixtime`
 
 _Set the timestamp from Unix time._
@@ -4267,7 +4297,8 @@ _Description type classification per ASTM F3411-22a._
 enum rid_description_type_t {
     RID_DESCRIPTION_TYPE_TEXT = 0,
     RID_DESCRIPTION_TYPE_EMERGENCY = 1,
-    RID_DESCRIPTION_TYPE_EXTENDED_STATUS = 2
+    RID_DESCRIPTION_TYPE_EXTENDED_STATUS = 2,
+    RID_DESCRIPTION_TYPE_MAX = 255
 };
 ```
 
@@ -4432,7 +4463,8 @@ int rid_self_id_set_description_type (
 
 
 * `RID_SUCCESS` on success. 
-* `RID_ERROR_NULL_POINTER` if message is NULL.
+* `RID_ERROR_NULL_POINTER` if message is NULL. 
+* `RID_ERROR_OUT_OF_RANGE` if type exceeds RID\_DESCRIPTION\_TYPE\_MAX.
 ### function `rid_self_id_to_json`
 
 _Format a Self ID message as a JSON string._
