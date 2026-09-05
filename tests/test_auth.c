@@ -238,6 +238,7 @@ TEST test_auth_get_unixtime_null_pointer(void) {
 TEST test_auth_set_and_get_signature_short(void) {
     rid_auth_t auth;
     rid_auth_init(&auth);
+    rid_auth_set_type(&auth, RID_AUTH_TYPE_UAS_ID_SIGNATURE);
 
     uint8_t signature[10] = {0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0A};
     uint8_t buffer[10];
@@ -257,6 +258,7 @@ TEST test_auth_set_and_get_signature_short(void) {
 TEST test_auth_set_and_get_signature_full_page_0(void) {
     rid_auth_t auth;
     rid_auth_init(&auth);
+    rid_auth_set_type(&auth, RID_AUTH_TYPE_UAS_ID_SIGNATURE);
 
     uint8_t signature[17] = {
         0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08,
@@ -360,6 +362,7 @@ TEST test_auth_set_signature_empty(void) {
     size_t i;
 
     rid_auth_init(&auth);
+    rid_auth_set_type(&auth, RID_AUTH_TYPE_UAS_ID_SIGNATURE);
     memset(&empty_page, 0, sizeof(empty_page));
     memset(empty_data, 0, sizeof(empty_data));
     memset(signature, 0xCC, sizeof(signature));
@@ -414,6 +417,7 @@ TEST test_auth_get_signature_null_pointer(void) {
 TEST test_auth_get_signature_buffer_too_small(void) {
     rid_auth_t auth;
     rid_auth_init(&auth);
+    rid_auth_set_type(&auth, RID_AUTH_TYPE_UAS_ID_SIGNATURE);
 
     uint8_t signature[20] = {0};
     uint8_t buffer[10];
@@ -434,6 +438,7 @@ TEST test_auth_set_signature_clears_lingering_data(void) {
     size_t i;
 
     rid_auth_init(&auth);
+    rid_auth_set_type(&auth, RID_AUTH_TYPE_UAS_ID_SIGNATURE);
     memset(&empty_page, 0, sizeof(empty_page));
     memset(long_signature, 0xAA, sizeof(long_signature));
     memset(short_signature, 0xBB, sizeof(short_signature));
@@ -472,8 +477,8 @@ TEST test_auth_set_type_rejects_non_empty_signature(void) {
     for (size_t i = 0; i < 40; ++i) {
         signature[i] = (uint8_t)i;
     }
-    rid_auth_set_signature(&auth, signature, 40);
     rid_auth_set_type(&auth, RID_AUTH_TYPE_UAS_ID_SIGNATURE);
+    rid_auth_set_signature(&auth, signature, 40);
     ASSERT_EQ(40, rid_auth_get_length(&auth));
 
     int status = rid_auth_set_type(&auth, RID_AUTH_TYPE_NETWORK_REMOTE_ID);
@@ -488,6 +493,31 @@ TEST test_auth_set_type_rejects_non_empty_signature(void) {
 
     rid_auth_set_signature(&auth, NULL, 0);
     status = rid_auth_set_type(&auth, RID_AUTH_TYPE_NETWORK_REMOTE_ID);
+    ASSERT_EQ(RID_SUCCESS, status);
+    ASSERT_EQ(RID_AUTH_TYPE_NETWORK_REMOTE_ID, rid_auth_get_type(&auth));
+
+    PASS();
+}
+
+TEST test_auth_set_signature_rejects_non_empty(void) {
+    rid_auth_t auth;
+    uint8_t signature[] = {0xDE, 0xAD, 0xBE, 0xEF, 0xDE, 0xAD, 0xBE, 0xEF};
+    int status;
+
+    rid_auth_init(&auth);
+
+    status = rid_auth_set_signature(&auth, signature, sizeof(signature));
+    ASSERT_EQ(RID_ERROR_NON_EMPTY_SIGNATURE, status);
+    ASSERT_EQ(RID_AUTH_TYPE_NONE, rid_auth_get_type(&auth));
+    ASSERT_EQ(0, rid_auth_get_length(&auth));
+
+    rid_auth_set_type(&auth, RID_AUTH_TYPE_NETWORK_REMOTE_ID);
+    status = rid_auth_set_signature(&auth, signature, sizeof(signature));
+    ASSERT_EQ(RID_ERROR_NON_EMPTY_SIGNATURE, status);
+    ASSERT_EQ(RID_AUTH_TYPE_NETWORK_REMOTE_ID, rid_auth_get_type(&auth));
+    ASSERT_EQ(0, rid_auth_get_length(&auth));
+
+    status = rid_auth_set_signature(&auth, NULL, 0);
     ASSERT_EQ(RID_SUCCESS, status);
     ASSERT_EQ(RID_AUTH_TYPE_NETWORK_REMOTE_ID, rid_auth_get_type(&auth));
 
@@ -785,6 +815,7 @@ SUITE(auth_suite) {
     RUN_TEST(test_auth_set_signature_clears_lingering_data);
     RUN_TEST(test_auth_signature_preserves_type);
     RUN_TEST(test_auth_set_type_rejects_non_empty_signature);
+    RUN_TEST(test_auth_set_signature_rejects_non_empty);
 
     RUN_TEST(test_auth_to_json);
     RUN_TEST(test_auth_to_json_null);

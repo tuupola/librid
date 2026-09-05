@@ -303,6 +303,13 @@ uint32_t rid_auth_get_unixtime(const rid_auth_t *auth);
  * Page 0 holds up to 17 bytes, each additional page holds up to 23 bytes.
  * You can clear the signature by passing signature_size 0.
  *
+ * @note Authentication type must be set before setting a signature.
+ *
+ * @code
+ * rid_auth_set_type(auth, RID_AUTH_TYPE_MESSAGE_SET_SIGNATURE);
+ * rid_auth_set_signature(auth, signature, signature_size);
+ * @endcode
+ *
  * @param auth Pointer to the authentication data container.
  * @param signature Pointer to the signature data. May be NULL if signature_size is 0.
  * @param signature_size Size of the signature data (0 to 255 bytes).
@@ -311,6 +318,7 @@ uint32_t rid_auth_get_unixtime(const rid_auth_t *auth);
  * @retval RID_ERROR_NULL_POINTER if auth is NULL, or if signature is NULL and
  *         signature_size is not 0.
  * @retval RID_ERROR_BUFFER_TOO_LARGE if signature_size exceeds 255 bytes.
+ * @retval RID_ERROR_NON_EMPTY_SIGNATURE if type is RID_AUTH_TYPE_NONE or RID_AUTH_TYPE_NETWORK_REMOTE_ID but signature is not empty.
  */
 int rid_auth_set_signature(rid_auth_t *auth, const uint8_t *signature, size_t signature_size);
 

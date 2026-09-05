@@ -171,6 +171,14 @@ int rid_auth_set_signature(rid_auth_t *auth, const uint8_t *signature, size_t si
         return RID_ERROR_BUFFER_TOO_LARGE;
     }
 
+    if (signature_size > 0) {
+        rid_auth_type_t type = rid_auth_page_0_get_type(&auth->page_0);
+        if (type == RID_AUTH_TYPE_NETWORK_REMOTE_ID ||
+            type == RID_AUTH_TYPE_NONE) {
+            return RID_ERROR_NON_EMPTY_SIGNATURE;
+        }
+    }
+
     /* Clear any lingering data. */
     memset(auth->page_x, 0, sizeof(auth->page_x));
     memset(auth->page_0.auth_data, 0, RID_AUTH_PAGE_0_DATA_SIZE);
