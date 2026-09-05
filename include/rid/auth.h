@@ -223,12 +223,21 @@ uint8_t rid_auth_get_page_count(const rid_auth_t *auth);
 /**
  * @brief Set the authentication type.
  *
+ * @note When setting RID_AUTH_TYPE_NONE or RID_AUTH_TYPE_NETWORK_REMOTE_ID
+ *       you should clear the signature first.
+ *
+ * @code
+ * rid_auth_set_signature(auth, NULL, 0);
+ * rid_auth_set_type(auth, RID_AUTH_TYPE_NETWORK_REMOTE_ID);
+ * @endcode
+ *
  * @param auth Pointer to the authentication data container.
  * @param type The authentication type to set.
  *
  * @retval RID_SUCCESS on success.
  * @retval RID_ERROR_NULL_POINTER if auth is NULL.
  * @retval RID_ERROR_OUT_OF_RANGE if type exceeds RID_AUTH_TYPE_MAX.
+ * @retval RID_ERROR_NON_EMPTY_SIGNATURE if type is RID_AUTH_TYPE_NONE or RID_AUTH_TYPE_NETWORK_REMOTE_ID but signature is not empty.
  */
 int rid_auth_set_type(rid_auth_t *auth, rid_auth_type_t type);
 

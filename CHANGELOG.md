@@ -12,7 +12,7 @@ chronological order by release.
 - `rid_self_id_set_description()` and `rid_self_id_validate()` now reject ASCII control characters. ([#82](https://github.com/tuupola/librid/commit/xxxxxx))
 - `rid_operator_id_set()` and `rid_operator_id_validate()` now reject ASCII control characters. ([#85](https://github.com/tuupola/librid/commit/xxxxxx))
 - `RID_ID_TYPE_OPERATOR_ID` was renamed to `RID_OPERATOR_ID_TYPE_DEFAULT`. ([#88](https://github.com/tuupola/librid/commit/xxxxxx))
--
+- `rid_auth_set_type()` now rejects a non-empty signature for `RID_AUTH_TYPE_NONE` and `RID_AUTH_TYPE_NETWORK_REMOTE_ID`.
 
 ### Fixed
 
