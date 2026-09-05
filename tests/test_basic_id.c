@@ -76,6 +76,9 @@ TEST test_set_basic_id_type_out_of_range(void) {
     status = rid_basic_id_set_type(&message, UINT8_MAX);
     ASSERT_EQ(RID_ERROR_OUT_OF_RANGE, status);
 
+    status = rid_basic_id_set_type(&message, (rid_basic_id_type_t)-1);
+    ASSERT_EQ(RID_ERROR_OUT_OF_RANGE, status);
+
     PASS();
 }
 
@@ -136,6 +139,9 @@ TEST test_set_ua_type_out_of_range(void) {
     ASSERT_EQ(RID_ERROR_OUT_OF_RANGE, status);
 
     status = rid_basic_id_set_ua_type(&message, UINT8_MAX);
+    ASSERT_EQ(RID_ERROR_OUT_OF_RANGE, status);
+
+    status = rid_basic_id_set_ua_type(&message, (rid_ua_type_t)-1);
     ASSERT_EQ(RID_ERROR_OUT_OF_RANGE, status);
 
     PASS();

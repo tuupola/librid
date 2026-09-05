@@ -39,6 +39,9 @@ TEST test_set_operator_id_type_out_of_range(void) {
     int status = rid_operator_id_set_type(&message, RID_OPERATOR_ID_TYPE_MAX + 1);
     ASSERT_EQ(RID_ERROR_OUT_OF_RANGE, status);
 
+    status = rid_operator_id_set_type(&message, (rid_operator_id_type_t)-1);
+    ASSERT_EQ(RID_ERROR_OUT_OF_RANGE, status);
+
     PASS();
 }
 

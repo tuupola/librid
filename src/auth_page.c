@@ -78,7 +78,7 @@ int rid_auth_page_0_set_type(rid_auth_page_0_t *message, rid_auth_type_t type) {
         return RID_ERROR_NULL_POINTER;
     }
 
-    if (type > RID_AUTH_TYPE_MAX) {
+    if ((int)type < 0 || type > RID_AUTH_TYPE_MAX) {
         return RID_ERROR_OUT_OF_RANGE;
     }
 
@@ -188,7 +188,7 @@ int rid_auth_page_x_set_type(rid_auth_page_x_t *message, rid_auth_type_t type) {
         return RID_ERROR_NULL_POINTER;
     }
 
-    if (type > RID_AUTH_TYPE_MAX) {
+    if ((int)type < 0 || type > RID_AUTH_TYPE_MAX) {
         return RID_ERROR_OUT_OF_RANGE;
     }
 

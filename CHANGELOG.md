@@ -19,6 +19,7 @@ chronological order by release.
 - `rid_auth_set_signature()` now clears any lingering data if new signature is shorter than the previous. ([#83](https://github.com/tuupola/librid/commit/xxxxxx))
 - `rid_auth_set_signature()` now accepts NULL if signature length is 0. ([#84](https://github.com/tuupola/librid/commit/xxxxxx))
 - `rid_operator_id_set_type()` now has a range check. ([#87](https://github.com/tuupola/librid/commit/xxxxxx))
+- All setter functions now have range checks. ([#91](https://github.com/tuupola/librid/commit/xxxxxx))
 
 ## [0.5.0](https://github.com/tuupola/librid/compare/0.4.0...0.5.0) - 2026-08-24
 

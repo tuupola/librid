@@ -91,7 +91,7 @@ int rid_system_set_operator_location_type(rid_system_t *system, rid_operator_loc
         return RID_ERROR_NULL_POINTER;
     }
 
-    if (type > RID_OPERATOR_LOCATION_TYPE_MAX) {
+    if ((int)type < 0 || type > RID_OPERATOR_LOCATION_TYPE_MAX) {
         return RID_ERROR_OUT_OF_RANGE;
     }
 
@@ -112,7 +112,7 @@ int rid_system_set_classification_type(rid_system_t *system, rid_classification_
         return RID_ERROR_NULL_POINTER;
     }
 
-    if (type > RID_CLASSIFICATION_TYPE_MAX) {
+    if ((int)type < 0 || type > RID_CLASSIFICATION_TYPE_MAX) {
         return RID_ERROR_OUT_OF_RANGE;
     }
 
@@ -133,7 +133,7 @@ int rid_system_set_ua_classification_category(rid_system_t *system, rid_ua_class
         return RID_ERROR_NULL_POINTER;
     }
 
-    if (category > RID_UA_CLASSIFICATION_CATEGORY_MAX) {
+    if ((int)category < 0 || category > RID_UA_CLASSIFICATION_CATEGORY_MAX) {
         return RID_ERROR_OUT_OF_RANGE;
     }
 
@@ -154,7 +154,7 @@ int rid_system_set_ua_classification_class(rid_system_t *system, rid_ua_classifi
         return RID_ERROR_NULL_POINTER;
     }
 
-    if (class > RID_UA_CLASSIFICATION_CLASS_MAX) {
+    if ((int)class < 0 || class > RID_UA_CLASSIFICATION_CLASS_MAX) {
         return RID_ERROR_OUT_OF_RANGE;
     }
 

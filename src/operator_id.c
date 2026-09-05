@@ -92,7 +92,7 @@ int rid_operator_id_set_type(rid_operator_id_t *message, rid_operator_id_type_t 
         return RID_ERROR_NULL_POINTER;
     }
 
-    if (type > RID_OPERATOR_ID_TYPE_MAX) {
+    if ((int)type < 0 || type > RID_OPERATOR_ID_TYPE_MAX) {
         return RID_ERROR_OUT_OF_RANGE;
     }
 

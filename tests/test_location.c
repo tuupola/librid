@@ -622,6 +622,9 @@ TEST test_height_type_out_of_range(void) {
     status = rid_location_set_height_type(&location, (rid_height_type_t)255);
     ASSERT_EQ(RID_ERROR_OUT_OF_RANGE, status);
 
+    status = rid_location_set_height_type(&location, (rid_height_type_t)-1);
+    ASSERT_EQ(RID_ERROR_OUT_OF_RANGE, status);
+
     PASS();
 }
 
@@ -707,6 +710,9 @@ TEST test_operational_status_out_of_range(void) {
     ASSERT_EQ(RID_ERROR_OUT_OF_RANGE, status);
 
     status = rid_location_set_operational_status(&location, (rid_operational_status_t)255);
+    ASSERT_EQ(RID_ERROR_OUT_OF_RANGE, status);
+
+    status = rid_location_set_operational_status(&location, (rid_operational_status_t)-1);
     ASSERT_EQ(RID_ERROR_OUT_OF_RANGE, status);
 
     PASS();
@@ -796,6 +802,9 @@ TEST test_speed_accuracy_out_of_range(void) {
     status = rid_location_set_speed_accuracy(&location, (rid_speed_accuracy_t)255);
     ASSERT_EQ(RID_ERROR_OUT_OF_RANGE, status);
 
+    status = rid_location_set_speed_accuracy(&location, (rid_speed_accuracy_t)-1);
+    ASSERT_EQ(RID_ERROR_OUT_OF_RANGE, status);
+
     PASS();
 }
 
@@ -881,6 +890,9 @@ TEST test_horizontal_accuracy_out_of_range(void) {
     ASSERT_EQ(RID_ERROR_OUT_OF_RANGE, status);
 
     status = rid_location_set_horizontal_accuracy(&location, (rid_horizontal_accuracy_t)255);
+    ASSERT_EQ(RID_ERROR_OUT_OF_RANGE, status);
+
+    status = rid_location_set_horizontal_accuracy(&location, (rid_horizontal_accuracy_t)-1);
     ASSERT_EQ(RID_ERROR_OUT_OF_RANGE, status);
 
     PASS();
@@ -988,6 +1000,9 @@ TEST test_vertical_accuracy_out_of_range(void) {
     status = rid_location_set_vertical_accuracy(&location, (rid_vertical_accuracy_t)255);
     ASSERT_EQ(RID_ERROR_OUT_OF_RANGE, status);
 
+    status = rid_location_set_vertical_accuracy(&location, (rid_vertical_accuracy_t)-1);
+    ASSERT_EQ(RID_ERROR_OUT_OF_RANGE, status);
+
     PASS();
 }
 
@@ -1091,6 +1106,9 @@ TEST test_baro_altitude_accuracy_out_of_range(void) {
     ASSERT_EQ(RID_ERROR_OUT_OF_RANGE, status);
 
     status = rid_location_set_baro_altitude_accuracy(&location, (rid_vertical_accuracy_t)255);
+    ASSERT_EQ(RID_ERROR_OUT_OF_RANGE, status);
+
+    status = rid_location_set_baro_altitude_accuracy(&location, (rid_vertical_accuracy_t)-1);
     ASSERT_EQ(RID_ERROR_OUT_OF_RANGE, status);
 
     PASS();
@@ -1268,6 +1286,9 @@ TEST test_timestamp_accuracy_out_of_range(void) {
     ASSERT_EQ(RID_ERROR_OUT_OF_RANGE, status);
 
     status = rid_location_set_timestamp_accuracy(&location, (rid_timestamp_accuracy_t)255);
+    ASSERT_EQ(RID_ERROR_OUT_OF_RANGE, status);
+
+    status = rid_location_set_timestamp_accuracy(&location, (rid_timestamp_accuracy_t)-1);
     ASSERT_EQ(RID_ERROR_OUT_OF_RANGE, status);
 
     PASS();

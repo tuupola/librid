@@ -133,7 +133,7 @@ int rid_basic_id_set_type(rid_basic_id_t *message, rid_basic_id_type_t type) {
         return RID_ERROR_NULL_POINTER;
     }
 
-    if (type > RID_ID_TYPE_MAX) {
+    if ((int)type < 0 || type > RID_ID_TYPE_MAX) {
         return RID_ERROR_OUT_OF_RANGE;
     }
 
@@ -154,7 +154,7 @@ int rid_basic_id_set_ua_type(rid_basic_id_t *message, rid_ua_type_t type) {
         return RID_ERROR_NULL_POINTER;
     }
 
-    if (type > RID_UA_TYPE_MAX) {
+    if ((int)type < 0 || type > RID_UA_TYPE_MAX) {
         return RID_ERROR_OUT_OF_RANGE;
     }
 

@@ -37,6 +37,9 @@ TEST test_set_operator_location_type_out_of_range(void) {
     status = rid_system_set_operator_location_type(&system, UINT8_MAX);
     ASSERT_EQ(RID_ERROR_OUT_OF_RANGE, status);
 
+    status = rid_system_set_operator_location_type(&system, (rid_operator_location_type_t)-1);
+    ASSERT_EQ(RID_ERROR_OUT_OF_RANGE, status);
+
     PASS();
 }
 
@@ -82,6 +85,9 @@ TEST test_set_classification_type_out_of_range(void) {
     ASSERT_EQ(RID_ERROR_OUT_OF_RANGE, status);
 
     status = rid_system_set_classification_type(&system, UINT8_MAX);
+    ASSERT_EQ(RID_ERROR_OUT_OF_RANGE, status);
+
+    status = rid_system_set_classification_type(&system, (rid_classification_type_t)-1);
     ASSERT_EQ(RID_ERROR_OUT_OF_RANGE, status);
 
     PASS();
@@ -131,6 +137,9 @@ TEST test_set_ua_classification_category_out_of_range(void) {
     ASSERT_EQ(RID_ERROR_OUT_OF_RANGE, status);
 
     status = rid_system_set_ua_classification_category(&system, UINT8_MAX);
+    ASSERT_EQ(RID_ERROR_OUT_OF_RANGE, status);
+
+    status = rid_system_set_ua_classification_category(&system, (rid_ua_classification_category_t)-1);
     ASSERT_EQ(RID_ERROR_OUT_OF_RANGE, status);
 
     PASS();
@@ -184,6 +193,9 @@ TEST test_set_ua_classification_class_out_of_range(void) {
     ASSERT_EQ(RID_ERROR_OUT_OF_RANGE, status);
 
     status = rid_system_set_ua_classification_class(&system, UINT8_MAX);
+    ASSERT_EQ(RID_ERROR_OUT_OF_RANGE, status);
+
+    status = rid_system_set_ua_classification_class(&system, (rid_ua_classification_class_t)-1);
     ASSERT_EQ(RID_ERROR_OUT_OF_RANGE, status);
 
     PASS();

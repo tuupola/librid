@@ -478,7 +478,7 @@ int rid_location_set_operational_status(rid_location_t *location, rid_operationa
         return RID_ERROR_NULL_POINTER;
     }
 
-    if (status > RID_OPERATIONAL_STATUS_MAX) {
+    if ((int)status < 0 || status > RID_OPERATIONAL_STATUS_MAX) {
         return RID_ERROR_OUT_OF_RANGE;
     }
 
@@ -499,7 +499,7 @@ int rid_location_set_speed_accuracy(rid_location_t *location, rid_speed_accuracy
         return RID_ERROR_NULL_POINTER;
     }
 
-    if (accuracy > RID_SPEED_ACCURACY_MAX) {
+    if ((int)accuracy < 0 || accuracy > RID_SPEED_ACCURACY_MAX) {
         return RID_ERROR_OUT_OF_RANGE;
     }
 
@@ -520,7 +520,7 @@ int rid_location_set_horizontal_accuracy(rid_location_t *location, rid_horizonta
         return RID_ERROR_NULL_POINTER;
     }
 
-    if (accuracy > RID_HORIZONTAL_ACCURACY_MAX) {
+    if ((int)accuracy < 0 || accuracy > RID_HORIZONTAL_ACCURACY_MAX) {
         return RID_ERROR_OUT_OF_RANGE;
     }
 
@@ -541,7 +541,7 @@ int rid_location_set_vertical_accuracy(rid_location_t *location, rid_vertical_ac
         return RID_ERROR_NULL_POINTER;
     }
 
-    if (accuracy > RID_VERTICAL_ACCURACY_MAX) {
+    if ((int)accuracy < 0 || accuracy > RID_VERTICAL_ACCURACY_MAX) {
         return RID_ERROR_OUT_OF_RANGE;
     }
 
@@ -562,7 +562,7 @@ int rid_location_set_baro_altitude_accuracy(rid_location_t *location, rid_vertic
         return RID_ERROR_NULL_POINTER;
     }
 
-    if (accuracy > RID_VERTICAL_ACCURACY_MAX) {
+    if ((int)accuracy < 0 || accuracy > RID_VERTICAL_ACCURACY_MAX) {
         return RID_ERROR_OUT_OF_RANGE;
     }
 
@@ -621,7 +621,7 @@ int rid_location_set_timestamp_accuracy(rid_location_t *location, rid_timestamp_
         return RID_ERROR_NULL_POINTER;
     }
 
-    if (accuracy > RID_TIMESTAMP_ACCURACY_1_5S) {
+    if ((int)accuracy < 0 || accuracy > RID_TIMESTAMP_ACCURACY_1_5S) {
         return RID_ERROR_OUT_OF_RANGE;
     }
 

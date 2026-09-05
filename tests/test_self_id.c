@@ -33,6 +33,9 @@ TEST test_set_description_type_out_of_range(void) {
     int status = rid_self_id_set_description_type(&message, RID_DESCRIPTION_TYPE_MAX + 1);
     ASSERT_EQ(RID_ERROR_OUT_OF_RANGE, status);
 
+    status = rid_self_id_set_description_type(&message, (rid_description_type_t)-1);
+    ASSERT_EQ(RID_ERROR_OUT_OF_RANGE, status);
+
     PASS();
 }
 

@@ -138,6 +138,19 @@ TEST test_auth_set_and_get_type(void) {
     PASS();
 }
 
+TEST test_auth_set_type_out_of_range(void) {
+    rid_auth_t auth;
+    rid_auth_init(&auth);
+
+    int status = rid_auth_set_type(&auth, RID_AUTH_TYPE_MAX + 1);
+    ASSERT_EQ(RID_ERROR_OUT_OF_RANGE, status);
+
+    status = rid_auth_set_type(&auth, (rid_auth_type_t)-1);
+    ASSERT_EQ(RID_ERROR_OUT_OF_RANGE, status);
+
+    PASS();
+}
+
 TEST test_auth_set_type_null_pointer(void) {
     int status = rid_auth_set_type(NULL, RID_AUTH_TYPE_UAS_ID_SIGNATURE);
     ASSERT_EQ(RID_ERROR_NULL_POINTER, status);
@@ -741,6 +754,7 @@ SUITE(auth_suite) {
     RUN_TEST(test_auth_validate_bmg0180);
     RUN_TEST(test_auth_get_page_count);
     RUN_TEST(test_auth_set_and_get_type);
+    RUN_TEST(test_auth_set_type_out_of_range);
     RUN_TEST(test_auth_set_type_null_pointer);
     RUN_TEST(test_auth_get_type_null_pointer);
     RUN_TEST(test_auth_set_and_get_timestamp);

@@ -99,6 +99,9 @@ TEST test_set_auth_type_out_of_range(void) {
     status = rid_auth_page_0_set_type(&message, UINT8_MAX);
     ASSERT_EQ(RID_ERROR_OUT_OF_RANGE, status);
 
+    status = rid_auth_page_0_set_type(&message, (rid_auth_type_t)-1);
+    ASSERT_EQ(RID_ERROR_OUT_OF_RANGE, status);
+
     PASS();
 }
 
@@ -340,6 +343,9 @@ TEST test_set_auth_page_type_out_of_range(void) {
     rid_auth_page_x_init(&message, 1);
 
     int status = rid_auth_page_x_set_type(&message, RID_AUTH_TYPE_MAX + 1);
+    ASSERT_EQ(RID_ERROR_OUT_OF_RANGE, status);
+
+    status = rid_auth_page_x_set_type(&message, (rid_auth_type_t)-1);
     ASSERT_EQ(RID_ERROR_OUT_OF_RANGE, status);
 
     PASS();
