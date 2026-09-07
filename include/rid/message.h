@@ -77,6 +77,7 @@ typedef enum {
     RID_ERROR_NOT_FOUND = -22,
     RID_ERROR_INVALID_MESSAGE_TYPE = -23,
     RID_ERROR_NOT_IMPLEMENTED = -24,
+    RID_ERROR_INVALID_COMBINATION = -25,
 } rid_error_t;
 
 /**

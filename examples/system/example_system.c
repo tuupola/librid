@@ -35,8 +35,7 @@ int main(void) {
     rid_system_set_ua_classification_category(&system, RID_UA_CLASSIFICATION_CATEGORY_OPEN);
     rid_system_set_ua_classification_class(&system, RID_UA_CLASSIFICATION_CLASS_1);
 
-    rid_system_set_operator_latitude(&system, 60.2870324);
-    rid_system_set_operator_longitude(&system, 24.5397187);
+    rid_system_set_operator_coordinates(&system, 60.2870324, 24.5397187);
     rid_system_set_operator_altitude(&system, 50.0f);
 
     rid_system_set_area_count(&system, 1);

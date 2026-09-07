@@ -5,6 +5,10 @@ chronological order by release.
 
 ## [0.6.0-dev](https://github.com/tuupola/librid/compare/0.5.0...master) - unreleased
 
+### Added
+
+- `rid_system_set_operator_coordinates()` function to set operator latitude and longitude at the same time. ([#xx](https://github.com/tuupola/librid/commit/xxxxxx))
+
 ### Changed
 
 - `rid_basic_id_set_uas_id()` now takes a `void *` buffer and length instead of a C string. ([#75](https://github.com/tuupola/librid/commit/f4d832c))
@@ -21,6 +25,10 @@ chronological order by release.
 - `rid_auth_set_signature()` now accepts NULL if signature length is 0. ([#84](https://github.com/tuupola/librid/commit/xxxxxx))
 - `rid_operator_id_set_type()` now has a range check. ([#87](https://github.com/tuupola/librid/commit/xxxxxx))
 - All setter functions now have range checks. ([#91](https://github.com/tuupola/librid/commit/xxxxxx))
+
+### Removed
+
+- `rid_system_set_operator_latitude()` and `rid_system_set_operator_longitude()` functions. Use `rid_system_set_operator_coordinates()` instead. ([#xx](https://github.com/tuupola/librid/commit/xxxxxx))
 
 ## [0.5.0](https://github.com/tuupola/librid/compare/0.4.0...0.5.0) - 2026-08-24
 

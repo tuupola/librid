@@ -254,21 +254,6 @@ int rid_system_set_ua_classification_class(rid_system_t *system, rid_ua_classifi
 rid_ua_classification_class_t rid_system_get_ua_classification_class(const rid_system_t *system);
 
 /**
- * @brief Set the operator latitude for a System message.
- *
- * Encodes latitude in degrees per ASTM F3411-22a (value * 10^7).
- *
- * @param system Pointer to the System message structure.
- * @param degrees Latitude in degrees (-90.0 to +90.0). Use
- *        RID_OPERATOR_LATITUDE_INVALID to indicate invalid/unknown.
- *
- * @retval RID_SUCCESS on success.
- * @retval RID_ERROR_NULL_POINTER if system is NULL.
- * @retval RID_ERROR_OUT_OF_RANGE if degrees is outside valid range.
- */
-int rid_system_set_operator_latitude(rid_system_t *system, double degrees);
-
-/**
  * @brief Get the operator latitude from a System message.
  *
  * Decodes latitude from encoded int32_t value per ASTM F3411-22a.
@@ -281,21 +266,6 @@ int rid_system_set_operator_latitude(rid_system_t *system, double degrees);
 double rid_system_get_operator_latitude(const rid_system_t *system);
 
 /**
- * @brief Set the operator longitude for a System message.
- *
- * Encodes longitude in degrees per ASTM F3411-22a (value * 10^7).
- *
- * @param system Pointer to the System message structure.
- * @param degrees Longitude in degrees (-180.0 to +180.0). Use
- *        RID_OPERATOR_LONGITUDE_INVALID to indicate invalid/unknown.
- *
- * @retval RID_SUCCESS on success.
- * @retval RID_ERROR_NULL_POINTER if system is NULL.
- * @retval RID_ERROR_OUT_OF_RANGE if degrees is outside valid range.
- */
-int rid_system_set_operator_longitude(rid_system_t *system, double degrees);
-
-/**
  * @brief Get the operator longitude from a System message.
  *
  * Decodes longitude from encoded int32_t value per ASTM F3411-22a.
@@ -306,6 +276,28 @@ int rid_system_set_operator_longitude(rid_system_t *system, double degrees);
  *         if system is NULL or if both encoded latitude and longitude are 0.
  */
 double rid_system_get_operator_longitude(const rid_system_t *system);
+
+/**
+ * @brief Set the operator latitude and longitude for a System message.
+ *
+ * Encodes both values per ASTM F3411-22a. Pass RID_OPERATOR_LATITUDE_INVALID
+ * and RID_OPERATOR_LONGITUDE_INVALID together to set the operator position
+ * as unknown. A mixed invalid and valid pair is rejected.
+ *
+ * @param system Pointer to the System message structure.
+ * @param latitude Latitude in degrees (-90.0 to +90.0) or
+ *        RID_OPERATOR_LATITUDE_INVALID.
+ * @param longitude Longitude in degrees (-180.0 to +180.0) or
+ *        RID_OPERATOR_LONGITUDE_INVALID.
+ *
+ * @retval RID_SUCCESS on success.
+ * @retval RID_ERROR_NULL_POINTER if system is NULL.
+ * @retval RID_ERROR_INVALID_COMBINATION if only one of latitude or longitude
+ *         is invalid.
+ * @retval RID_ERROR_INVALID_LATITUDE if latitude is outside the valid range.
+ * @retval RID_ERROR_INVALID_LONGITUDE if longitude is outside the valid range.
+ */
+int rid_system_set_operator_coordinates(rid_system_t *system, double latitude, double longitude);
 
 /**
  * @brief Set the operator altitude for a System message.
