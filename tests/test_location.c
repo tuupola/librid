@@ -252,142 +252,119 @@ TEST test_get_vertical_speed_null_pointer(void) {
     PASS();
 }
 
-TEST test_set_and_get_latitude(void) {
-    rid_location_t location;
-
-    double test_latitudes[] = {0.0, 45.5, 60.123456, -45.5, -90.0, 90.0};
-
-    for (size_t i = 0; i < sizeof(test_latitudes) / sizeof(test_latitudes[0]); i++) {
-        memset(&location, 0, sizeof(location));
-        /* Keep longitude non-zero to avoid triggering invalid latitude. */
-        rid_location_set_longitude(&location, 0.5);
-
-        int status = rid_location_set_latitude(&location, test_latitudes[i]);
-        ASSERT_EQ(RID_SUCCESS, status);
-
-        double result = rid_location_get_latitude(&location);
-
-        /* 7 decimal digits precision (about 11mm) */
-        double diff = result > test_latitudes[i] ? result - test_latitudes[i] : test_latitudes[i] - result;
-        ASSERT(diff < 0.00000006);
-    }
-
-    PASS();
-}
-
-TEST test_set_and_get_longitude(void) {
-    rid_location_t location;
-
-    double test_longitudes[] = {0.0, 90.5, 120.987654, -90.5, -180.0, 180.0};
-
-    for (size_t i = 0; i < sizeof(test_longitudes) / sizeof(test_longitudes[0]); i++) {
-        memset(&location, 0, sizeof(location));
-        /* Keep latitude non-zero to avoid triggering invalid longitude. */
-        rid_location_set_latitude(&location, 0.5);
-
-        int status = rid_location_set_longitude(&location, test_longitudes[i]);
-        ASSERT_EQ(RID_SUCCESS, status);
-
-        double result = rid_location_get_longitude(&location);
-
-        /* 7 decimal digits precision (about 11mm) */
-        double diff = result > test_longitudes[i] ? result - test_longitudes[i] : test_longitudes[i] - result;
-        ASSERT(diff < 0.00000006);
-    }
-
-    PASS();
-}
-
-TEST test_latitude_out_of_range(void) {
-    rid_location_t location;
-    memset(&location, 0, sizeof(location));
-
-    /* Test > 90 degrees */
-    int status = rid_location_set_latitude(&location, 95.0);
-    ASSERT_EQ(RID_ERROR_OUT_OF_RANGE, status);
-
-    /* Test < -90 degrees */
-    status = rid_location_set_latitude(&location, -95.0);
-    ASSERT_EQ(RID_ERROR_OUT_OF_RANGE, status);
-
-    PASS();
-}
-
-TEST test_latitude_invalid(void) {
-    rid_location_t location;
-    rid_location_init(&location);
-
-    int status = rid_location_set_latitude(&location, RID_LATITUDE_INVALID);
-    ASSERT_EQ(RID_SUCCESS, status);
-    ASSERT_EQ(0, location.latitude);
-
-    /* With longitude also invalid getter returns sentinel */
-    status = rid_location_set_longitude(&location, RID_LONGITUDE_INVALID);
-    ASSERT_EQ(RID_SUCCESS, status);
-    ASSERT_EQ(0, location.longitude);
-
-    ASSERT_EQ(RID_LATITUDE_INVALID, rid_location_get_latitude(&location));
-    ASSERT_EQ(RID_LONGITUDE_INVALID, rid_location_get_longitude(&location));
-
-    PASS();
-}
-
-TEST test_set_latitude_null_pointer(void) {
-    int status = rid_location_set_latitude(NULL, 45.5);
-    ASSERT_EQ(RID_ERROR_NULL_POINTER, status);
-
-    PASS();
-}
-
 TEST test_get_latitude_null_pointer(void) {
     ASSERT_EQ(RID_LATITUDE_INVALID, rid_location_get_latitude(NULL));
 
     PASS();
 }
 
-TEST test_longitude_out_of_range(void) {
-    rid_location_t location;
-    memset(&location, 0, sizeof(location));
-
-    /* Test > 180 degrees */
-    int status = rid_location_set_longitude(&location, 185.0);
-    ASSERT_EQ(RID_ERROR_OUT_OF_RANGE, status);
-
-    /* Test < -180 degrees */
-    status = rid_location_set_longitude(&location, -185.0);
-    ASSERT_EQ(RID_ERROR_OUT_OF_RANGE, status);
+TEST test_get_longitude_null_pointer(void) {
+    ASSERT_EQ(RID_LONGITUDE_INVALID, rid_location_get_longitude(NULL));
 
     PASS();
 }
 
-TEST test_longitude_invalid(void) {
+TEST test_set_and_get_coordinates(void) {
+    rid_location_t location;
+    double latitudes[] = {0.0, 45.5, 60.123456, -45.5, -90.0, 90.0};
+    double longitudes[] = {0.0, 90.5, 120.987654, -90.5, -180.0, 180.0};
+
+    for (size_t i = 0; i < sizeof(latitudes) / sizeof(latitudes[0]); i++) {
+        rid_location_init(&location);
+
+        int status = rid_location_set_coordinates(&location, latitudes[i], 0.5);
+        ASSERT_EQ(RID_SUCCESS, status);
+
+        double result = rid_location_get_latitude(&location);
+        double diff = result > latitudes[i] ? result - latitudes[i] : latitudes[i] - result;
+        ASSERT(diff < 0.00000006);
+    }
+
+    for (size_t i = 0; i < sizeof(longitudes) / sizeof(longitudes[0]); i++) {
+        rid_location_init(&location);
+
+        int status = rid_location_set_coordinates(&location, 0.5, longitudes[i]);
+        ASSERT_EQ(RID_SUCCESS, status);
+
+        double result = rid_location_get_longitude(&location);
+        double diff = result > longitudes[i] ? result - longitudes[i] : longitudes[i] - result;
+        ASSERT(diff < 0.00000006);
+    }
+
+    PASS();
+}
+
+TEST test_set_coordinates_invalid(void) {
     rid_location_t location;
     rid_location_init(&location);
 
-    int status = rid_location_set_longitude(&location, RID_LONGITUDE_INVALID);
-    ASSERT_EQ(RID_SUCCESS, status);
-    ASSERT_EQ(0, location.longitude);
+    rid_location_set_coordinates(&location, 60.1699, 24.9384);
 
-    /* With latitude also invalid getter returns sentinel */
-    status = rid_location_set_latitude(&location, RID_LATITUDE_INVALID);
+    int status = rid_location_set_coordinates(&location, RID_LATITUDE_INVALID, RID_LONGITUDE_INVALID);
     ASSERT_EQ(RID_SUCCESS, status);
     ASSERT_EQ(0, location.latitude);
-
+    ASSERT_EQ(0, location.longitude);
     ASSERT_EQ(RID_LATITUDE_INVALID, rid_location_get_latitude(&location));
     ASSERT_EQ(RID_LONGITUDE_INVALID, rid_location_get_longitude(&location));
 
     PASS();
 }
 
-TEST test_set_longitude_null_pointer(void) {
-    int status = rid_location_set_longitude(NULL, 90.5);
-    ASSERT_EQ(RID_ERROR_NULL_POINTER, status);
+TEST test_set_coordinates_mixed_invalid(void) {
+    rid_location_t location;
+    rid_location_init(&location);
+
+    rid_location_set_coordinates(&location, 60.1699, 24.9384);
+    int32_t saved_lat = location.latitude;
+    int32_t saved_lon = location.longitude;
+
+    int status = rid_location_set_coordinates(&location, RID_LATITUDE_INVALID, 24.9384);
+    ASSERT_EQ(RID_ERROR_INVALID_COMBINATION, status);
+    ASSERT_EQ(saved_lat, location.latitude);
+    ASSERT_EQ(saved_lon, location.longitude);
+
+    status = rid_location_set_coordinates(&location, 60.1699, RID_LONGITUDE_INVALID);
+    ASSERT_EQ(RID_ERROR_INVALID_COMBINATION, status);
+    ASSERT_EQ(saved_lat, location.latitude);
+    ASSERT_EQ(saved_lon, location.longitude);
 
     PASS();
 }
 
-TEST test_get_longitude_null_pointer(void) {
-    ASSERT_EQ(RID_LONGITUDE_INVALID, rid_location_get_longitude(NULL));
+TEST test_set_coordinates_out_of_range(void) {
+    rid_location_t location;
+    rid_location_init(&location);
+
+    rid_location_set_coordinates(&location, 60.1699, 24.9384);
+    int32_t saved_lat = location.latitude;
+    int32_t saved_lon = location.longitude;
+
+    int status = rid_location_set_coordinates(&location, 95.0, 24.9384);
+    ASSERT_EQ(RID_ERROR_INVALID_LATITUDE, status);
+    ASSERT_EQ(saved_lat, location.latitude);
+    ASSERT_EQ(saved_lon, location.longitude);
+
+    status = rid_location_set_coordinates(&location, -95.0, 24.9384);
+    ASSERT_EQ(RID_ERROR_INVALID_LATITUDE, status);
+    ASSERT_EQ(saved_lat, location.latitude);
+    ASSERT_EQ(saved_lon, location.longitude);
+
+    status = rid_location_set_coordinates(&location, 60.1699, 185.0);
+    ASSERT_EQ(RID_ERROR_INVALID_LONGITUDE, status);
+    ASSERT_EQ(saved_lat, location.latitude);
+    ASSERT_EQ(saved_lon, location.longitude);
+
+    status = rid_location_set_coordinates(&location, 60.1699, -185.0);
+    ASSERT_EQ(RID_ERROR_INVALID_LONGITUDE, status);
+    ASSERT_EQ(saved_lat, location.latitude);
+    ASSERT_EQ(saved_lon, location.longitude);
+
+    PASS();
+}
+
+TEST test_set_coordinates_null_pointer(void) {
+    int status = rid_location_set_coordinates(NULL, 60.0, 24.0);
+    ASSERT_EQ(RID_ERROR_NULL_POINTER, status);
 
     PASS();
 }
@@ -1417,8 +1394,7 @@ TEST test_validate_valid_message(void) {
     rid_location_t location;
 
     rid_location_init(&location);
-    rid_location_set_latitude(&location, 45.5);
-    rid_location_set_longitude(&location, 90.5);
+    rid_location_set_coordinates(&location, 45.5, 90.5);
 
     int status = rid_location_validate(&location);
     ASSERT_EQ(RID_SUCCESS, status);
@@ -1557,8 +1533,7 @@ TEST test_location_to_json(void) {
     char buffer[1024];
 
     rid_location_init(&location);
-    rid_location_set_latitude(&location, 60.1699);
-    rid_location_set_longitude(&location, 24.9384);
+    rid_location_set_coordinates(&location, 60.1699, 24.9384);
     rid_location_set_speed(&location, 15.5f);
     rid_location_set_geodetic_altitude(&location, 120.5f);
 
@@ -1610,7 +1585,7 @@ TEST test_location_to_json_needed(void) {
     size_t needed = 0;
 
     rid_location_init(&location);
-    rid_location_set_latitude(&location, 60.1699);
+    rid_location_set_coordinates(&location, 60.1699, 24.9384);
 
     ASSERT_EQ(RID_SUCCESS, rid_location_to_json(&location, NULL, 0, &needed));
     ASSERT(needed > 0);
@@ -1643,17 +1618,14 @@ SUITE(location_suite) {
     RUN_TEST(test_set_vertical_speed_null_pointer);
     RUN_TEST(test_get_vertical_speed_null_pointer);
 
-    RUN_TEST(test_set_and_get_latitude);
-    RUN_TEST(test_latitude_out_of_range);
-    RUN_TEST(test_latitude_invalid);
-    RUN_TEST(test_set_latitude_null_pointer);
     RUN_TEST(test_get_latitude_null_pointer);
-
-    RUN_TEST(test_set_and_get_longitude);
-    RUN_TEST(test_longitude_out_of_range);
-    RUN_TEST(test_longitude_invalid);
-    RUN_TEST(test_set_longitude_null_pointer);
     RUN_TEST(test_get_longitude_null_pointer);
+
+    RUN_TEST(test_set_and_get_coordinates);
+    RUN_TEST(test_set_coordinates_invalid);
+    RUN_TEST(test_set_coordinates_mixed_invalid);
+    RUN_TEST(test_set_coordinates_out_of_range);
+    RUN_TEST(test_set_coordinates_null_pointer);
 
     RUN_TEST(test_set_and_get_pressure_altitude);
     RUN_TEST(test_pressure_altitude_out_of_range);

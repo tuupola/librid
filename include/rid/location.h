@@ -364,22 +364,6 @@ int rid_location_set_vertical_speed(rid_location_t *location, float speed_ms);
 float rid_location_get_vertical_speed(const rid_location_t *location);
 
 /**
- * @brief Set the latitude for a Location message.
- *
- * Encodes the value per ASTM F3411-22a Table 7 with 10^-7 degree resolution.
- * Pass RID_LATITUDE_INVALID to mark the latitude as unknown.
- *
- * @param location Pointer to the Location message structure.
- * @param degrees Latitude in degrees (-90 to 90)
- *                or RID_LATITUDE_INVALID for unknown.
- *
- * @retval RID_SUCCESS on success.
- * @retval RID_ERROR_NULL_POINTER if location is NULL.
- * @retval RID_ERROR_OUT_OF_RANGE if degrees is outside the valid range.
- */
-int rid_location_set_latitude(rid_location_t *location, double degrees);
-
-/**
  * @brief Get the latitude from a Location message.
  *
  * Returns RID_LATITUDE_INVALID when both latitude and longitude are zero.
@@ -392,22 +376,6 @@ int rid_location_set_latitude(rid_location_t *location, double degrees);
 double rid_location_get_latitude(const rid_location_t *location);
 
 /**
- * @brief Set the longitude for a Location message.
- *
- * Encodes the value per ASTM F3411-22a Table 7 with 10^-7 degree resolution.
- * Pass RID_LONGITUDE_INVALID to mark the longitude as unknown.
- *
- * @param location Pointer to the Location message structure.
- * @param degrees Longitude in degrees (-180 to 180)
- *                or RID_LONGITUDE_INVALID for unknown.
- *
- * @retval RID_SUCCESS on success.
- * @retval RID_ERROR_NULL_POINTER if location is NULL.
- * @retval RID_ERROR_OUT_OF_RANGE if degrees is outside the valid range.
- */
-int rid_location_set_longitude(rid_location_t *location, double degrees);
-
-/**
  * @brief Get the longitude from a Location message.
  *
  * Returns RID_LONGITUDE_INVALID when both latitude and longitude are zero.
@@ -418,6 +386,28 @@ int rid_location_set_longitude(rid_location_t *location, double degrees);
  *         or if both encoded latitude and longitude are 0.
  */
 double rid_location_get_longitude(const rid_location_t *location);
+
+/**
+ * @brief Set the latitude and longitude for a Location message.
+ *
+ * Encodes both values per ASTM F3411-22a. Pass RID_LATITUDE_INVALID
+ * and RID_LONGITUDE_INVALID together to set the position as unknown.
+ * A mixed invalid and valid pair is rejected.
+ *
+ * @param location Pointer to the Location message structure.
+ * @param latitude Latitude in degrees (-90.0 to +90.0) or
+ *        RID_LATITUDE_INVALID.
+ * @param longitude Longitude in degrees (-180.0 to +180.0) or
+ *        RID_LONGITUDE_INVALID.
+ *
+ * @retval RID_SUCCESS on success.
+ * @retval RID_ERROR_NULL_POINTER if location is NULL.
+ * @retval RID_ERROR_INVALID_COMBINATION if only one of latitude or longitude
+ *         is invalid.
+ * @retval RID_ERROR_INVALID_LATITUDE if latitude is outside the valid range.
+ * @retval RID_ERROR_INVALID_LONGITUDE if longitude is outside the valid range.
+ */
+int rid_location_set_coordinates(rid_location_t *location, double latitude, double longitude);
 
 /**
  * @brief Set the pressure altitude for a Location message.

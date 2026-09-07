@@ -24,8 +24,7 @@ int main(void) {
     /* Location */
     rid_location_t location;
     rid_location_init(&location);
-    rid_location_set_latitude(&location, 60.169857);
-    rid_location_set_longitude(&location, 24.938379);
+    rid_location_set_coordinates(&location, 60.169857, 24.938379);
     rid_location_set_geodetic_altitude(&location, 25.5);
     rid_location_set_height(&location, 15.0);
     rid_location_set_height_type(&location, RID_HEIGHT_TYPE_AGL);

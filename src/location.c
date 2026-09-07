@@ -259,37 +259,6 @@ float rid_location_get_vertical_speed(const rid_location_t *location) {
     return (float)location->vertical_speed * 0.5f;
 }
 
-int rid_location_set_latitude(rid_location_t *location, double degrees) {
-    if (location == NULL) {
-        return RID_ERROR_NULL_POINTER;
-    }
-
-    /* Invalid or unknown latitude */
-    if (degrees == RID_LATITUDE_INVALID) {
-        location->latitude = 0;
-        return RID_SUCCESS;
-    }
-
-    /* ASTM F3411-22 Table 7
-     * Encoded = value * 10^7
-     * -90 to +90 degrees
-     * Invalid or unknown: 0.0
-     */
-
-    if (degrees > 90.0 || degrees < -90.0) {
-        return RID_ERROR_OUT_OF_RANGE;
-    }
-
-    /* Encode with rounding */
-    if (degrees >= 0.0) {
-        location->latitude = (int32_t)((degrees * 10000000.0) + 0.5);
-    } else {
-        location->latitude = (int32_t)((degrees * 10000000.0) - 0.5);
-    }
-
-    return RID_SUCCESS;
-}
-
 double rid_location_get_latitude(const rid_location_t *location) {
     if (location == NULL) {
         return RID_LATITUDE_INVALID;
@@ -300,37 +269,6 @@ double rid_location_get_latitude(const rid_location_t *location) {
     return (double)location->latitude / 10000000.0;
 }
 
-int rid_location_set_longitude(rid_location_t *location, double degrees) {
-    if (location == NULL) {
-        return RID_ERROR_NULL_POINTER;
-    }
-
-    /* Invalid or unknown longitude */
-    if (degrees == RID_LONGITUDE_INVALID) {
-        location->longitude = 0;
-        return RID_SUCCESS;
-    }
-
-    /* ASTM F3411-22 Table 7
-     * Encoded = value * 10^7
-     * -180 to +180 degrees
-     * Invalid or unknown: 0.0
-     */
-
-    if (degrees > 180.0 || degrees < -180.0) {
-        return RID_ERROR_OUT_OF_RANGE;
-    }
-
-    /* Encode with rounding */
-    if (degrees >= 0.0) {
-        location->longitude = (int32_t)((degrees * 10000000.0) + 0.5);
-    } else {
-        location->longitude = (int32_t)((degrees * 10000000.0) - 0.5);
-    }
-
-    return RID_SUCCESS;
-}
-
 double rid_location_get_longitude(const rid_location_t *location) {
     if (location == NULL) {
         return RID_LONGITUDE_INVALID;
@@ -339,6 +277,46 @@ double rid_location_get_longitude(const rid_location_t *location) {
         return RID_LONGITUDE_INVALID;
     }
     return (double)location->longitude / 10000000.0;
+}
+
+int rid_location_set_coordinates(rid_location_t *location, double latitude, double longitude) {
+    if (location == NULL) {
+        return RID_ERROR_NULL_POINTER;
+    }
+
+    if (latitude == RID_LATITUDE_INVALID &&
+        longitude == RID_LONGITUDE_INVALID) {
+        location->latitude = 0;
+        location->longitude = 0;
+        return RID_SUCCESS;
+    }
+
+    if (latitude == RID_LATITUDE_INVALID ||
+        longitude == RID_LONGITUDE_INVALID) {
+        return RID_ERROR_INVALID_COMBINATION;
+    }
+
+    if (latitude > 90.0 || latitude < -90.0) {
+        return RID_ERROR_INVALID_LATITUDE;
+    }
+
+    if (longitude > 180.0 || longitude < -180.0) {
+        return RID_ERROR_INVALID_LONGITUDE;
+    }
+
+    if (latitude >= 0.0) {
+        location->latitude = (int32_t)((latitude * 10000000.0) + 0.5);
+    } else {
+        location->latitude = (int32_t)((latitude * 10000000.0) - 0.5);
+    }
+
+    if (longitude >= 0.0) {
+        location->longitude = (int32_t)((longitude * 10000000.0) + 0.5);
+    } else {
+        location->longitude = (int32_t)((longitude * 10000000.0) - 0.5);
+    }
+
+    return RID_SUCCESS;
 }
 
 int rid_location_set_height(rid_location_t *location, float height_m) {

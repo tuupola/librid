@@ -1224,7 +1224,7 @@ TEST test_message_pack_to_json(void) {
     rid_location_init(&location);
 
     rid_basic_id_set_uas_id(&basic_id, "1ABCD2345EF678XYZ", strlen("1ABCD2345EF678XYZ"));
-    rid_location_set_latitude(&location, 60.1699);
+    rid_location_set_coordinates(&location, 60.1699, 24.9384);
 
     rid_message_pack_add_message(&pack, &basic_id);
     rid_message_pack_add_message(&pack, &location);

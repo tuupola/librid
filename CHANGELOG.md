@@ -8,6 +8,7 @@ chronological order by release.
 ### Added
 
 - `rid_system_set_operator_coordinates()` function to set operator latitude and longitude at the same time. ([#xx](https://github.com/tuupola/librid/commit/xxxxxx))
+- `rid_location_set_coordinates()` function to set latitude and longitude at the same time. ([#xx](https://github.com/tuupola/librid/commit/xxxxxx))
 
 ### Changed
 
@@ -29,6 +30,7 @@ chronological order by release.
 ### Removed
 
 - `rid_system_set_operator_latitude()` and `rid_system_set_operator_longitude()` functions. Use `rid_system_set_operator_coordinates()` instead. ([#xx](https://github.com/tuupola/librid/commit/xxxxxx))
+- `rid_location_set_latitude()` and `rid_location_set_longitude()` functions. Use `rid_location_set_coordinates()` instead. ([#xx](https://github.com/tuupola/librid/commit/xxxxxx))
 
 ## [0.5.0](https://github.com/tuupola/librid/compare/0.4.0...0.5.0) - 2026-08-24
 
