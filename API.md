@@ -1706,8 +1706,7 @@ Example usage:
     rid_location_init(&location);
     rid_location_set_operational_status(&location, RID_OPERATIONAL_STATUS_AIRBORNE);
     rid_location_set_height_type(&location, RID_HEIGHT_TYPE_ABOVE_TAKEOFF);
-    rid_location_set_latitude(&location, 62.683472);
-    rid_location_set_longitude(&location, 21.974944);
+    rid_location_set_coordinates(&location, 62.683472, 21.974944);
     rid_location_set_geodetic_altitude(&location, 120.5f);
     rid_location_set_height(&location, 50.0f);
     rid_location_set_speed(&location, 15.5f);
@@ -1795,12 +1794,11 @@ Example usage:
 |  float | [**rid\_location\_get\_vertical\_speed**](#function-rid_location_get_vertical_speed) (const [**rid\_location\_t**](#struct-rid_location_t) \*location) <br>_Get the vertical speed from a Location message._ |
 |  int | [**rid\_location\_init**](#function-rid_location_init) ([**rid\_location\_t**](#struct-rid_location_t) \*location) <br>_Initialize a Location message structure._ |
 |  int | [**rid\_location\_set\_baro\_altitude\_accuracy**](#function-rid_location_set_baro_altitude_accuracy) ([**rid\_location\_t**](#struct-rid_location_t) \*location, [**rid\_vertical\_accuracy\_t**](#enum-rid_vertical_accuracy_t) accuracy) <br>_Set the barometric altitude accuracy for a Location message._ |
+|  int | [**rid\_location\_set\_coordinates**](#function-rid_location_set_coordinates) ([**rid\_location\_t**](#struct-rid_location_t) \*location, double latitude, double longitude) <br>_Set the latitude and longitude for a Location message._ |
 |  int | [**rid\_location\_set\_geodetic\_altitude**](#function-rid_location_set_geodetic_altitude) ([**rid\_location\_t**](#struct-rid_location_t) \*location, float altitude\_m) <br>_Set the geodetic altitude for a Location message._ |
 |  int | [**rid\_location\_set\_height**](#function-rid_location_set_height) ([**rid\_location\_t**](#struct-rid_location_t) \*location, float height\_m) <br>_Set the height for a Location message._ |
 |  int | [**rid\_location\_set\_height\_type**](#function-rid_location_set_height_type) ([**rid\_location\_t**](#struct-rid_location_t) \*location, [**rid\_height\_type\_t**](#enum-rid_height_type_t) type) <br>_Set the height reference type for a Location message._ |
 |  int | [**rid\_location\_set\_horizontal\_accuracy**](#function-rid_location_set_horizontal_accuracy) ([**rid\_location\_t**](#struct-rid_location_t) \*location, [**rid\_horizontal\_accuracy\_t**](#enum-rid_horizontal_accuracy_t) accuracy) <br>_Set the horizontal position accuracy for a Location message._ |
-|  int | [**rid\_location\_set\_latitude**](#function-rid_location_set_latitude) ([**rid\_location\_t**](#struct-rid_location_t) \*location, double degrees) <br>_Set the latitude for a Location message._ |
-|  int | [**rid\_location\_set\_longitude**](#function-rid_location_set_longitude) ([**rid\_location\_t**](#struct-rid_location_t) \*location, double degrees) <br>_Set the longitude for a Location message._ |
 |  int | [**rid\_location\_set\_operational\_status**](#function-rid_location_set_operational_status) ([**rid\_location\_t**](#struct-rid_location_t) \*location, [**rid\_operational\_status\_t**](#enum-rid_operational_status_t) status) <br>_Set the operational status for a Location message._ |
 |  int | [**rid\_location\_set\_pressure\_altitude**](#function-rid_location_set_pressure_altitude) ([**rid\_location\_t**](#struct-rid_location_t) \*location, float altitude\_m) <br>_Set the pressure altitude for a Location message._ |
 |  int | [**rid\_location\_set\_speed**](#function-rid_location_set_speed) ([**rid\_location\_t**](#struct-rid_location_t) \*location, float speed\_ms) <br>_Set the ground speed for a Location message._ |
@@ -2417,6 +2415,38 @@ int rid_location_set_baro_altitude_accuracy (
 
 * `RID_SUCCESS` on success. 
 * `RID_ERROR_NULL_POINTER` if location is NULL.
+### function `rid_location_set_coordinates`
+
+_Set the latitude and longitude for a Location message._
+```c
+int rid_location_set_coordinates (
+    rid_location_t *location,
+    double latitude,
+    double longitude
+) 
+```
+
+
+Encodes both values per ASTM F3411-22a. Pass RID\_LATITUDE\_INVALID and RID\_LONGITUDE\_INVALID together to set the position as unknown. A mixed invalid and valid pair is rejected.
+
+
+
+**Parameters:**
+
+
+* `location` Pointer to the Location message structure. 
+* `latitude` Latitude in degrees (-90.0 to +90.0) or RID\_LATITUDE\_INVALID. 
+* `longitude` Longitude in degrees (-180.0 to +180.0) or RID\_LONGITUDE\_INVALID.
+
+
+**Return value:**
+
+
+* `RID_SUCCESS` on success. 
+* `RID_ERROR_NULL_POINTER` if location is NULL. 
+* `RID_ERROR_INVALID_COMBINATION` if only one of latitude or longitude is invalid. 
+* `RID_ERROR_INVALID_LATITUDE` if latitude is outside the valid range. 
+* `RID_ERROR_INVALID_LONGITUDE` if longitude is outside the valid range.
 ### function `rid_location_set_geodetic_altitude`
 
 _Set the geodetic altitude for a Location message._
@@ -2523,62 +2553,6 @@ int rid_location_set_horizontal_accuracy (
 
 * `RID_SUCCESS` on success. 
 * `RID_ERROR_NULL_POINTER` if location is NULL.
-### function `rid_location_set_latitude`
-
-_Set the latitude for a Location message._
-```c
-int rid_location_set_latitude (
-    rid_location_t *location,
-    double degrees
-) 
-```
-
-
-Encodes the value per ASTM F3411-22a Table 7 with 10^-7 degree resolution. Pass RID\_LATITUDE\_INVALID to mark the latitude as unknown.
-
-
-
-**Parameters:**
-
-
-* `location` Pointer to the Location message structure. 
-* `degrees` Latitude in degrees (-90 to 90) or RID\_LATITUDE\_INVALID for unknown.
-
-
-**Return value:**
-
-
-* `RID_SUCCESS` on success. 
-* `RID_ERROR_NULL_POINTER` if location is NULL. 
-* `RID_ERROR_OUT_OF_RANGE` if degrees is outside the valid range.
-### function `rid_location_set_longitude`
-
-_Set the longitude for a Location message._
-```c
-int rid_location_set_longitude (
-    rid_location_t *location,
-    double degrees
-) 
-```
-
-
-Encodes the value per ASTM F3411-22a Table 7 with 10^-7 degree resolution. Pass RID\_LONGITUDE\_INVALID to mark the longitude as unknown.
-
-
-
-**Parameters:**
-
-
-* `location` Pointer to the Location message structure. 
-* `degrees` Longitude in degrees (-180 to 180) or RID\_LONGITUDE\_INVALID for unknown.
-
-
-**Return value:**
-
-
-* `RID_SUCCESS` on success. 
-* `RID_ERROR_NULL_POINTER` if location is NULL. 
-* `RID_ERROR_OUT_OF_RANGE` if degrees is outside the valid range.
 ### function `rid_location_set_operational_status`
 
 _Set the operational status for a Location message._
@@ -3166,7 +3140,8 @@ enum rid_error_t {
     RID_ERROR_INVALID_CAA_REGISTRATION_ID = -21,
     RID_ERROR_NOT_FOUND = -22,
     RID_ERROR_INVALID_MESSAGE_TYPE = -23,
-    RID_ERROR_NOT_IMPLEMENTED = -24
+    RID_ERROR_NOT_IMPLEMENTED = -24,
+    RID_ERROR_INVALID_COMBINATION = -25
 };
 ```
 
@@ -4547,8 +4522,7 @@ Example usage:
     rid_system_set_ua_classification_category(&system, RID_UA_CLASSIFICATION_CATEGORY_OPEN);
     rid_system_set_ua_classification_class(&system, RID_UA_CLASSIFICATION_CLASS_1);
 
-    rid_system_set_operator_latitude(&system, 60.2870324);
-    rid_system_set_operator_longitude(&system, 24.5397187);
+    rid_system_set_operator_coordinates(&system, 60.2870324, 24.5397187);
     rid_system_set_operator_altitude(&system, 50.0f);
 
     rid_system_set_area_count(&system, 1);
@@ -4613,9 +4587,8 @@ Example usage:
 |  int | [**rid\_system\_set\_area\_radius**](#function-rid_system_set_area_radius) ([**rid\_system\_t**](#struct-rid_system_t) \*system, uint16\_t meters) <br>_Set the area radius for a System message._ |
 |  int | [**rid\_system\_set\_classification\_type**](#function-rid_system_set_classification_type) ([**rid\_system\_t**](#struct-rid_system_t) \*system, [**rid\_classification\_type\_t**](#enum-rid_classification_type_t) type) <br>_Set the classification type for a System message._ |
 |  int | [**rid\_system\_set\_operator\_altitude**](#function-rid_system_set_operator_altitude) ([**rid\_system\_t**](#struct-rid_system_t) \*system, float altitude) <br>_Set the operator altitude for a System message._ |
-|  int | [**rid\_system\_set\_operator\_latitude**](#function-rid_system_set_operator_latitude) ([**rid\_system\_t**](#struct-rid_system_t) \*system, double degrees) <br>_Set the operator latitude for a System message._ |
+|  int | [**rid\_system\_set\_operator\_coordinates**](#function-rid_system_set_operator_coordinates) ([**rid\_system\_t**](#struct-rid_system_t) \*system, double latitude, double longitude) <br>_Set the operator latitude and longitude for a System message._ |
 |  int | [**rid\_system\_set\_operator\_location\_type**](#function-rid_system_set_operator_location_type) ([**rid\_system\_t**](#struct-rid_system_t) \*system, [**rid\_operator\_location\_type\_t**](#enum-rid_operator_location_type_t) type) <br>_Set the operator location type for a System message._ |
-|  int | [**rid\_system\_set\_operator\_longitude**](#function-rid_system_set_operator_longitude) ([**rid\_system\_t**](#struct-rid_system_t) \*system, double degrees) <br>_Set the operator longitude for a System message._ |
 |  int | [**rid\_system\_set\_timestamp**](#function-rid_system_set_timestamp) ([**rid\_system\_t**](#struct-rid_system_t) \*system, uint32\_t timestamp) <br>_Set the timestamp for a System message._ |
 |  int | [**rid\_system\_set\_ua\_classification\_category**](#function-rid_system_set_ua_classification_category) ([**rid\_system\_t**](#struct-rid_system_t) \*system, [**rid\_ua\_classification\_category\_t**](#enum-rid_ua_classification_category_t) category) <br>_Set the UA classification category for a System message._ |
 |  int | [**rid\_system\_set\_ua\_classification\_class**](#function-rid_system_set_ua_classification_class) ([**rid\_system\_t**](#struct-rid_system_t) \*system, [**rid\_ua\_classification\_class\_t**](#enum-rid_ua_classification_class_t) class) <br>_Set the UA classification class for a System message._ |
@@ -5213,18 +5186,19 @@ Encodes altitude in meters per ASTM F3411-22a ((value + 1000) / 0.5).
 * `RID_SUCCESS` on success. 
 * `RID_ERROR_NULL_POINTER` if system is NULL. 
 * `RID_ERROR_OUT_OF_RANGE` if altitude is outside valid range.
-### function `rid_system_set_operator_latitude`
+### function `rid_system_set_operator_coordinates`
 
-_Set the operator latitude for a System message._
+_Set the operator latitude and longitude for a System message._
 ```c
-int rid_system_set_operator_latitude (
+int rid_system_set_operator_coordinates (
     rid_system_t *system,
-    double degrees
+    double latitude,
+    double longitude
 ) 
 ```
 
 
-Encodes latitude in degrees per ASTM F3411-22a (value \* 10^7).
+Encodes both values per ASTM F3411-22a. Pass RID\_OPERATOR\_LATITUDE\_INVALID and RID\_OPERATOR\_LONGITUDE\_INVALID together to set the operator position as unknown. A mixed invalid and valid pair is rejected.
 
 
 
@@ -5232,7 +5206,8 @@ Encodes latitude in degrees per ASTM F3411-22a (value \* 10^7).
 
 
 * `system` Pointer to the System message structure. 
-* `degrees` Latitude in degrees (-90.0 to +90.0). Use RID\_OPERATOR\_LATITUDE\_INVALID to indicate invalid/unknown.
+* `latitude` Latitude in degrees (-90.0 to +90.0) or RID\_OPERATOR\_LATITUDE\_INVALID. 
+* `longitude` Longitude in degrees (-180.0 to +180.0) or RID\_OPERATOR\_LONGITUDE\_INVALID.
 
 
 **Return value:**
@@ -5240,7 +5215,9 @@ Encodes latitude in degrees per ASTM F3411-22a (value \* 10^7).
 
 * `RID_SUCCESS` on success. 
 * `RID_ERROR_NULL_POINTER` if system is NULL. 
-* `RID_ERROR_OUT_OF_RANGE` if degrees is outside valid range.
+* `RID_ERROR_INVALID_COMBINATION` if only one of latitude or longitude is invalid. 
+* `RID_ERROR_INVALID_LATITUDE` if latitude is outside the valid range. 
+* `RID_ERROR_INVALID_LONGITUDE` if longitude is outside the valid range.
 ### function `rid_system_set_operator_location_type`
 
 _Set the operator location type for a System message._
@@ -5264,34 +5241,6 @@ int rid_system_set_operator_location_type (
 
 * `RID_SUCCESS` on success. 
 * `RID_ERROR_NULL_POINTER` if system is NULL.
-### function `rid_system_set_operator_longitude`
-
-_Set the operator longitude for a System message._
-```c
-int rid_system_set_operator_longitude (
-    rid_system_t *system,
-    double degrees
-) 
-```
-
-
-Encodes longitude in degrees per ASTM F3411-22a (value \* 10^7).
-
-
-
-**Parameters:**
-
-
-* `system` Pointer to the System message structure. 
-* `degrees` Longitude in degrees (-180.0 to +180.0). Use RID\_OPERATOR\_LONGITUDE\_INVALID to indicate invalid/unknown.
-
-
-**Return value:**
-
-
-* `RID_SUCCESS` on success. 
-* `RID_ERROR_NULL_POINTER` if system is NULL. 
-* `RID_ERROR_OUT_OF_RANGE` if degrees is outside valid range.
 ### function `rid_system_set_timestamp`
 
 _Set the timestamp for a System message._
