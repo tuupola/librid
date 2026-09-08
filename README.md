@@ -27,7 +27,7 @@ Naming of modules and variables mirrors naming from the ASTM F3411 standard.
 
 | Element   | Pattern                  | Example                       |
 | --------- | ------------------------ | ----------------------------- |
-| Functions | `rid_<module>_<action>`  | `rid_location_set_latitude()` |
+| Functions | `rid_<module>_<action>`  | `rid_location_set_speed()`    |
 | Types     | `rid_<module>_t`         | `rid_basic_id_t`              |
 | Enums     | `RID_<CATEGORY>_<VALUE>` | `RID_ID_TYPE_SERIAL_NUMBER`   |
 | Constants | `RID_<NAME>`             | `RID_TRACK_DIRECTION_MAX`     |
@@ -38,8 +38,8 @@ Functions generally follow the init, validate, get and set pattern.
 | ------------------------------- | ------------------------ | ----------------------------- |
 | `rid_<type>_init()`             | Initialize with defaults | `rid_location_init()`         |
 | `rid_<type>_validate()`         | Validate structure       | `rid_location_validate()`     |
-| `rid_<type>_set_<field>()`      | Mutator                  | `rid_location_set_latitude()` |
-| `rid_<type>_get_<field>()`      | Accessor                 | `rid_location_get_latitude()` |
+| `rid_<type>_set_<field>()`      | Mutator                  | `rid_location_set_speed()`    |
+| `rid_<type>_get_<field>()`      | Accessor                 | `rid_location_get_speed()`    |
 | `rid_<type>_<enum>_to_string()` | Enum to string           | `rid_height_type_to_string()` |
 | `rid_<type>_to_json()`          | JSON serialization       | `rid_location_to_json()`      |
 
