@@ -5,32 +5,28 @@ chronological order by release.
 
 ## [0.6.0-dev](https://github.com/tuupola/librid/compare/0.5.0...master) - unreleased
 
+This release is mostly about removing footguns and surprising behaviour.
+
 ### Added
 
-- `rid_system_set_operator_coordinates()` function to set operator latitude and longitude at the same time. ([#94](https://github.com/tuupola/librid/commit/6121b6b))
-- `rid_location_set_coordinates()` function to set latitude and longitude at the same time. ([#95](https://github.com/tuupola/librid/commit/0b89e51))
+- Functions the set both latitude and longitude at the same time. This is to avoid situations where only one of the coordinates was marked invalid. ([#94](https://github.com/tuupola/librid/commit/6121b6b), [#95](https://github.com/tuupola/librid/commit/0b89e51))
 
 ### Changed
 
-- `rid_basic_id_set_uas_id()` now takes a `void *` buffer and length instead of a C string. ([#75](https://github.com/tuupola/librid/commit/f4d832c))
-- `rid_basic_id_get_uas_id()` now takes a `void *` buffer and copies `RID_UAS_ID_SIZE` bytes. ([#81](https://github.com/tuupola/librid/commit/ede5f75))
-- `rid_self_id_set_description()` and `rid_self_id_validate()` now reject ASCII control characters. ([#82](https://github.com/tuupola/librid/commit/9943554))
-- `rid_operator_id_set()` and `rid_operator_id_validate()` now reject ASCII control characters. ([#85](https://github.com/tuupola/librid/commit/059c2bb))
+- The UAS ID functions now handle binary data properly. ([#75](https://github.com/tuupola/librid/commit/f4d832c), [#81](https://github.com/tuupola/librid/commit/ede5f75))
+- Self ID and Operator ID now reject ASCII control characters. ([#82](https://github.com/tuupola/librid/commit/9943554), [#85](https://github.com/tuupola/librid/commit/059c2bb))
 - `RID_ID_TYPE_OPERATOR_ID` was renamed to `RID_OPERATOR_ID_TYPE_DEFAULT`. ([#88](https://github.com/tuupola/librid/commit/b30aa27))
-- `rid_auth_set_type()` now rejects a non-empty signature for `RID_AUTH_TYPE_NONE` and `RID_AUTH_TYPE_NETWORK_REMOTE_ID`. ([#92](https://github.com/tuupola/librid/commit/ed18684))
-- `rid_auth_set_signature()` now rejects a non-empty signature for `RID_AUTH_TYPE_NONE` and `RID_AUTH_TYPE_NETWORK_REMOTE_ID`. ([#93](https://github.com/tuupola/librid/commit/a28dc47))
+- Non-empty signatures are now rejected for `RID_AUTH_TYPE_NONE` and `RID_AUTH_TYPE_NETWORK_REMOTE_ID`. ([#92](https://github.com/tuupola/librid/commit/ed18684), [#93](https://github.com/tuupola/librid/commit/a28dc47))
 
 ### Fixed
 
 - `rid_auth_set_signature()` now clears any lingering data if new signature is shorter than the previous. ([#83](https://github.com/tuupola/librid/commit/e5020a5))
 - `rid_auth_set_signature()` now accepts NULL if signature length is 0. ([#84](https://github.com/tuupola/librid/commit/0557fc0))
-- `rid_operator_id_set_type()` now has a range check. ([#87](https://github.com/tuupola/librid/commit/f155189))
-- All setter functions now have range checks. ([#91](https://github.com/tuupola/librid/commit/fb00286))
+- All setter functions now have range checks. ([#87](https://github.com/tuupola/librid/commit/f155189), [#91](https://github.com/tuupola/librid/commit/fb00286))
 
 ### Removed
 
-- `rid_system_set_operator_latitude()` and `rid_system_set_operator_longitude()` functions. Use `rid_system_set_operator_coordinates()` instead. ([#94](https://github.com/tuupola/librid/commit/6121b6b))
-- `rid_location_set_latitude()` and `rid_location_set_longitude()` functions. Use `rid_location_set_coordinates()` instead. ([#95](https://github.com/tuupola/librid/commit/0b89e51))
+- Functions to set only latitude or longitude. This is to avoid situations where only one of the coordinates was marked invalid. ([#94](https://github.com/tuupola/librid/commit/6121b6b), [#95](https://github.com/tuupola/librid/commit/0b89e51))
 
 ## [0.5.0](https://github.com/tuupola/librid/compare/0.4.0...0.5.0) - 2026-08-24
 
