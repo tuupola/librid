@@ -23,6 +23,7 @@ This release is mostly about removing footguns and surprising behaviour.
 - `rid_auth_set_signature()` now clears any lingering data if new signature is shorter than the previous. ([#83](https://github.com/tuupola/librid/commit/e5020a5))
 - `rid_auth_set_signature()` now accepts NULL if signature length is 0. ([#84](https://github.com/tuupola/librid/commit/0557fc0))
 - All setter functions now have range checks. ([#87](https://github.com/tuupola/librid/commit/f155189), [#91](https://github.com/tuupola/librid/commit/fb00286))
+- Reserved bits caused Auth message to fail validation. ([#96](https://github.com/tuupola/librid/commit/xxxxxxx))
 
 ### Removed
 

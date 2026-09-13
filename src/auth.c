@@ -74,7 +74,7 @@ int rid_auth_validate(const rid_auth_t *auth) {
         return RID_ERROR_INVALID_PAGE_NUMBER;
     }
 
-    if (auth->page_0.last_page_index > RID_AUTH_MAX_PAGE_INDEX) {
+    if (rid_auth_page_0_get_last_page_index(&auth->page_0) > RID_AUTH_MAX_PAGE_INDEX) {
         return RID_ERROR_INVALID_LAST_PAGE_INDEX;
     }
 

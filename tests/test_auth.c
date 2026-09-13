@@ -78,17 +78,18 @@ TEST test_auth_validate_invalid_page_number(void) {
     PASS();
 }
 
-TEST test_auth_validate_invalid_last_page_index(void) {
+TEST test_auth_validate_last_page_index_reserved_bits(void) {
     rid_auth_t auth;
     rid_auth_init(&auth);
 
-    /* Max is 15 (RID_AUTH_MAX_PAGE_INDEX) */
-    auth.page_0.last_page_index = 16;
+    /* Reserved bits [7..4] must not fail validate. */
+    /* 0001 0000 */
+    auth.page_0.last_page_index = 0x10;
     int status = rid_auth_validate(&auth);
-    ASSERT_EQ(RID_ERROR_INVALID_LAST_PAGE_INDEX, status);
+    ASSERT_EQ(RID_SUCCESS, status);
 
-    /* Max valid should pass */
-    auth.page_0.last_page_index = 15;
+    /* 1010 1111 */
+    auth.page_0.last_page_index = 0xAF;
     status = rid_auth_validate(&auth);
     ASSERT_EQ(RID_SUCCESS, status);
 
@@ -788,7 +789,7 @@ SUITE(auth_suite) {
     RUN_TEST(test_auth_validate_invalid_protocol_version);
     RUN_TEST(test_auth_validate_invalid_message_type);
     RUN_TEST(test_auth_validate_invalid_page_number);
-    RUN_TEST(test_auth_validate_invalid_last_page_index);
+    RUN_TEST(test_auth_validate_last_page_index_reserved_bits);
     RUN_TEST(test_auth_validate_bmg0180);
     RUN_TEST(test_auth_get_page_count);
     RUN_TEST(test_auth_set_and_get_type);
