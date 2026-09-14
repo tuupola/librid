@@ -16,7 +16,7 @@ This release is mostly about removing footguns and surprising behaviour.
 - The UAS ID functions now handle binary data properly. ([#75](https://github.com/tuupola/librid/commit/f4d832c), [#81](https://github.com/tuupola/librid/commit/ede5f75))
 - Self ID and Operator ID now reject ASCII control characters. ([#82](https://github.com/tuupola/librid/commit/9943554), [#85](https://github.com/tuupola/librid/commit/059c2bb))
 - `RID_ID_TYPE_OPERATOR_ID` was renamed to `RID_OPERATOR_ID_TYPE_DEFAULT`. ([#88](https://github.com/tuupola/librid/commit/b30aa27))
-- Non-empty signatures are now rejected for `RID_AUTH_TYPE_NONE` and `RID_AUTH_TYPE_NETWORK_REMOTE_ID`. ([#92](https://github.com/tuupola/librid/commit/ed18684), [#93](https://github.com/tuupola/librid/commit/a28dc47))
+- Non-empty signatures are now rejected for `RID_AUTH_TYPE_NONE` and `RID_AUTH_TYPE_NETWORK_REMOTE_ID`. ([#92](https://github.com/tuupola/librid/commit/ed18684), [#93](https://github.com/tuupola/librid/commit/a28dc47), [#97](https://github.com/tuupola/librid/commit/xxxxxxx))
 
 ### Fixed
 

@@ -78,8 +78,10 @@ int rid_auth_validate(const rid_auth_t *auth) {
         return RID_ERROR_INVALID_LAST_PAGE_INDEX;
     }
 
-    /* BMG0180: Network Remote ID requires an empty signature */
-    if (auth->page_0.auth_type == RID_AUTH_TYPE_NETWORK_REMOTE_ID) {
+    /* BMG0120: Type NONE requires an empty signature. */
+    /* BMG0180: Network Remote ID requires an empty signature. */
+    if (auth->page_0.auth_type == RID_AUTH_TYPE_NONE ||
+        auth->page_0.auth_type == RID_AUTH_TYPE_NETWORK_REMOTE_ID) {
         if (auth->page_0.length != 0) {
             return RID_ERROR_NON_EMPTY_SIGNATURE;
         }

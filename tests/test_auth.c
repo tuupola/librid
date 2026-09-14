@@ -96,6 +96,22 @@ TEST test_auth_validate_last_page_index_reserved_bits(void) {
     PASS();
 }
 
+TEST test_auth_validate_bmg0120(void) {
+    rid_auth_t auth;
+    rid_auth_init(&auth);
+
+    /* NONE with empty signature is ok. */
+    int status = rid_auth_validate(&auth);
+    ASSERT_EQ(RID_SUCCESS, status);
+
+    /* NONE with non-empty signature fails. */
+    auth.page_0.length = 1;
+    status = rid_auth_validate(&auth);
+    ASSERT_EQ(RID_ERROR_NON_EMPTY_SIGNATURE, status);
+
+    PASS();
+}
+
 TEST test_auth_validate_bmg0180(void) {
     rid_auth_t auth;
     rid_auth_init(&auth);
@@ -790,6 +806,7 @@ SUITE(auth_suite) {
     RUN_TEST(test_auth_validate_invalid_message_type);
     RUN_TEST(test_auth_validate_invalid_page_number);
     RUN_TEST(test_auth_validate_last_page_index_reserved_bits);
+    RUN_TEST(test_auth_validate_bmg0120);
     RUN_TEST(test_auth_validate_bmg0180);
     RUN_TEST(test_auth_get_page_count);
     RUN_TEST(test_auth_set_and_get_type);
