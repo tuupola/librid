@@ -7,6 +7,7 @@ theme:
   name: readthedocs
   custom_dir: scripts/overrides
 plugins:
+  - search
   - llmstxt:
       full_output: llms-full.txt
       sections:
