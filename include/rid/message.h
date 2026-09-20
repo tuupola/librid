@@ -172,7 +172,7 @@ const char *rid_error_to_string(rid_error_t error);
  */
 int rid_message_validate(const void *message);
 
-#ifndef RID_DISABLE_JSON
+#ifdef RID_ENABLE_JSON
 /**
  * @brief Format any Remote ID message as a JSON string.
  *
@@ -190,7 +190,7 @@ int rid_message_validate(const void *message);
  * @retval RID_ERROR_BUFFER_TOO_SMALL if @p buffer is too small.
  */
 int rid_message_to_json(const void *message, char *buffer, size_t buffer_size, size_t *needed_size);
-#endif /* RID_DISABLE_JSON */
+#endif /* RID_ENABLE_JSON */
 
 #ifdef __cplusplus
 }

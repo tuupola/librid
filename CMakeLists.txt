@@ -13,15 +13,18 @@ if(ESP_PLATFORM)
         "src/transport.c"
         "src/version.c"
     )
-    if(NOT RID_DISABLE_JSON)
+    if(NOT DEFINED RID_ENABLE_JSON)
+        set(RID_ENABLE_JSON ON)
+    endif()
+    if(RID_ENABLE_JSON)
         list(APPEND RID_SRCS "src/json.c")
     endif()
     idf_component_register(
         SRCS ${RID_SRCS}
         INCLUDE_DIRS "include"
     )
-    if(RID_DISABLE_JSON)
-        target_compile_definitions(${COMPONENT_LIB} PUBLIC RID_DISABLE_JSON)
+    if(RID_ENABLE_JSON)
+        target_compile_definitions(${COMPONENT_LIB} PUBLIC RID_ENABLE_JSON)
     endif()
 else()
     cmake_minimum_required(VERSION 3.10)
@@ -44,7 +47,7 @@ else()
 
     option(RID_BUILD_EXAMPLES "Build example programs" OFF)
     option(RID_BUILD_TESTS "Build unit tests" OFF)
-    option(RID_DISABLE_JSON "Exclude JSON serialization" OFF)
+    option(RID_ENABLE_JSON "Include JSON serialization" ON)
 
     set(RID_SRCS
         src/basic_id.c
@@ -60,7 +63,7 @@ else()
         src/transport.c
         src/version.c
     )
-    if(NOT RID_DISABLE_JSON)
+    if(RID_ENABLE_JSON)
         list(APPEND RID_SRCS src/json.c)
     endif()
 
@@ -68,8 +71,8 @@ else()
 
     target_include_directories(rid PUBLIC include)
     target_compile_options(rid PRIVATE -Wall -Wextra -Wdouble-promotion)
-    if(RID_DISABLE_JSON)
-        target_compile_definitions(rid PUBLIC RID_DISABLE_JSON)
+    if(RID_ENABLE_JSON)
+        target_compile_definitions(rid PUBLIC RID_ENABLE_JSON)
     endif()
 
     find_program(RID_SIZE_COMMAND size)

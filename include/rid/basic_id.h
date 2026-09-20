@@ -226,7 +226,7 @@ const char *rid_basic_id_type_to_string(rid_basic_id_type_t type);
  */
 const char *rid_ua_type_to_string(rid_ua_type_t type);
 
-#ifndef RID_DISABLE_JSON
+#ifdef RID_ENABLE_JSON
 /**
  * @brief Format a Basic ID message as a JSON string.
  *
@@ -243,7 +243,7 @@ const char *rid_ua_type_to_string(rid_ua_type_t type);
 int rid_basic_id_to_json(
     const rid_basic_id_t *message, char *buffer, size_t buffer_size, size_t *needed_size
 );
-#endif /* RID_DISABLE_JSON */
+#endif /* RID_ENABLE_JSON */
 
 #ifdef __cplusplus
 }

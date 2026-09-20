@@ -38,7 +38,7 @@ SPDX-License-Identifier: MIT
 #include "rid/message.h"
 #include "rid/message_pack.h"
 
-#ifndef RID_DISABLE_JSON
+#ifdef RID_ENABLE_JSON
 #include "json.h"
 #endif
 
@@ -321,7 +321,7 @@ int rid_message_pack_sort(rid_message_pack_t *pack) {
     return RID_SUCCESS;
 }
 
-#ifndef RID_DISABLE_JSON
+#ifdef RID_ENABLE_JSON
 int rid_message_pack_to_json(const rid_message_pack_t *pack, char *buffer, size_t buffer_size, size_t *needed_size) {
     rid_json_t json;
     rid_auth_t auth;
@@ -402,4 +402,4 @@ int rid_message_pack_to_json(const rid_message_pack_t *pack, char *buffer, size_
 
     return RID_SUCCESS;
 }
-#endif /* RID_DISABLE_JSON */
+#endif /* RID_ENABLE_JSON */

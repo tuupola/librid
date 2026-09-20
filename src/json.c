@@ -30,7 +30,7 @@
  *
  */
 
-#ifndef RID_DISABLE_JSON
+#ifdef RID_ENABLE_JSON
 
 #include <stdio.h>
 
@@ -173,4 +173,4 @@ void rid_json_raw(rid_json_t *json, const char *token, size_t token_length) {
     json->need_comma = 1;
 }
 
-#endif /* RID_DISABLE_JSON */
+#endif /* RID_ENABLE_JSON */

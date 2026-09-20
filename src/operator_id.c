@@ -37,7 +37,7 @@ SPDX-License-Identifier: MIT
 #include "rid/message.h"
 #include "rid/operator_id.h"
 
-#ifndef RID_DISABLE_JSON
+#ifdef RID_ENABLE_JSON
 #include "json.h"
 #endif
 
@@ -150,7 +150,7 @@ const char *rid_operator_id_type_to_string(rid_operator_id_type_t type) {
     }
 }
 
-#ifndef RID_DISABLE_JSON
+#ifdef RID_ENABLE_JSON
 int rid_operator_id_to_json(const rid_operator_id_t *message, char *buffer, size_t buffer_size, size_t *needed_size) {
     rid_json_t json;
     char operator_id[RID_OPERATOR_ID_SIZE + 1];
@@ -186,4 +186,4 @@ int rid_operator_id_to_json(const rid_operator_id_t *message, char *buffer, size
 
     return RID_SUCCESS;
 }
-#endif /* RID_DISABLE_JSON */
+#endif /* RID_ENABLE_JSON */

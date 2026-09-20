@@ -37,7 +37,7 @@ SPDX-License-Identifier: MIT
 #include "rid/message.h"
 #include "rid/system.h"
 
-#ifndef RID_DISABLE_JSON
+#ifdef RID_ENABLE_JSON
 #include <stdio.h>
 
 #include "json.h"
@@ -472,7 +472,7 @@ const char *rid_ua_classification_class_to_string(rid_ua_classification_class_t 
     }
 }
 
-#ifndef RID_DISABLE_JSON
+#ifdef RID_ENABLE_JSON
 int rid_system_to_json(const rid_system_t *system, char *buffer, size_t buffer_size, size_t *needed_size) {
     rid_json_t json;
     char token[32];
@@ -569,4 +569,4 @@ int rid_system_to_json(const rid_system_t *system, char *buffer, size_t buffer_s
 
     return RID_SUCCESS;
 }
-#endif /* RID_DISABLE_JSON */
+#endif /* RID_ENABLE_JSON */

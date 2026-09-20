@@ -528,7 +528,7 @@ const char *rid_ua_classification_category_to_string(rid_ua_classification_categ
  */
 const char *rid_ua_classification_class_to_string(rid_ua_classification_class_t class);
 
-#ifndef RID_DISABLE_JSON
+#ifdef RID_ENABLE_JSON
 /**
  * @brief Format a System message as a JSON string.
  *
@@ -543,7 +543,7 @@ const char *rid_ua_classification_class_to_string(rid_ua_classification_class_t 
  * @retval RID_ERROR_BUFFER_TOO_SMALL if @p buffer is too small.
  */
 int rid_system_to_json(const rid_system_t *system, char *buffer, size_t buffer_size, size_t *needed_size);
-#endif /* RID_DISABLE_JSON */
+#endif /* RID_ENABLE_JSON */
 
 #ifdef __cplusplus
 }
