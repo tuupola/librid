@@ -1,5 +1,5 @@
 CC = gcc
-CFLAGS = -Wall -Wextra -Wdouble-promotion -std=c99 -I../../include
+CFLAGS = -Wall -Wextra -Wdouble-promotion -std=c99 -I../../include -DRID_ENABLE_JSON
 LDFLAGS =
 
 SRC_DIR = ../../src
