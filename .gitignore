@@ -1,6 +1,7 @@
 .cache/
 build/
-docs/
+docs/*
+!docs/robots.txt
 specs/
 *.o
 Doxyfile.dist

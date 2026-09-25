@@ -1,0 +1,10 @@
+User-agent: *
+Content-Signal: ai-train=yes, search=yes, ai-input=yes
+Allow: /
+Allow: /latest/
+Allow: /llms.txt
+Allow: /llms-full.txt
+Disallow: /search.html
+Disallow: /latest/search.html
+
+Sitemap: https://www.librid.org/sitemap.xml
