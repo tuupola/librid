@@ -169,7 +169,7 @@ int rid_auth_set_signature(rid_auth_t *auth, const uint8_t *signature, size_t si
         return RID_ERROR_NULL_POINTER;
     }
 
-    if (signature_size > 255) {
+    if (signature_size > RID_AUTH_PAGE_MAX_SIGNATURE_SIZE) {
         return RID_ERROR_BUFFER_TOO_LARGE;
     }
 
@@ -315,7 +315,7 @@ int rid_auth_verify(
     memcpy(payload + payload_length, &timestamp, sizeof(timestamp));
     payload_length += sizeof(timestamp);
 
-    uint8_t signature[255];
+    uint8_t signature[RID_AUTH_PAGE_MAX_SIGNATURE_SIZE];
     rc = rid_auth_get_signature(auth, signature, sizeof(signature));
     if (RID_SUCCESS != rc) {
         return rc;
@@ -375,7 +375,7 @@ int rid_auth_sign(
     memcpy(payload + payload_length, &timestamp, sizeof(timestamp));
     payload_length += sizeof(timestamp);
 
-    uint8_t signature[255];
+    uint8_t signature[RID_AUTH_PAGE_MAX_SIGNATURE_SIZE];
     size_t signature_length = 0;
 
     rc = callback(context, payload, payload_length, signature, sizeof(signature), &signature_length);
