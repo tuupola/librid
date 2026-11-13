@@ -58,10 +58,9 @@ extern "C" {
 
 /** @name Transport OUI Values
  *
- *  Organizationally Unique Identifiers for each transport.
+ *  Organizationally Unique Identifiers for Wi-Fi transports.
  *  @{
  */
-#define RID_TRANSPORT_BLUETOOTH_OUI 0xFFFA
 #define RID_TRANSPORT_WIFI_NAN_OUI 0x506F9A
 #define RID_TRANSPORT_WIFI_BEACON_OUI 0xFA0BBC
 /** @} */
@@ -69,6 +68,8 @@ extern "C" {
 /** @name Bluetooth Constants
  *  @{
  */
+#define RID_TRANSPORT_BLUETOOTH_SERVICE_UUID 0xFFFA
+#define RID_TRANSPORT_BLUETOOTH_SERVICE_UUID_SIZE 2
 #define RID_TRANSPORT_BLUETOOTH_APP_CODE 0x0D
 /** @} */
 
