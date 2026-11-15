@@ -165,7 +165,7 @@ int rid_message_pack_find_message_index_by_type(
         return RID_ERROR_NULL_POINTER;
     }
 
-    if (start_index >= pack->message_count || start_index >= RID_MESSAGE_PACK_MAX_MESSAGES) {
+    if (start_index >= RID_MESSAGE_PACK_MAX_MESSAGES) {
         return RID_ERROR_OUT_OF_RANGE;
     }
 

@@ -399,7 +399,29 @@ TEST test_find_message_index_by_type_not_found(void) {
     rc = rid_message_pack_find_message_index_by_type(&pack, RID_MESSAGE_TYPE_SYSTEM, 0, &index);
     ASSERT_EQ(RID_ERROR_NOT_FOUND, rc);
 
-    /* Type present before start_index. */
+    /* Type present before start index. */
+    rc = rid_message_pack_find_message_index_by_type(&pack, RID_MESSAGE_TYPE_BASIC_ID, 1, &index);
+    ASSERT_EQ(RID_ERROR_NOT_FOUND, rc);
+
+    /* Start index bigger than count but still a valid slot. */
+    rc = rid_message_pack_find_message_index_by_type(&pack, RID_MESSAGE_TYPE_BASIC_ID, 4, &index);
+    ASSERT_EQ(RID_ERROR_NOT_FOUND, rc);
+
+    /* Start index same as count. */
+    rc = rid_message_pack_find_message_index_by_type(&pack, RID_MESSAGE_TYPE_BASIC_ID, 3, &index);
+    ASSERT_EQ(RID_ERROR_NOT_FOUND, rc);
+
+    /* Last valid slot. */
+    rc = rid_message_pack_find_message_index_by_type(
+        &pack, RID_MESSAGE_TYPE_BASIC_ID, RID_MESSAGE_PACK_MAX_MESSAGES - 1, &index
+    );
+    ASSERT_EQ(RID_ERROR_NOT_FOUND, rc);
+
+    /* Empty pack with a valid start index. */
+    rid_message_pack_init(&pack);
+    rc = rid_message_pack_find_message_index_by_type(&pack, RID_MESSAGE_TYPE_BASIC_ID, 0, &index);
+    ASSERT_EQ(RID_ERROR_NOT_FOUND, rc);
+
     rc = rid_message_pack_find_message_index_by_type(&pack, RID_MESSAGE_TYPE_BASIC_ID, 1, &index);
     ASSERT_EQ(RID_ERROR_NOT_FOUND, rc);
 
@@ -438,24 +460,13 @@ TEST test_find_message_index_by_type_start_index_out_of_range(void) {
     rid_basic_id_init(&basic_id);
     rid_message_pack_add_message(&pack, &basic_id);
 
-    /* Start index bigger than count. */
-    rc = rid_message_pack_find_message_index_by_type(&pack, RID_MESSAGE_TYPE_BASIC_ID, 2, &index);
+    /* Max is RID_MESSAGE_PACK_MAX_MESSAGES - 1. */
+    rc = rid_message_pack_find_message_index_by_type(
+        &pack, RID_MESSAGE_TYPE_BASIC_ID, RID_MESSAGE_PACK_MAX_MESSAGES, &index
+    );
     ASSERT_EQ(RID_ERROR_OUT_OF_RANGE, rc);
 
-    /* Start index bigger than max. */
     rc = rid_message_pack_find_message_index_by_type(&pack, RID_MESSAGE_TYPE_BASIC_ID, UINT8_MAX, &index);
-    ASSERT_EQ(RID_ERROR_OUT_OF_RANGE, rc);
-
-    /* Empty pack with start index 1. */
-    rid_message_pack_init(&pack);
-    rc = rid_message_pack_find_message_index_by_type(&pack, RID_MESSAGE_TYPE_BASIC_ID, 1, &index);
-    ASSERT_EQ(RID_ERROR_OUT_OF_RANGE, rc);
-
-    /* Start index same as count. */
-    rid_message_pack_init(&pack);
-    rid_basic_id_init(&basic_id);
-    rid_message_pack_add_message(&pack, &basic_id);
-    rc = rid_message_pack_find_message_index_by_type(&pack, RID_MESSAGE_TYPE_BASIC_ID, 1, &index);
     ASSERT_EQ(RID_ERROR_OUT_OF_RANGE, rc);
 
     PASS();

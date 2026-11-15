@@ -189,7 +189,8 @@ int rid_message_pack_get_message_type_at(
  *
  * @retval RID_SUCCESS on success, *index holds the matching index.
  * @retval RID_ERROR_NULL_POINTER if pack or index is NULL.
- * @retval RID_ERROR_OUT_OF_RANGE if start_index is past the last message.
+ * @retval RID_ERROR_OUT_OF_RANGE if start_index is greater than or equal to
+ *         RID_MESSAGE_PACK_MAX_MESSAGES.
  * @retval RID_ERROR_NOT_FOUND if no message of the given type is found.
  */
 int rid_message_pack_find_message_index_by_type(
