@@ -5727,7 +5727,7 @@ _Library version information._
 | define  | [**RID\_VERSION\_MAJOR**](#define-rid_version_major)  0<br> |
 | define  | [**RID\_VERSION\_MINOR**](#define-rid_version_minor)  6<br> |
 | define  | [**RID\_VERSION\_PATCH**](#define-rid_version_patch)  0<br> |
-| define  | [**RID\_VERSION\_STRING**](#define-rid_version_string)  "0.6.0-dev"<br> |
+| define  | [**RID\_VERSION\_STRING**](#define-rid_version_string)  "0.6.0"<br> |
 
 
 ## Functions Documentation
@@ -5769,7 +5769,7 @@ Version string in "major.minor.patch" format.
 ### define `RID_VERSION_STRING`
 
 ```c
-#define RID_VERSION_STRING "0.6.0-dev"
+#define RID_VERSION_STRING "0.6.0"
 ```
 
 
