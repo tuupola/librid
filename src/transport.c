@@ -34,10 +34,10 @@ SPDX-License-Identifier: MIT
 
 const char *rid_transport_to_string(rid_transport_t transport) {
     switch (transport) {
-        case RID_TRANSPORT_BLUETOOTH_LEGACY:
-            return "RID_TRANSPORT_BLUETOOTH_LEGACY";
-        case RID_TRANSPORT_BLUETOOTH_LONG_RANGE:
-            return "RID_TRANSPORT_BLUETOOTH_LONG_RANGE";
+        case RID_TRANSPORT_BT_LEGACY:
+            return "RID_TRANSPORT_BT_LEGACY";
+        case RID_TRANSPORT_BT_LONG_RANGE:
+            return "RID_TRANSPORT_BT_LONG_RANGE";
         case RID_TRANSPORT_WIFI_NAN:
             return "RID_TRANSPORT_WIFI_NAN";
         case RID_TRANSPORT_WIFI_BEACON:

@@ -57,7 +57,7 @@ static int decode_and_print(const char *hex_string, int force) {
     }
 
     /* Check for btmon input which has the extra two byte header */
-    if (buffer[0] == RID_TRANSPORT_BLUETOOTH_APP_CODE) {
+    if (buffer[0] == RID_TRANSPORT_BT_APP_CODE) {
         /* Counter is the second byte */
         counter = buffer[1];
         /* Message starts at third byte */

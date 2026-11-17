@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file, in reverse
 chronological order by release.
 
+## [0.7.0-dev](https://github.com/tuupola/librid/compare/0.5.0...0.6.0) - unreleased
+
+### Changed
+
+- BLUETOOTH was shortened to BT in macros and enums. ([#103](https://github.com/tuupola/librid/commit/xxxxxxx))
+
 ## [0.6.0](https://github.com/tuupola/librid/compare/0.5.0...0.6.0) - 2026-11-17
 
 This release is mostly about removing footguns and surprising behaviour.
