@@ -16,15 +16,15 @@ This release is mostly about removing footguns and surprising behaviour.
 - The UAS ID functions now handle binary data properly. ([#75](https://github.com/tuupola/librid/commit/f4d832c), [#81](https://github.com/tuupola/librid/commit/ede5f75))
 - Self ID and Operator ID now reject ASCII control characters. ([#82](https://github.com/tuupola/librid/commit/9943554), [#85](https://github.com/tuupola/librid/commit/059c2bb))
 - `RID_ID_TYPE_OPERATOR_ID` was renamed to `RID_OPERATOR_ID_TYPE_DEFAULT`. ([#88](https://github.com/tuupola/librid/commit/b30aa27))
-- Non-empty signatures are now rejected for `RID_AUTH_TYPE_NONE` and `RID_AUTH_TYPE_NETWORK_REMOTE_ID`. ([#92](https://github.com/tuupola/librid/commit/ed18684), [#93](https://github.com/tuupola/librid/commit/a28dc47), [#97](https://github.com/tuupola/librid/commit/xxxxxxx))
-- `rid_message_pack_find_message_index_by_type()` now returns `RID_ERROR_OUT_OF_RANGE` only if `start_index` is greater than or equal to `RID_MESSAGE_PACK_MAX_MESSAGES`. A valid `start_index` with no match returns `RID_ERROR_NOT_FOUND`. ([#102](https://github.com/tuupola/librid/commit/xxxxxxx))
+- Non-empty signatures are now rejected for `RID_AUTH_TYPE_NONE` and `RID_AUTH_TYPE_NETWORK_REMOTE_ID`. ([#92](https://github.com/tuupola/librid/commit/ed18684), [#93](https://github.com/tuupola/librid/commit/a28dc47), [#97](https://github.com/tuupola/librid/commit/7c702b3))
+- `rid_message_pack_find_message_index_by_type()` now returns `RID_ERROR_OUT_OF_RANGE` only if `start_index` is greater than or equal to `RID_MESSAGE_PACK_MAX_MESSAGES`. A valid `start_index` with no match returns `RID_ERROR_NOT_FOUND`. ([#102](https://github.com/tuupola/librid/commit/776c01c))
 
 ### Fixed
 
 - `rid_auth_set_signature()` now clears any lingering data if new signature is shorter than the previous. ([#83](https://github.com/tuupola/librid/commit/e5020a5))
 - `rid_auth_set_signature()` now accepts NULL if signature length is 0. ([#84](https://github.com/tuupola/librid/commit/0557fc0))
 - All setter functions now have range checks. ([#87](https://github.com/tuupola/librid/commit/f155189), [#91](https://github.com/tuupola/librid/commit/fb00286))
-- Reserved bits caused Auth message to fail validation. ([#96](https://github.com/tuupola/librid/commit/xxxxxxx))
+- Reserved bits caused Auth message to fail validation. ([#96](https://github.com/tuupola/librid/commit/a4ec55a))
 
 ### Removed
 
