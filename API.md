@@ -544,7 +544,7 @@ Checks that page\_0 fields contain valid values according to ASTM F3411-22a.
 * `RID_ERROR_UNKNOWN_MESSAGE_TYPE` if message type is not AUTH. 
 * `RID_ERROR_INVALID_PAGE_NUMBER` if page\_number is invalid. 
 * `RID_ERROR_INVALID_LAST_PAGE_INDEX` if last\_page\_index exceeds maximum. 
-* `RID_ERROR_NON_EMPTY_SIGNATURE` if auth type is NETWORK\_REMOTE\_ID but signature is not empty.
+* `RID_ERROR_NON_EMPTY_SIGNATURE` if auth type is RID\_AUTH\_TYPE\_NONE or RID\_AUTH\_TYPE\_NETWORK\_REMOTE\_ID but signature is not empty.
 ### function `rid_auth_verify`
 
 _Verify an authentication signature using a caller supplied callback._
@@ -3565,7 +3565,7 @@ int rid_message_pack_find_message_index_by_type (
 
 * `RID_SUCCESS` on success, \*index holds the matching index. 
 * `RID_ERROR_NULL_POINTER` if pack or index is NULL. 
-* `RID_ERROR_OUT_OF_RANGE` if start\_index is past the last message. 
+* `RID_ERROR_OUT_OF_RANGE` if start\_index is greater than or equal to RID\_MESSAGE\_PACK\_MAX\_MESSAGES. 
 * `RID_ERROR_NOT_FOUND` if no message of the given type is found.
 ### function `rid_message_pack_get_auth`
 
@@ -5567,7 +5567,8 @@ _Remote ID transport method definitions._
 | define  | [**RID\_TRANSPORT\_BLUETOOTH\_APP\_CODE**](#define-rid_transport_bluetooth_app_code)  0x0D<br> |
 | define  | [**RID\_TRANSPORT\_BLUETOOTH\_LEGACY\_MAX\_PAYLOAD**](#define-rid_transport_bluetooth_legacy_max_payload)  25<br> |
 | define  | [**RID\_TRANSPORT\_BLUETOOTH\_LONG\_RANGE\_MAX\_PAYLOAD**](#define-rid_transport_bluetooth_long_range_max_payload)  255<br> |
-| define  | [**RID\_TRANSPORT\_BLUETOOTH\_OUI**](#define-rid_transport_bluetooth_oui)  0xFFFA<br> |
+| define  | [**RID\_TRANSPORT\_BLUETOOTH\_SERVICE\_UUID**](#define-rid_transport_bluetooth_service_uuid)  0xFFFA<br> |
+| define  | [**RID\_TRANSPORT\_BLUETOOTH\_SERVICE\_UUID\_SIZE**](#define-rid_transport_bluetooth_service_uuid_size)  2<br> |
 | define  | [**RID\_TRANSPORT\_TIME\_UNIT\_US**](#define-rid_transport_time_unit_us)  1024<br>_Time Unit in microseconds per ASTM F3411-22a._ |
 | define  | [**RID\_TRANSPORT\_WIFI\_BEACON\_MAX\_PAYLOAD**](#define-rid_transport_wifi_beacon_max_payload)  250<br> |
 | define  | [**RID\_TRANSPORT\_WIFI\_BEACON\_OUI**](#define-rid_transport_wifi_beacon_oui)  0xFA0BBC<br> |
@@ -5638,10 +5639,16 @@ String representation of the transport type. Returns "UNKNOWN" for invalid value
 #define RID_TRANSPORT_BLUETOOTH_LONG_RANGE_MAX_PAYLOAD 255
 ```
 
-### define `RID_TRANSPORT_BLUETOOTH_OUI`
+### define `RID_TRANSPORT_BLUETOOTH_SERVICE_UUID`
 
 ```c
-#define RID_TRANSPORT_BLUETOOTH_OUI 0xFFFA
+#define RID_TRANSPORT_BLUETOOTH_SERVICE_UUID 0xFFFA
+```
+
+### define `RID_TRANSPORT_BLUETOOTH_SERVICE_UUID_SIZE`
+
+```c
+#define RID_TRANSPORT_BLUETOOTH_SERVICE_UUID_SIZE 2
 ```
 
 ### define `RID_TRANSPORT_TIME_UNIT_US`
