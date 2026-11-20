@@ -197,8 +197,6 @@ int rid_auth_init(rid_auth_t *auth);
 /**
  * @brief Validate an Auth container structure.
  *
- * Checks that page_0 fields contain valid values according to ASTM F3411-22a.
- *
  * @param auth Pointer to the Auth container structure to validate.
  *
  * @retval RID_SUCCESS if all fields are valid.

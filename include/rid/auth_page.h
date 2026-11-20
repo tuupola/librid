@@ -134,6 +134,22 @@ typedef struct rid_auth_page_x {
 int rid_auth_page_0_init(rid_auth_page_0_t *message);
 
 /**
+ * @brief Validate an Authentication message page 0 structure.
+ *
+ * @param message Pointer to the Authentication page 0 structure to validate.
+ *
+ * @retval RID_SUCCESS if all fields are valid.
+ * @retval RID_ERROR_NULL_POINTER if message is NULL.
+ * @retval RID_ERROR_INVALID_PROTOCOL_VERSION if protocol version is invalid.
+ * @retval RID_ERROR_UNKNOWN_MESSAGE_TYPE if message type is not AUTH.
+ * @retval RID_ERROR_INVALID_PAGE_NUMBER if page_number is not 0.
+ * @retval RID_ERROR_INVALID_LAST_PAGE_INDEX if last_page_index exceeds maximum.
+ * @retval RID_ERROR_NON_EMPTY_SIGNATURE if auth type is RID_AUTH_TYPE_NONE or
+ *         RID_AUTH_TYPE_NETWORK_REMOTE_ID but length is not 0.
+ */
+int rid_auth_page_0_validate(const rid_auth_page_0_t *message);
+
+/**
  * @brief Initialize an Authentication message page 1-15 structure.
  *
  * Sets protocol version to RID_PROTOCOL_VERSION_2, message type to
@@ -147,6 +163,36 @@ int rid_auth_page_0_init(rid_auth_page_0_t *message);
  * @retval RID_ERROR_OUT_OF_RANGE if page_number is 0 or > 15.
  */
 int rid_auth_page_x_init(rid_auth_page_x_t *message, uint8_t page_number);
+
+/**
+ * @brief Validate an Authentication message page 1-15 structure.
+ *
+ * @param message Pointer to the Authentication page structure to validate.
+ *
+ * @retval RID_SUCCESS if all fields are valid.
+ * @retval RID_ERROR_NULL_POINTER if message is NULL.
+ * @retval RID_ERROR_INVALID_PROTOCOL_VERSION if protocol version is invalid.
+ * @retval RID_ERROR_UNKNOWN_MESSAGE_TYPE if message type is not AUTH.
+ * @retval RID_ERROR_INVALID_PAGE_NUMBER if page_number is 0.
+ * @retval RID_ERROR_NON_EMPTY_SIGNATURE if auth type is RID_AUTH_TYPE_NONE or
+ *         RID_AUTH_TYPE_NETWORK_REMOTE_ID but authentication data is not empty.
+ */
+int rid_auth_page_x_validate(const rid_auth_page_x_t *message);
+
+/**
+ * @brief Validate a single Authentication page message.
+ *
+ * Helper function to call either rid_auth_page_0_validate() or
+ * rid_auth_page_x_validate() based on the page number.
+ *
+ * @param message Pointer to an Authentication page structure.
+ *
+ * @retval RID_SUCCESS if validation passes.
+ * @retval RID_ERROR_NULL_POINTER if message is NULL.
+ * @retval RID_ERROR_UNKNOWN_MESSAGE_TYPE if message type is not AUTH.
+ * @retval Other error codes from the page validator.
+ */
+int rid_auth_page_validate(const void *message);
 
 /**
  * @brief Set the authentication type for page 0.

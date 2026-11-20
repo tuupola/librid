@@ -60,34 +60,7 @@ int rid_auth_validate(const rid_auth_t *auth) {
         return RID_ERROR_NULL_POINTER;
     }
 
-    /* Valid protocol versions: 0, 1, 2, or 0x0F (private use) */
-    if (auth->page_0.protocol_version > RID_PROTOCOL_VERSION_2 &&
-        auth->page_0.protocol_version != RID_PROTOCOL_PRIVATE_USE) {
-        return RID_ERROR_INVALID_PROTOCOL_VERSION;
-    }
-
-    if (auth->page_0.message_type != RID_MESSAGE_TYPE_AUTH) {
-        return RID_ERROR_UNKNOWN_MESSAGE_TYPE;
-    }
-
-    if (auth->page_0.page_number != 0) {
-        return RID_ERROR_INVALID_PAGE_NUMBER;
-    }
-
-    if (rid_auth_page_0_get_last_page_index(&auth->page_0) > RID_AUTH_MAX_PAGE_INDEX) {
-        return RID_ERROR_INVALID_LAST_PAGE_INDEX;
-    }
-
-    /* BMG0120: Type NONE requires an empty signature. */
-    /* BMG0180: Network Remote ID requires an empty signature. */
-    if (auth->page_0.auth_type == RID_AUTH_TYPE_NONE ||
-        auth->page_0.auth_type == RID_AUTH_TYPE_NETWORK_REMOTE_ID) {
-        if (auth->page_0.length != 0) {
-            return RID_ERROR_NON_EMPTY_SIGNATURE;
-        }
-    }
-
-    return RID_SUCCESS;
+    return rid_auth_page_0_validate(&auth->page_0);
 }
 
 uint8_t rid_auth_get_page_count(const rid_auth_t *auth) {

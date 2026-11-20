@@ -467,6 +467,152 @@ TEST test_auth_type_to_string(void) {
     PASS();
 }
 
+TEST test_auth_page_validate_valid(void) {
+    rid_auth_page_0_t page_0;
+    rid_auth_page_x_t page_x;
+
+    rid_auth_page_0_init(&page_0);
+    rid_auth_page_x_init(&page_x, 1);
+
+    int status = rid_auth_page_validate(&page_0);
+    ASSERT_EQ(RID_SUCCESS, status);
+    status = rid_message_validate(&page_0);
+    ASSERT_EQ(RID_SUCCESS, status);
+
+    status = rid_auth_page_validate(&page_x);
+    ASSERT_EQ(RID_SUCCESS, status);
+    status = rid_message_validate(&page_x);
+    ASSERT_EQ(RID_SUCCESS, status);
+
+    PASS();
+}
+
+TEST test_auth_page_validate_null_pointer(void) {
+    int status = rid_auth_page_validate(NULL);
+    ASSERT_EQ(RID_ERROR_NULL_POINTER, status);
+
+    PASS();
+}
+
+TEST test_auth_page_validate_invalid_protocol_version(void) {
+    rid_auth_page_0_t page_0;
+    rid_auth_page_x_t page_x;
+    rid_protocol_version_t versions[] = {
+        RID_PROTOCOL_VERSION_0,
+        RID_PROTOCOL_VERSION_1,
+        RID_PROTOCOL_VERSION_2,
+        RID_PROTOCOL_PRIVATE_USE
+    };
+
+    rid_auth_page_0_init(&page_0);
+    rid_auth_page_x_init(&page_x, 2);
+
+    page_0.protocol_version = 5;
+    page_x.protocol_version = 5;
+
+    int status = rid_auth_page_validate(&page_0);
+    ASSERT_EQ(RID_ERROR_INVALID_PROTOCOL_VERSION, status);
+
+    status = rid_auth_page_validate(&page_x);
+    ASSERT_EQ(RID_ERROR_INVALID_PROTOCOL_VERSION, status);
+
+    for (size_t i = 0; i < sizeof(versions) / sizeof(versions[0]); ++i) {
+        page_0.protocol_version = versions[i];
+        page_x.protocol_version = versions[i];
+
+        status = rid_auth_page_validate(&page_0);
+        ASSERT_EQ(RID_SUCCESS, status);
+
+        status = rid_auth_page_validate(&page_x);
+        ASSERT_EQ(RID_SUCCESS, status);
+    }
+
+    PASS();
+}
+
+TEST test_auth_page_validate_invalid_message_type(void) {
+    rid_auth_page_0_t page_0;
+    rid_auth_page_x_t page_x;
+
+    rid_auth_page_0_init(&page_0);
+    rid_auth_page_x_init(&page_x, 3);
+
+    page_0.message_type = RID_MESSAGE_TYPE_BASIC_ID;
+    page_x.message_type = RID_MESSAGE_TYPE_LOCATION;
+
+    int status = rid_auth_page_validate(&page_0);
+    ASSERT_EQ(RID_ERROR_UNKNOWN_MESSAGE_TYPE, status);
+
+    status = rid_auth_page_validate(&page_x);
+    ASSERT_EQ(RID_ERROR_UNKNOWN_MESSAGE_TYPE, status);
+
+    PASS();
+}
+
+TEST test_auth_page_validate_reserved_last_page_bits(void) {
+    rid_auth_page_0_t page_0;
+
+    rid_auth_page_0_init(&page_0);
+    page_0.last_page_index = 0xAF;
+
+    int status = rid_auth_page_validate(&page_0);
+    ASSERT_EQ(RID_SUCCESS, status);
+
+    PASS();
+}
+
+TEST test_auth_page_validate_empty_signature(void) {
+    rid_auth_page_0_t page_0;
+    rid_auth_page_x_t page_x;
+
+    rid_auth_page_0_init(&page_0);
+    rid_auth_page_x_init(&page_x, 5);
+
+    page_0.auth_data[0] = 1;
+    int status = rid_auth_page_validate(&page_0);
+    ASSERT_EQ(RID_SUCCESS, status);
+
+    page_0.length = 1;
+    status = rid_auth_page_validate(&page_0);
+    ASSERT_EQ(RID_ERROR_NON_EMPTY_SIGNATURE, status);
+    status = rid_message_validate(&page_0);
+    ASSERT_EQ(RID_ERROR_NON_EMPTY_SIGNATURE, status);
+
+    page_0.length = 0;
+    page_0.auth_type = RID_AUTH_TYPE_NETWORK_REMOTE_ID;
+    status = rid_auth_page_validate(&page_0);
+    ASSERT_EQ(RID_SUCCESS, status);
+
+    page_0.length = 1;
+    status = rid_auth_page_validate(&page_0);
+    ASSERT_EQ(RID_ERROR_NON_EMPTY_SIGNATURE, status);
+
+    page_0.auth_type = RID_AUTH_TYPE_MESSAGE_SET_SIGNATURE;
+    status = rid_auth_page_validate(&page_0);
+    ASSERT_EQ(RID_SUCCESS, status);
+
+    page_x.auth_data[0] = 1;
+    status = rid_auth_page_validate(&page_x);
+    ASSERT_EQ(RID_ERROR_NON_EMPTY_SIGNATURE, status);
+    status = rid_message_validate(&page_x);
+    ASSERT_EQ(RID_ERROR_NON_EMPTY_SIGNATURE, status);
+
+    page_x.auth_type = RID_AUTH_TYPE_NETWORK_REMOTE_ID;
+    status = rid_auth_page_validate(&page_x);
+    ASSERT_EQ(RID_ERROR_NON_EMPTY_SIGNATURE, status);
+
+    page_x.auth_data[0] = 0;
+    status = rid_auth_page_validate(&page_x);
+    ASSERT_EQ(RID_SUCCESS, status);
+
+    page_x.auth_type = RID_AUTH_TYPE_UAS_ID_SIGNATURE;
+    page_x.auth_data[22] = 1;
+    status = rid_auth_page_validate(&page_x);
+    ASSERT_EQ(RID_SUCCESS, status);
+
+    PASS();
+}
+
 SUITE(auth_page_suite) {
     RUN_TEST(test_auth_init);
     RUN_TEST(test_auth_page_init);
@@ -506,4 +652,11 @@ SUITE(auth_page_suite) {
     RUN_TEST(test_get_auth_page_data_buffer_too_small);
 
     RUN_TEST(test_auth_type_to_string);
+
+    RUN_TEST(test_auth_page_validate_valid);
+    RUN_TEST(test_auth_page_validate_null_pointer);
+    RUN_TEST(test_auth_page_validate_invalid_protocol_version);
+    RUN_TEST(test_auth_page_validate_invalid_message_type);
+    RUN_TEST(test_auth_page_validate_reserved_last_page_bits);
+    RUN_TEST(test_auth_page_validate_empty_signature);
 }

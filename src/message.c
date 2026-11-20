@@ -171,8 +171,7 @@ int rid_message_validate(const void *message) {
         case RID_MESSAGE_TYPE_LOCATION:
             return rid_location_validate((const rid_location_t *)message);
         case RID_MESSAGE_TYPE_AUTH:
-            /* TODO: No page-level validator yet */
-            return RID_SUCCESS;
+            return rid_auth_page_validate(message);
         case RID_MESSAGE_TYPE_SELF_ID:
             return rid_self_id_validate((const rid_self_id_t *)message);
         case RID_MESSAGE_TYPE_SYSTEM:
