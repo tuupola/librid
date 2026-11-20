@@ -259,24 +259,28 @@ float rid_location_get_vertical_speed(const rid_location_t *location) {
     return (float)location->vertical_speed * 0.5f;
 }
 
-double rid_location_get_latitude(const rid_location_t *location) {
+int rid_location_has_coordinates(const rid_location_t *location) {
     if (location == NULL) {
-        return RID_LATITUDE_INVALID;
+        return 0;
     }
     if (location->latitude == 0 && location->longitude == 0) {
-        return RID_LATITUDE_INVALID;
+        return 0;
     }
-    return (double)location->latitude / 10000000.0;
+    return 1;
+}
+
+double rid_location_get_latitude(const rid_location_t *location) {
+    if (rid_location_has_coordinates(location)) {
+        return (double)location->latitude / 10000000.0;
+    }
+    return RID_LATITUDE_INVALID;
 }
 
 double rid_location_get_longitude(const rid_location_t *location) {
-    if (location == NULL) {
-        return RID_LONGITUDE_INVALID;
+    if (rid_location_has_coordinates(location)) {
+        return (double)location->longitude / 10000000.0;
     }
-    if (location->latitude == 0 && location->longitude == 0) {
-        return RID_LONGITUDE_INVALID;
-    }
-    return (double)location->longitude / 10000000.0;
+    return RID_LONGITUDE_INVALID;
 }
 
 int rid_location_set_coordinates(rid_location_t *location, double latitude, double longitude) {
@@ -773,22 +777,21 @@ int rid_location_to_json(const rid_location_t *location, char *buffer, size_t bu
     rid_json_key(&json, "message_type");
     rid_json_uint(&json, rid_message_get_type(location));
 
-    rid_json_key(&json, "latitude");
-    latitude = rid_location_get_latitude(location);
-    if (latitude == RID_LATITUDE_INVALID) {
-        rid_json_null(&json);
-    } else {
+    if (rid_location_has_coordinates(location)) {
+        rid_json_key(&json, "latitude");
+        latitude = rid_location_get_latitude(location);
         token_length = snprintf(token, sizeof(token), "%.7f", latitude);
         rid_json_raw(&json, token, (size_t)token_length);
-    }
 
-    rid_json_key(&json, "longitude");
-    longitude = rid_location_get_longitude(location);
-    if (longitude == RID_LONGITUDE_INVALID) {
-        rid_json_null(&json);
-    } else {
+        rid_json_key(&json, "longitude");
+        longitude = rid_location_get_longitude(location);
         token_length = snprintf(token, sizeof(token), "%.7f", longitude);
         rid_json_raw(&json, token, (size_t)token_length);
+    } else {
+        rid_json_key(&json, "latitude");
+        rid_json_null(&json);
+        rid_json_key(&json, "longitude");
+        rid_json_null(&json);
     }
 
     rid_json_key(&json, "geodetic_altitude");

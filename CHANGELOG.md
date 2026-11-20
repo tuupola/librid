@@ -8,6 +8,7 @@ chronological order by release.
 ### Added
 
 - Convenience macros for Bluetooth. ([#104](https://github.com/tuupola/librid/commit/xxxxxxx))
+- Helper to determine if location has valid coordinates. ([#105](https://github.com/tuupola/librid/commit/xxxxxxx))
 
 ### Changed
 

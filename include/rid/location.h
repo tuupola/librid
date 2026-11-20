@@ -364,6 +364,19 @@ int rid_location_set_vertical_speed(rid_location_t *location, float speed_ms);
 float rid_location_get_vertical_speed(const rid_location_t *location);
 
 /**
+ * @brief Check if a Location message has coordinates.
+ *
+ * Coordinates are considered invalid if both latitude and longitude
+ * are zero.
+ *
+ * @param location Pointer to the Location message structure.
+ *
+ * @return 1 if coordinates are present.
+ * @return 0 if location is NULL or both latitude and longitude are zero.
+ */
+int rid_location_has_coordinates(const rid_location_t *location);
+
+/**
  * @brief Get the latitude from a Location message.
  *
  * Returns RID_LATITUDE_INVALID when both latitude and longitude are zero.

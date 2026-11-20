@@ -264,6 +264,29 @@ TEST test_get_longitude_null_pointer(void) {
     PASS();
 }
 
+TEST test_has_coordinates(void) {
+    rid_location_t location;
+
+    ASSERT_EQ(0, rid_location_has_coordinates(NULL));
+
+    rid_location_init(&location);
+    ASSERT_EQ(0, rid_location_has_coordinates(&location));
+
+    rid_location_set_coordinates(&location, 60.1699, 24.9384);
+    ASSERT_EQ(1, rid_location_has_coordinates(&location));
+
+    rid_location_set_coordinates(&location, RID_LATITUDE_INVALID, RID_LONGITUDE_INVALID);
+    ASSERT_EQ(0, rid_location_has_coordinates(&location));
+
+    rid_location_set_coordinates(&location, 0.0, 24.9384);
+    ASSERT_EQ(1, rid_location_has_coordinates(&location));
+
+    rid_location_set_coordinates(&location, 60.1699, 0.0);
+    ASSERT_EQ(1, rid_location_has_coordinates(&location));
+
+    PASS();
+}
+
 TEST test_set_and_get_coordinates(void) {
     rid_location_t location;
     double latitudes[] = {0.0, 45.5, 60.123456, -45.5, -90.0, 90.0};
@@ -1620,6 +1643,7 @@ SUITE(location_suite) {
 
     RUN_TEST(test_get_latitude_null_pointer);
     RUN_TEST(test_get_longitude_null_pointer);
+    RUN_TEST(test_has_coordinates);
 
     RUN_TEST(test_set_and_get_coordinates);
     RUN_TEST(test_set_coordinates_invalid);
