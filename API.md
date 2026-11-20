@@ -5544,7 +5544,7 @@ _Timestamp epoch (2019-01-01 00:00:00 UTC as Unix timestamp)._
 
 ## File include/rid/transport.h
 
-_Remote ID transport method definitions._
+_Remote ID transport method definitions and convenience macros._
 
 
 
@@ -5564,11 +5564,18 @@ _Remote ID transport method definitions._
 
 | Type | Name |
 | ---: | :--- |
-| define  | [**RID\_TRANSPORT\_BLUETOOTH\_APP\_CODE**](#define-rid_transport_bluetooth_app_code)  0x0D<br> |
-| define  | [**RID\_TRANSPORT\_BLUETOOTH\_LEGACY\_MAX\_PAYLOAD**](#define-rid_transport_bluetooth_legacy_max_payload)  25<br> |
-| define  | [**RID\_TRANSPORT\_BLUETOOTH\_LONG\_RANGE\_MAX\_PAYLOAD**](#define-rid_transport_bluetooth_long_range_max_payload)  255<br> |
-| define  | [**RID\_TRANSPORT\_BLUETOOTH\_SERVICE\_UUID**](#define-rid_transport_bluetooth_service_uuid)  0xFFFA<br> |
-| define  | [**RID\_TRANSPORT\_BLUETOOTH\_SERVICE\_UUID\_SIZE**](#define-rid_transport_bluetooth_service_uuid_size)  2<br> |
+| define  | [**RID\_TRANSPORT\_BT\_AD\_TYPE**](#define-rid_transport_bt_ad_type)  0x16<br>_Bluetooth service data AD type._ |
+| define  | [**RID\_TRANSPORT\_BT\_APP\_CODE**](#define-rid_transport_bt_app_code)  0x0D<br>_ASTM Remote ID Bluetooth application code._ |
+| define  | [**RID\_TRANSPORT\_BT\_APP\_CODE\_OFFSET**](#define-rid_transport_bt_app_code_offset)  2<br>_Byte offset of the application code in the service data._ |
+| define  | [**RID\_TRANSPORT\_BT\_COUNTER\_OFFSET**](#define-rid_transport_bt_counter_offset)  3<br>_Byte offset of the message counter in the service data._ |
+| define  | [**RID\_TRANSPORT\_BT\_LEGACY\_MAX\_PAYLOAD**](#define-rid_transport_bt_legacy_max_payload)  25<br> |
+| define  | [**RID\_TRANSPORT\_BT\_LONG\_RANGE\_MAX\_PAYLOAD**](#define-rid_transport_bt_long_range_max_payload)  255<br> |
+| define  | [**RID\_TRANSPORT\_BT\_MESSAGE\_OFFSET**](#define-rid_transport_bt_message_offset)  4<br>_Byte offset of the Remote ID message in the service data._ |
+| define  | [**RID\_TRANSPORT\_BT\_SERVICE\_UUID**](#define-rid_transport_bt_service_uuid)  0xFFFA<br>_ASTM assigned 16-bit Bluetooth service UUID._ |
+| define  | [**RID\_TRANSPORT\_BT\_SERVICE\_UUID\_HI**](#define-rid_transport_bt_service_uuid_hi)  0xFF<br>_High byte of the ASTM Bluetooth service UUID._ |
+| define  | [**RID\_TRANSPORT\_BT\_SERVICE\_UUID\_LO**](#define-rid_transport_bt_service_uuid_lo)  0xFA<br>_Low byte of the ASTM Bluetooth service UUID._ |
+| define  | [**RID\_TRANSPORT\_BT\_SERVICE\_UUID\_OFFSET**](#define-rid_transport_bt_service_uuid_offset)  0<br>_Byte offset of the service UUID in the service data._ |
+| define  | [**RID\_TRANSPORT\_BT\_SERVICE\_UUID\_SIZE**](#define-rid_transport_bt_service_uuid_size)  2<br>_Size of the ASTM Bluetooth service UUID in bytes._ |
 | define  | [**RID\_TRANSPORT\_TIME\_UNIT\_US**](#define-rid_transport_time_unit_us)  1024<br>_Time Unit in microseconds per ASTM F3411-22a._ |
 | define  | [**RID\_TRANSPORT\_WIFI\_BEACON\_MAX\_PAYLOAD**](#define-rid_transport_wifi_beacon_max_payload)  250<br> |
 | define  | [**RID\_TRANSPORT\_WIFI\_BEACON\_OUI**](#define-rid_transport_wifi_beacon_oui)  0xFA0BBC<br> |
@@ -5586,8 +5593,8 @@ _Remote ID transport method definitions._
 _Transport methods for broadcasting Remote ID messages._
 ```c
 enum rid_transport_t {
-    RID_TRANSPORT_BLUETOOTH_LEGACY = 0,
-    RID_TRANSPORT_BLUETOOTH_LONG_RANGE = 1,
+    RID_TRANSPORT_BT_LEGACY = 0,
+    RID_TRANSPORT_BT_LONG_RANGE = 1,
     RID_TRANSPORT_WIFI_NAN = 2,
     RID_TRANSPORT_WIFI_BEACON = 3,
     RID_TRANSPORT_MAX = 3
@@ -5621,34 +5628,88 @@ String representation of the transport type. Returns "UNKNOWN" for invalid value
 
 ## Macros Documentation
 
-### define `RID_TRANSPORT_BLUETOOTH_APP_CODE`
+### define `RID_TRANSPORT_BT_AD_TYPE`
 
+_Bluetooth service data AD type._
 ```c
-#define RID_TRANSPORT_BLUETOOTH_APP_CODE 0x0D
+#define RID_TRANSPORT_BT_AD_TYPE 0x16
 ```
 
-### define `RID_TRANSPORT_BLUETOOTH_LEGACY_MAX_PAYLOAD`
 
+**See also:** [https://bitbucket.org/bluetooth-SIG/public/src/main/assigned\_numbers/core/ad\_types.yaml](https://bitbucket.org/bluetooth-SIG/public/src/main/assigned_numbers/core/ad_types.yaml)
+### define `RID_TRANSPORT_BT_APP_CODE`
+
+_ASTM Remote ID Bluetooth application code._
 ```c
-#define RID_TRANSPORT_BLUETOOTH_LEGACY_MAX_PAYLOAD 25
+#define RID_TRANSPORT_BT_APP_CODE 0x0D
 ```
 
-### define `RID_TRANSPORT_BLUETOOTH_LONG_RANGE_MAX_PAYLOAD`
+### define `RID_TRANSPORT_BT_APP_CODE_OFFSET`
 
+_Byte offset of the application code in the service data._
 ```c
-#define RID_TRANSPORT_BLUETOOTH_LONG_RANGE_MAX_PAYLOAD 255
+#define RID_TRANSPORT_BT_APP_CODE_OFFSET 2
 ```
 
-### define `RID_TRANSPORT_BLUETOOTH_SERVICE_UUID`
+### define `RID_TRANSPORT_BT_COUNTER_OFFSET`
 
+_Byte offset of the message counter in the service data._
 ```c
-#define RID_TRANSPORT_BLUETOOTH_SERVICE_UUID 0xFFFA
+#define RID_TRANSPORT_BT_COUNTER_OFFSET 3
 ```
 
-### define `RID_TRANSPORT_BLUETOOTH_SERVICE_UUID_SIZE`
+### define `RID_TRANSPORT_BT_LEGACY_MAX_PAYLOAD`
 
 ```c
-#define RID_TRANSPORT_BLUETOOTH_SERVICE_UUID_SIZE 2
+#define RID_TRANSPORT_BT_LEGACY_MAX_PAYLOAD 25
+```
+
+### define `RID_TRANSPORT_BT_LONG_RANGE_MAX_PAYLOAD`
+
+```c
+#define RID_TRANSPORT_BT_LONG_RANGE_MAX_PAYLOAD 255
+```
+
+### define `RID_TRANSPORT_BT_MESSAGE_OFFSET`
+
+_Byte offset of the Remote ID message in the service data._
+```c
+#define RID_TRANSPORT_BT_MESSAGE_OFFSET 4
+```
+
+### define `RID_TRANSPORT_BT_SERVICE_UUID`
+
+_ASTM assigned 16-bit Bluetooth service UUID._
+```c
+#define RID_TRANSPORT_BT_SERVICE_UUID 0xFFFA
+```
+
+### define `RID_TRANSPORT_BT_SERVICE_UUID_HI`
+
+_High byte of the ASTM Bluetooth service UUID._
+```c
+#define RID_TRANSPORT_BT_SERVICE_UUID_HI 0xFF
+```
+
+### define `RID_TRANSPORT_BT_SERVICE_UUID_LO`
+
+_Low byte of the ASTM Bluetooth service UUID._
+```c
+#define RID_TRANSPORT_BT_SERVICE_UUID_LO 0xFA
+```
+
+### define `RID_TRANSPORT_BT_SERVICE_UUID_OFFSET`
+
+_Byte offset of the service UUID in the service data._
+```c
+#define RID_TRANSPORT_BT_SERVICE_UUID_OFFSET 0
+```
+
+### define `RID_TRANSPORT_BT_SERVICE_UUID_SIZE`
+
+_Size of the ASTM Bluetooth service UUID in bytes._
+```c
+#define RID_TRANSPORT_BT_SERVICE_UUID_SIZE 2
 ```
 
 ### define `RID_TRANSPORT_TIME_UNIT_US`
@@ -5725,9 +5786,9 @@ _Library version information._
 | Type | Name |
 | ---: | :--- |
 | define  | [**RID\_VERSION\_MAJOR**](#define-rid_version_major)  0<br> |
-| define  | [**RID\_VERSION\_MINOR**](#define-rid_version_minor)  6<br> |
+| define  | [**RID\_VERSION\_MINOR**](#define-rid_version_minor)  7<br> |
 | define  | [**RID\_VERSION\_PATCH**](#define-rid_version_patch)  0<br> |
-| define  | [**RID\_VERSION\_STRING**](#define-rid_version_string)  "0.6.0"<br> |
+| define  | [**RID\_VERSION\_STRING**](#define-rid_version_string)  "0.7.0-dev"<br> |
 
 
 ## Functions Documentation
@@ -5757,7 +5818,7 @@ Version string in "major.minor.patch" format.
 ### define `RID_VERSION_MINOR`
 
 ```c
-#define RID_VERSION_MINOR 6
+#define RID_VERSION_MINOR 7
 ```
 
 ### define `RID_VERSION_PATCH`
@@ -5769,7 +5830,7 @@ Version string in "major.minor.patch" format.
 ### define `RID_VERSION_STRING`
 
 ```c
-#define RID_VERSION_STRING "0.6.0"
+#define RID_VERSION_STRING "0.7.0-dev"
 ```
 
 
