@@ -397,7 +397,7 @@ int rid_location_has_coordinates(const rid_location_t *location);
  * double latitude = rid_location_get_latitude(location);
  *
  * if (latitude != RID_LATITUDE_INVALID) {
- *     /* Latitude is valid. */
+ *     printf("Latitude: %.6f\n", latitude);
  * }
  * @endcode
  *
@@ -429,7 +429,7 @@ double rid_location_get_latitude(const rid_location_t *location);
  * double longitude = rid_location_get_longitude(location);
  *
  * if (longitude != RID_LONGITUDE_INVALID) {
- *     /* Longitude is valid. */
+ *     printf("Longitude: %.6f\n", longitude);
  * }
  * @endcode
  *
@@ -464,7 +464,8 @@ double rid_location_get_longitude(const rid_location_t *location);
  * double longitude;
  *
  * if (rid_location_get_coordinates(location, &latitude, &longitude) == RID_SUCCESS) {
- *     /* Coordinates are valid. */
+ *     printf("Latitude: %.6f\n", latitude);
+ *     printf("Longitude: %.6f\n", longitude);
  * }
  * @endcode
  *

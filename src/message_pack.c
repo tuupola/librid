@@ -259,6 +259,7 @@ int rid_message_pack_delete_message_at(rid_message_pack_t *pack, uint8_t index) 
     }
 
     --pack->message_count;
+    memset(&pack->messages[pack->message_count * RID_MESSAGE_SIZE], 0, RID_MESSAGE_SIZE);
 
     return RID_SUCCESS;
 }

@@ -712,6 +712,11 @@ TEST test_delete_message_at(void) {
     rid_basic_id_get_uas_id(msg, uas_id, sizeof(uas_id));
     ASSERT_STR_EQ("DRONE005", uas_id);
 
+    /* Make sure there is no trailing garbage. */
+    for (size_t i = rid_message_pack_message_count(&pack) * RID_MESSAGE_SIZE; i < sizeof(pack.messages); ++i) {
+        ASSERT_EQ(0, pack.messages[i]);
+    }
+
     PASS();
 }
 
@@ -769,6 +774,11 @@ TEST test_delete_message_at_last(void) {
     msg = rid_message_pack_get_message_at(&pack, 1);
     rid_basic_id_get_uas_id(msg, uas_id, sizeof(uas_id));
     ASSERT_STR_EQ("DRONE002", uas_id);
+
+    /* Make sure there is no trailing garbage. */
+    for (size_t i = rid_message_pack_message_count(&pack) * RID_MESSAGE_SIZE; i < sizeof(pack.messages); ++i) {
+        ASSERT_EQ(0, pack.messages[i]);
+    }
 
     PASS();
 }

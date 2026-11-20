@@ -10,6 +10,7 @@ chronological order by release.
 - Convenience macros for Bluetooth. ([#104](https://github.com/tuupola/librid/commit/xxxxxxx))
 - Helper to determine if location has valid coordinates. ([#105](https://github.com/tuupola/librid/commit/xxxxxxx))
 - Function to get location coordinates. ([#106](https://github.com/tuupola/librid/commit/xxxxxxx))
+- Trailing garbage is zeroed after deleting a message from a message pack. ([#107](https://github.com/tuupola/librid/commit/xxxxxxx))
 
 ### Changed
 

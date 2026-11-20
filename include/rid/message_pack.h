@@ -231,6 +231,7 @@ int rid_message_pack_set_auth(rid_message_pack_t *pack, const rid_auth_t *auth);
  * @brief Delete a message at the specified index.
  *
  * Messages after the deleted one are shifted down to fill the gap.
+ * The vacated tailing slot is zeroed.
  *
  * @param pack Pointer to the Message Pack structure.
  * @param index Index of the message to delete (0-based).
