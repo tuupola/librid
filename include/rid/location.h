@@ -381,6 +381,26 @@ int rid_location_has_coordinates(const rid_location_t *location);
  *
  * Returns RID_LATITUDE_INVALID when both latitude and longitude are zero.
  *
+ * Check for coordinates before reading latitude.
+ *
+ * @code
+ * double latitude;
+ *
+ * if (rid_location_has_coordinates(location)) {
+ *     latitude = rid_location_get_latitude(location);
+ * }
+ * @endcode
+ *
+ * Or test the return value against RID_LATITUDE_INVALID.
+ *
+ * @code
+ * double latitude = rid_location_get_latitude(location);
+ *
+ * if (latitude != RID_LATITUDE_INVALID) {
+ *     /* Latitude is valid. */
+ * }
+ * @endcode
+ *
  * @param location Pointer to the Location message structure.
  *
  * @return Latitude in degrees or RID_LATITUDE_INVALID if location is NULL
@@ -392,6 +412,26 @@ double rid_location_get_latitude(const rid_location_t *location);
  * @brief Get the longitude from a Location message.
  *
  * Returns RID_LONGITUDE_INVALID when both latitude and longitude are zero.
+ *
+ * Check for coordinates before reading longitude.
+ *
+ * @code
+ * double longitude;
+ *
+ * if (rid_location_has_coordinates(location)) {
+ *     longitude = rid_location_get_longitude(location);
+ * }
+ * @endcode
+ *
+ * Or test the return value against RID_LONGITUDE_INVALID.
+ *
+ * @code
+ * double longitude = rid_location_get_longitude(location);
+ *
+ * if (longitude != RID_LONGITUDE_INVALID) {
+ *     /* Longitude is valid. */
+ * }
+ * @endcode
  *
  * @param location Pointer to the Location message structure.
  *
@@ -405,6 +445,28 @@ double rid_location_get_longitude(const rid_location_t *location);
  *
  * Decodes both values per ASTM F3411-22a. Out-parameters are left unchanged
  * when the position is unknown.
+ *
+ * Check for coordinates before reading them.
+ *
+ * @code
+ * double latitude;
+ * double longitude;
+ *
+ * if (rid_location_has_coordinates(location)) {
+ *     rid_location_get_coordinates(location, &latitude, &longitude);
+ * }
+ * @endcode
+ *
+ * Or test the return value against RID_SUCCESS.
+ *
+ * @code
+ * double latitude;
+ * double longitude;
+ *
+ * if (rid_location_get_coordinates(location, &latitude, &longitude) == RID_SUCCESS) {
+ *     /* Coordinates are valid. */
+ * }
+ * @endcode
  *
  * @param location Pointer to the Location message structure.
  * @param latitude Pointer to store latitude in degrees.
