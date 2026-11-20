@@ -32,7 +32,7 @@ SPDX-License-Identifier: MIT
 
 /**
  * @file transport.h
- * @brief Remote ID transport method definitions
+ * @brief Remote ID transport method definitions and convenience macros.
  */
 
 #ifndef RID_TRANSPORT_H
@@ -68,9 +68,30 @@ extern "C" {
 /** @name Bluetooth Constants
  *  @{
  */
+/**
+ * @brief Bluetooth service data AD type.
+ *
+ * @see https://bitbucket.org/bluetooth-SIG/public/src/main/assigned_numbers/core/ad_types.yaml
+ */
+#define RID_TRANSPORT_BT_AD_TYPE 0x16
+/** @brief ASTM assigned 16-bit Bluetooth service UUID. */
 #define RID_TRANSPORT_BT_SERVICE_UUID 0xFFFA
+/** @brief High byte of the ASTM Bluetooth service UUID. */
+#define RID_TRANSPORT_BT_SERVICE_UUID_HI 0xFF
+/** @brief Low byte of the ASTM Bluetooth service UUID. */
+#define RID_TRANSPORT_BT_SERVICE_UUID_LO 0xFA
+/** @brief Size of the ASTM Bluetooth service UUID in bytes. */
 #define RID_TRANSPORT_BT_SERVICE_UUID_SIZE 2
+/** @brief Byte offset of the service UUID in the service data. */
+#define RID_TRANSPORT_BT_SERVICE_UUID_OFFSET 0
+/** @brief ASTM Remote ID Bluetooth application code. */
 #define RID_TRANSPORT_BT_APP_CODE 0x0D
+/** @brief Byte offset of the application code in the service data. */
+#define RID_TRANSPORT_BT_APP_CODE_OFFSET 2
+/** @brief Byte offset of the message counter in the service data. */
+#define RID_TRANSPORT_BT_COUNTER_OFFSET 3
+/** @brief Byte offset of the Remote ID message in the service data. */
+#define RID_TRANSPORT_BT_MESSAGE_OFFSET 4
 /** @} */
 
 /** @name Wi-Fi NAN Constants
