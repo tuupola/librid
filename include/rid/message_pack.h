@@ -93,7 +93,8 @@ int rid_message_pack_init(rid_message_pack_t *pack);
 /**
  * @brief Validate a Message Pack structure.
  *
- * Checks that all fields contain valid values according to ASTM F3411-22a.
+ * Checks the Message Pack itself and each contained message according to
+ * ASTM F3411-22a.
  *
  * @param pack Pointer to the Message Pack structure to validate.
  *
@@ -103,6 +104,8 @@ int rid_message_pack_init(rid_message_pack_t *pack);
  * @retval RID_ERROR_UNKNOWN_MESSAGE_TYPE if message type is not MESSAGE_PACK.
  * @retval RID_ERROR_INVALID_MESSAGE_SIZE if message_size is not 25.
  * @retval RID_ERROR_INVALID_MESSAGE_COUNT if message_count exceeds maximum.
+ * @retval RID_ERROR_INVALID_MESSAGE_TYPE if a contained message is a Message Pack.
+ * @retval Any other error codes from contained message validators.
  */
 int rid_message_pack_validate(const rid_message_pack_t *pack);
 

@@ -1062,6 +1062,107 @@ TEST test_message_pack_validate_invalid_message_count(void) {
     PASS();
 }
 
+TEST test_message_pack_validate_messages(void) {
+    rid_message_pack_t pack;
+    rid_basic_id_t basic_id;
+    rid_location_t location;
+    rid_self_id_t self_id;
+    rid_system_t system;
+    rid_operator_id_t operator_id;
+    rid_auth_t auth;
+
+    rid_message_pack_init(&pack);
+    rid_basic_id_init(&basic_id);
+    rid_location_init(&location);
+    rid_self_id_init(&self_id);
+    rid_system_init(&system);
+    rid_operator_id_init(&operator_id);
+    rid_auth_init(&auth);
+
+    rid_message_pack_add_message(&pack, &basic_id);
+    rid_message_pack_add_message(&pack, &location);
+    rid_message_pack_add_message(&pack, &self_id);
+    rid_message_pack_add_message(&pack, &system);
+    rid_message_pack_add_message(&pack, &operator_id);
+    rid_message_pack_set_auth(&pack, &auth);
+
+    int status = rid_message_pack_validate(&pack);
+    ASSERT_EQ(RID_SUCCESS, status);
+
+    PASS();
+}
+
+TEST test_message_pack_validate_invalid_location(void) {
+    rid_message_pack_t pack;
+    rid_basic_id_t basic_id;
+    rid_location_t location;
+
+    rid_message_pack_init(&pack);
+    rid_basic_id_init(&basic_id);
+    rid_location_init(&location);
+    location.latitude = 900000001;
+
+    rid_message_pack_add_message(&pack, &basic_id);
+    rid_message_pack_add_message(&pack, &location);
+
+    int status = rid_message_pack_validate(&pack);
+    ASSERT_EQ(RID_ERROR_INVALID_LATITUDE, status);
+
+    pack.protocol_version = 5;
+    status = rid_message_pack_validate(&pack);
+    ASSERT_EQ(RID_ERROR_INVALID_PROTOCOL_VERSION, status);
+
+    PASS();
+}
+
+TEST test_message_pack_validate_unknown_message_type(void) {
+    rid_message_pack_t pack;
+    rid_basic_id_t basic_id;
+
+    rid_message_pack_init(&pack);
+    rid_basic_id_init(&basic_id);
+    basic_id.message_type = 0x6;
+
+    rid_message_pack_add_message(&pack, &basic_id);
+
+    int status = rid_message_pack_validate(&pack);
+    ASSERT_EQ(RID_ERROR_UNKNOWN_MESSAGE_TYPE, status);
+
+    PASS();
+}
+
+TEST test_message_pack_validate_nested_message_pack(void) {
+    rid_message_pack_t pack;
+    rid_basic_id_t basic_id;
+
+    rid_message_pack_init(&pack);
+    rid_basic_id_init(&basic_id);
+    basic_id.message_type = RID_MESSAGE_TYPE_MESSAGE_PACK;
+
+    rid_message_pack_add_message(&pack, &basic_id);
+
+    int status = rid_message_pack_validate(&pack);
+    ASSERT_EQ(RID_ERROR_INVALID_MESSAGE_TYPE, status);
+
+    PASS();
+}
+
+TEST test_message_pack_validate_invalid_auth_page(void) {
+    rid_message_pack_t pack;
+    rid_auth_t auth;
+
+    rid_message_pack_init(&pack);
+    rid_auth_init(&auth);
+    auth.page_0.length = 1;
+
+    rid_message_pack_set_auth(&pack, &auth);
+
+    int status = rid_message_pack_validate(&pack);
+    ASSERT_EQ(RID_ERROR_NON_EMPTY_SIGNATURE, status);
+
+    PASS();
+}
+
 TEST test_message_pack_sort_null_pointer(void) {
     int status = rid_message_pack_sort(NULL);
     ASSERT_EQ(RID_ERROR_NULL_POINTER, status);
@@ -1443,6 +1544,11 @@ SUITE(message_pack_suite) {
     RUN_TEST(test_message_pack_validate_invalid_message_type);
     RUN_TEST(test_message_pack_validate_invalid_message_size);
     RUN_TEST(test_message_pack_validate_invalid_message_count);
+    RUN_TEST(test_message_pack_validate_messages);
+    RUN_TEST(test_message_pack_validate_invalid_location);
+    RUN_TEST(test_message_pack_validate_unknown_message_type);
+    RUN_TEST(test_message_pack_validate_nested_message_pack);
+    RUN_TEST(test_message_pack_validate_invalid_auth_page);
 
     RUN_TEST(test_message_pack_sort_null_pointer);
     RUN_TEST(test_message_pack_sort_empty);

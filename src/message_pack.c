@@ -79,6 +79,19 @@ int rid_message_pack_validate(const rid_message_pack_t *pack) {
         return RID_ERROR_INVALID_MESSAGE_COUNT;
     }
 
+    for (uint8_t i = 0; i < pack->message_count; ++i) {
+        const void *message = rid_message_pack_get_message_at(pack, i);
+
+        if (rid_message_get_type(message) == RID_MESSAGE_TYPE_MESSAGE_PACK) {
+            return RID_ERROR_INVALID_MESSAGE_TYPE;
+        }
+
+        int rc = rid_message_validate(message);
+        if (rc != RID_SUCCESS) {
+            return rc;
+        }
+    }
+
     return RID_SUCCESS;
 }
 

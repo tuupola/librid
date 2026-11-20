@@ -16,6 +16,9 @@ chronological order by release.
 ### Changed
 
 - BLUETOOTH was shortened to BT in macros and enums. ([#103](https://github.com/tuupola/librid/commit/xxxxxxx))
+- Message Pack validation now validates also all messages. ([#109](https://github.com/tuupola/librid/commit/xxxxxxx))
+
+### Fixed
 
 ## [0.6.0](https://github.com/tuupola/librid/compare/0.5.0...0.6.0) - 2026-11-17
 
