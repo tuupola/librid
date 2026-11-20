@@ -151,6 +151,8 @@ const char *rid_error_to_string(rid_error_t error) {
             return "RID_ERROR_NOT_IMPLEMENTED";
         case RID_ERROR_INVALID_COMBINATION:
             return "RID_ERROR_INVALID_COMBINATION";
+        case RID_ERROR_INVALID_COORDINATES:
+            return "RID_ERROR_INVALID_COORDINATES";
         default:
             return "UNKNOWN";
     }

@@ -401,6 +401,22 @@ double rid_location_get_latitude(const rid_location_t *location);
 double rid_location_get_longitude(const rid_location_t *location);
 
 /**
+ * @brief Get the latitude and longitude from a Location message.
+ *
+ * Decodes both values per ASTM F3411-22a. Out-parameters are left unchanged
+ * when the position is unknown.
+ *
+ * @param location Pointer to the Location message structure.
+ * @param latitude Pointer to store latitude in degrees.
+ * @param longitude Pointer to store longitude in degrees.
+ *
+ * @retval RID_SUCCESS on success.
+ * @retval RID_ERROR_NULL_POINTER if location, latitude or longitude is NULL.
+ * @retval RID_ERROR_INVALID_COORDINATES if the position is unknown.
+ */
+int rid_location_get_coordinates(const rid_location_t *location, double *latitude, double *longitude);
+
+/**
  * @brief Set the latitude and longitude for a Location message.
  *
  * Encodes both values per ASTM F3411-22a. Pass RID_LATITUDE_INVALID

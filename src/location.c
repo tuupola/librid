@@ -283,6 +283,21 @@ double rid_location_get_longitude(const rid_location_t *location) {
     return RID_LONGITUDE_INVALID;
 }
 
+int rid_location_get_coordinates(const rid_location_t *location, double *latitude, double *longitude) {
+    if (location == NULL || latitude == NULL || longitude == NULL) {
+        return RID_ERROR_NULL_POINTER;
+    }
+
+    if (!rid_location_has_coordinates(location)) {
+        return RID_ERROR_INVALID_COORDINATES;
+    }
+
+    *latitude = (double)location->latitude / 10000000.0;
+    *longitude = (double)location->longitude / 10000000.0;
+
+    return RID_SUCCESS;
+}
+
 int rid_location_set_coordinates(rid_location_t *location, double latitude, double longitude) {
     if (location == NULL) {
         return RID_ERROR_NULL_POINTER;

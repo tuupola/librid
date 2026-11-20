@@ -287,6 +287,52 @@ TEST test_has_coordinates(void) {
     PASS();
 }
 
+TEST test_get_coordinates(void) {
+    rid_location_t location;
+    double latitude;
+    double longitude;
+    int status;
+
+    status = rid_location_get_coordinates(NULL, &latitude, &longitude);
+    ASSERT_EQ(RID_ERROR_NULL_POINTER, status);
+
+    rid_location_init(&location);
+    status = rid_location_get_coordinates(&location, NULL, &longitude);
+    ASSERT_EQ(RID_ERROR_NULL_POINTER, status);
+
+    status = rid_location_get_coordinates(&location, &latitude, NULL);
+    ASSERT_EQ(RID_ERROR_NULL_POINTER, status);
+
+    latitude = 1.0;
+    longitude = 1.0;
+    status = rid_location_get_coordinates(&location, &latitude, &longitude);
+    ASSERT_EQ(RID_ERROR_INVALID_COORDINATES, status);
+    ASSERT_EQ(1.0, latitude);
+    ASSERT_EQ(1.0, longitude);
+
+    rid_location_set_coordinates(&location, RID_LATITUDE_INVALID, RID_LONGITUDE_INVALID);
+    latitude = 1.0;
+    longitude = 1.0;
+    status = rid_location_get_coordinates(&location, &latitude, &longitude);
+    ASSERT_EQ(RID_ERROR_INVALID_COORDINATES, status);
+    ASSERT_EQ(1.0, latitude);
+    ASSERT_EQ(1.0, longitude);
+
+    rid_location_set_coordinates(&location, 60.5, 24.5);
+    status = rid_location_get_coordinates(&location, &latitude, &longitude);
+    ASSERT_EQ(RID_SUCCESS, status);
+    ASSERT_EQ(60.5, latitude);
+    ASSERT_EQ(24.5, longitude);
+
+    rid_location_set_coordinates(&location, 0.0, 24.5);
+    status = rid_location_get_coordinates(&location, &latitude, &longitude);
+    ASSERT_EQ(RID_SUCCESS, status);
+    ASSERT_EQ(0.0, latitude);
+    ASSERT_EQ(24.5, longitude);
+
+    PASS();
+}
+
 TEST test_set_and_get_coordinates(void) {
     rid_location_t location;
     double latitudes[] = {0.0, 45.5, 60.123456, -45.5, -90.0, 90.0};
@@ -1644,6 +1690,7 @@ SUITE(location_suite) {
     RUN_TEST(test_get_latitude_null_pointer);
     RUN_TEST(test_get_longitude_null_pointer);
     RUN_TEST(test_has_coordinates);
+    RUN_TEST(test_get_coordinates);
 
     RUN_TEST(test_set_and_get_coordinates);
     RUN_TEST(test_set_coordinates_invalid);
