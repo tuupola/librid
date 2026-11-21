@@ -536,6 +536,50 @@ TEST test_get_auth_multiple_pages(void) {
     PASS();
 }
 
+TEST test_get_auth_reversed_pages(void) {
+    uint8_t signature[64], retrieved[64];
+    uint8_t pages[4][RID_MESSAGE_SIZE];
+    int status;
+    rid_message_pack_t pack;
+    rid_auth_t auth;
+    rid_auth_t result;
+
+    memset(signature, 0xAB, sizeof(signature));
+
+    rid_message_pack_init(&pack);
+    rid_auth_init(&auth);
+
+    rid_auth_set_type(&auth, RID_AUTH_TYPE_MESSAGE_SET_SIGNATURE);
+    rid_auth_set_timestamp(&auth, 2727);
+    rid_auth_set_signature(&auth, signature, sizeof(signature));
+
+    status = rid_message_pack_set_auth(&pack, &auth);
+    ASSERT_EQ(RID_SUCCESS, status);
+    ASSERT_EQ(4, rid_message_pack_message_count(&pack));
+
+    /* Reverse the order of auth pages in the pack. */
+    for (uint8_t i = 0; i < 4; ++i) {
+        memcpy(pages[i], rid_message_pack_get_message_at(&pack, i), RID_MESSAGE_SIZE);
+    }
+
+    for (uint8_t i = 0; i < 4; ++i) {
+        status = rid_message_pack_set_message_at(&pack, i, pages[3 - i]);
+        ASSERT_EQ(RID_SUCCESS, status);
+    }
+
+    /* Make sure we can still get a working auth structure. */
+    status = rid_message_pack_get_auth(&pack, &result);
+    ASSERT_EQ(RID_SUCCESS, status);
+    ASSERT_EQ(RID_AUTH_TYPE_MESSAGE_SET_SIGNATURE, rid_auth_get_type(&result));
+    ASSERT_EQ(2727, rid_auth_get_timestamp(&result));
+    ASSERT_EQ(64, rid_auth_get_length(&result));
+
+    rid_auth_get_signature(&result, retrieved, sizeof(retrieved));
+    ASSERT_EQ(0, memcmp(signature, retrieved, 64));
+
+    PASS();
+}
+
 TEST test_get_auth_not_found(void) {
     rid_message_pack_t pack;
     rid_basic_id_t basic_id;
@@ -1514,6 +1558,7 @@ SUITE(message_pack_suite) {
 
     RUN_TEST(test_get_auth_single_page);
     RUN_TEST(test_get_auth_multiple_pages);
+    RUN_TEST(test_get_auth_reversed_pages);
     RUN_TEST(test_get_auth_not_found);
     RUN_TEST(test_get_auth_null_pointer_pack);
     RUN_TEST(test_get_auth_null_pointer_auth);

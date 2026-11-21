@@ -203,8 +203,8 @@ int rid_message_pack_find_message_index_by_type(
 /**
  * @brief Get Auth message from a Message Pack.
  *
- * Searches the Message Pack for an Auth message and reconstructs it
- * into the provided auth structure. Supports multi-page Auth messages.
+ * Searches the Message Pack for Auth messages and reconstructs them into
+ * the provided auth structure sorted by their page number.
  *
  * @param pack Pointer to the Message Pack structure.
  * @param auth Pointer to the Auth structure to populate.
