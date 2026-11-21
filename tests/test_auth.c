@@ -23,16 +23,6 @@ TEST test_auth_init(void) {
     PASS();
 }
 
-TEST test_auth_validate_valid(void) {
-    rid_auth_t auth;
-    rid_auth_init(&auth);
-
-    int status = rid_auth_validate(&auth);
-    ASSERT_EQ(RID_SUCCESS, status);
-
-    PASS();
-}
-
 TEST test_auth_validate_null_pointer(void) {
     int status = rid_auth_validate(NULL);
     ASSERT_EQ(RID_ERROR_NULL_POINTER, status);
@@ -88,8 +78,8 @@ TEST test_auth_validate_last_page_index_reserved_bits(void) {
     int status = rid_auth_validate(&auth);
     ASSERT_EQ(RID_SUCCESS, status);
 
-    /* 1010 1111 */
-    auth.page_0.last_page_index = 0xAF;
+    /* 1010 0000 */
+    auth.page_0.last_page_index = 0xA0;
     status = rid_auth_validate(&auth);
     ASSERT_EQ(RID_SUCCESS, status);
 
@@ -125,6 +115,79 @@ TEST test_auth_validate_bmg0180(void) {
     auth.page_0.length = 1;
     status = rid_auth_validate(&auth);
     ASSERT_EQ(RID_ERROR_NON_EMPTY_SIGNATURE, status);
+
+    PASS();
+}
+
+TEST test_auth_validate_valid(void) {
+    rid_auth_t auth;
+    uint8_t signature[64];
+
+    memset(signature, 0xAB, sizeof(signature));
+
+    rid_auth_init(&auth);
+    rid_auth_set_type(&auth, RID_AUTH_TYPE_MESSAGE_SET_SIGNATURE);
+    rid_auth_set_signature(&auth, signature, sizeof(signature));
+
+    int status = rid_auth_validate(&auth);
+    ASSERT_EQ(RID_SUCCESS, status);
+
+    PASS();
+}
+
+TEST test_auth_validate_missing_page(void) {
+    rid_auth_t auth;
+    uint8_t signature[64];
+
+    memset(signature, 0xAB, sizeof(signature));
+
+    rid_auth_init(&auth);
+    rid_auth_set_type(&auth, RID_AUTH_TYPE_MESSAGE_SET_SIGNATURE);
+    rid_auth_set_signature(&auth, signature, sizeof(signature));
+
+    /* Zero the second page, ie make it missing. */
+    memset(&auth.page_x[0], 0, sizeof(auth.page_x[0]));
+
+    int status = rid_auth_validate(&auth);
+    ASSERT_EQ(RID_ERROR_INVALID_PAGE_NUMBER, status);
+
+    PASS();
+}
+
+TEST test_auth_validate_wrong_page_number(void) {
+    rid_auth_t auth;
+    uint8_t signature[64];
+
+    memset(signature, 0xAB, sizeof(signature));
+
+    rid_auth_init(&auth);
+    rid_auth_set_type(&auth, RID_AUTH_TYPE_MESSAGE_SET_SIGNATURE);
+    rid_auth_set_signature(&auth, signature, sizeof(signature));
+
+    /* Second page should have page number 1. */
+    auth.page_x[0].page_number = 2;
+
+    int status = rid_auth_validate(&auth);
+    ASSERT_EQ(RID_ERROR_INVALID_PAGE_NUMBER, status);
+
+    PASS();
+}
+
+TEST test_auth_validate_page_x_message_type(void) {
+    rid_auth_t auth;
+    uint8_t signature[64];
+
+    memset(signature, 0xAB, sizeof(signature));
+
+    rid_auth_init(&auth);
+    rid_auth_set_type(&auth, RID_AUTH_TYPE_MESSAGE_SET_SIGNATURE);
+    rid_auth_set_signature(&auth, signature, sizeof(signature));
+
+    /* Auth pages should be RID_MESSAGE_TYPE_AUTH. */
+    auth.page_x[0].message_type = RID_MESSAGE_TYPE_BASIC_ID;
+
+    int status = rid_auth_validate(&auth);
+    ASSERT_EQ(RID_ERROR_UNKNOWN_MESSAGE_TYPE, status);
 
     PASS();
 }
@@ -800,7 +863,6 @@ TEST test_message_to_json_needed(void) {
 
 SUITE(auth_suite) {
     RUN_TEST(test_auth_init);
-    RUN_TEST(test_auth_validate_valid);
     RUN_TEST(test_auth_validate_null_pointer);
     RUN_TEST(test_auth_validate_invalid_protocol_version);
     RUN_TEST(test_auth_validate_invalid_message_type);
@@ -808,6 +870,10 @@ SUITE(auth_suite) {
     RUN_TEST(test_auth_validate_last_page_index_reserved_bits);
     RUN_TEST(test_auth_validate_bmg0120);
     RUN_TEST(test_auth_validate_bmg0180);
+    RUN_TEST(test_auth_validate_valid);
+    RUN_TEST(test_auth_validate_missing_page);
+    RUN_TEST(test_auth_validate_wrong_page_number);
+    RUN_TEST(test_auth_validate_page_x_message_type);
     RUN_TEST(test_auth_get_page_count);
     RUN_TEST(test_auth_set_and_get_type);
     RUN_TEST(test_auth_set_type_out_of_range);
