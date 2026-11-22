@@ -7,21 +7,21 @@ chronological order by release.
 
 ### Added
 
-- Convenience macros for Bluetooth. ([#104](https://github.com/tuupola/librid/commit/xxxxxxx))
-- Helper to determine if location has valid coordinates. ([#105](https://github.com/tuupola/librid/commit/xxxxxxx))
-- Function to get location coordinates. ([#106](https://github.com/tuupola/librid/commit/xxxxxxx))
-- Trailing garbage is zeroed after deleting a message from a message pack. ([#107](https://github.com/tuupola/librid/commit/xxxxxxx))
-- Functions to validate separate auth pages. ([#108](https://github.com/tuupola/librid/commit/xxxxxxx))
+- Convenience macros for Bluetooth. ([#104](https://github.com/tuupola/librid/commit/7e2569d))
+- Helper to determine if location has valid coordinates. ([#105](https://github.com/tuupola/librid/commit/71e1734))
+- Function to get location coordinates. ([#106](https://github.com/tuupola/librid/commit/1490f00))
+- Trailing garbage is zeroed after deleting a message from a message pack. ([#107](https://github.com/tuupola/librid/commit/d351574))
+- Functions to validate separate auth pages. ([#108](https://github.com/tuupola/librid/commit/c63580a))
 
 ### Changed
 
-- BLUETOOTH was shortened to BT in macros and enums. ([#103](https://github.com/tuupola/librid/commit/xxxxxxx))
+- BLUETOOTH was shortened to BT in macros and enums. ([#103](https://github.com/tuupola/librid/commit/5245f0e))
 
 ### Fixed
 
-- Message Pack validation now validates also all messages. ([#109](https://github.com/tuupola/librid/commit/xxxxxxx))
-- Auth now uses page number ordering when constructin the struct. Fixes the case when received auth pages were in random order. ([#110](https://github.com/tuupola/librid/commit/xxxxxxx))
-- Auth validation now validates also all pages and their page number. ([#111](https://github.com/tuupola/librid/commit/xxxxxxx))
+- Message Pack validation now validates also all messages. ([#109](https://github.com/tuupola/librid/commit/34b47ec))
+- Auth now uses page number ordering when constructin the struct. Fixes the case when received auth pages were in random order. ([#110](https://github.com/tuupola/librid/commit/a48dda9))
+- Auth validation now validates also all pages and their page number. ([#111](https://github.com/tuupola/librid/commit/178eb07))
 
 ## [0.6.0](https://github.com/tuupola/librid/compare/0.5.0...0.6.0) - 2026-11-17
 
