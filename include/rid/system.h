@@ -254,6 +254,19 @@ int rid_system_set_ua_classification_class(rid_system_t *system, rid_ua_classifi
 rid_ua_classification_class_t rid_system_get_ua_classification_class(const rid_system_t *system);
 
 /**
+ * @brief Check if a System message has operator coordinates.
+ *
+ * Coordinates are considered invalid if both latitude and longitude
+ * are zero.
+ *
+ * @param system Pointer to the System message structure.
+ *
+ * @return 1 if coordinates are present.
+ * @return 0 if system is NULL or both latitude and longitude are zero.
+ */
+int rid_system_has_operator_coordinates(const rid_system_t *system);
+
+/**
  * @brief Get the operator latitude from a System message.
  *
  * Decodes latitude from encoded int32_t value per ASTM F3411-22a.

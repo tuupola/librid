@@ -12,6 +12,7 @@ chronological order by release.
 - Function to get location coordinates. ([#106](https://github.com/tuupola/librid/commit/1490f00))
 - Trailing garbage is zeroed after deleting a message from a message pack. ([#107](https://github.com/tuupola/librid/commit/d351574))
 - Functions to validate separate auth pages. ([#108](https://github.com/tuupola/librid/commit/c63580a))
+- Helper to determine if operator has valid coordinates. ([xxxxxxx](https://github.com/tuupola/librid/commit/xxxxxxx))
 
 ### Changed
 

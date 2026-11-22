@@ -170,24 +170,28 @@ rid_ua_classification_class_t rid_system_get_ua_classification_class(const rid_s
     return (rid_ua_classification_class_t)system->ua_classification_class;
 }
 
-double rid_system_get_operator_latitude(const rid_system_t *system) {
+int rid_system_has_operator_coordinates(const rid_system_t *system) {
     if (system == NULL) {
-        return RID_OPERATOR_LATITUDE_INVALID;
+        return 0;
     }
     if (system->operator_latitude == 0 && system->operator_longitude == 0) {
-        return RID_OPERATOR_LATITUDE_INVALID;
+        return 0;
     }
-    return (double)system->operator_latitude / 10000000.0;
+    return 1;
+}
+
+double rid_system_get_operator_latitude(const rid_system_t *system) {
+    if (rid_system_has_operator_coordinates(system)) {
+        return (double)system->operator_latitude / 10000000.0;
+    }
+    return RID_OPERATOR_LATITUDE_INVALID;
 }
 
 double rid_system_get_operator_longitude(const rid_system_t *system) {
-    if (system == NULL) {
-        return RID_OPERATOR_LONGITUDE_INVALID;
+    if (rid_system_has_operator_coordinates(system)) {
+        return (double)system->operator_longitude / 10000000.0;
     }
-    if (system->operator_latitude == 0 && system->operator_longitude == 0) {
-        return RID_OPERATOR_LONGITUDE_INVALID;
-    }
-    return (double)system->operator_longitude / 10000000.0;
+    return RID_OPERATOR_LONGITUDE_INVALID;
 }
 
 int rid_system_set_operator_coordinates(rid_system_t *system, double latitude, double longitude) {
@@ -500,22 +504,21 @@ int rid_system_to_json(const rid_system_t *system, char *buffer, size_t buffer_s
     rid_json_key(&json, "ua_classification_class");
     rid_json_uint(&json, rid_system_get_ua_classification_class(system));
 
-    rid_json_key(&json, "operator_latitude");
-    latitude = rid_system_get_operator_latitude(system);
-    if (latitude == RID_OPERATOR_LATITUDE_INVALID) {
-        rid_json_null(&json);
-    } else {
+    if (rid_system_has_operator_coordinates(system)) {
+        rid_json_key(&json, "operator_latitude");
+        latitude = rid_system_get_operator_latitude(system);
         token_length = snprintf(token, sizeof(token), "%.7f", latitude);
         rid_json_raw(&json, token, (size_t)token_length);
-    }
 
-    rid_json_key(&json, "operator_longitude");
-    longitude = rid_system_get_operator_longitude(system);
-    if (longitude == RID_OPERATOR_LONGITUDE_INVALID) {
-        rid_json_null(&json);
-    } else {
+        rid_json_key(&json, "operator_longitude");
+        longitude = rid_system_get_operator_longitude(system);
         token_length = snprintf(token, sizeof(token), "%.7f", longitude);
         rid_json_raw(&json, token, (size_t)token_length);
+    } else {
+        rid_json_key(&json, "operator_latitude");
+        rid_json_null(&json);
+        rid_json_key(&json, "operator_longitude");
+        rid_json_null(&json);
     }
 
     rid_json_key(&json, "operator_altitude");

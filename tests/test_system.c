@@ -226,6 +226,29 @@ TEST test_get_operator_longitude_null_pointer(void) {
     PASS();
 }
 
+TEST test_has_operator_coordinates(void) {
+    rid_system_t system;
+
+    ASSERT_EQ(0, rid_system_has_operator_coordinates(NULL));
+
+    rid_system_init(&system);
+    ASSERT_EQ(0, rid_system_has_operator_coordinates(&system));
+
+    rid_system_set_operator_coordinates(&system, 60.1699, 24.9384);
+    ASSERT_EQ(1, rid_system_has_operator_coordinates(&system));
+
+    rid_system_set_operator_coordinates(&system, RID_OPERATOR_LATITUDE_INVALID, RID_OPERATOR_LONGITUDE_INVALID);
+    ASSERT_EQ(0, rid_system_has_operator_coordinates(&system));
+
+    rid_system_set_operator_coordinates(&system, 0.0, 24.9384);
+    ASSERT_EQ(1, rid_system_has_operator_coordinates(&system));
+
+    rid_system_set_operator_coordinates(&system, 60.1699, 0.0);
+    ASSERT_EQ(1, rid_system_has_operator_coordinates(&system));
+
+    PASS();
+}
+
 TEST test_set_and_get_operator_coordinates(void) {
     rid_system_t system;
     double latitudes[] = {0.0, 45.5, 60.123456, -45.5, -90.0, 90.0};
@@ -872,6 +895,7 @@ SUITE(system_suite) {
 
     RUN_TEST(test_get_operator_latitude_null_pointer);
     RUN_TEST(test_get_operator_longitude_null_pointer);
+    RUN_TEST(test_has_operator_coordinates);
 
     RUN_TEST(test_set_and_get_operator_coordinates);
     RUN_TEST(test_set_operator_coordinates_invalid);
