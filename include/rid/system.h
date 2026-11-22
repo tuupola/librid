@@ -333,7 +333,7 @@ int rid_system_set_operator_altitude(rid_system_t *system, float altitude);
  *
  * @param system Pointer to the System message structure.
  *
- * @return Altitude in meters or RID_OPERATOR_ALTITUDE_INVALID when uknown,
+ * @return Altitude in meters or RID_OPERATOR_ALTITUDE_INVALID when unknown,
  *         including when system is NULL.
  */
 float rid_system_get_operator_altitude(const rid_system_t *system);
@@ -398,7 +398,7 @@ int rid_system_set_area_ceiling(rid_system_t *system, float altitude);
  * @param system Pointer to the System message structure.
  *
  * @return The ceiling altitude in meters or RID_AREA_CEILING_INVALID
- *         when uknnown, including when system is NULL.
+ *         when unknown, including when system is NULL.
  */
 float rid_system_get_area_ceiling(const rid_system_t *system);
 
