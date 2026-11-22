@@ -56,11 +56,34 @@ int rid_auth_init(rid_auth_t *auth) {
 }
 
 int rid_auth_validate(const rid_auth_t *auth) {
+    uint8_t last_page_index;
+    int rc;
+
     if (auth == NULL) {
         return RID_ERROR_NULL_POINTER;
     }
 
-    return rid_auth_page_0_validate(&auth->page_0);
+    /* Validate the first page. */
+    rc = rid_auth_page_0_validate(&auth->page_0);
+    if (RID_SUCCESS != rc) {
+        return rc;
+    }
+
+    last_page_index = rid_auth_page_0_get_last_page_index(&auth->page_0);
+    for (uint8_t i = 0; i < last_page_index; ++i) {
+        /* Make sure page numbers are in order and none is missing. */
+        if (auth->page_x[i].page_number != i + 1) {
+            return RID_ERROR_INVALID_PAGE_NUMBER;
+        }
+
+        /* Validate each sub page. */
+        rc = rid_auth_page_x_validate(&auth->page_x[i]);
+        if (RID_SUCCESS != rc) {
+            return rc;
+        }
+    }
+
+    return RID_SUCCESS;
 }
 
 uint8_t rid_auth_get_page_count(const rid_auth_t *auth) {

@@ -197,6 +197,9 @@ int rid_auth_init(rid_auth_t *auth);
 /**
  * @brief Validate an Auth container structure.
  *
+ * Validates structure of all auth pages and their page number up to
+ * `last_page_index`.
+ *
  * @param auth Pointer to the Auth container structure to validate.
  *
  * @retval RID_SUCCESS if all fields are valid.
