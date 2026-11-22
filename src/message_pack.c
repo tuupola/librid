@@ -342,10 +342,14 @@ int rid_message_pack_to_json(const rid_message_pack_t *pack, char *buffer, size_
     rid_json_t json;
     rid_auth_t auth;
     uint8_t count;
+    int auth_done = 0;
 
     if (pack == NULL || (buffer == NULL && needed_size == NULL)) {
         return RID_ERROR_NULL_POINTER;
     }
+
+    /* Get the auth structure if it exists. */
+    rid_message_pack_get_auth(pack, &auth);
 
     rid_json_start(&json, buffer, buffer_size);
     rid_json_key(&json, "protocol_version");
@@ -359,12 +363,15 @@ int rid_message_pack_to_json(const rid_message_pack_t *pack, char *buffer, size_
 
     count = rid_message_pack_message_count(pack);
     for (uint8_t i = 0; i < count; ++i) {
+        int is_auth;
+        size_t remaining = 0, needed = 0;
+        char *dst = NULL;
         const void *msg = rid_message_pack_get_message_at(pack, i);
-        char *dest = NULL;
-        size_t remaining = 0;
-        size_t needed = 0;
 
-        if (rid_message_get_type(msg) == RID_MESSAGE_TYPE_AUTH) {
+        is_auth = rid_message_get_type(msg) == RID_MESSAGE_TYPE_AUTH;
+
+        /* Auth already added, can ignore the subpages. */
+        if (is_auth && auth_done) {
             continue;
         }
 
@@ -372,29 +379,15 @@ int rid_message_pack_to_json(const rid_message_pack_t *pack, char *buffer, size_
             rid_json_raw(&json, ",", 1);
         }
         if (json.buffer != NULL && json.buffer_size > json.position) {
-            dest = json.buffer + json.position;
+            dst = json.buffer + json.position;
             remaining = json.buffer_size - json.position;
         }
-        rid_message_to_json(msg, dest, remaining, &needed);
-        if (needed > 0) {
-            json.position += needed - 1;
-            json.need_comma = 1;
+        if (is_auth) {
+            rid_auth_to_json(&auth, dst, remaining, &needed);
+            auth_done = 1;
+        } else {
+            rid_message_to_json(msg, dst, remaining, &needed);
         }
-    }
-
-    if (rid_message_pack_get_auth(pack, &auth) == RID_SUCCESS) {
-        char *dest = NULL;
-        size_t remaining = 0;
-        size_t needed = 0;
-
-        if (json.need_comma) {
-            rid_json_raw(&json, ",", 1);
-        }
-        if (json.buffer != NULL && json.buffer_size > json.position) {
-            dest = json.buffer + json.position;
-            remaining = json.buffer_size - json.position;
-        }
-        rid_auth_to_json(&auth, dest, remaining, &needed);
         if (needed > 0) {
             json.position += needed - 1;
             json.need_comma = 1;

@@ -22,6 +22,7 @@ chronological order by release.
 - Message Pack validation now validates also all messages. ([#109](https://github.com/tuupola/librid/commit/34b47ec))
 - Auth now uses page number ordering when constructin the struct. Fixes the case when received auth pages were in random order. ([#110](https://github.com/tuupola/librid/commit/a48dda9))
 - Auth validation now validates also all pages and their page number. ([#111](https://github.com/tuupola/librid/commit/178eb07))
+- Message Pack JSON output now preserves the message order. ([#112](https://github.com/tuupola/librid/commit/xxxxxxx))
 
 ## [0.6.0](https://github.com/tuupola/librid/compare/0.5.0...0.6.0) - 2026-11-17
 
