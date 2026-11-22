@@ -245,7 +245,7 @@ int rid_system_set_operator_altitude(rid_system_t *system, float altitude) {
         return RID_SUCCESS;
     }
 
-    /* ASTM F3411-22 Table 7
+    /* ASTM F3411-22 Table 11
      * Encoded = (value + 1000) / 0.5
      * -1000 to 31767 meters
      * Invalid or unknown: -1000
@@ -355,7 +355,7 @@ int rid_system_set_area_floor(rid_system_t *system, float altitude) {
         return RID_SUCCESS;
     }
 
-    /* ASTM F3411-22 Table 7
+    /* ASTM F3411-22 Table 11
      * (altitude + 1000) / 0.5
      * -1000 to 31767 meters
      */
