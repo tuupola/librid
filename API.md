@@ -525,7 +525,7 @@ int rid_auth_validate (
 ```
 
 
-Checks that page\_0 fields contain valid values according to ASTM F3411-22a.
+Validates structure of all auth pages and their page number up to `last_page_index`.
 
 
 
@@ -701,7 +701,9 @@ Example usage:
 |  int | [**rid\_auth\_page\_0\_set\_length**](#function-rid_auth_page_0_set_length) ([**rid\_auth\_page\_0\_t**](#struct-rid_auth_page_0_t) \*message, uint8\_t length) <br>_Set the total authentication data length for page 0._ |
 |  int | [**rid\_auth\_page\_0\_set\_timestamp**](#function-rid_auth_page_0_set_timestamp) ([**rid\_auth\_page\_0\_t**](#struct-rid_auth_page_0_t) \*message, uint32\_t timestamp) <br>_Set the timestamp for page 0._ |
 |  int | [**rid\_auth\_page\_0\_set\_type**](#function-rid_auth_page_0_set_type) ([**rid\_auth\_page\_0\_t**](#struct-rid_auth_page_0_t) \*message, [**rid\_auth\_type\_t**](#enum-rid_auth_type_t) type) <br>_Set the authentication type for page 0._ |
+|  int | [**rid\_auth\_page\_0\_validate**](#function-rid_auth_page_0_validate) (const [**rid\_auth\_page\_0\_t**](#struct-rid_auth_page_0_t) \*message) <br>_Validate an Authentication message page 0 structure._ |
 |  int | [**rid\_auth\_page\_to\_json**](#function-rid_auth_page_to_json) (const void \*message, char \*buffer, size\_t buffer\_size, size\_t \*needed\_size) <br>_Format a single AUTH page message as a JSON string._ |
+|  int | [**rid\_auth\_page\_validate**](#function-rid_auth_page_validate) (const void \*message) <br>_Validate a single Authentication page message._ |
 |  int | [**rid\_auth\_page\_x\_get\_data**](#function-rid_auth_page_x_get_data) (const [**rid\_auth\_page\_x\_t**](#struct-rid_auth_page_x_t) \*message, uint8\_t \*buffer, size\_t buffer\_size) <br>_Get the authentication data from pages 1-15._ |
 |  uint8\_t | [**rid\_auth\_page\_x\_get\_number**](#function-rid_auth_page_x_get_number) (const [**rid\_auth\_page\_x\_t**](#struct-rid_auth_page_x_t) \*message) <br>_Get the page number from pages 1-15._ |
 |  [**rid\_auth\_type\_t**](#enum-rid_auth_type_t) | [**rid\_auth\_page\_x\_get\_type**](#function-rid_auth_page_x_get_type) (const [**rid\_auth\_page\_x\_t**](#struct-rid_auth_page_x_t) \*message) <br>_Get the authentication type from pages 1-15._ |
@@ -709,6 +711,7 @@ Example usage:
 |  int | [**rid\_auth\_page\_x\_set\_data**](#function-rid_auth_page_x_set_data) ([**rid\_auth\_page\_x\_t**](#struct-rid_auth_page_x_t) \*message, const uint8\_t \*data, size\_t size) <br>_Set the authentication data for pages 1-15._ |
 |  int | [**rid\_auth\_page\_x\_set\_number**](#function-rid_auth_page_x_set_number) ([**rid\_auth\_page\_x\_t**](#struct-rid_auth_page_x_t) \*message, uint8\_t page\_number) <br>_Set the page number for pages 1-15._ |
 |  int | [**rid\_auth\_page\_x\_set\_type**](#function-rid_auth_page_x_set_type) ([**rid\_auth\_page\_x\_t**](#struct-rid_auth_page_x_t) \*message, [**rid\_auth\_type\_t**](#enum-rid_auth_type_t) type) <br>_Set the authentication type for pages 1-15._ |
+|  int | [**rid\_auth\_page\_x\_validate**](#function-rid_auth_page_x_validate) (const [**rid\_auth\_page\_x\_t**](#struct-rid_auth_page_x_t) \*message) <br>_Validate an Authentication message page 1-15 structure._ |
 |  const char \* | [**rid\_auth\_type\_to\_string**](#function-rid_auth_type_to_string) ([**rid\_auth\_type\_t**](#enum-rid_auth_type_t) type) <br>_Convert authentication type to string representation._ |
 
 ## Macros
@@ -1034,6 +1037,32 @@ int rid_auth_page_0_set_type (
 * `RID_SUCCESS` on success. 
 * `RID_ERROR_NULL_POINTER` if message is NULL. 
 * `RID_ERROR_OUT_OF_RANGE` if type exceeds RID\_AUTH\_TYPE\_MAX.
+### function `rid_auth_page_0_validate`
+
+_Validate an Authentication message page 0 structure._
+```c
+int rid_auth_page_0_validate (
+    const rid_auth_page_0_t *message
+) 
+```
+
+
+**Parameters:**
+
+
+* `message` Pointer to the Authentication page 0 structure to validate.
+
+
+**Return value:**
+
+
+* `RID_SUCCESS` if all fields are valid. 
+* `RID_ERROR_NULL_POINTER` if message is NULL. 
+* `RID_ERROR_INVALID_PROTOCOL_VERSION` if protocol version is invalid. 
+* `RID_ERROR_UNKNOWN_MESSAGE_TYPE` if message type is not AUTH. 
+* `RID_ERROR_INVALID_PAGE_NUMBER` if page\_number is not 0. 
+* `RID_ERROR_INVALID_LAST_PAGE_INDEX` if last\_page\_index exceeds maximum. 
+* `RID_ERROR_NON_EMPTY_SIGNATURE` if auth type is RID\_AUTH\_TYPE\_NONE or RID\_AUTH\_TYPE\_NETWORK\_REMOTE\_ID but length is not 0.
 ### function `rid_auth_page_to_json`
 
 _Format a single AUTH page message as a JSON string._
@@ -1066,6 +1095,33 @@ Handles both page 0 ([**rid\_auth\_page\_0\_t**](#struct-rid_auth_page_0_t)) and
 * `RID_SUCCESS` on success. 
 * `RID_ERROR_NULL_POINTER` if `message` is NULL or if both`buffer` and`needed_size` are NULL.
 * `RID_ERROR_BUFFER_TOO_SMALL` if `buffer` is too small.
+### function `rid_auth_page_validate`
+
+_Validate a single Authentication page message._
+```c
+int rid_auth_page_validate (
+    const void *message
+) 
+```
+
+
+Helper function to call either [**rid\_auth\_page\_0\_validate()**](#function-rid_auth_page_0_validate) or[**rid\_auth\_page\_x\_validate()**](#function-rid_auth_page_x_validate) based on the page number.
+
+
+
+**Parameters:**
+
+
+* `message` Pointer to an Authentication page structure.
+
+
+**Return value:**
+
+
+* `RID_SUCCESS` if validation passes. 
+* `RID_ERROR_NULL_POINTER` if message is NULL. 
+* `RID_ERROR_UNKNOWN_MESSAGE_TYPE` if message type is not AUTH. 
+* `Other` error codes from the page validator.
 ### function `rid_auth_page_x_get_data`
 
 _Get the authentication data from pages 1-15._
@@ -1232,6 +1288,31 @@ int rid_auth_page_x_set_type (
 * `RID_SUCCESS` on success. 
 * `RID_ERROR_NULL_POINTER` if message is NULL. 
 * `RID_ERROR_OUT_OF_RANGE` if type exceeds RID\_AUTH\_TYPE\_MAX.
+### function `rid_auth_page_x_validate`
+
+_Validate an Authentication message page 1-15 structure._
+```c
+int rid_auth_page_x_validate (
+    const rid_auth_page_x_t *message
+) 
+```
+
+
+**Parameters:**
+
+
+* `message` Pointer to the Authentication page structure to validate.
+
+
+**Return value:**
+
+
+* `RID_SUCCESS` if all fields are valid. 
+* `RID_ERROR_NULL_POINTER` if message is NULL. 
+* `RID_ERROR_INVALID_PROTOCOL_VERSION` if protocol version is invalid. 
+* `RID_ERROR_UNKNOWN_MESSAGE_TYPE` if message type is not AUTH. 
+* `RID_ERROR_INVALID_PAGE_NUMBER` if page\_number is 0. 
+* `RID_ERROR_NON_EMPTY_SIGNATURE` if auth type is RID\_AUTH\_TYPE\_NONE or RID\_AUTH\_TYPE\_NETWORK\_REMOTE\_ID but authentication data is not empty.
 ### function `rid_auth_type_to_string`
 
 _Convert authentication type to string representation._
@@ -1777,6 +1858,7 @@ Example usage:
 |  const char \* | [**rid\_height\_type\_to\_string**](#function-rid_height_type_to_string) ([**rid\_height\_type\_t**](#enum-rid_height_type_t) type) <br>_Convert height type to string representation._ |
 |  const char \* | [**rid\_horizontal\_accuracy\_to\_string**](#function-rid_horizontal_accuracy_to_string) ([**rid\_horizontal\_accuracy\_t**](#enum-rid_horizontal_accuracy_t) accuracy) <br>_Convert horizontal accuracy to string representation._ |
 |  [**rid\_vertical\_accuracy\_t**](#enum-rid_vertical_accuracy_t) | [**rid\_location\_get\_baro\_altitude\_accuracy**](#function-rid_location_get_baro_altitude_accuracy) (const [**rid\_location\_t**](#struct-rid_location_t) \*location) <br>_Get the barometric altitude accuracy from a Location message._ |
+|  int | [**rid\_location\_get\_coordinates**](#function-rid_location_get_coordinates) (const [**rid\_location\_t**](#struct-rid_location_t) \*location, double \*latitude, double \*longitude) <br>_Get the latitude and longitude from a Location message._ |
 |  float | [**rid\_location\_get\_geodetic\_altitude**](#function-rid_location_get_geodetic_altitude) (const [**rid\_location\_t**](#struct-rid_location_t) \*location) <br>_Get the geodetic altitude from a Location message._ |
 |  float | [**rid\_location\_get\_height**](#function-rid_location_get_height) (const [**rid\_location\_t**](#struct-rid_location_t) \*location) <br>_Get the height from a Location message._ |
 |  [**rid\_height\_type\_t**](#enum-rid_height_type_t) | [**rid\_location\_get\_height\_type**](#function-rid_location_get_height_type) (const [**rid\_location\_t**](#struct-rid_location_t) \*location) <br>_Get the height reference type from a Location message._ |
@@ -1792,6 +1874,7 @@ Example usage:
 |  uint16\_t | [**rid\_location\_get\_track\_direction**](#function-rid_location_get_track_direction) (const [**rid\_location\_t**](#struct-rid_location_t) \*location) <br>_Get the track direction from a Location message._ |
 |  [**rid\_vertical\_accuracy\_t**](#enum-rid_vertical_accuracy_t) | [**rid\_location\_get\_vertical\_accuracy**](#function-rid_location_get_vertical_accuracy) (const [**rid\_location\_t**](#struct-rid_location_t) \*location) <br>_Get the vertical position accuracy from a Location message._ |
 |  float | [**rid\_location\_get\_vertical\_speed**](#function-rid_location_get_vertical_speed) (const [**rid\_location\_t**](#struct-rid_location_t) \*location) <br>_Get the vertical speed from a Location message._ |
+|  int | [**rid\_location\_has\_coordinates**](#function-rid_location_has_coordinates) (const [**rid\_location\_t**](#struct-rid_location_t) \*location) <br>_Check if a Location message has coordinates._ |
 |  int | [**rid\_location\_init**](#function-rid_location_init) ([**rid\_location\_t**](#struct-rid_location_t) \*location) <br>_Initialize a Location message structure._ |
 |  int | [**rid\_location\_set\_baro\_altitude\_accuracy**](#function-rid_location_set_baro_altitude_accuracy) ([**rid\_location\_t**](#struct-rid_location_t) \*location, [**rid\_vertical\_accuracy\_t**](#enum-rid_vertical_accuracy_t) accuracy) <br>_Set the barometric altitude accuracy for a Location message._ |
 |  int | [**rid\_location\_set\_coordinates**](#function-rid_location_set_coordinates) ([**rid\_location\_t**](#struct-rid_location_t) \*location, double latitude, double longitude) <br>_Set the latitude and longitude for a Location message._ |
@@ -2062,6 +2145,65 @@ rid_vertical_accuracy_t rid_location_get_baro_altitude_accuracy (
 **Returns:**
 
 The barometric altitude accuracy or RID\_VERTICAL\_ACCURACY\_UNKNOWN if location is NULL.
+### function `rid_location_get_coordinates`
+
+_Get the latitude and longitude from a Location message._
+```c
+int rid_location_get_coordinates (
+    const rid_location_t *location,
+    double *latitude,
+    double *longitude
+) 
+```
+
+
+Decodes both values per ASTM F3411-22a. Out-parameters are left unchanged when the position is unknown.
+
+Check for coordinates before reading them.
+
+
+````cpp
+double latitude;
+double longitude;
+
+if (rid_location_has_coordinates(location)) {
+    rid_location_get_coordinates(location, &latitude, &longitude);
+}
+````
+
+
+
+Or test the return value against RID\_SUCCESS.
+
+
+````cpp
+double latitude;
+double longitude;
+
+if (rid_location_get_coordinates(location, &latitude, &longitude) == RID_SUCCESS) {
+    printf("Latitude: %.6f\n", latitude);
+    printf("Longitude: %.6f\n", longitude);
+}
+````
+
+
+
+
+
+**Parameters:**
+
+
+* `location` Pointer to the Location message structure. 
+* `latitude` Pointer to store latitude in degrees. 
+* `longitude` Pointer to store longitude in degrees.
+
+
+**Return value:**
+
+
+* `RID_SUCCESS` on success. 
+* `RID_ERROR_NULL_POINTER` if location, latitude or longitude is NULL. 
+* `RID_ERROR_INVALID_COORDINATES` if the position is unknown.
 ### function `rid_location_get_geodetic_altitude`
 
 _Get the geodetic altitude from a Location message._
@@ -2158,6 +2300,32 @@ double rid_location_get_latitude (
 
 Returns RID\_LATITUDE\_INVALID when both latitude and longitude are zero.
 
+Check for coordinates before reading latitude.
+
+
+````cpp
+double latitude;
+
+if (rid_location_has_coordinates(location)) {
+    latitude = rid_location_get_latitude(location);
+}
+````
+
+
+
+Or test the return value against RID\_LATITUDE\_INVALID.
+
+
+````cpp
+double latitude = rid_location_get_latitude(location);
+
+if (latitude != RID_LATITUDE_INVALID) {
+    printf("Latitude: %.6f\n", latitude);
+}
+````
+
+
+
 
 
 **Parameters:**
@@ -2180,6 +2348,32 @@ double rid_location_get_longitude (
 
 
 Returns RID\_LONGITUDE\_INVALID when both latitude and longitude are zero.
+
+Check for coordinates before reading longitude.
+
+
+````cpp
+double longitude;
+
+if (rid_location_has_coordinates(location)) {
+    longitude = rid_location_get_longitude(location);
+}
+````
+
+
+
+Or test the return value against RID\_LONGITUDE\_INVALID.
+
+
+````cpp
+double longitude = rid_location_get_longitude(location);
+
+if (longitude != RID_LONGITUDE_INVALID) {
+    printf("Longitude: %.6f\n", longitude);
+}
+````
+
+
 
 
 
@@ -2367,6 +2561,35 @@ float rid_location_get_vertical_speed (
 **Returns:**
 
 Vertical speed in meters per second or RID\_VERTICAL\_SPEED\_INVALID if location is NULL.
+### function `rid_location_has_coordinates`
+
+_Check if a Location message has coordinates._
+```c
+int rid_location_has_coordinates (
+    const rid_location_t *location
+) 
+```
+
+
+Coordinates are considered invalid if both latitude and longitude are zero.
+
+
+
+**Parameters:**
+
+
+* `location` Pointer to the Location message structure.
+
+
+**Returns:**
+
+1 if coordinates are present. 
+
+
+
+**Returns:**
+
+0 if location is NULL or both latitude and longitude are zero.
 ### function `rid_location_init`
 
 _Initialize a Location message structure._
@@ -3141,7 +3364,8 @@ enum rid_error_t {
     RID_ERROR_NOT_FOUND = -22,
     RID_ERROR_INVALID_MESSAGE_TYPE = -23,
     RID_ERROR_NOT_IMPLEMENTED = -24,
-    RID_ERROR_INVALID_COMBINATION = -25
+    RID_ERROR_INVALID_COMBINATION = -25,
+    RID_ERROR_INVALID_COORDINATES = -26
 };
 ```
 
@@ -3521,7 +3745,7 @@ int rid_message_pack_delete_message_at (
 ```
 
 
-Messages after the deleted one are shifted down to fill the gap.
+Messages after the deleted one are shifted down to fill the gap. The vacated tailing slot is zeroed.
 
 
 
@@ -3578,7 +3802,7 @@ int rid_message_pack_get_auth (
 ```
 
 
-Searches the Message Pack for an Auth message and reconstructs it into the provided auth structure. Supports multi-page Auth messages.
+Searches the Message Pack for Auth messages and reconstructs them into the provided auth structure sorted by their page number.
 
 
 
@@ -3860,7 +4084,7 @@ int rid_message_pack_validate (
 ```
 
 
-Checks that all fields contain valid values according to ASTM F3411-22a.
+Checks the Message Pack itself and each contained message according to ASTM F3411-22a.
 
 
 
@@ -3878,7 +4102,9 @@ Checks that all fields contain valid values according to ASTM F3411-22a.
 * `RID_ERROR_INVALID_PROTOCOL_VERSION` if protocol version is invalid. 
 * `RID_ERROR_UNKNOWN_MESSAGE_TYPE` if message type is not MESSAGE\_PACK. 
 * `RID_ERROR_INVALID_MESSAGE_SIZE` if message\_size is not 25. 
-* `RID_ERROR_INVALID_MESSAGE_COUNT` if message\_count exceeds maximum.
+* `RID_ERROR_INVALID_MESSAGE_COUNT` if message\_count exceeds maximum. 
+* `RID_ERROR_INVALID_MESSAGE_TYPE` if a contained message is a Message Pack. 
+* `Any` other error codes from contained message validators.
 
 ## Macros Documentation
 
