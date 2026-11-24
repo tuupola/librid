@@ -259,6 +259,7 @@ rid_auth_type_t rid_auth_get_type(const rid_auth_t *auth);
  *
  * @retval RID_SUCCESS on success.
  * @retval RID_ERROR_NULL_POINTER if auth is NULL.
+ * @retval RID_ERROR_OUT_OF_RANGE if timestamp > UINT32_MAX - RID_AUTH_EPOCH_OFFSET.
  */
 int rid_auth_set_timestamp(rid_auth_t *auth, uint32_t timestamp);
 

@@ -17,6 +17,7 @@ chronological order by release.
 ### Changed
 
 - BLUETOOTH was shortened to BT in macros and enums. ([#103](https://github.com/tuupola/librid/commit/5245f0e))
+- Timestamp setters now reject offsets that would overflow unixtime. ([#114](https://github.com/tuupola/librid/commit/xxxxxxx))
 
 ### Fixed
 

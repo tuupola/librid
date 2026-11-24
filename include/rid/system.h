@@ -433,6 +433,7 @@ float rid_system_get_area_floor(const rid_system_t *system);
  *
  * @retval RID_SUCCESS on success.
  * @retval RID_ERROR_NULL_POINTER if system is NULL.
+ * @retval RID_ERROR_OUT_OF_RANGE if timestamp > UINT32_MAX - RID_SYSTEM_TIMESTAMP_EPOCH.
  */
 int rid_system_set_timestamp(rid_system_t *system, uint32_t timestamp);
 
@@ -456,6 +457,7 @@ uint32_t rid_system_get_timestamp(const rid_system_t *system);
  *
  * @retval RID_SUCCESS on success.
  * @retval RID_ERROR_NULL_POINTER if system is NULL.
+ * @retval RID_ERROR_OUT_OF_RANGE if unixtime is before RID_SYSTEM_TIMESTAMP_EPOCH.
  */
 int rid_system_set_unixtime(rid_system_t *system, uint32_t unixtime);
 

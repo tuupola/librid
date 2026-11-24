@@ -225,6 +225,9 @@ int rid_auth_page_0_set_timestamp(rid_auth_page_0_t *message, uint32_t timestamp
     if (NULL == message) {
         return RID_ERROR_NULL_POINTER;
     }
+    if (timestamp > (UINT32_MAX - RID_AUTH_EPOCH_OFFSET)) {
+        return RID_ERROR_OUT_OF_RANGE;
+    }
 
     message->timestamp = timestamp;
 

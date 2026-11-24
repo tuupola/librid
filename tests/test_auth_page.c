@@ -195,7 +195,7 @@ TEST test_set_and_get_auth_timestamp(void) {
     rid_auth_page_0_t message;
     rid_auth_page_0_init(&message);
 
-    uint32_t test_timestamps[] = {0, 1, 86400, 31536000, UINT32_MAX};
+    uint32_t test_timestamps[] = {0, 1, 86400, 31536000, UINT32_MAX - RID_AUTH_EPOCH_OFFSET};
 
     for (size_t i = 0; i < sizeof(test_timestamps) / sizeof(test_timestamps[0]); ++i) {
         int status = rid_auth_page_0_set_timestamp(&message, test_timestamps[i]);
@@ -204,6 +204,17 @@ TEST test_set_and_get_auth_timestamp(void) {
         uint32_t result = rid_auth_page_0_get_timestamp(&message);
         ASSERT_EQ(test_timestamps[i], result);
     }
+
+    PASS();
+}
+
+TEST test_set_auth_timestamp_out_of_range(void) {
+    rid_auth_page_0_t message;
+    rid_auth_page_0_init(&message);
+
+    int status = rid_auth_page_0_set_timestamp(&message, UINT32_MAX);
+    ASSERT_EQ(RID_ERROR_OUT_OF_RANGE, status);
+    ASSERT_EQ(0, rid_auth_page_0_get_timestamp(&message));
 
     PASS();
 }
@@ -630,6 +641,7 @@ SUITE(auth_page_suite) {
     RUN_TEST(test_set_and_get_auth_length_null_pointer);
 
     RUN_TEST(test_set_and_get_auth_timestamp);
+    RUN_TEST(test_set_auth_timestamp_out_of_range);
     RUN_TEST(test_set_and_get_auth_timestamp_null_pointer);
 
     RUN_TEST(test_set_and_get_auth_data);

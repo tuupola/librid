@@ -380,6 +380,9 @@ int rid_system_set_timestamp(rid_system_t *system, uint32_t timestamp) {
     if (system == NULL) {
         return RID_ERROR_NULL_POINTER;
     }
+    if (timestamp > (UINT32_MAX - RID_SYSTEM_TIMESTAMP_EPOCH)) {
+        return RID_ERROR_OUT_OF_RANGE;
+    }
 
     system->timestamp = timestamp;
 

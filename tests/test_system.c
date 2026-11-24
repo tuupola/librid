@@ -643,6 +643,21 @@ TEST test_system_set_and_get_unixtime(void) {
     ASSERT_EQ(100, rid_system_get_timestamp(&system));
     ASSERT_EQ(1546300900, rid_system_get_unixtime(&system));
 
+    status = rid_system_set_timestamp(&system, UINT32_MAX - RID_SYSTEM_TIMESTAMP_EPOCH);
+    ASSERT_EQ(RID_SUCCESS, status);
+    ASSERT_EQ(UINT32_MAX, rid_system_get_unixtime(&system));
+
+    PASS();
+}
+
+TEST test_set_system_timestamp_out_of_range(void) {
+    rid_system_t system;
+    rid_system_init(&system);
+
+    int status = rid_system_set_timestamp(&system, UINT32_MAX);
+    ASSERT_EQ(RID_ERROR_OUT_OF_RANGE, status);
+    ASSERT_EQ(0, rid_system_get_timestamp(&system));
+
     PASS();
 }
 
@@ -932,6 +947,7 @@ SUITE(system_suite) {
     RUN_TEST(test_get_area_floor_null_pointer);
 
     RUN_TEST(test_set_and_get_system_timestamp);
+    RUN_TEST(test_set_system_timestamp_out_of_range);
     RUN_TEST(test_system_set_and_get_unixtime);
     RUN_TEST(test_set_system_timestamp_null_pointer);
     RUN_TEST(test_get_system_timestamp_null_pointer);

@@ -256,6 +256,21 @@ TEST test_auth_set_and_get_timestamp(void) {
     ASSERT_EQ(RID_SUCCESS, status);
     ASSERT_EQ(12345678, rid_auth_get_timestamp(&auth));
 
+    status = rid_auth_set_timestamp(&auth, UINT32_MAX - RID_AUTH_EPOCH_OFFSET);
+    ASSERT_EQ(RID_SUCCESS, status);
+    ASSERT_EQ(UINT32_MAX - RID_AUTH_EPOCH_OFFSET, rid_auth_get_timestamp(&auth));
+
+    PASS();
+}
+
+TEST test_auth_set_timestamp_out_of_range(void) {
+    rid_auth_t auth;
+    rid_auth_init(&auth);
+
+    int status = rid_auth_set_timestamp(&auth, UINT32_MAX);
+    ASSERT_EQ(RID_ERROR_OUT_OF_RANGE, status);
+    ASSERT_EQ(0, rid_auth_get_timestamp(&auth));
+
     PASS();
 }
 
@@ -880,6 +895,7 @@ SUITE(auth_suite) {
     RUN_TEST(test_auth_set_type_null_pointer);
     RUN_TEST(test_auth_get_type_null_pointer);
     RUN_TEST(test_auth_set_and_get_timestamp);
+    RUN_TEST(test_auth_set_timestamp_out_of_range);
     RUN_TEST(test_auth_set_timestamp_null_pointer);
     RUN_TEST(test_auth_get_timestamp_null_pointer);
     RUN_TEST(test_auth_set_and_get_unixtime);
