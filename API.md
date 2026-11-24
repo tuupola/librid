@@ -380,7 +380,8 @@ int rid_auth_set_timestamp (
 
 
 * `RID_SUCCESS` on success. 
-* `RID_ERROR_NULL_POINTER` if auth is NULL.
+* `RID_ERROR_NULL_POINTER` if auth is NULL. 
+* `RID_ERROR_OUT_OF_RANGE` if timestamp &gt; UINT32\_MAX - RID\_AUTH\_EPOCH\_OFFSET.
 ### function `rid_auth_set_type`
 
 _Set the authentication type._
@@ -543,7 +544,7 @@ Validates structure of all auth pages and their page number up to `last_page_ind
 * `RID_ERROR_INVALID_PROTOCOL_VERSION` if protocol version is invalid. 
 * `RID_ERROR_UNKNOWN_MESSAGE_TYPE` if message type is not AUTH. 
 * `RID_ERROR_INVALID_PAGE_NUMBER` if page\_number is invalid. 
-* `RID_ERROR_INVALID_LAST_PAGE_INDEX` if last\_page\_index exceeds maximum. 
+* `RID_ERROR_INVALID_LAST_PAGE_INDEX` if last\_page\_index exceeds maximum or if length does not fit in the pages it implies. 
 * `RID_ERROR_NON_EMPTY_SIGNATURE` if auth type is RID\_AUTH\_TYPE\_NONE or RID\_AUTH\_TYPE\_NETWORK\_REMOTE\_ID but signature is not empty.
 ### function `rid_auth_verify`
 
@@ -1012,7 +1013,8 @@ Timestamp is seconds since 2019-01-01 00:00:00 UTC.
 
 
 * `RID_SUCCESS` on success. 
-* `RID_ERROR_NULL_POINTER` if message is NULL.
+* `RID_ERROR_NULL_POINTER` if message is NULL. 
+* `RID_ERROR_OUT_OF_RANGE` if timestamp &gt; UINT32\_MAX - RID\_AUTH\_EPOCH\_OFFSET.
 ### function `rid_auth_page_0_set_type`
 
 _Set the authentication type for page 0._
@@ -4806,6 +4808,7 @@ Example usage:
 |  [**rid\_ua\_classification\_category\_t**](#enum-rid_ua_classification_category_t) | [**rid\_system\_get\_ua\_classification\_category**](#function-rid_system_get_ua_classification_category) (const [**rid\_system\_t**](#struct-rid_system_t) \*system) <br>_Get the UA classification category from a System message._ |
 |  [**rid\_ua\_classification\_class\_t**](#enum-rid_ua_classification_class_t) | [**rid\_system\_get\_ua\_classification\_class**](#function-rid_system_get_ua_classification_class) (const [**rid\_system\_t**](#struct-rid_system_t) \*system) <br>_Get the UA classification class from a System message._ |
 |  uint32\_t | [**rid\_system\_get\_unixtime**](#function-rid_system_get_unixtime) (const [**rid\_system\_t**](#struct-rid_system_t) \*system) <br>_Get the timestamp as Unix timestamp._ |
+|  int | [**rid\_system\_has\_operator\_coordinates**](#function-rid_system_has_operator_coordinates) (const [**rid\_system\_t**](#struct-rid_system_t) \*system) <br>_Check if a System message has operator coordinates._ |
 |  int | [**rid\_system\_init**](#function-rid_system_init) ([**rid\_system\_t**](#struct-rid_system_t) \*system) <br>_Initialize a System message with default values._ |
 |  int | [**rid\_system\_set\_area\_ceiling**](#function-rid_system_set_area_ceiling) ([**rid\_system\_t**](#struct-rid_system_t) \*system, float altitude) <br>_Set the area ceiling for a System message._ |
 |  int | [**rid\_system\_set\_area\_count**](#function-rid_system_set_area_count) ([**rid\_system\_t**](#struct-rid_system_t) \*system, uint16\_t count) <br>_Set the area count for a System message._ |
@@ -4996,7 +4999,7 @@ float rid_system_get_area_ceiling (
 
 **Returns:**
 
-The ceiling altitude in meters or RID\_AREA\_CEILING\_INVALID when uknnown, including when system is NULL.
+The ceiling altitude in meters or RID\_AREA\_CEILING\_INVALID when unknown, including when system is NULL.
 ### function `rid_system_get_area_count`
 
 _Get the area count from a System message._
@@ -5095,7 +5098,7 @@ Decodes altitude from encoded uint16\_t value per ASTM F3411-22a.
 
 **Returns:**
 
-Altitude in meters or RID\_OPERATOR\_ALTITUDE\_INVALID when uknown, including when system is NULL.
+Altitude in meters or RID\_OPERATOR\_ALTITUDE\_INVALID when unknown, including when system is NULL.
 ### function `rid_system_get_operator_latitude`
 
 _Get the operator latitude from a System message._
@@ -5241,6 +5244,35 @@ Get RID timestamp as Unix timestamp.
 **Returns:**
 
 Unix timestamp (seconds since 1970-01-01 00:00:00 UTC) or 0 if system is NULL.
+### function `rid_system_has_operator_coordinates`
+
+_Check if a System message has operator coordinates._
+```c
+int rid_system_has_operator_coordinates (
+    const rid_system_t *system
+) 
+```
+
+
+Coordinates are considered invalid if both latitude and longitude are zero.
+
+
+
+**Parameters:**
+
+
+* `system` Pointer to the System message structure.
+
+
+**Returns:**
+
+1 if coordinates are present. 
+
+
+
+**Returns:**
+
+0 if system is NULL or both latitude and longitude are zero.
 ### function `rid_system_init`
 
 _Initialize a System message with default values._
@@ -5489,7 +5521,8 @@ int rid_system_set_timestamp (
 
 
 * `RID_SUCCESS` on success. 
-* `RID_ERROR_NULL_POINTER` if system is NULL.
+* `RID_ERROR_NULL_POINTER` if system is NULL. 
+* `RID_ERROR_OUT_OF_RANGE` if timestamp &gt; UINT32\_MAX - RID\_SYSTEM\_TIMESTAMP\_EPOCH.
 ### function `rid_system_set_ua_classification_category`
 
 _Set the UA classification category for a System message._
@@ -5563,7 +5596,8 @@ Converts Unix timestamp to RID epoch and stores.
 
 
 * `RID_SUCCESS` on success. 
-* `RID_ERROR_NULL_POINTER` if system is NULL.
+* `RID_ERROR_NULL_POINTER` if system is NULL. 
+* `RID_ERROR_OUT_OF_RANGE` if unixtime is before RID\_SYSTEM\_TIMESTAMP\_EPOCH.
 ### function `rid_system_to_json`
 
 _Format a System message as a JSON string._
