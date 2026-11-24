@@ -98,7 +98,7 @@ TEST test_get_protocol_version_null_pointer(void) {
     PASS();
 }
 
-SUITE(header_suite) {
+SUITE(message_suite) {
     RUN_TEST(test_get_message_type);
     RUN_TEST(test_get_protocol_version);
     RUN_TEST(test_get_message_type_null_pointer);

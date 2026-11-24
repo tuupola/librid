@@ -5,7 +5,6 @@ if(ESP_PLATFORM)
         "src/message.c"
         "src/system.c"
         "src/message_pack.c"
-        "src/header.c"
         "src/auth.c"
         "src/auth_page.c"
         "src/operator_id.c"
@@ -52,7 +51,6 @@ else()
         src/message.c
         src/system.c
         src/message_pack.c
-        src/header.c
         src/auth.c
         src/auth_page.c
         src/operator_id.c
