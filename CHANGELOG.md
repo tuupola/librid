@@ -12,20 +12,20 @@ chronological order by release.
 - Function to get location coordinates. ([#106](https://github.com/tuupola/librid/commit/1490f00))
 - Trailing garbage is zeroed after deleting a message from a message pack. ([#107](https://github.com/tuupola/librid/commit/d351574))
 - Functions to validate separate auth pages. ([#108](https://github.com/tuupola/librid/commit/c63580a))
-- Helper to determine if operator has valid coordinates. ([xxxxxxx](https://github.com/tuupola/librid/commit/xxxxxxx))
+- Helper to determine if operator has valid coordinates. ([#113](https://github.com/tuupola/librid/commit/4d43ba1))
 
 ### Changed
 
 - BLUETOOTH was shortened to BT in macros and enums. ([#103](https://github.com/tuupola/librid/commit/5245f0e))
-- Timestamp setters now reject offsets that would overflow unixtime. ([#114](https://github.com/tuupola/librid/commit/xxxxxxx))
-- Auth validation now makes sure length and capacity agree with each other. ([#115](https://github.com/tuupola/librid/commit/xxxxxxx))
+- Timestamp setters now reject offsets that would overflow unixtime. ([#114](https://github.com/tuupola/librid/commit/1245afc))
+- Auth validation now makes sure length and capacity agree with each other. ([#115](https://github.com/tuupola/librid/commit/16d8863))
 
 ### Fixed
 
 - Message Pack validation now validates also all messages. ([#109](https://github.com/tuupola/librid/commit/34b47ec))
 - Auth now uses page number ordering when constructin the struct. Fixes the case when received auth pages were in random order. ([#110](https://github.com/tuupola/librid/commit/a48dda9))
 - Auth validation now validates also all pages and their page number. ([#111](https://github.com/tuupola/librid/commit/178eb07))
-- Message Pack JSON output now preserves the message order. ([#112](https://github.com/tuupola/librid/commit/xxxxxxx))
+- Message Pack JSON output now preserves the message order. ([#112](https://github.com/tuupola/librid/commit/e750b2f))
 
 ## [0.6.0](https://github.com/tuupola/librid/compare/0.5.0...0.6.0) - 2026-11-17
 
