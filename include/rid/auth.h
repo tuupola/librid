@@ -207,8 +207,10 @@ int rid_auth_init(rid_auth_t *auth);
  * @retval RID_ERROR_INVALID_PROTOCOL_VERSION if protocol version is invalid.
  * @retval RID_ERROR_UNKNOWN_MESSAGE_TYPE if message type is not AUTH.
  * @retval RID_ERROR_INVALID_PAGE_NUMBER if page_number is invalid.
- * @retval RID_ERROR_INVALID_LAST_PAGE_INDEX if last_page_index exceeds maximum.
- * @retval RID_ERROR_NON_EMPTY_SIGNATURE if auth type is RID_AUTH_TYPE_NONE or RID_AUTH_TYPE_NETWORK_REMOTE_ID but signature is not empty.
+ * @retval RID_ERROR_INVALID_LAST_PAGE_INDEX if last_page_index exceeds maximum
+ *         or if length does not fit in the pages it implies.
+ * @retval RID_ERROR_NON_EMPTY_SIGNATURE if auth type is RID_AUTH_TYPE_NONE or
+ *         RID_AUTH_TYPE_NETWORK_REMOTE_ID but signature is not empty.
  */
 int rid_auth_validate(const rid_auth_t *auth);
 

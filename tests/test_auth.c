@@ -173,6 +173,25 @@ TEST test_auth_validate_wrong_page_number(void) {
     PASS();
 }
 
+TEST test_auth_validate_length_exceeds_capacity(void) {
+    rid_auth_t auth;
+    uint8_t signature[40];
+
+    memset(signature, 0xAB, sizeof(signature));
+    rid_auth_init(&auth);
+    rid_auth_set_type(&auth, RID_AUTH_TYPE_MESSAGE_SET_SIGNATURE);
+    rid_auth_set_signature(&auth, signature, RID_AUTH_PAGE_0_DATA_SIZE);
+
+    /* Full page 0 is valid. */
+    ASSERT_EQ(RID_SUCCESS, rid_auth_validate(&auth));
+
+    /* One byte past page 0 capacity with last page index 0. */
+    auth.page_0.length = RID_AUTH_PAGE_0_DATA_SIZE + 1;
+    ASSERT_EQ(RID_ERROR_INVALID_LAST_PAGE_INDEX, rid_auth_validate(&auth));
+
+    PASS();
+}
+
 TEST test_auth_validate_page_x_message_type(void) {
     rid_auth_t auth;
     uint8_t signature[64];
@@ -888,6 +907,7 @@ SUITE(auth_suite) {
     RUN_TEST(test_auth_validate_valid);
     RUN_TEST(test_auth_validate_missing_page);
     RUN_TEST(test_auth_validate_wrong_page_number);
+    RUN_TEST(test_auth_validate_length_exceeds_capacity);
     RUN_TEST(test_auth_validate_page_x_message_type);
     RUN_TEST(test_auth_get_page_count);
     RUN_TEST(test_auth_set_and_get_type);

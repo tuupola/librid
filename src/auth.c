@@ -57,6 +57,7 @@ int rid_auth_init(rid_auth_t *auth) {
 
 int rid_auth_validate(const rid_auth_t *auth) {
     uint8_t last_page_index;
+    size_t capacity;
     int rc;
 
     if (auth == NULL) {
@@ -70,6 +71,13 @@ int rid_auth_validate(const rid_auth_t *auth) {
     }
 
     last_page_index = rid_auth_page_0_get_last_page_index(&auth->page_0);
+
+    /* Length and capacity must agree. */
+    capacity = RID_AUTH_PAGE_0_DATA_SIZE + (size_t)last_page_index * RID_AUTH_PAGE_DATA_SIZE;
+    if (rid_auth_page_0_get_length(&auth->page_0) > capacity) {
+        return RID_ERROR_INVALID_LAST_PAGE_INDEX;
+    }
+
     for (uint8_t i = 0; i < last_page_index; ++i) {
         /* Make sure page numbers are in order and none is missing. */
         if (auth->page_x[i].page_number != i + 1) {
