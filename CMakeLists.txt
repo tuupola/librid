@@ -70,6 +70,19 @@ else()
         target_compile_definitions(rid PUBLIC RID_DISABLE_JSON)
     endif()
 
+    # Check if there is local librip and compile that in
+    set(DRIP_LOCAL_DIR "${CMAKE_CURRENT_SOURCE_DIR}/../libdrip")
+    if(EXISTS "${DRIP_LOCAL_DIR}/CMakeLists.txt")
+        message(STATUS "Using libdrip from ${DRIP_LOCAL_DIR}")
+        set(CMAKE_SKIP_INSTALL_RULES TRUE)
+        add_subdirectory("${DRIP_LOCAL_DIR}" libdrip-build EXCLUDE_FROM_ALL)
+        unset(CMAKE_SKIP_INSTALL_RULES)
+        target_link_libraries(rid PRIVATE drip)
+        target_compile_definitions(rid PRIVATE RID_HAVE_LIBDRIP)
+    else()
+        message(STATUS "libdrip not found")
+    endif()
+
     find_program(RID_SIZE_COMMAND size)
 
     if(RID_SIZE_COMMAND)
