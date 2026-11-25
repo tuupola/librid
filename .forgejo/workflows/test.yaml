@@ -24,14 +24,12 @@ jobs:
       - uses: actions/checkout@v4
         with:
           path: librid
-      - uses: actions/checkout@v4
-        with:
-          repository: tuupola/libdrip
-          path: libdrip
       - name: Install dependencies
         run: |
           apt-get update
-          apt-get install -y gcc make cmake
+          apt-get install -y gcc make cmake git
+      - name: Checkout libdrip
+        run: git clone --depth 1 https://github.com/tuupola/libdrip.git libdrip
       - name: Configure
         working-directory: librid
         run: cmake -B build -DRID_BUILD_TESTS=ON
