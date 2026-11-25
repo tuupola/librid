@@ -16,3 +16,28 @@ jobs:
         run: cmake --build build
       - name: Test
         run: cd build && ctest --output-on-failure --verbose
+  test-with-libdrip:
+    runs-on: docker
+    container:
+      image: node:22-trixie
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          path: librid
+      - uses: actions/checkout@v4
+        with:
+          repository: tuupola/libdrip
+          path: libdrip
+      - name: Install dependencies
+        run: |
+          apt-get update
+          apt-get install -y gcc make cmake
+      - name: Configure
+        working-directory: librid
+        run: cmake -B build -DRID_BUILD_TESTS=ON
+      - name: Build
+        working-directory: librid
+        run: cmake --build build
+      - name: Test
+        working-directory: librid
+        run: cd build && ctest --output-on-failure --verbose
