@@ -30,6 +30,7 @@ SPDX-License-Identifier: MIT
 
 */
 
+#include <stddef.h>
 #include <stdint.h>
 
 #include "rid/auth_page.h"
@@ -59,6 +60,18 @@ rid_protocol_version_t rid_message_get_protocol_version(const void *message) {
     }
     rid_message_t *msg = (rid_message_t *)message;
     return msg->protocol_version;
+}
+
+size_t rid_message_size(const void *message) {
+    if (message == NULL) {
+        return 0;
+    }
+
+    if (rid_message_get_type(message) == RID_MESSAGE_TYPE_MESSAGE_PACK) {
+        return rid_message_pack_size((const rid_message_pack_t *)message);
+    }
+
+    return RID_MESSAGE_SIZE;
 }
 
 const char *rid_message_type_to_string(rid_message_type_t type) {

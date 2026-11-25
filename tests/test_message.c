@@ -2,6 +2,7 @@
 
 #include "greatest.h"
 #include "rid/message.h"
+#include "rid/message_pack.h"
 
 TEST test_get_message_type(void) {
     rid_message_type_t types[] = {
@@ -98,11 +99,33 @@ TEST test_get_protocol_version_null_pointer(void) {
     PASS();
 }
 
+TEST test_message_size_null_pointer(void) {
+    ASSERT_EQ(0, rid_message_size(NULL));
+
+    PASS();
+}
+
+TEST test_message_size(void) {
+    rid_message_t message;
+    rid_message_pack_t pack;
+
+    memset(&message, 0, sizeof(message));
+    message.message_type = RID_MESSAGE_TYPE_BASIC_ID;
+    ASSERT_EQ(RID_MESSAGE_SIZE, rid_message_size(&message));
+
+    rid_message_pack_init(&pack);
+    ASSERT_EQ(rid_message_pack_size(&pack), rid_message_size(&pack));
+
+    PASS();
+}
+
 SUITE(message_suite) {
     RUN_TEST(test_get_message_type);
     RUN_TEST(test_get_protocol_version);
     RUN_TEST(test_get_message_type_null_pointer);
     RUN_TEST(test_get_protocol_version_null_pointer);
+    RUN_TEST(test_message_size_null_pointer);
+    RUN_TEST(test_message_size);
     RUN_TEST(test_message_type_to_string);
     RUN_TEST(test_protocol_version_to_string);
     RUN_TEST(test_error_to_string);

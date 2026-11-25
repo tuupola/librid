@@ -129,6 +129,18 @@ rid_message_type_t rid_message_get_type(const void *message);
 rid_protocol_version_t rid_message_get_protocol_version(const void *message);
 
 /**
+ * @brief Get the size of a Remote ID message in bytes.
+ *
+ * Returns the packed size for RID_MESSAGE_TYPE_MESSAGE_PACK or
+ * RID_MESSAGE_SIZE for all other message types.
+ *
+ * @param message Pointer to the message structure.
+ *
+ * @return The size in bytes or 0 if message is NULL.
+ */
+size_t rid_message_size(const void *message);
+
+/**
  * @brief Convert message type to string representation.
  *
  * @param type The message type to convert.

@@ -13,6 +13,7 @@ chronological order by release.
 - Trailing garbage is zeroed after deleting a message from a message pack. ([#107](https://github.com/tuupola/librid/commit/d351574))
 - Functions to validate separate auth pages. ([#108](https://github.com/tuupola/librid/commit/c63580a))
 - Helper to determine if operator has valid coordinates. ([#113](https://github.com/tuupola/librid/commit/4d43ba1))
+- Helper for getting a message size without knowing the message type. ([#117](https://github.com/tuupola/librid/commit/xxxxxxx))
 
 ### Changed
 
