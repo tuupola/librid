@@ -20,6 +20,7 @@ chronological order by release.
 - BLUETOOTH was shortened to BT in macros and enums. ([#103](https://github.com/tuupola/librid/commit/5245f0e))
 - Timestamp setters now reject offsets that would overflow unixtime. ([#114](https://github.com/tuupola/librid/commit/1245afc))
 - Auth validation now makes sure length and capacity agree with each other. ([#115](https://github.com/tuupola/librid/commit/16d8863))
+- Language standard was bumped from C99 to C11. ([#120](https://github.com/tuupola/librid/commit/xxxxxxx))
 
 ### Fixed
 
