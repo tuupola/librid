@@ -198,7 +198,16 @@ int rid_message_validate(const void *message) {
     }
 }
 
-#ifndef RID_DISABLE_JSON
+#ifdef RID_DISABLE_JSON
+int rid_message_to_json(const void *message, char *buffer, size_t buffer_size, size_t *needed_size) {
+    (void)message;
+    (void)buffer;
+    (void)buffer_size;
+    (void)needed_size;
+
+    return RID_ERROR_NOT_IMPLEMENTED;
+}
+#else
 int rid_message_to_json(const void *message, char *buffer, size_t buffer_size, size_t *needed_size) {
     if (NULL == message || (NULL == buffer && NULL == needed_size)) {
         return RID_ERROR_NULL_POINTER;

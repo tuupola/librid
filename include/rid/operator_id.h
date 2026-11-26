@@ -164,7 +164,6 @@ int rid_operator_id_set(rid_operator_id_t *message, const char *operator_id);
  */
 const char *rid_operator_id_type_to_string(rid_operator_id_type_t type);
 
-#ifndef RID_DISABLE_JSON
 /**
  * @brief Format an Operator ID message as a JSON string.
  *
@@ -177,9 +176,9 @@ const char *rid_operator_id_type_to_string(rid_operator_id_type_t type);
  * @retval RID_ERROR_NULL_POINTER if @p message is NULL or if both
  *         @p buffer and @p needed_size are NULL.
  * @retval RID_ERROR_BUFFER_TOO_SMALL if @p buffer is too small.
+ * @retval RID_ERROR_NOT_IMPLEMENTED if JSON support is disabled.
  */
 int rid_operator_id_to_json(const rid_operator_id_t *message, char *buffer, size_t buffer_size, size_t *needed_size);
-#endif /* RID_DISABLE_JSON */
 
 #ifdef __cplusplus
 }

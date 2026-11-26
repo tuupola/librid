@@ -185,12 +185,11 @@ const char *rid_error_to_string(rid_error_t error);
  */
 int rid_message_validate(const void *message);
 
-#ifndef RID_DISABLE_JSON
 /**
  * @brief Format any Remote ID message as a JSON string.
  *
  * Determines the message type and calls the appropriate type-specific
- * *_to_json() function.
+ * JSON function.
  *
  * @param message Pointer to any Remote ID message structure.
  * @param buffer Buffer to store the JSON string or NULL.
@@ -201,9 +200,9 @@ int rid_message_validate(const void *message);
  * @retval RID_ERROR_NULL_POINTER if @p message is NULL or if both
  *         @p buffer and @p needed_size are NULL.
  * @retval RID_ERROR_BUFFER_TOO_SMALL if @p buffer is too small.
+ * @retval RID_ERROR_NOT_IMPLEMENTED if JSON support is disabled.
  */
 int rid_message_to_json(const void *message, char *buffer, size_t buffer_size, size_t *needed_size);
-#endif /* RID_DISABLE_JSON */
 
 #ifdef __cplusplus
 }

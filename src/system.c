@@ -479,7 +479,16 @@ const char *rid_ua_classification_class_to_string(rid_ua_classification_class_t 
     }
 }
 
-#ifndef RID_DISABLE_JSON
+#ifdef RID_DISABLE_JSON
+int rid_system_to_json(const rid_system_t *system, char *buffer, size_t buffer_size, size_t *needed_size) {
+    (void)system;
+    (void)buffer;
+    (void)buffer_size;
+    (void)needed_size;
+
+    return RID_ERROR_NOT_IMPLEMENTED;
+}
+#else
 int rid_system_to_json(const rid_system_t *system, char *buffer, size_t buffer_size, size_t *needed_size) {
     rid_json_t json;
     char token[32];

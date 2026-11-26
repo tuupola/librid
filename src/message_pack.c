@@ -337,7 +337,16 @@ int rid_message_pack_sort(rid_message_pack_t *pack) {
     return RID_SUCCESS;
 }
 
-#ifndef RID_DISABLE_JSON
+#ifdef RID_DISABLE_JSON
+int rid_message_pack_to_json(const rid_message_pack_t *pack, char *buffer, size_t buffer_size, size_t *needed_size) {
+    (void)pack;
+    (void)buffer;
+    (void)buffer_size;
+    (void)needed_size;
+
+    return RID_ERROR_NOT_IMPLEMENTED;
+}
+#else
 int rid_message_pack_to_json(const rid_message_pack_t *pack, char *buffer, size_t buffer_size, size_t *needed_size) {
     rid_json_t json;
     rid_auth_t auth;

@@ -772,7 +772,16 @@ const char *rid_timestamp_accuracy_to_string(rid_timestamp_accuracy_t accuracy) 
     }
 }
 
-#ifndef RID_DISABLE_JSON
+#ifdef RID_DISABLE_JSON
+int rid_location_to_json(const rid_location_t *location, char *buffer, size_t buffer_size, size_t *needed_size) {
+    (void)location;
+    (void)buffer;
+    (void)buffer_size;
+    (void)needed_size;
+
+    return RID_ERROR_NOT_IMPLEMENTED;
+}
+#else
 int rid_location_to_json(const rid_location_t *location, char *buffer, size_t buffer_size, size_t *needed_size) {
     rid_json_t json;
     char token[32];

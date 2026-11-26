@@ -289,7 +289,6 @@ int rid_message_pack_copy_message_at(const rid_message_pack_t *pack, uint8_t ind
  */
 int rid_message_pack_sort(rid_message_pack_t *pack);
 
-#ifndef RID_DISABLE_JSON
 /**
  * @brief Format a Message Pack as a JSON string.
  *
@@ -302,9 +301,9 @@ int rid_message_pack_sort(rid_message_pack_t *pack);
  * @retval RID_ERROR_NULL_POINTER if @p pack is NULL or if both
  *         @p buffer and @p needed_size are NULL.
  * @retval RID_ERROR_BUFFER_TOO_SMALL if @p buffer is too small.
+ * @retval RID_ERROR_NOT_IMPLEMENTED if JSON support is disabled.
  */
 int rid_message_pack_to_json(const rid_message_pack_t *pack, char *buffer, size_t buffer_size, size_t *needed_size);
-#endif /* RID_DISABLE_JSON */
 
 #ifdef __cplusplus
 }

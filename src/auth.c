@@ -394,7 +394,16 @@ int rid_auth_sign(
     return rid_auth_set_signature(auth, signature, signature_length);
 }
 
-#ifndef RID_DISABLE_JSON
+#ifdef RID_DISABLE_JSON
+int rid_auth_to_json(const rid_auth_t *auth, char *buffer, size_t buffer_size, size_t *needed_size) {
+    (void)auth;
+    (void)buffer;
+    (void)buffer_size;
+    (void)needed_size;
+
+    return RID_ERROR_NOT_IMPLEMENTED;
+}
+#else
 int rid_auth_to_json(const rid_auth_t *auth, char *buffer, size_t buffer_size, size_t *needed_size) {
     rid_json_t json;
     uint8_t signature[RID_AUTH_PAGE_MAX_SIGNATURE_SIZE];

@@ -259,7 +259,16 @@ const char *rid_ua_type_to_string(rid_ua_type_t type) {
     }
 }
 
-#ifndef RID_DISABLE_JSON
+#ifdef RID_DISABLE_JSON
+int rid_basic_id_to_json(const rid_basic_id_t *message, char *buffer, size_t buffer_size, size_t *needed_size) {
+    (void)message;
+    (void)buffer;
+    (void)buffer_size;
+    (void)needed_size;
+
+    return RID_ERROR_NOT_IMPLEMENTED;
+}
+#else
 int rid_basic_id_to_json(const rid_basic_id_t *message, char *buffer, size_t buffer_size, size_t *needed_size) {
     rid_json_t json;
     rid_basic_id_type_t type;

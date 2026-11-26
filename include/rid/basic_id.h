@@ -226,7 +226,6 @@ const char *rid_basic_id_type_to_string(rid_basic_id_type_t type);
  */
 const char *rid_ua_type_to_string(rid_ua_type_t type);
 
-#ifndef RID_DISABLE_JSON
 /**
  * @brief Format a Basic ID message as a JSON string.
  *
@@ -239,11 +238,11 @@ const char *rid_ua_type_to_string(rid_ua_type_t type);
  * @retval RID_ERROR_NULL_POINTER if message is NULL or if both buffer and
  *         needed_size are NULL.
  * @retval RID_ERROR_BUFFER_TOO_SMALL if buffer is too small.
+ * @retval RID_ERROR_NOT_IMPLEMENTED if JSON support is disabled.
  */
 int rid_basic_id_to_json(
     const rid_basic_id_t *message, char *buffer, size_t buffer_size, size_t *needed_size
 );
-#endif /* RID_DISABLE_JSON */
 
 #ifdef __cplusplus
 }
