@@ -44,6 +44,11 @@ SPDX-License-Identifier: MIT
 #include "json.h"
 #endif
 
+#ifdef RID_HAVE_LIBDRIP
+#include "drip/format.h"
+#include "drip/union.h"
+#endif
+
 int rid_auth_init(rid_auth_t *auth) {
     if (NULL == auth) {
         return RID_ERROR_NULL_POINTER;
@@ -430,12 +435,37 @@ int rid_auth_to_json(const rid_auth_t *auth, char *buffer, size_t buffer_size, s
     rid_json_uint(&json, rid_auth_get_timestamp(auth));
     rid_json_key(&json, "length");
     rid_json_uint(&json, length);
-    rid_json_key(&json, "signature");
     if (type == RID_AUTH_TYPE_NONE || type == RID_AUTH_TYPE_NETWORK_REMOTE_ID) {
+        rid_json_key(&json, "signature");
         rid_json_null(&json);
     } else {
+        int hex_needed = 1;
+
         rid_auth_get_signature(auth, signature, sizeof(signature));
-        rid_json_hex(&json, signature, length);
+#ifdef RID_HAVE_LIBDRIP
+        if (type == RID_AUTH_TYPE_SPECIFIC_METHOD) {
+            int rc;
+            char drip_buffer[1024];
+            size_t drip_length = 0;
+            drip_format_t format;
+
+            rc = drip_format_decode(signature, length, &format);
+            if (rc == DRIP_SUCCESS) {
+                rc = drip_format_to_json(
+                    &format, drip_buffer, sizeof(drip_buffer), &drip_length
+                );
+            }
+            if (rc == DRIP_SUCCESS && drip_length > 1) {
+                rid_json_key(&json, "signature");
+                rid_json_raw(&json, drip_buffer, drip_length - 1);
+                hex_needed = 0;
+            }
+        }
+#endif
+        if (hex_needed) {
+            rid_json_key(&json, "signature");
+            rid_json_hex(&json, signature, length);
+        }
     }
     rid_json_end(&json);
 
