@@ -1434,6 +1434,33 @@ TEST test_message_pack_to_json_needed(void) {
     PASS();
 }
 
+#ifdef RID_HAVE_LIBDRIP
+TEST test_message_pack_to_json_with_drip(void) {
+    rid_message_pack_t pack;
+    rid_auth_t auth;
+    uint8_t link[137];
+    char buffer[2048];
+    int status;
+
+    memset(link, 0, sizeof(link));
+    link[0] = 0x01;
+
+    rid_message_pack_init(&pack);
+    rid_auth_init(&auth);
+    rid_auth_set_type(&auth, RID_AUTH_TYPE_SPECIFIC_METHOD);
+    status = rid_auth_set_signature(&auth, link, sizeof(link));
+    ASSERT_EQ(RID_SUCCESS, status);
+    status = rid_message_pack_set_auth(&pack, &auth);
+    ASSERT_EQ(RID_SUCCESS, status);
+
+    ASSERT_EQ(RID_SUCCESS, rid_message_pack_to_json(&pack, buffer, sizeof(buffer), NULL));
+    ASSERT(strstr(buffer, "\"signature\":{") != NULL);
+    ASSERT(strstr(buffer, "\"child_det\":") != NULL);
+
+    PASS();
+}
+#endif
+
 TEST test_get_message_type_at(void) {
     rid_message_pack_t pack;
     rid_basic_id_t basic_id;
@@ -1605,4 +1632,7 @@ SUITE(message_pack_suite) {
     RUN_TEST(test_message_pack_to_json);
     RUN_TEST(test_message_pack_to_json_null);
     RUN_TEST(test_message_pack_to_json_needed);
+#ifdef RID_HAVE_LIBDRIP
+    RUN_TEST(test_message_pack_to_json_with_drip);
+#endif
 }
