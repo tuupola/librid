@@ -17,6 +17,7 @@ to these, there are known live implementations done with both
 [Nordic nRF Connect SDK (NCS)](https://www.nordicsemi.com/Products/Development-software/nRF-Connect-SDK).
 
 For example implementation see [nRF RID scanner](https://github.com/tuupola/nrf_rid_scanner).
+There is also a sister library for handling [Drone Remote Identification Protocol (DRIP)](https://datatracker.ietf.org/group/drip/documents/) auth messages called [libdrip](https://github.com/tuupola/libdrip).
 
 ## Important
 
