@@ -16,6 +16,8 @@ to these, there are known live implementations done with both
 [Espressif ESP-IDF](https://docs.espressif.com/projects/esp-idf/en/latest/esp32s3/) and
 [Nordic nRF Connect SDK (NCS)](https://www.nordicsemi.com/Products/Development-software/nRF-Connect-SDK).
 
+For example implementation see [nRF RID scanner](https://github.com/tuupola/nrf_rid_scanner).
+
 ## Important
 
 This is a read-only mirror of the repository. Actual developing happens elsewhere.
@@ -25,12 +27,12 @@ I do monitor this repository though.
 
 Naming of modules and variables mirrors naming from the ASTM F3411 standard.
 
-| Element   | Pattern                  | Example                       |
-| --------- | ------------------------ | ----------------------------- |
-| Functions | `rid_<module>_<action>`  | `rid_location_set_speed()`    |
-| Types     | `rid_<module>_t`         | `rid_basic_id_t`              |
-| Enums     | `RID_<CATEGORY>_<VALUE>` | `RID_ID_TYPE_SERIAL_NUMBER`   |
-| Constants | `RID_<NAME>`             | `RID_TRACK_DIRECTION_MAX`     |
+| Element   | Pattern                  | Example                     |
+| --------- | ------------------------ | --------------------------- |
+| Functions | `rid_<module>_<action>`  | `rid_location_set_speed()`  |
+| Types     | `rid_<module>_t`         | `rid_basic_id_t`            |
+| Enums     | `RID_<CATEGORY>_<VALUE>` | `RID_ID_TYPE_SERIAL_NUMBER` |
+| Constants | `RID_<NAME>`             | `RID_TRACK_DIRECTION_MAX`   |
 
 Functions generally follow the init, validate, get and set pattern.
 
